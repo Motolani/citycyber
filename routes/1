@@ -1,0 +1,119 @@
+<?php
+//use App\Http\Controllers\ViewControllers;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
+
+
+Route::get('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
+
+
+/*Route::get('/viewOffices', function () {
+    return view('admin.viewOffices');
+});*/
+//viewOffices
+//createOffice
+//getLevel
+Route::get('/viewOffices', 'ViewControllers\MainViewController@getAllOffice')->name('viewOffices');
+
+Route::post('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
+Route::get('/getLevel', 'ViewControllers\MainViewController@getLevel')->name('getLevel');
+Route::get('officeInfo', function () {
+    return view('admin.offices.officeInfo');
+});
+
+Route::resource('department', DepartmentController::class);
+Route::resource('staffstatus', StaffStatusController::class);
+
+//create staff routes
+
+//PostRouteStartsForStaffCreate
+
+
+Route::post('/newStaff', 'ViewControllers\MainViewController@createStaffOne')->name('newStaff');
+Route::post('/createstaffConpanyInfo', 'ViewControllers\MainViewController@createStaffCompanyInfo')->name('createstaffConpanyInfo');
+Route::post('/createWorkAndEduction', 'ViewControllers\MainViewController@createWorkAndEduction')->name('createWorkAndEduction');
+Route::post('/submitStaffForm', 'ViewControllers\MainViewController@submitStaffForm')->name('submitStaffForm');
+
+Route::post('viewStaffProfile', 'ViewControllers\MainViewController@viewStaffProfile')->name('viewStaffProfile');
+
+Route::get('/viewStaffTable', 'ViewControllers\MainViewController@viewStaffTable')->name('viewStaffTable');
+//createWorkAndEduction
+//PostRouteEndsFOrStaffCreate
+
+
+//getRouteStartsForStaff
+Route::get('staffProfile/{ref}', 'ViewControllers\MainViewController@viewStaffProfile');
+Route::post('uploaddocs', 'ViewControllers\DocumentUploadController@uploadDocument');
+/*
+Route::get('viewStaffTable', function () {
+    return view('admin.staff.viewStaffTable');
+});
+*/
+
+//viewStaffTable
+
+
+Route::get('newStaff', function () {
+    return view('admin.staff.newStaff');
+});
+//newStaff
+Route::get('createCompanyInfo', function () {
+    return view('admin.staff.createCompanyInfo');
+});
+
+
+Route::get('eduAwork', function () {
+    return view('admin.staff.createEduAndWorkExperience');
+});
+
+Route::get('createFileUpload', function () {
+    return view('admin.staff.createFileUpload');
+});
+//getRouteEndsForStaff
+
+
+//end create staff routes
+
+
+//crud for staff level starts
+
+Route::get('/createLevel', 'Core\StaffController@createLevel')->name('createLevel');
+Route::get('/viewLevel', 'Core\StaffController@viewLevel')->name('viewLevel');
+Route::get('editLevel/{id}', 'Core\StaffController@editLevel');
+Route::post('updateLevel', 'Core\StaffController@updateLevel');
+Route::post('deleteLevel', 'Core\StaffController@deleteLevel');
+//crud for staff level ends
+
+
+//crud for staff Unit starts
+
+Route::get('/createUnit', 'ViewControllers\MainViewController@createUnit')->name('createUnit');
+Route::get('/viewUnit', 'ViewControllers\MainViewController@viewUnit')->name('viewUnit');
+Route::get('editUnit/{id}', 'ViewControllers\MainViewController@editUnit');
+Route::post('updateUnit', 'ViewControllers\MainViewController@updateUnit');
+Route::post('deleteUnit', 'ViewControllers\MainViewController@deleteUnit');
+//crud for staff Unit ends
+
+
+//createFileUpload
+//createCompanyInfo
+
+//officeInfo
+Route::get('/home', 'HomeController@index')->name('home');

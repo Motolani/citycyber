@@ -1,0 +1,122 @@
+
+@extends('admin.layout')
+@section('title')
+    Dashboard
+@endsection
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        
+                        <li class="breadcrumb-item active" style = "display:none" id = "headerShow">View/Edit Office</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">View/Edit User</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="header-title">Available Table</h4>
+                    <p class="text-muted font-14">
+                        Below are the lists of Offices availabe within City Cyber. Offices can also be edited
+                    </p>
+
+                    <ul class="nav nav-tabs nav-bordered mb-3">
+                        <li class="nav-item">
+                            <a href="#buttons-table-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                Preview
+                            </a>
+                        </li>
+                        
+                    </ul> <!-- end nav-->
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="buttons-table-preview">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Edit</th>
+                                        <th>Date Created</th>
+                                        <th>Staff Name</th>
+                                        <th>View Scope</th>
+                                        <th>Level</th>
+                                        <th>Branch</th>
+                                        <th>Status</th>
+                                        <th>Phone</th>
+                                        <th>Resumption Date</th>
+					                    
+                                    </tr>
+                                </thead>
+                            
+                            
+                                <tbody>
+                                @if(isset($offices))
+                                    @foreach($offices as $office)
+                                    <tr>
+                                        <td>{{$office->created_at}}</td>
+                                        <td>{{$office->name}}</td>
+                                        <td>{{$office->emailAddress}}</td>
+                                        <td>{{$office->phone}}</td>
+                                        <td>{{$office->location}}</td>
+                                        <td>{{$office->state}}</td>
+                                        <td>{{$office->type}}</td>
+                                        <td>{{$office->level}}</td>
+					                    <td>
+                                           <a href="{{url('officeInfo')}}"  rel="tooltip" class="btn btn-info"  data-created="{{$office->created_at}}">
+                                              <i class="fa fa-eye"></i>
+                                           </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+
+                                @else
+                                <tr>
+                                        <td>
+                                           <a href="{{url('officeInfo')}}"  rel="tooltip" class="btn btn-info"  data-created="{{$office->created_at}}">
+                                              <i class="fa fa-eye"></i>
+                                           </a>
+                                        </td>
+                                        <td>18-06-2021</td>
+                                        <td>Faith Akindele</td>
+                                        <td>Managing Director</td>
+                                        <td>Managing Director</td>
+                                        <td>Head Office</td>
+                                        <td>Regular</td>
+                                        <td>07035666498</td>
+                                        <td>18-06-2021</td>
+					                    
+                                </tr>
+                                </tbody>
+                            </table>                                           
+                        </div> <!-- end preview-->
+                    
+                    </div> <!-- end tab-content-->
+                    
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
+    <!-- end row-->
+
+
+@endsection
+
+
+@section('script')
+ <script>
+    
+  
+ </script>
+
+@endsection
+
+
+
