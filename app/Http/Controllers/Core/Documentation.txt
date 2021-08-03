@@ -1,0 +1,56 @@
+#Core Documentation#
+#Class Offices
+#Methods:
+-CreateOffice:
+    Description: accepts (array object of an office)
+        Function to create an office 
+-GetAllOffice:
+    Description:  
+        Function to get all offices
+-GetAllLevels:
+    Description:
+        Function to get all office level types
+-GetAllParents:
+    Description: accepts(level of an office)
+        Function to get an office parent level from the hierarchy
+-availableBranchesForSwitch:
+    Description: accepts(ID of an office)
+        Function to get available branches that can be switched
+-switchBranch:
+    Description: accepts(ID of an office, New level of the office, The parent level of the office)
+        Function to change a branch
+-GetOfficeLevel:
+    Description: accepts(ID of the office)
+        Function to get office's level
+-UpdateOffice:
+    Description: accepts(ID of the office to be updated, and the array object to change)
+        Function to update an office property
+-DeleteOffice:
+    Description: accepts(ID of an office)
+        Function disable an office and not to delete an office
+-GetOfficeByLevel:
+    Description: accepts(Level of an office)
+        Function to get a level by the property level
+-GetChildrenOffice:
+    Description: accepts(Level of an office)
+        Function to get the branches under Hub1, Area, and Hub2 office type
+
+
+#Class Staff
+#Methods: 
+-CreateStaff:
+    Description: accepts(Array of staff property)
+        Function to create a staff
+-ViewAllStaff:
+    Description:
+        Function to view all the staff on the system
+-EditStaff:
+    Description: accepts(ID of a an already existing staff, array object of property to be updated)
+        Function to edit the details of a staff
+-UpdateStaffProperty:
+    Description: accepts(ID of a staff, property name, property ID of a staff, array object of property to be updated)
+        Function to update/change the property of a staff
+-userUpdate:
+    Description: accepts(ID of a staff, array object of property to be updated)
+        Reusable function used by UpdateStaffProperty() to update users table alone 
+
