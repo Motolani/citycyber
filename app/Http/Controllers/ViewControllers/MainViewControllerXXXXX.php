@@ -86,15 +86,15 @@ class MainViewController extends Controller
    public function viewCreateBonus(Request $request){
         $bonuses = \App\Bonus::all();//dd($offences);
         $user_id = $request->user_id;//dd($request);
- 	$users = \App\User::where('id',$user_id)->first();	
-	$bonusOperation = \App\BonusOpration::join('offices','offices.id','bonusoprations.branch_id')
+        $users = \App\User::where('id',$user_id)->first();	
+        $bonusOperation = \App\BonusOpration::join('offices','offices.id','bonusoprations.branch_id')
                         //->join('departments','departments.id','')
 			->join('bonus','bonus.id','bonusoprations.bonus_id')
                         ->join('users','users.id','bonusoprations.staff_id')
                         ->where('bonusoprations.staff_id',$user_id)
                         ->select('users.*','offices.name as officename','bonus.bonus','bonus.amount','bonusoprations.comment','bonusoprations.created_at as date','bonusoprations.status as bonusStatus')
                         ->get();
-	//dd($bonusOperation);
+	    //dd($bonusOperation);
         if(isset($request->submit) && $request->submit == 'createBonus'){
                 $message = "created";
                 $user_id = $request->user_id;
@@ -125,7 +125,6 @@ class MainViewController extends Controller
 	$users = \App\User::where('id',$user_id)->first();
 //dd($request);	
 	$suspensions = \App\SuspensionOpration::join('offices','offices.id','suspensionoprations.branch_id')
-			//->join('departments','departments.id','')
 			->join('users','users.id','suspensionoprations.staff_id')	
 			->where('suspensionoprations.staff_id',$user_id)
 			->select('users.*','offices.name as officename','suspensionoprations.comment','suspensionoprations.startDate','suspensionoprations.endDate','suspensionoprations.status')

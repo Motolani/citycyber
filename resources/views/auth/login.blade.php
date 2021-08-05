@@ -40,7 +40,7 @@
                                 </div>
 
                                 <form method="POST" action="{{url('login')}}"> 
-					@csrf
+					            @csrf
                                     <div class="mb-3">
                                         <label for="emailaddress" class="form-label">Email address</label>
                                         <input class="form-control" name = "email" type="email" id="emailaddress" required="" placeholder="Enter your email">
@@ -64,25 +64,27 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 mb-0 text-center">
+                                    <div class="mb-3 mb-0 text-left">
                                         <button class="btn btn-primary" type="submit"> Log In </button>
                                     </div>
+
+                                    
 
                                 </form>
                             </div> <!-- end card-body -->
 
-			    @if(session()->has('status'))
-        		    <div class="alert alert-danger text-center" role="alert">
-           			 <p><i class="fa fa-warning"></i> {{session('status')}}</p>
-       			    </div>
-    			    @endif
+                            @if(session()->has('status'))
+                                <div class="alert alert-danger text-center" role="alert">
+                                <p><i class="fa fa-warning"></i> {{session('status')}}</p>
+                                </div>
+                            @endif
 
                         </div>
                         <!-- end card -->
 
                         <div class="row mt-3">
                             <div class="col-12 text-center">
-                                <p class="text-muted">Don't have an account? <a href="pages-register.html" class="text-muted ms-1"><b>Sign Up</b></a></p>
+                                <p class="text-muted">Click <a href="{{url('attendance')}}" class="text-muted ms-1"><b>Here</b></a> To Clock In</p>
                             </div> <!-- end col -->
                         </div>
                         <!-- end row -->

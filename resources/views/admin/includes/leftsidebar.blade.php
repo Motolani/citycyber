@@ -53,23 +53,7 @@
                                 </ul>
                             </div>
                         </li>
-{{--
-                        <li class="side-nav-title side-nav-item">Apps</li>
 
-                        <li class="side-nav-item">
-                            <a href="apps-calendar.html" class="side-nav-link">
-                                <i class="uil-calender"></i>
-                                <span> Calendar </span>
-                            </a>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a href="apps-chat.html" class="side-nav-link">
-                                <i class="uil-comments-alt"></i>
-                                <span> Chat </span>
-                            </a>
-                        </li>
---}}
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                                 <i class="uil-store"></i>
@@ -147,33 +131,36 @@
                                     </li>
                                     <li>
                                         <a href="{{url('viewStaffTable')}}">Pending Advance
-					<span class="badge bg-warning float-end">2</span></a>
+					                        <span class="badge bg-warning float-end">2</span>
+                                        </a>
                                     </li>
                                     <li>
                                         <a href="{{url('viewCreateAdvance')}}">Pending Bonus 
-					<span class="badge bg-warning float-end">2</span></a>
+					                        <span class="badge bg-warning float-end">2</span>
+                                        </a>
                                     </li>
                                     <li>
                                         <a href="{{url('viewCreateAllowance')}}"> Pending Allowance 
-					<span class="badge bg-warning float-end">2</span></a>
+					                        <span class="badge bg-warning float-end">2</span></a>
                                     </li>
                                                  
                                     <li>
                                         <a href="apps-projects-details.html">Pending Deduction
-					<span class="badge bg-warning float-end">2</span></a>
+					                        <span class="badge bg-warning float-end">2</span>
+                                        </a>
                                     </li>
                                      <li>
                                         <a href="apps-projects-details.html">Pending Loan
-					<span class="badge bg-warning float-end">2</span></a>
+					                    <span class="badge bg-warning float-end">2</span></a>
                                     </li>
-		   		      <li>
+		   		                    <li>
                                         <a href="apps-projects-details.html">Pending Suspension
-					<span class="badge bg-warning float-end">2</span></a>
+					                        <span class="badge bg-warning float-end">2</span></a>
                                     </li>			  
-				 <li>
+				        <li>
                                         <a href="apps-projects-details.html">Pending Loss/Damage 
-					<span class="badge bg-warning float-end">2</span>
-					</a>
+					                        <span class="badge bg-warning float-end">2</span>
+					                    </a>
 				
                                     </li>											
                                 </ul>
@@ -395,6 +382,8 @@
                                     </li>
 
 
+                                    
+
 
                                     <li class="side-nav-item">
                                         <a data-bs-toggle="collapse" href="#sidebarFourteenthLevel" aria-expanded="false" aria-controls="sidebarFourteenthLevel">
@@ -422,10 +411,29 @@
 
 
                                     
+                                        
+                
 
-			        </ul>
+			                    </ul>
+
+                                
                             </div>
                         </li>
+                        <li class="side-nav-title side-nav-item">Attendance</li>
+                
+                            <li class="side-nav-item">
+                                <a href="{{url('viewAttendance')}}" class="side-nav-link">
+                                    <i class="uil-calender"></i>
+                                    <span> Attendance </span>
+                                </a>
+                            </li>
+                
+                            <!-- <li class="side-nav-item">
+                                <a href="apps-chat.html" class="side-nav-link">
+                                    <i class="uil-comments-alt"></i>
+                                    <span> Chat </span>
+                                </a>
+                            </li> -->
 
 
 

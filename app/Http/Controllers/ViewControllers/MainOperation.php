@@ -47,6 +47,40 @@ class MainOperation extends Controller
         return view('admin.createOffice')->with(["levels"=>$levels]);
     }
 
+    public function manageAttendance(Request $request){
+
+        if(1){
+            $superAdmin = 1;
+            if(isset($request->submit) && $request->submit == "cancel"){
+
+                $update = \App\Attendance::where('staff_number',$request->staff_number)->update(['status'=>2]);
+                if($update){
+                    return redirect()->back()->with('message','Cancelled Successfully');
+                }
+            }
+            if(isset($request->submit) && $request->submit == "approve"){
+                
+                $update = \App\Attendance::where('staff_number',$request->staff_number)->update(['status'=>1]);
+                if($update){
+                    return redirect()->back()->with('message','Approved Successfully');
+                }
+            }
+            
+            
+            else{
+                if($superAdmin){
+                    $attendance = \App\Attendance::all();
+                    return view('admin.staff.operations.viewAttendance',compact('attendance'));
+                }else{
+                    $attendance = \App\Attendance::all();
+                    return view('admin.staff.operations.viewAttendance',compact('attendance'));
+                }
+            }
+        }
+
+    }
+
+
    public function viewLeaveRequest(Request $request){
        
       $leaveData = \App\LeaveRequest::join('offcategories','offcategories.id','leaverequests.leavecategory_id')
@@ -200,7 +234,7 @@ class MainOperation extends Controller
    
 
    public function viewCreateAdvance(Request $request){
-    //$user_id = $request->user_id;//dd($request);
+    $user_id = Auth::user()->id;//dd($request);
     $users = \App\User::where('id',Auth::user()->id)->first();
     $advances = \App\AdvanceOpration::join('offices','offices.id','advanceoperations.branch_id')
         ->join('users','users.id','advanceoperations.staff_id')	
@@ -239,6 +273,7 @@ class MainOperation extends Controller
 public function viewCreateAllowance(Request $request){
     //$user_id = $request->user_id;//dd($request);
     $users = \App\User::where('id',Auth::user()->id)->first();
+    $user_id = Auth::user()->id;
     $allowanceList = \App\Allowance::all();
     $allowances = \App\AllowanceOpration::join('offices','offices.id','allowanceoprations.branch_id')
         ->join('users','users.id','allowanceoprations.staff_id')	
