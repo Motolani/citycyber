@@ -202,12 +202,69 @@ Route::post('updatelateness/{id}', 'LatenessController@update');
 
 
 //view Incidence 
-
-
 Route::get('/viewCreateIncidence', 'ViewControllers\MainViewController@viewCreateIncidence');
 Route::post('/viewCreateIncidence', 'ViewControllers\MainViewController@viewCreateIncidence');
+
+
+Route::prefix('incident')->group(function () {
+    Route::get('/pending', 'IncidenceController@viewPendingIncidence')->name('viewPendingIncident');
+    Route::get('/approve/{id}', 'IncidenceController@approve')->name('approvePendingIncident');
+    Route::get('/deny/{id}', 'IncidenceController@deny')->name('denyPendingIncident');
+    Route::post('/bulk-action', 'IncidenceController@bulkAction')->name('bulkPendingIncident');
+});
 //end view Incidence
 
+Route::prefix('advance')->group(function () {
+    Route::get('/pending', 'AdvanceController@viewPendingIncidence')->name('viewPendingAdvance');
+    Route::get('/approve/{id}', 'AdvanceController@approve')->name('approvePendingAdvance');
+    Route::get('/deny/{id}', 'AdvanceController@deny')->name('denyPendingAdvance');
+    Route::post('/bulk-action', 'AdvanceController@bulkAction')->name('bulkPendingAdvance');
+});
+
+
+Route::prefix('bonus')->group(function () {
+    Route::get('/pending', 'BonusController@viewPendingIncidence');
+    Route::get('/approve/{id}', 'BonusController@approve');
+    Route::get('/deny/{id}', 'BonusController@deny');
+    Route::post('/bulk-action', 'BonusController@bulkAction');
+});
+
+
+Route::prefix('allowance')->group(function () {
+    Route::get('/pending', 'AllowanceController@viewPendingIncidence');
+    Route::get('/approve/{id}', 'AllowanceController@approve');
+    Route::get('/deny/{id}', 'AllowanceController@deny');
+    Route::post('/bulk-action', 'AllowanceController@bulkAction');
+});
+
+
+Route::prefix('deduction')->group(function () {
+    Route::get('/pending', 'DeductionController@viewPendingIncidence');
+    Route::get('/approve/{id}', 'DeductionController@approve');
+    Route::get('/deny/{id}', 'DeductionController@deny');
+    Route::post('/bulk-action', 'DeductionController@bulkAction');
+});
+
+Route::prefix('loan')->group(function () {
+    Route::get('/pending', 'LoanController@viewPendingIncidence');
+    Route::get('/approve/{id}', 'LoanController@approve');
+    Route::get('/deny/{id}', 'LoanController@deny');
+    Route::post('/bulk-action', 'LoanController@bulkAction');
+});
+
+Route::prefix('suspension')->group(function () {
+    Route::get('/pending', 'SuspensionController@viewPendingIncidence');
+    Route::get('/approve/{id}', 'SuspensionController@approve');
+    Route::get('/deny/{id}', 'SuspensionController@deny');
+    Route::post('/bulk-action', 'SuspensionController@bulkAction');
+});
+
+Route::prefix('loss-damage')->group(function () {
+    Route::get('/pending', 'LossDamageController@viewPendingIncidence');
+    Route::get('/approve/{id}', 'LossDamageController@approve');
+    Route::get('/deny/{id}', 'LossDamageController@deny');
+    Route::post('/bulk-action', 'LossDamageController@bulkAction');
+});
 
 Route::get('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
 Route::post('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
