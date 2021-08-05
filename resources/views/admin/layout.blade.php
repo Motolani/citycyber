@@ -64,42 +64,42 @@
 
 
         <!-- bundle -->
-        <script src="{{('assets/js/vendor.min.js')}}"></script>
-        <script src="{{('assets/js/app.min.js')}}"></script>
+        <script src="{{asset('assets/js/vendor.min.js')}}"></script>
+        <script src="{{asset('assets/js/app.min.js')}}"></script>
 
         <!-- third party:js -->
-        {{--<script src="{{('assets/js/vendor/apexcharts.min.js')}}"></script>--}}
+        {{--<script src="{{asset('assets/js/vendor/apexcharts.min.js')}}"></script>--}}
         <!-- third party end -->
 
         <!-- Chat js -->
-        <script src="{{('assets/js/ui/component.chat.js')}}"></script>
+        <script src="{{asset('assets/js/ui/component.chat.js')}}"></script>
 
         <!-- Todo js -->
-        <script src="{{('assets/js/ui/component.todo.js')}}"></script>
+        <script src="{{asset('assets/js/ui/component.todo.js')}}"></script>
 
 	<!-- Timepicker -->
-        <script src="{{('assets/js/pages/demo.timepicker.js')}}"></script>
+        <script src="{{asset('assets/js/pages/demo.timepicker.js')}}"></script>
 
 	<!-- Typehead -->
-        <script src="{{('assets/js/vendor/handlebars.min.js')}}"></script>
-        <script src="{{('assets/js/vendor/typeahead.bundle.min.js')}}"></script>	
+        <script src="{{asset('assets/js/vendor/handlebars.min.js')}}"></script>
+        <script src="{{asset('assets/js/vendor/typeahead.bundle.min.js')}}"></script>	
 	
 	<!-- third party js -->
-        <script src="{{('assets/js/vendor/Chart.bundle.min.js')}}"></script>
+        <script src="{{asset('assets/js/vendor/Chart.bundle.min.js')}}"></script>
         <!-- third party js ends -->
 	
 
 	<!-- demo app -->
-        <script src="{{('assets/js/pages/demo.dashboard-projects.js')}}"></script>
+        <script src="{{asset('assets/js/pages/demo.dashboard-projects.js')}}"></script>
         <!-- end demo js-->
 
 	<!-- Demo -->
-        <script src="{{('assets/js/pages/demo.typehead.js')}}"></script>
+        <script src="{{asset('assets/js/pages/demo.typehead.js')}}"></script>  
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 	 <!-- demo app -->
-        <script src="{{('assets/js/pages/demo.form-wizard.js')}}"></script>
+        <script src="{{asset('assets/js/pages/demo.form-wizard.js')}}"></script>
         <!-- end demo js-->
 {{--
 	<script>
@@ -112,9 +112,10 @@
 	</script>
 --}}
         <!-- demo:js -->
-        {{--<script src="{{('assets/js/pages/demo.widgets.js')}}"></script>--}}
+        {{--<script src="{{asset('assets/js/pages/demo.widgets.js')}}"></script>--}}
         <!-- demo end -->
 	 @yield('script')
+
 </body>
 
 </html>

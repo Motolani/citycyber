@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Department;
 
-class DepartmentController extends Controller
+class DepartmentController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -13,6 +13,9 @@ class DepartmentController extends Controller
      */
     public function __construct()
     {
+                //Add this line to call Parent Constructor from BaseController
+                parent::__construct();
+
         $this->middleware('auth');
     }
     
