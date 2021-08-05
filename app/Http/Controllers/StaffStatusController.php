@@ -13,6 +13,9 @@ class StaffStatusController extends Controller
      */
     public function __construct()
     {
+                //Add this line to call Parent Constructor from BaseController
+                parent::__construct();
+
         $this->middleware('auth');
     }
     

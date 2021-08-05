@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use App\User; 
 
-class ApiController extends Controller
+class ApiController extends BaseController
 {
     //
 

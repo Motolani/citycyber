@@ -3,11 +3,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Allowance;
+use App\AllowanceOpration;
 use App\Level;
 use App\Office;
 use Illuminate\Support\Facades\DB;
 
-class AllowanceController extends Controller
+class AllowanceController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -16,6 +17,9 @@ class AllowanceController extends Controller
      */
     public function __construct()
     {
+                //Add this line to call Parent Constructor from BaseController
+                parent::__construct();
+
         $this->middleware('auth');
     }
     
@@ -107,5 +111,82 @@ class AllowanceController extends Controller
         return view("admin.staff.data.viewStatus", compact('status'));
 */
     }
+
+    public function viewPendingIncidence(Request $request)
+    {
+        $incidents = AllowanceOpration::where('status', 0)
+            ->with('staff')
+            ->get();
+        return view('admin.allowance-list', compact('incidents'));
+    }
+
+    public function approve(Request $request)
+    {
+        $incident = AllowanceOpration::where('id', $request->id)
+            ->first();
+
+        //Status 0 - Pending
+        //Status 1 - Approved from 1st Admin        
+        //Status 2 - Declined by 1st Admin
+        //Status 3 - Approved by Super Admin
+        //Status 4 - Declined by Super Admin
+
+        //TODO: Check if this is a super admin and update status codes accordingly
+
+        //Check if the incident is valid
+        if (isset($incident)) {
+            //We assume this is Super Admin for Now
+            $incident->status = 3;
+            $incident->save();
+        }
+        return redirect()->back()->with('success', 'Successfully Approved');
+    }
+
+
+    public function deny(Request $request)
+    {
+        $incident = AllowanceOpration::where('id', $request->id)
+            ->first();
+
+        //Status 0 - Pending
+        //Status 1 - Approved from 1st Admin        
+        //Status 2 - Declined by 1st Admin
+        //Status 3 - Approved by Super Admin
+        //Status 4 - Declined by Super Admin
+
+        //TODO: Check if this is a super admin and update status codes accordingly
+
+        //Check if the incident is valid
+        if (isset($incident)) {
+            //We assume this is Super Admin for Now
+            $incident->status = 4;
+            $incident->save();
+        }
+        return redirect()->back()->with('success', 'Successfully Denied');
+    }
+
+
+    public function bulkAction(Request $request)
+    {
+        $items = $request->items;
+        $action = $request->action;
+
+        //Status 0 - Pending
+        //Status 1 - Approved from 1st Admin        
+        //Status 2 - Declined by 1st Admin
+        //Status 3 - Approved by Super Admin
+        //Status 4 - Declined by Super Admin
+
+        if ($action == "accept")
+            $status = 3;
+        else
+            $status = 4;
+
+        //TODO: Check if this is a super admin and update status codes accordingly
+        $incident = AllowanceOpration::whereIn('id', $items)->update(['status' => $status]);
+
+        return redirect()->back()->with('success', 'The Operation compeleted Successfully');
+    }
+
 }
 

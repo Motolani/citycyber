@@ -17,9 +17,12 @@ use App\Classes;
 use App\Status;
 use App\ResumptionType;
 use App\Level;
+use App\Http\Controllers\BaseController;
+
+
 //use Auth;
 use Illuminate\Support\Facades\Auth;
-class MainViewController extends Controller
+class MainViewController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -28,6 +31,7 @@ class MainViewController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('auth');
     }
 

@@ -1,13 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\IncidenceOpration;
 use Illuminate\Http\Request;
-use App\Deduction;
-use App\DeductionOpration;
-use App\Level;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Core\Offices;
 
-class DeductionController extends BaseController
+class LoanController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -18,9 +17,10 @@ class DeductionController extends BaseController
     {
         //Add this line to call Parent Constructor from BaseController
         parent::__construct();
+
         $this->middleware('auth');
     }
-    
+
     /**
      * Show the application dashboard.
      *
@@ -28,76 +28,26 @@ class DeductionController extends BaseController
      */
     public function index()
     {
-	    $deduction = Deduction::all();
-        return view("admin.staff.data.deductions", compact('deduction'));
+        return view('admin.home');
     }
 
-    public function deductionpage(){
-        return view("admin.staff.data.staffDeduction");
-    }
 
-    public function create(Request $request)
+    public function homeTest(Request $request)
     {
-        $request->validate([
-                'deduction' => 'required|max:255',
-                'amount' => 'required',
-        ]);	
-
-        $bonus = new Deduction();        
-        $bonus->deduction = $request->deduction;
-        $bonus->amount = $request->amount;
-        $saved = $bonus->save();
-
-        if($saved)
-        return redirect('/alldeduction')->with('message', 'Deduction updated successfully!.');
-            else
-        return redirect('/alldeduction')->with('message', 'Deduction not saved!.');
-    }
-
-    public function store(Request $request)
-    {
-        return null;
-    }
-
-    public function update(Request $request, $id)
-    { 
-        $bonus = Deduction::find($id);
-        $bonus->deduction = $request->deduction;
-        $bonus->amount = $request->amount;
-        $saved = $bonus->save();
-        if($saved)
-        return redirect('/alldeduction')->with('message', 'Deduction updated successfully!.');
-            else
-        return redirect('/alldeduction')->with('message', 'Deduction not saved!.');
-    }
-
-    public function show(Request $request, $id)
-    {
-        $deduction = Deduction::find($id);
-	return view("admin.staff.data.editDeduction", compact('deduction'));
-    }
-
-    public function destroy(Request $request, $id)
-    {
-        $deleted = Deduction::find($id)->delete();
-        return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting status!.');
-/*
-	$status = Status::all();
-        return view("admin.staff.data.viewStatus", compact('status'));
-*/
+        dd($request);
     }
 
     public function viewPendingIncidence(Request $request)
     {
-        $incidents = DeductionOpration::where('status', 0)
+        $incidents = IncidenceOpration::where('status', 0)
             ->with('staff')
             ->get();
-        return view('admin.deduction-list', compact('incidents'));
+        return view('admin.loan-list', compact('incidents'));
     }
 
     public function approve(Request $request)
     {
-        $incident = DeductionOpration::where('id', $request->id)
+        $incident = IncidenceOpration::where('id', $request->id)
             ->first();
 
         //Status 0 - Pending
@@ -120,7 +70,7 @@ class DeductionController extends BaseController
 
     public function deny(Request $request)
     {
-        $incident = DeductionOpration::where('id', $request->id)
+        $incident = IncidenceOpration::where('id', $request->id)
             ->first();
 
         //Status 0 - Pending
@@ -158,9 +108,8 @@ class DeductionController extends BaseController
             $status = 4;
 
         //TODO: Check if this is a super admin and update status codes accordingly
-        $incident = DeductionOpration::whereIn('id', $items)->update(['status' => $status]);
+        $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
 
         return redirect()->back()->with('success', 'The Operation compeleted Successfully');
     }
 }
-
