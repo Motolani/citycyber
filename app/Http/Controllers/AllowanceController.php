@@ -115,6 +115,7 @@ class AllowanceController extends BaseController
     public function viewPendingIncidence(Request $request)
     {
         $incidents = AllowanceOpration::where('status', 0)
+            ->orWhere('status', 1)
             ->with('staff')
             ->get();
         return view('admin.allowance-list', compact('incidents'));
@@ -136,7 +137,7 @@ class AllowanceController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 3;
+            $incident->status = 1;
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Approved');
@@ -159,7 +160,7 @@ class AllowanceController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 4;
+            $incident->status = 2;
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');
@@ -178,9 +179,9 @@ class AllowanceController extends BaseController
         //Status 4 - Declined by Super Admin
 
         if ($action == "accept")
-            $status = 3;
+            $status = 1;
         else
-            $status = 4;
+            $status = 2;
 
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = AllowanceOpration::whereIn('id', $items)->update(['status' => $status]);

@@ -8,7 +8,7 @@
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| contains the "web" middleware group. Now create something great! 
 |
 */
 
@@ -17,6 +17,17 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+
+Route::get('/attendance', function () {
+    return view('auth.attendance');
+});
+
+Route::post('/attendance', 'ViewControllers\Attendance@attendance')->name('attendance');
+
+
+Route::get('/viewAttendance', 'ViewControllers\MainOperation@manageAttendance')->name('viewAttendance');
+
 
 Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
 

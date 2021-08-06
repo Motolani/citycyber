@@ -5,6 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmergencyContact extends Model
 {
-        protected $table = "emergencycontact";
-	protected $fillable = ['userId', 'name','phone','address'];
+    protected $table = "emergencycontact";
+    protected $fillable = ['userId', 'name','phone','address'];
 }

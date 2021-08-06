@@ -38,9 +38,9 @@ class DocumentUploadController extends Controller
      */
     public function displayDocument($id, $levelid)
     {        
-        return response()->json([
-            "response" => $response
-        ]);
+        // return response()->json([
+        //     "response" => $response
+        // ]);
     }
 
     public function uploadDocument(Request $request)

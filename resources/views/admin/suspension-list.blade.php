@@ -71,8 +71,10 @@ Dashboard
                                     <td>{{$incident->startDate}}</td>
                                     <td>{{$incident->endDate}}</td>
                                     <td>
-                                        <a href="/incident/approve/{{$incident->id}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
-                                        <a href="/incident/deny/{{$incident->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
+                                        @if($incident->status == 0)
+                                        <a href="/suspension/approve/{{$incident->id}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
+                                        <a href="/suspension/deny/{{$incident->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
+                                            @endif
                                     </td>
 
                                     <!-- <td>{{--

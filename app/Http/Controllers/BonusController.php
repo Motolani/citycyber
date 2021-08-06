@@ -91,6 +91,7 @@ class BonusController extends BaseController
     {
         //dd($request);
         $incidents = BonusOpration::where('status', 0)
+            ->orWhere('status', 1)
             ->with('staff')
             ->get();
         return view('admin.bonus-list', compact('incidents'));
@@ -112,7 +113,7 @@ class BonusController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 3;
+            $incident->status = 1;
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Approved');
@@ -135,7 +136,7 @@ class BonusController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 4;
+            $incident->status = 2;
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');
@@ -154,9 +155,9 @@ class BonusController extends BaseController
         //Status 4 - Declined by Super Admin
 
         if ($action == "accept")
-            $status = 3;
+            $status = 1;
         else
-            $status = 4;
+            $status = 2;
 
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = BonusOpration::whereIn('id', $items)->update(['status' => $status]);
