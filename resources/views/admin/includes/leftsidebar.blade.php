@@ -5,10 +5,10 @@
     <a href="{{url('home')}}" class="logo text-center logo-light">
         <span class="logo-lg">
             {{-- <img src="{{('assets/images/logo.png')}}" alt="" height="16">--}}
-            <h2 style="color:white">CityCyber</h1>
+            <h2 style="color:white">CityCyber</h2>
         </span>
         <span class="logo-sm">
-            <h2 style="color:white">CC</h1>
+            <h2 style="color:white">CC</h2>
                 {{--<img src="{{('assets/images/logo_sm.png')}}" alt="" height="16">--}}
         </span>
     </a>
@@ -37,39 +37,11 @@
                     <span> Dashboards </span>
                 </a>
                 <div class="collapse" id="sidebarDashboards">
-                    <ul class="side-nav-second-level">{{--
-                                    <li>
-                                        <a href="dashboard-analytics.html">Analytics</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-crm.html">CRM</a>
-                                    </li>
-                                    <li>
-                                        <a href="index.html">Ecommerce</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-projects.html">Projects</a>
-                                    </li>--}}
+                    <ul class="side-nav-second-level">
                     </ul>
                 </div>
             </li>
-            {{--
-                        <li class="side-nav-title side-nav-item">Apps</li>
 
-                        <li class="side-nav-item">
-                            <a href="apps-calendar.html" class="side-nav-link">
-                                <i class="uil-calender"></i>
-                                <span> Calendar </span>
-                            </a>
-                        </li>
-
-                        <li class="side-nav-item">
-                            <a href="apps-chat.html" class="side-nav-link">
-                                <i class="uil-comments-alt"></i>
-                                <span> Chat </span>
-                            </a>
-                        </li>
---}}
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
                     <i class="uil-store"></i>
@@ -83,15 +55,34 @@
                         </li>
                         <li>
                             <a href="{{url('viewOffices')}}">View Office</a>
-                        </li>{{--
-                                    <li>
-                                        <a href="apps-ecommerce-orders.html">Orders</a>
-                                    </li>--}}
-
+                        </li>
                     </ul>
                 </div>
             </li>
 
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarSixteenthssLevel" aria-expanded="false" aria-controls="sidebarSixteenthssLevel" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Petty Cash </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarSixteenthssLevel">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/pettycash/create">Request Petty Cash</a>
+                        </li>
+                        <li>
+                            <a href="/pettycash/my-requests">My Petty Cash Requests</a>
+                        </li>
+                        <li>
+                            {{-- Only Admins and Super Admins should see this--}}
+                            <a href="{{route('viewPendingPettyCash')}}">Pending Petty Cash
+                                <span class="badge bg-warning float-end">{{$pendingPettyCashCount ?? 0}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
@@ -141,41 +132,40 @@
                 <div class="collapse" id="sidebarRequest">
                     <ul class="side-nav-second-level">
                         <li>
-
                             <a href="{{route('viewPendingIncident')}}">Pending Incidence
-                                <span class="badge bg-warning float-end">{{$pendingIncidentCount}}</span>
+                                <span class="badge bg-warning float-end">{{$pendingIncidentCount ?? 0}}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('viewPendingAdvance')}}">Pending Advance
-                                <span class="badge bg-warning float-end">{{$pendingAdvanceCount}}</span>
+                                <span class="badge bg-warning float-end">{{$pendingAdvanceCount ?? 0}}</span>
                             </a>
                         </li>
                         <li>
                             <a href="/bonus/pending">Pending Bonus
-                                <span class="badge bg-warning float-end">{{$pendingBonusCount}}</span>
+                                <span class="badge bg-warning float-end">{{$pendingBonusCount ?? 0}}</span>
                             </a>
                         </li>
                         <li>
                             <a href="/allowance/pending"> Pending Allowance
-                                <span class="badge bg-warning float-end">{{$pendingAllowanceCount}}</span></a>
+                                <span class="badge bg-warning float-end">{{$pendingAllowanceCount ?? 0}}</span></a>
                         </li>
 
                         <li>
                             <a href="/deduction/pending">Pending Deduction
-                                <span class="badge bg-warning float-end">{{$pendingDeductionCount}}</span></a>
+                                <span class="badge bg-warning float-end">{{$pendingDeductionCount ?? 0}}</span></a>
                         </li>
                         <li>
                             <a href="/loan/pending">Pending Loan
-                                <span class="badge bg-warning float-end">{{$pendingLoanCount}}</span></a>
+                                <span class="badge bg-warning float-end">{{$pendingLoanCount ?? 0}}</span></a>
                         </li>
                         <li>
                             <a href="/suspension/pending">Pending Suspension
-                                <span class="badge bg-warning">{{$pendingSuspensionCount}}</span></a>
+                                <span class="badge bg-warning">{{$pendingSuspensionCount ?? 0}}</span></a>
                         </li>
                         <li>
                             <a href="/loss-damage/pending">Pending Loss/Damage
-                                <span class="badge bg-warning float-end">{{$pendingLossDamageCount}}</span>
+                                <span class="badge bg-warning float-end">{{$pendingLossDamageCount ?? 0}}</span>
                             </a>
 
                         </li>
@@ -398,7 +388,6 @@
 </li>
 
 
-
 <li class="side-nav-item">
     <a data-bs-toggle="collapse" href="#sidebarFourteenthLevel" aria-expanded="false" aria-controls="sidebarFourteenthLevel">
         <span> Leave Module </span>
@@ -420,10 +409,42 @@
                 <a href="{{url('allLeaveType')}}">View Leave Type</a>
             </li>
         </ul>
+    </div>    <div class="collapse" id="navPerm">
+        <ul class="side-nav-third-level">
+            <li>
+                <a href="{{url('createLeaveCategory')}}">Create Leave Category</a>
+            </li>
+                    </ul>
     </div>
 </li>
 
+                        <li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel">
+        <span> Roles/Permissons </span>
+        <span class="menu-arrow"></span>
+    </a>
 
+    <div class="collapse" id="navRoles">
+        <ul class="side-nav-third-level">
+            <li>
+                <a href="{{route('entrust-gui::roles.index')}}">View Roles</a>
+            </li>
+
+            <li>
+                <a href="{{route('entrust-gui::roles.create')}}">Create Roles</a>
+            </li>
+
+            <li>
+                <a href="{{route('entrust-gui::permissions.index')}}">View Permissions</a>
+            </li>
+
+            <li>
+                <a href="{{route('entrust-gui::permissions.create')}}">Create Permissions</a>
+            </li>
+
+        </ul>
+    </div>
+</li>
 
 
 </ul>
