@@ -61,7 +61,6 @@ Route::get('/createOffice', 'ViewControllers\MainViewController@createOfficeRequ
 //createOffice
 //getLevel
 Route::get('/viewOffices', 'ViewControllers\MainViewController@getAllOffice')->name('viewOffices');
-
 Route::post('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
 Route::get('/getLevel', 'ViewControllers\MainViewController@getLevel')->name('getLevel');
 
@@ -118,8 +117,6 @@ Route::get('viewStaffTable', function () {
 */
 
 //viewStaffTable
-
-
 Route::get('newStaff', function () {
     return view('admin.staff.newStaff');
 });
@@ -143,7 +140,6 @@ Route::get('createFileUpload', function () {
 
 
 //crud for staff level starts
-
 Route::get('/createLevel', 'ViewControllers\MainViewController@createLevel')->name('createLevel');
 Route::post('/createLevel', 'ViewControllers\MainViewController@createLevel')->name('createLevel');
 Route::get('/viewLevel', 'ViewControllers\MainViewController@viewLevel')->name('viewLevel');
@@ -154,7 +150,6 @@ Route::post('deleteLevel', 'ViewControllers\MainViewController@deleteLevel');
 
 
 //crud for staff Unit starts
-
 Route::get('/createUnit', 'ViewControllers\MainViewController@createUnit')->name('createUnit');
 Route::post('/createUnit', 'ViewControllers\MainViewController@createUnit')->name('createUnit');
 Route::get('/viewUnit', 'ViewControllers\MainViewController@viewUnit')->name('viewUnit');
@@ -210,6 +205,7 @@ Route::get('/allowance', 'AllowanceController@allowance')->name('allowance');
 Route::get('/deleteallowance/{id}', 'AllowanceController@destroy');
 Route::get('/showallowance/{id}', 'AllowanceController@show');
 Route::post('updateallowance/{id}', 'AllowanceController@update');
+
 //staff bonus crud
 Route::get('/allbonuses', 'BonusController@index');
 Route::post('createbonus', 'BonusController@create');
@@ -322,6 +318,21 @@ Route::prefix('pettycash')->group(function () {
     Route::post('/submit-expense', 'PettyCashController@submitExpense')->name("submitExpense");
     Route::get('/submit-expense/{id}', 'PettyCashController@viewSubmitExpense')->name("viewSubmitExpense");
 });
+
+
+//Shop Wallet Routes
+Route::prefix('office')->group(function () {
+    Route::get('/create-wallet/{id}', 'ShopWalletController@viewCreateWallet');
+    Route::post('/create-wallet', 'ShopWalletController@createWallet')->name("createWallet");
+});
+
+Route::prefix('shop-wallet')->group(function () {
+    Route::get('/', 'ShopWalletController@dashboard');
+    Route::get('/cashiers', 'ShopWalletController@viewCashiers');
+    Route::get('/cashier/fund', 'ShopWalletController@viewFundCashier');
+    Route::post('/cashier/fund', 'ShopWalletController@fundCashier');
+});
+
 
 
 Route::get('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
