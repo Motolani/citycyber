@@ -40,8 +40,8 @@ class AdvanceController extends BaseController
 
     public function viewPendingIncidence(Request $request)
     {
-        $incidents = AdvanceOpration::where('status', 0)
-            ->orWhere('status', 1)
+        $incidents = AdvanceOpration::where('status', 'pending')
+            ->orWhere('status', 'confirmed')
             ->with('staff')
             ->get();
         return view('admin.advance-list', compact('incidents'));
@@ -53,17 +53,17 @@ class AdvanceController extends BaseController
             ->first();
 
         //Status 0 - Pending
-        //Status 1 - Approved from 1st Admin        
-        //Status 2 - Declined by 1st Admin
-        //Status 3 - Approved by Super Admin
-        //Status 4 - Declined by Super Admin
+        //Status 1 - Approved from 1st Admin - confirmed
+        //Status 2 - Declined by 1st Admin - cancelled
+        //Status 3 - Approved by Super Admin - approved
+        //Status 4 - Declined by Super Admin - disapproved
 
         //TODO: Check if this is a super admin and update status codes accordingly
 
         //Check if the incident is valid
         if (isset($incident)) {
-            //We assume this is Super Admin for Now
-            $incident->status = 1;
+            //We assume this is 1st Admin for Now.  Go for second Approval
+            $incident->status = 'confirmed';
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Approved');
@@ -76,17 +76,17 @@ class AdvanceController extends BaseController
             ->first();
 
         //Status 0 - Pending
-        //Status 1 - Approved from 1st Admin        
-        //Status 2 - Declined by 1st Admin
-        //Status 3 - Approved by Super Admin
-        //Status 4 - Declined by Super Admin
+        //Status 1 - Approved from 1st Admin - confirmed
+        //Status 2 - Declined by 1st Admin - cancelled
+        //Status 3 - Approved by Super Admin - approved
+        //Status 4 - Declined by Super Admin - disapproved
 
         //TODO: Check if this is a super admin and update status codes accordingly
 
         //Check if the incident is valid
         if (isset($incident)) {
-            //We assume this is Super Admin for Now
-            $incident->status = 2;
+            //We assume this is the 1st Admin for Now
+            $incident->status = 'cancelled';
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');
@@ -105,13 +105,13 @@ class AdvanceController extends BaseController
         //Status 4 - Declined by Super Admin
 
         if ($action == "accept")
-            $status = 1;
+            $status = 'approved';
         else
-            $status = 2;
+            $status = 'disapproved';
 
         //TODO: Check if this is a super admin and update status codes accordingly
-        $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
+        $incident = AdvanceOpration::whereIn('id', $items)->update(['status' => $status]);
 
-        return redirect()->back()->with('success', 'The Operation compeleted Successfully');
+        return redirect()->back()->with('success', 'The User has been '.$status);
     }
 }

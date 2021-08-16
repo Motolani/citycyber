@@ -56,7 +56,7 @@ Dashboard
                         </thead>
 
 
-                        <form action="{{route('bulkPendingIncident')}}" method="POST" id="form">
+                        <form action="/suspension/bulk-action" method="POST" id="form">
                             {{csrf_field()}}
                             <input type="hidden" name="action" value="" id="bulkActionField" />
                             <tbody>
@@ -71,7 +71,7 @@ Dashboard
                                     <td>{{$incident->startDate}}</td>
                                     <td>{{$incident->endDate}}</td>
                                     <td>
-                                        @if($incident->status == 0)
+                                        @if($incident->status == 'pending')
                                         <a href="/suspension/approve/{{$incident->id}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
                                         <a href="/suspension/deny/{{$incident->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
                                             @endif

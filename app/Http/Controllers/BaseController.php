@@ -23,14 +23,14 @@ class BaseController extends Controller
         //TODO: If User is SuperAdmin, Select pending, confirmed
 
         //get all unread incident count.
-        $pendingLoanCount = LoanOpration::where('status', 0)->count();
-        $pendingBonusCount = BonusOpration::where('status', 0)->count();
-        $pendingAdvanceCount = AdvanceOpration::where('status', 0)->count();
-        $pendingLossDamageCount = BonusOpration::where('status', 0)->count();
-        $pendingIncidentCount = IncidenceOpration::where('status', 0)->count();
-        $pendingDeductionCount = DeductionOpration::where('status', 0)->count();
-        $pendingAllowanceCount = AllowanceOpration::where('status', 0)->count();
-        $pendingSuspensionCount = SuspensionOpration::where('status', 0)->count();
+        $pendingLoanCount = LoanOpration::where('status', 'pending')->count();
+        $pendingBonusCount = BonusOpration::where('status', 'pending')->count();
+        $pendingAdvanceCount = AdvanceOpration::where('status', 'pending')->count();
+        $pendingLossDamageCount = BonusOpration::where('status', 'pending')->count();
+        $pendingIncidentCount = IncidenceOpration::where('status', 'pending')->count();
+        $pendingDeductionCount = DeductionOpration::where('status', 'pending')->count();
+        $pendingAllowanceCount = AllowanceOpration::where('status', 'pending')->count();
+        $pendingSuspensionCount = SuspensionOpration::where('status', 'pending')->count();
         $pendingPettyCashCount = PettyCashRequest::where('status', 'pending')->count();
 
 

@@ -54,19 +54,22 @@ class PettyCashController extends BaseController
 
     public function submitExpense(Request $request)
     {
+        //dd($request);
+
         $request->validate([
             'amount' => 'required|max:255',
-            'file' => 'required|mimes:jpg,png',
+//            'file' => 'required|mimes:jpg,png',
         ]);
 
         $fileName = time().'.'.$request->file->extension();
-        $request->file->move(public_path('uploads'), $fileName);
+        $path = $request->file->move(public_path('uploads'), $fileName);
 
 
         $pettyCashID = $request->pettyCashID;
         $pettyCash = PettyCashRequest::where('id', $pettyCashID);
         $pettyCash->balance = $request->balance;
-
+        $pettyCash->upload_path = $path;
+        $pettyCash->save();
 
         return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
     }
@@ -159,14 +162,14 @@ class PettyCashController extends BaseController
         //Status 4 - Declined by Super Admin
 
         if ($action == "accept")
-            $status = 1;
+            $status = 'approved';
         else
-            $status = 2;
+            $status = 'disapproved';
 
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
 
-        return redirect()->back()->with('success', 'The Operation compeleted Successfully');
+        return redirect()->back()->with('success', 'The User has been ' . $status);
     }
 }
 

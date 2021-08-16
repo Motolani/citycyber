@@ -41,8 +41,8 @@ class LossDamageController extends BaseController
 
     public function viewPendingIncidence(Request $request)
     {
-        $incidents = AdvanceOpration::where('status', 0)
-            ->orWhere('status', 1)
+        $incidents = AdvanceOpration::where('status', 'pending')
+            ->orWhere('status', 'confirmed')
             ->with('staff')
             ->get();
         return view('admin.loss-damage-list', compact('incidents'));
@@ -64,7 +64,7 @@ class LossDamageController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 1;
+            $incident->status = 'confirmed';
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Approved');
@@ -87,7 +87,7 @@ class LossDamageController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 2;
+            $incident->status = 'cancelled';;
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');
@@ -106,14 +106,14 @@ class LossDamageController extends BaseController
         //Status 4 - Declined by Super Admin
 
         if ($action == "accept")
-            $status = 1;
+            $status = 'approved';
         else
-            $status = 2;
+            $status = 'disapproved';
 
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
 
-        return redirect()->back()->with('success', 'The Operation compeleted Successfully');
+        return redirect()->back()->with('success', 'The User has been ' . $status);
     }
 }
 

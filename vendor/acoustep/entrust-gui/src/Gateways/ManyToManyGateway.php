@@ -50,10 +50,9 @@ abstract class ManyToManyGateway
     {
         $model = $this->repository->create($request->all());
         $model->{$this->getShortRelationName()}()->sync($request->get($this->getRelationName(), []));
-
         $event_class = "Acoustep\EntrustGui\Events\\".ucwords($this->getModelName()).'CreatedEvent';
         $event = new $event_class;
-        //$this->dispatcher->fire($event->setModel($model));
+        $this->dispatcher->fire($event->setModel($model));
         return $model;
     }
 
@@ -82,7 +81,7 @@ abstract class ManyToManyGateway
         $model = $this->repository->update($request->all(), $id);
         $event_class = "Acoustep\EntrustGui\Events\\".ucwords($this->getModelName()).'UpdatedEvent';
         $event = new $event_class;
-        //$this->dispatcher->fire($event->setModel($model));
+        $this->dispatcher->fire($event->setModel($model));
         return $model;
     }
 }

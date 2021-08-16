@@ -54,7 +54,7 @@
                                 </thead>
 
 
-                                <form action="{{route('bulkPendingIncident')}}" method="POST" id="form">
+                                <form action="/petty-cash/bul-action" method="POST" id="form">
                                     {{csrf_field()}}
                                     <input type="hidden" name="action" value="" id="bulkActionField" />
                                     <tbody>

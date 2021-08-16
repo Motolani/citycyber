@@ -55,7 +55,7 @@
                                 </thead>
 
 
-                                <form action="{{route('bulkPendingIncident')}}" method="POST" id="form">
+                                <form action="/loss-damage/bulk-action" method="POST" id="form">
                                     {{csrf_field()}}
                                     <input type="hidden" name="action" value="" id="bulkActionField" />
                                     <tbody>
@@ -70,7 +70,7 @@
                                                 <td>{{$incident->admin->firstname}}</td>
                                                 <td>{{$incident->admin->property_lost}}</td>
                                                 <td>
-                                                    @if($incident->status == 0)
+                                                    @if($incident->status == 'pending')
                                                         <a href="/loss-damage/approve/{{$incident->id}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
                                                         <a href="/loss-damage/deny/{{$incident->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
                                                     @endif

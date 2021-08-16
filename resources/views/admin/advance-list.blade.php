@@ -50,6 +50,7 @@
                                     <th>Amount</th>
                                     <th>Comment</th>
                                     <th>Raised By</th>
+                                    <th>Status</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Action</th>
@@ -57,7 +58,7 @@
                                 </thead>
 
 
-                                <form action="{{route('bulkPendingIncident')}}" method="POST" id="form">
+                                <form action="/advance/bulk-action/" method="POST" id="form">
                                     {{csrf_field()}}
                                     <input type="hidden" name="action" value="" id="bulkActionField" />
                                     <tbody>
@@ -70,10 +71,11 @@
                                                 <td>{{$incident->amount}}</td>
                                                 <td>{{$incident->comment}}</td>
                                                 <td>{{$incident->admin->firstname}}</td>
+                                                <td>{{$incident->status}}</td>
                                                 <td>{{$incident->admin->startDate}}</td>
-                                                <td>{{$incident->admin->endeDate}}</td>
+                                                <td>{{$incident->admin->endDate}}</td>
                                                 <td>
-                                                    @if($incident->status == 0)
+                                                    @if($incident->status == 'pending')
                                                         <a href="/advance/approve/{{$incident->id}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
                                                         <a href="/advance/deny/{{$incident->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
                                                     @endif
@@ -99,7 +101,7 @@
                             </table>
 
                             <button class="btn btn-primary btn-sm" id="bulkAccept"><span class="uil-check"></span>Accept Selected</button>
-                            <button class="btn btn-danger btn-sm" id="bulkDeny"><span class="uil-multiply"></span>Deny Selected</a>
+                            <button class="btn btn-danger btn-sm" id="bulkDeny"><span class="uil-multiply"></span>Deny Selected</button>
 
 
                         </div> <!-- end preview-->

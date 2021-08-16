@@ -299,7 +299,7 @@ Route::prefix('pettycash')->group(function () {
     Route::get('/my-requests', 'PettyCashController@myRequests')->name("myRequests");
     Route::get('/pending', 'PettyCashController@viewPending')->name("viewPendingPettyCash");
     Route::post('/bulk-action', 'Pett@byCashControllerulkAction')->name('bulkActionPettyCash');
-    Route::post('/submit-expense', 'PettyCashController@viewSubmitExpense')->name("submitExpense");
+    Route::post('/submit-expense', 'PettyCashController@submitExpense')->name("submitExpense");
     Route::get('/submit-expense/{id}', 'PettyCashController@viewSubmitExpense')->name("viewSubmitExpense");
 });
 

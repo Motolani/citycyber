@@ -35,7 +35,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('submitExpense')}}">
+                            <form method = "POST" action = "{{route('submitExpense')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12">

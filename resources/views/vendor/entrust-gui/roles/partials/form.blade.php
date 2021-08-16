@@ -12,10 +12,12 @@
     <input type="input" class="form-control" id="description" placeholder="Description" name="description" value="{{ (Session::has('errors')) ? old('description', '') : $model->description }}">
 </div>
 <div class="form-group mt-3">
-    <label for="permissions">Permissions</label>
-    <select name="permissions[]" multiple class="form-control">
+    <label for="permissions" class="mb-1">Permissions</label>
+    <br />
+{{--    <select name="permissions[]" multiple class="form-control">--}}
       @foreach($relations as $index => $relation)
-        <option value="{{ $index }}" {{ ((in_array($index, old('permissions', []))) || ( ! Session::has('errors') && $model->perms->contains('id', $index))) ? 'selected' : '' }}>{{ $relation }}</option>
+{{--        <option value="{{ $index }}" {{ ((in_array($index, old('permissions', []))) || ( ! Session::has('errors') && $model->perms->contains('id', $index))) ? 'selected' : '' }}>{{ $relation }}</option>--}}
+            <input type="checkbox" class="checkable" name="permissions[]" value="{{$index}}" {{ ((in_array($index, old('permissions', []))) || ( ! Session::has('errors') && $model->perms->contains('id', $index))) ? 'checked' : '' }}/> {{$relation}} <br/>
       @endforeach
-    </select>
+{{--    </select>--}}
 </div>
