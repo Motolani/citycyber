@@ -35,19 +35,7 @@
                     <span> Dashboards </span>
                 </a>
                 <div class="collapse" id="sidebarDashboards">
-                    <ul class="side-nav-second-level">{{--
-                                    <li>
-                                        <a href="dashboard-analytics.html">Analytics</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-crm.html">CRM</a>
-                                    </li>
-                                    <li>
-                                        <a href="index.html">Ecommerce</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-projects.html">Projects</a>
-                                    </li>--}}
+                    <ul class="side-nav-second-level">
                     </ul>
                 </div>
             </li>
@@ -66,11 +54,33 @@
                         <li>
                             <a href="{{url('viewOffices')}}">View Office</a>
                         </li>
-
                     </ul>
                 </div>
             </li>
 
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarSixteenthssLevel" aria-expanded="false" aria-controls="sidebarSixteenthssLevel" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Petty Cash </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarSixteenthssLevel">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/pettycash/create">Request Petty Cash</a>
+                        </li>
+                        <li>
+                            <a href="/pettycash/my-requests">My Petty Cash Requests</a>
+                        </li>
+                        <li>
+                            {{-- Only Admins and Super Admins should see this--}}
+                            <a href="{{route('viewPendingPettyCash')}}">Pending Petty Cash
+                                <span class="badge bg-warning float-end">{{$pendingPettyCashCount ?? 0}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
@@ -120,7 +130,6 @@
                 <div class="collapse" id="sidebarRequest">
                     <ul class="side-nav-second-level">
                         <li>
-
                             <a href="{{route('viewPendingIncident')}}">Pending Incidence
                                 <span class="badge bg-warning float-end">{{isset($pendingIncidentCount)?$pendingIncidentCount:""}}</span>
                             </a>
@@ -441,7 +450,7 @@
                         <li>
                             <a href="{{url('viewTransafer')}}">Stock Transfers</a>
                         </li>
-                        
+
                     </ul>
                 </div>
             </li>
@@ -464,11 +473,38 @@
                     </ul>
                 </div>
             </li> -->
-            
-            
-            
 
-            
+
+
+
+                        <li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel">
+        <span> Roles/Permissons </span>
+        <span class="menu-arrow"></span>
+    </a>
+
+    <div class="collapse" id="navRoles">
+        <ul class="side-nav-third-level">
+            <li>
+                <a href="{{route('entrust-gui::roles.index')}}">View Roles</a>
+            </li>
+
+            <li>
+                <a href="{{route('entrust-gui::roles.create')}}">Create Roles</a>
+            </li>
+
+            <li>
+                <a href="{{route('entrust-gui::permissions.index')}}">View Permissions</a>
+            </li>
+
+            <li>
+                <a href="{{route('entrust-gui::permissions.create')}}">Create Permissions</a>
+            </li>
+
+        </ul>
+    </div>
+</li>
+
 
 
 
@@ -493,10 +529,10 @@
                 </div>
             </li>
 
-            
 
 
-            
+
+
 
 
             <div class="clearfix"></div>

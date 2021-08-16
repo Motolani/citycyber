@@ -126,7 +126,8 @@ class BonusController extends BaseController
     public function viewPendingIncidence(Request $request)
     {
         //dd($request);
-        $incidents = BonusOpration::where('status', 0)
+        $incidents = BonusOpration::where('status', 'pending')
+            ->orWhere('status', 'confirmed')
             ->with('staff')
             ->get();
         return view('admin.bonus-list', compact('incidents'));
@@ -148,7 +149,7 @@ class BonusController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 3;
+            $incident->status = 'confirmed';
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Approved');
@@ -171,7 +172,7 @@ class BonusController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 4;
+            $incident->status = 'cancelled';;
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');
@@ -190,14 +191,14 @@ class BonusController extends BaseController
         //Status 4 - Declined by Super Admin
 
         if ($action == "accept")
-            $status = 3;
+            $status = 'approved';
         else
-            $status = 4;
+            $status = 'disapproved';
 
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = BonusOpration::whereIn('id', $items)->update(['status' => $status]);
 
-        return redirect()->back()->with('success', 'The Operation compeleted Successfully');
+        return redirect()->back()->with('success', 'The User has been ' . $status);
     }
 }
 

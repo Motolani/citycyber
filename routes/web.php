@@ -12,6 +12,11 @@
 |
 */
 
+use App\Http\Controllers\RoleController;
+use App\User;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -243,6 +248,7 @@ Route::prefix('incident')->group(function () {
 });
 //end view Incidence
 
+//Pending Advance Routes
 Route::prefix('advance')->group(function () {
     Route::get('/pending', 'AdvanceController@viewPendingIncidence')->name('viewPendingAdvance');
     Route::get('/approve/{id}', 'AdvanceController@approve')->name('approvePendingAdvance');
@@ -250,7 +256,7 @@ Route::prefix('advance')->group(function () {
     Route::post('/bulk-action', 'AdvanceController@bulkAction')->name('bulkPendingAdvance');
 });
 
-
+//Pending Bonus Routes
 Route::prefix('bonus')->group(function () {
     Route::get('/pending', 'BonusController@viewPendingIncidence');
     Route::get('/approve/{id}', 'BonusController@approve');
@@ -259,6 +265,7 @@ Route::prefix('bonus')->group(function () {
 });
 
 
+//Pending Allowance Routes
 Route::prefix('allowance')->group(function () {
     Route::get('/pending', 'AllowanceController@viewPendingIncidence');
     Route::get('/approve/{id}', 'AllowanceController@approve');
@@ -267,6 +274,7 @@ Route::prefix('allowance')->group(function () {
 });
 
 
+//Pending Deduction Routes
 Route::prefix('deduction')->group(function () {
     Route::get('/pending', 'DeductionController@viewPendingIncidence');
     Route::get('/approve/{id}', 'DeductionController@approve');
@@ -274,6 +282,7 @@ Route::prefix('deduction')->group(function () {
     Route::post('/bulk-action', 'DeductionController@bulkAction');
 });
 
+//Pending Loan Routes
 Route::prefix('loan')->group(function () {
     Route::get('/pending', 'LoanController@viewPendingIncidence');
     Route::get('/approve/{id}', 'LoanController@approve');
@@ -281,6 +290,7 @@ Route::prefix('loan')->group(function () {
     Route::post('/bulk-action', 'LoanController@bulkAction');
 });
 
+//Pending Suspension Routes
 Route::prefix('suspension')->group(function () {
     Route::get('/pending', 'SuspensionController@viewPendingIncidence');
     Route::get('/approve/{id}', 'SuspensionController@approve');
@@ -288,6 +298,8 @@ Route::prefix('suspension')->group(function () {
     Route::post('/bulk-action', 'SuspensionController@bulkAction');
 });
 
+
+//Pending Loss/Damage Routes
 Route::prefix('loss-damage')->group(function () {
     Route::get('/pending', 'LossDamageController@viewPendingIncidence');
     Route::get('/approve/{id}', 'LossDamageController@approve');
@@ -297,6 +309,23 @@ Route::prefix('loss-damage')->group(function () {
 
 Route::get('/viewCreateBonus', 'BonusController@viewCreateBonus');
 Route::post('/viewCreateBonus', 'BonusController@viewCreateBonus');
+
+//Petty Cash Routes
+Route::prefix('pettycash')->group(function () {
+    Route::get('/deny/{id}', 'PettyCashController@deny');
+    Route::get('/create', 'PettyCashController@viewCreate');
+    Route::get('/approve/{id}', 'PettyCashController@approve');
+    Route::post('/create', 'PettyCashController@create')->name("createPettyCash");
+    Route::get('/my-requests', 'PettyCashController@myRequests')->name("myRequests");
+    Route::get('/pending', 'PettyCashController@viewPending')->name("viewPendingPettyCash");
+    Route::post('/bulk-action', 'Pett@byCashControllerulkAction')->name('bulkActionPettyCash');
+    Route::post('/submit-expense', 'PettyCashController@submitExpense')->name("submitExpense");
+    Route::get('/submit-expense/{id}', 'PettyCashController@viewSubmitExpense')->name("viewSubmitExpense");
+});
+
+
+Route::get('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
+Route::post('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
 
 
 
@@ -343,3 +372,9 @@ Route::get('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave');
 
 //officeInfo
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//Roles and Permissions
+Route::group(['middleware' => ['auth']], function() {
+//    Route::resource('roles', RoleController::class);
+});
