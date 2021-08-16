@@ -27,18 +27,32 @@ Auth::routes();
 Route::get('/attendance', function () {
     return view('auth.attendance');
 });
-
+//attendance routes
 Route::post('/attendance', 'ViewControllers\Attendance@attendance')->name('attendance');
-
-
 Route::get('/viewAttendance', 'ViewControllers\MainOperation@manageAttendance')->name('viewAttendance');
 
 
 Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
+Route::get('/createStock', function () {
+    return view('admin.staff.inventory.inventory');
+});
+
+
+//stockModule Route Start
+Route::get('/createStockView', 'Inventories@CreateinventoryView')->name('createStockView');
+Route::get('/createStock', 'Inventories@createStock')->name('createStock');
+Route::get('/viewStock', 'Inventories@viewStock')->name('viewStock');
+Route::get('/assignProductToOffice', 'Inventories@assignProductToOfficeView')->name('assignProductToOffice');
+Route::get('/assignProduct/ToOffice', 'Inventories@assignProductToOffice')->name('assignProduct.ToOffice');
+Route::get('/viewTransafer', 'Inventories@viewTransafer')->name('viewTransafer.ToOffice');
+Route::post('/approveDisapproveStock', 'Inventories@approveDisapproveStock')->name('approveDisapproveStock');
+//viewTransafer
+//stockModule Route End
+
+//assignProduct
 
 
 Route::get('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
-
 
 /*Route::get('/viewOffices', function () {
     return view('admin.viewOffices');
@@ -50,6 +64,10 @@ Route::get('/viewOffices', 'ViewControllers\MainViewController@getAllOffice')->n
 
 Route::post('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
 Route::get('/getLevel', 'ViewControllers\MainViewController@getLevel')->name('getLevel');
+
+
+
+
 /*Route::get('officeInfo', function () {
     return view('admin.offices.officeInfo');
 });
@@ -218,8 +236,8 @@ Route::post('updatelateness/{id}', 'LatenessController@update');
 
 
 //view Incidence 
-Route::get('/viewCreateIncidence', 'ViewControllers\MainViewController@viewCreateIncidence');
-Route::post('/viewCreateIncidence', 'ViewControllers\MainViewController@viewCreateIncidence');
+Route::get('/viewCreateIncidence', 'IncidenceController@viewCreateIncidence');
+Route::post('/viewCreateIncidence', 'IncidenceController@viewCreateIncidence');
 
 
 Route::prefix('incident')->group(function () {
@@ -289,6 +307,8 @@ Route::prefix('loss-damage')->group(function () {
     Route::post('/bulk-action', 'LossDamageController@bulkAction');
 });
 
+Route::get('/viewCreateBonus', 'BonusController@viewCreateBonus');
+Route::post('/viewCreateBonus', 'BonusController@viewCreateBonus');
 
 //Petty Cash Routes
 Route::prefix('pettycash')->group(function () {
@@ -309,8 +329,8 @@ Route::post('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBo
 
 
 
-Route::get('/viewCreateSuspension', 'ViewControllers\MainViewController@viewCreateSuspension');
-Route::post('/viewCreateSuspension', 'ViewControllers\MainViewController@viewCreateSuspension');
+Route::get('/viewCreateSuspension', 'SuspensionController@viewCreateSuspension');
+Route::post('/viewCreateSuspension', 'SuspensionController@viewCreateSuspension');
 
 
 Route::get('/viewCreateAdvance', 'ViewControllers\MainOperation@viewCreateAdvance');

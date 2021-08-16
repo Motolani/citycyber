@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\Core\CreateStaffClass;
 use App\Http\Controllers\Core\StaffController;
-class Attendance extends Controller
+use App\Http\Controllers\BaseController;
+
+class Attendance extends BaseController
 {
 
     public function attendance(Request $request){

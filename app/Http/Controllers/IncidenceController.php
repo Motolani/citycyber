@@ -31,6 +31,39 @@ class IncidenceController extends BaseController
         return view('admin.home');
     }
 
+    public function viewCreateIncidence(Request $request){
+        $offences = \App\Offence::all();//dd($offences);
+        $user_id = $request->user_id;//dd($request);
+    
+        $users = \App\User::where('id',$user_id)->first(); 
+        $offenceRaised = \App\IncidenceOpration::join('offices','offices.id','incidenceoprations.branch_id')
+                //->join('departments','departments.id','')
+                ->join('offences','offences.id','incidenceoprations.offence_id')
+                ->join('users','users.id','incidenceoprations.staff_id')
+                ->where('incidenceoprations.staff_id',$user_id)
+                ->select('users.*','offices.name as officename','offences.name as offencename','offences.amount','incidenceoprations.comment','incidenceoprations.created_at as date','incidenceoprations.status as offenceStatus')
+                ->get();//dd($offenceRaised);
+        if(isset($request->submit) && $request->submit == 'createOffence'){
+            $message = "created";
+            $user_id = $request->user_id;
+            //dd($request);
+            $offences = new \App\IncidenceOpration([
+                "branch_id"=>$users->branchId,
+                "offence_id"=>$request->offence_id,
+                "staff_id"=>$user_id,
+                "comment"=>$request->comment,
+                "issuer_id"=>Auth::user()->id,
+    
+            ]);
+            $offences->save();
+            return redirect()->back()->with("message",'Offence Created Successfully');
+    
+            //return view('admin.staff.operations.viewIncidence',compact(['offences','message','user_id']));
+    
+        }
+         return view('admin.staff.operations.viewIncidence',compact(['offences','offenceRaised','user_id']));	
+    
+       }
 
     public function homeTest(Request $request)
     {

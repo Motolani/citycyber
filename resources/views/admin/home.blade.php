@@ -5,7 +5,7 @@
 @section('content')
 
 
-
+    <br/>
 	<div class="row">
         <div class="col-12">
             <div class="card widget-inline">
@@ -16,7 +16,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-briefcase text-muted" style="font-size: 24px;"></i>
                                     <h3><span>29</span></h3>
-                                    <p class="text-muted font-15 mb-0">Total Projects</p>
+                                    <p class="text-muted font-15 mb-0">Total Office</p>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-checklist text-muted" style="font-size: 24px;"></i>
                                     <h3><span>715</span></h3>
-                                    <p class="text-muted font-15 mb-0">Total Tasks</p>
+                                    <p class="text-muted font-15 mb-0">Transactions today</p>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-user-group text-muted" style="font-size: 24px;"></i>
                                     <h3><span>31</span></h3>
-                                    <p class="text-muted font-15 mb-0">Members</p>
+                                    <p class="text-muted font-15 mb-0">Total Members</p>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                                 <a href="javascript:void(0);" class="dropdown-item">Settings</a>
                             </div>
                         </div>
-                        <h4 class="header-title mb-4">Tasks Overview</h4>
+                        <h4 class="header-title mb-4">Offices Overview</h4>
 
                         <div dir="ltr">
                             <div class="mt-3 chartjs-chart" style="height: 320px;">
@@ -108,7 +108,7 @@
                                 <a href="javascript:void(0);" class="dropdown-item">Settings</a>
                             </div>
                         </div>
-                        <h4 class="header-title mb-3">Tasks</h4>
+                        <h4 class="header-title mb-3">This Month Birthdays</h4>
 
                         <p><b>107</b> Tasks completed out of 195</p>
 

@@ -248,6 +248,7 @@
                 data: {level: level_id},
 
                 success: function (data) {
+                    console.log("dataGOtenn",data)
                     //$('#addons option:not(:first)').remove();
                     return loadParent(data);
 
@@ -262,10 +263,10 @@
 
         }
         function loadParent(data) {
-            console.log('thisadata',data);
+            console.log('thisadata',data.status);
             let status = data.data.original.status;
             
-            console.log("statusBelowCheck",data.data);
+            console.log("statusBelowCheck",data);
             if(status == "200"){
 
                 let aa =$('#h_div');

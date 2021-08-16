@@ -228,7 +228,8 @@ class CreateStaffClass extends Controller{
      function workExperience($request){      
         $len = sizeof($request->position);
 
-        for($i = 0; $i<$len;$i++){Log::info("insideLoop ".$i);
+        for($i = 0; $i<$len;$i++){
+            Log::info("insideLoop ".$i);
             try{ $workExperience = new WorkExperience([
                     "userId"=>$request->staffId,
                     "nameOfEstablish"=>$request->nameOfEstablish[$i],
