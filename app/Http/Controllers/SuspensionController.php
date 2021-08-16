@@ -33,6 +33,51 @@ class SuspensionController extends BaseController
     }
 
 
+    
+
+
+    public function viewCreateSuspension(Request $request){
+        //$bonuses = \App\Suspension::all();//dd($offences);
+        $user_id = $request->user_id;//dd($request);
+	    $users = \App\User::where('id',$user_id)->first();
+        //dd($request);	
+	    $suspensions = \App\SuspensionOpration::join('offices','offices.id','suspensionoprations.branch_id')
+			->join('users','users.id','suspensionoprations.staff_id')	
+			->where('suspensionoprations.staff_id',$user_id)
+			->select('users.*','offices.name as officename','suspensionoprations.comment','suspensionoprations.startDate','suspensionoprations.endDate','suspensionoprations.status')
+			->get();
+			//dd($suspensions);
+        if(isset($request->submit) && $request->submit == 'createSuspension'){
+                $message = "created";
+                $user_id = $request->user_id;
+		//dd($request);
+            $suspension = new \App\SuspensionOpration([
+                "branch_id"=>$users->branchId,
+                "startDate"=>$request->startDate,
+                "endDate"=>$request->endDate,
+                "staff_id"=>$user_id,
+                "comment"=>$request->comment,
+                "issuer_id"=>Auth::user()->id,
+
+            ]);
+		$suspension->save();
+                //dd($request);
+		$suspensions = \App\SuspensionOpration::join('offices','offices.id','suspensionoprations.branch_id')
+            //->join('departments','departments.id','')
+            ->join('users','users.id','suspensionoprations.staff_id')
+            ->where('suspensionoprations.staff_id',$user_id)
+            ->select('users.*','offices.name as officename','suspensionoprations.comment','suspensionoprations.startDate','suspensionoprations.endDate','suspensionoprations.status')
+            ->get();
+			//dd($suspensions);
+			return redirect()->back()->with("message",'Suspension Created Successfully');
+                //return view('admin.staff.operations.viewSuspension',compact(['message','suspensions','user_id']));
+
+        } 
+        return view('admin.staff.operations.viewSuspension',compact(['user_id','suspensions']));
+          
+   }  
+
+
     public function homeTest(Request $request)
     {
         dd($request);

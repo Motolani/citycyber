@@ -25,9 +25,10 @@
                         <div class="card">
 
                             <!-- Logo -->
-                            <div class="card-header pt-4 pb-4 text-center bg-primary">
+                            <div class="card-header pt-4 pb-4 text-center" >
                                 <a href="index.html">
-                                    <span><h2 style = "color:white">CityCyber</h1></span>
+                                    <span><img src="assets/images/login.png" alt="" height="150"></span>
+                                    <!-- <span><h2 style = "color:white">CityCyber</h1></span> -->
                                 </a>
                             </div>
 

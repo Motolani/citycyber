@@ -86,7 +86,7 @@
                                                 <input type="hidden" name="staff_number" value="{{$user->staff_number}}">
                                                     <input type="hidden" name="id" value="{{$user->id}}">
                                                     @if($user->status == 1)
-                                                    <button class="btn btn-danger btn-sm" name = "submit" value = "cancel"><span class="uil-cancel"></span></button>
+                                                    <button class="btn btn-danger btn-sm" name = "submit" value = "cancel"><span class="uil-multiply"></span></button>
                                                     @else
                                                     <button class="btn btn-success btn-sm" name = "submit" value = "approve"><span class="uil-check"></span></button>
                                                     @endif

@@ -17,6 +17,7 @@ use App\Classes;
 use App\Status;
 use App\ResumptionType;
 use App\Level;
+use App\Http\Controllers\BaseController;
 //use Auth;
 use Illuminate\Support\Facades\Auth;
 class MainOperation extends Controller
@@ -65,8 +66,6 @@ class MainOperation extends Controller
                     return redirect()->back()->with('message','Approved Successfully');
                 }
             }
-            
-            
             else{
                 if($superAdmin){
                     $attendance = \App\Attendance::all();
@@ -81,14 +80,14 @@ class MainOperation extends Controller
     }
 
 
-   public function viewLeaveRequest(Request $request){
+    public function viewLeaveRequest(Request $request){
        
       $leaveData = \App\LeaveRequest::join('offcategories','offcategories.id','leaverequests.leavecategory_id')
-				   ->join('offtypes','offtypes.id', 'leaverequests.leavetype_id')
-				   ->join('users','users.id','leaverequests.staff_id')
-				   ->select('leaverequests.*','leaverequests.dates as day','users.firstname','offcategories.category','offtypes.type')
+            ->join('offtypes','offtypes.id', 'leaverequests.leavetype_id')
+            ->join('users','users.id','leaverequests.staff_id')
+            ->select('leaverequests.*','leaverequests.dates as day','users.firstname','offcategories.category','offtypes.type')
 
-				  ->where('leaverequests.staff_id',Auth::user()->id)->get();
+            ->where('leaverequests.staff_id',Auth::user()->id)->get();
         return view('admin.staff.operations.leaveRequest',compact('leaveData'));
     }
 
@@ -159,30 +158,29 @@ class MainOperation extends Controller
    public function viewCreateBonus(Request $request){
         $bonuses = \App\Bonus::all();//dd($offences);
         $user_id = $request->user_id;//dd($request);
- 	$users = \App\User::where('id',$user_id)->first();	
-	$bonusOperation = \App\BonusOpration::join('offices','offices.id','bonusoprations.branch_id')
-                        //->join('departments','departments.id','')
+        $users = \App\User::where('id',$user_id)->first();	
+        $bonusOperation = \App\BonusOpration::join('offices','offices.id','bonusoprations.branch_id')
 			->join('bonus','bonus.id','bonusoprations.bonus_id')
-                        ->join('users','users.id','bonusoprations.staff_id')
-                        ->where('bonusoprations.staff_id',$user_id)
-                        ->select('users.*','offices.name as officename','bonus.bonus','bonus.amount','bonusoprations.comment','bonusoprations.created_at as date','bonusoprations.status as bonusStatus')
-                        ->get();
+            ->join('users','users.id','bonusoprations.staff_id')
+            ->where('bonusoprations.staff_id',$user_id)
+            ->select('users.*','offices.name as officename','bonus.bonus','bonus.amount','bonusoprations.comment','bonusoprations.created_at as date','bonusoprations.status as bonusStatus')
+            ->get();
 	//dd($bonusOperation);
         if(isset($request->submit) && $request->submit == 'createBonus'){
                 $message = "created";
                 $user_id = $request->user_id;
                 //dd($request);
 
-		$bonuses = new \App\BonusOpration([
-                        "branch_id"=>$users->branchId,
-                        "bonus_id"=>$request->bonus_id,
-                        "staff_id"=>$user_id,
-                        "comment"=>$request->comment,
-                        "issuer_id"=>Auth::user()->id,
+		        $bonuses = new \App\BonusOpration([
+                    "branch_id"=>$users->branchId,
+                    "bonus_id"=>$request->bonus_id,
+                    "staff_id"=>$user_id,
+                    "comment"=>$request->comment,
+                    "issuer_id"=>Auth::user()->id,
 
                 ]);
                 $bonuses->save();
-		return redirect()->back()->with("message",'Bonus Created Successfully');
+		    return redirect()->back()->with("message",'Bonus Created Successfully');
                 //return view('admin.staff.operations.viewBonus',compact(['bonuses','message','user_id']));
 
         }

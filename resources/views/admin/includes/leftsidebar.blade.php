@@ -402,27 +402,103 @@
                             </div>
                         </li>
 
+                    </ul>
+                </div>
+            </li>
 
 
 
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarFiftheenthLevel" aria-expanded="false" aria-controls="sidebarFiftheenthLevel">
-                                <span> Attendance </span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarFiftheenthLevel">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="{{url('viewAttendance')}}">View Attendance</a>
-                                    </li>
+            <!-- <li class="side-nav-item">
+                <a href="apps-file-manager.html" class="side-nav-link">
+                    <i class="uil-folder-plus"></i>
+                    <span> File Manager </span>
+                </a>
+            </li> -->
 
-                                </ul>
-                            </div>
+            <li class="side-nav-title side-nav-item">Inventories</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages" aria-expanded="false" aria-controls="sidebarPages" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Inventories </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createStockView')}}">Create Stock</a>
                         </li>
+
+
+                        <li>
+                            <a href="{{url('viewStock')}}">View Stock</a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('assignProductToOffice')}}">Assign Stock to Office</a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('viewTransafer')}}">Stock Transfers</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <!-- <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarSixthteethLevel" aria-expanded="false" aria-controls="sidebarSixthteethLevel">
+                    <span> Inventories</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarSixthteethLevel">
+                    <ul class="side-nav-third-level">
+                        <li>
+                            <a href="{{url('alldeduction')}}">Manage Deduction</a>
+                        </li>
+                        {{-- <li>
+                             <a href="{{url('viewUnit')}}">View Unit</a>
+                         </li>--}}
+                    </ul>
+                </div>
+            </li> -->
+            
+            
+            
+
+            
+
+
+
+            <li class="side-nav-title side-nav-item mt-1">Attendance</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
+                    <i class="uil-box"></i>
+                    <span> Attendance </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarBaseUI">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('viewAttendance')}}">View Attendance</a>
+                        </li>
+{{--                        <li>--}}
+{{--                            <a href="ui-alerts.html">Alerts</a>--}}
+{{--                        </li>--}}
 
                     </ul>
                 </div>
             </li>
+
+            
+
+
+            
+
+
             <div class="clearfix"></div>
         </ul>
 

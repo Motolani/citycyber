@@ -48,117 +48,14 @@ class MainViewController extends Controller
     }
 
 
-   public function viewCreateIncidence(Request $request){
-	$offences = \App\Offence::all();//dd($offences);
-	$user_id = $request->user_id;//dd($request);
-
-	$users = \App\User::where('id',$user_id)->first(); 
-	$offenceRaised = \App\IncidenceOpration::join('offices','offices.id','incidenceoprations.branch_id')
-                        //->join('departments','departments.id','')
-			->join('offences','offences.id','incidenceoprations.offence_id')
-                        ->join('users','users.id','incidenceoprations.staff_id')
-                        ->where('incidenceoprations.staff_id',$user_id)
-                        ->select('users.*','offices.name as officename','offences.name as offencename','offences.amount','incidenceoprations.comment','incidenceoprations.created_at as date','incidenceoprations.status as offenceStatus')
-                        ->get();//dd($offenceRaised);
-	if(isset($request->submit) && $request->submit == 'createOffence'){
-		$message = "created";
-		$user_id = $request->user_id;
-		//dd($request);
-		$offences = new \App\IncidenceOpration([
-                        "branch_id"=>$users->branchId,
-                        "offence_id"=>$request->offence_id,
-                        "staff_id"=>$user_id,
-                        "comment"=>$request->comment,
-                        "issuer_id"=>Auth::user()->id,
-
-                ]);
-                $offences->save();
-		return redirect()->back()->with("message",'Offence Created Successfully');
-
-		//return view('admin.staff.operations.viewIncidence',compact(['offences','message','user_id']));
-
-	}
- 	return view('admin.staff.operations.viewIncidence',compact(['offences','offenceRaised','user_id']));	
-
-   }
+   
 
 
-   public function viewCreateBonus(Request $request){
-        $bonuses = \App\Bonus::all();//dd($offences);
-        $user_id = $request->user_id;//dd($request);
-        $users = \App\User::where('id',$user_id)->first();	
-        $bonusOperation = \App\BonusOpration::join('offices','offices.id','bonusoprations.branch_id')
-                        //->join('departments','departments.id','')
-			->join('bonus','bonus.id','bonusoprations.bonus_id')
-                        ->join('users','users.id','bonusoprations.staff_id')
-                        ->where('bonusoprations.staff_id',$user_id)
-                        ->select('users.*','offices.name as officename','bonus.bonus','bonus.amount','bonusoprations.comment','bonusoprations.created_at as date','bonusoprations.status as bonusStatus')
-                        ->get();
-	    //dd($bonusOperation);
-        if(isset($request->submit) && $request->submit == 'createBonus'){
-                $message = "created";
-                $user_id = $request->user_id;
-                //dd($request);
-
-		$bonuses = new \App\BonusOpration([
-                        "branch_id"=>$users->branchId,
-                        "bonus_id"=>$request->bonus_id,
-                        "staff_id"=>$user_id,
-                        "comment"=>$request->comment,
-                        "issuer_id"=>Auth::user()->id,
-
-                ]);
-                $bonuses->save();
-		return redirect()->back()->with("message",'Bonus Created Successfully');
-                //return view('admin.staff.operations.viewBonus',compact(['bonuses','message','user_id']));
-
-        }
-        return view('admin.staff.operations.viewBonus',compact(['bonuses','bonusOperation','user_id']));
-
-   }
+   
 
 
 
-   public function viewCreateSuspension(Request $request){
-        //$bonuses = \App\Suspension::all();//dd($offences);
-        $user_id = $request->user_id;//dd($request);
-	$users = \App\User::where('id',$user_id)->first();
-//dd($request);	
-	$suspensions = \App\SuspensionOpration::join('offices','offices.id','suspensionoprations.branch_id')
-			->join('users','users.id','suspensionoprations.staff_id')	
-			->where('suspensionoprations.staff_id',$user_id)
-			->select('users.*','offices.name as officename','suspensionoprations.comment','suspensionoprations.startDate','suspensionoprations.endDate','suspensionoprations.status')
-			->get();
-			//dd($suspensions);
-        if(isset($request->submit) && $request->submit == 'createSuspension'){
-                $message = "created";
-                $user_id = $request->user_id;
-		//dd($request);
-		$suspension = new \App\SuspensionOpration([
-			"branch_id"=>$users->branchId,
-			"startDate"=>$request->startDate,
-			"endDate"=>$request->endDate,
-			"staff_id"=>$user_id,
-			"comment"=>$request->comment,
-			"issuer_id"=>Auth::user()->id,
-
-		]);
-		$suspension->save();
-                //dd($request);
-		$suspensions = \App\SuspensionOpration::join('offices','offices.id','suspensionoprations.branch_id')
-                        //->join('departments','departments.id','')
-                        ->join('users','users.id','suspensionoprations.staff_id')
-                        ->where('suspensionoprations.staff_id',$user_id)
-                        ->select('users.*','offices.name as officename','suspensionoprations.comment','suspensionoprations.startDate','suspensionoprations.endDate','suspensionoprations.status')
-                        ->get();
-			//dd($suspensions);
-			return redirect()->back()->with("message",'Suspension Created Successfully');
-                //return view('admin.staff.operations.viewSuspension',compact(['message','suspensions','user_id']));
-
-        } 
-        return view('admin.staff.operations.viewSuspension',compact(['user_id','suspensions']));
-          
-   }  
+   
 	
 
     public function officeInfo(Request $request){ 
@@ -995,12 +892,12 @@ class MainViewController extends Controller
             $staffRole = \App\Offence::where("id",$request->id)->update(["name"=>$request->name]);
             
             if($staffRole){
-		$offence = \App\Offence::all();
+		        $offence = \App\Offence::all();
                 $message = "Staff Offence Updated Successfully";
                 return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
             }else{
                 $message = "Staff Offence Could not be Updated Successfully";
-		$offence = \App\Offence::all();
+		        $offence = \App\Offence::all();
                 return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
             }
         }else if($request->submit == "delete"){
