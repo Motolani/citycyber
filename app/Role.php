@@ -1,10 +1,23 @@
-<?php
+<?php namespace App;
 
-namespace App;
+use Esensi\Model\Contracts\ValidatingModelInterface;
+use Esensi\Model\Traits\ValidatingModelTrait;
+use Zizaco\Entrust\EntrustRole;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Role extends Model
+class Role extends EntrustRole implements ValidatingModelInterface
 {
-    //
+  use ValidatingModelTrait;
+
+  protected $throwValidationExceptions = true;
+
+  protected $fillable = [
+    'name',
+    'display_name',
+    'description',
+  ];
+
+  protected $rules = [
+    'name'      => 'required|unique:roles',
+    'display_name'      => 'required|unique:roles',
+  ];
 }
