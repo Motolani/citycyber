@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\CashierWallet;
 use App\IncidenceOpration;
 use App\Office;
 use App\OfficeLevel;
 use App\ShopWallet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
+use Illuminate\Support\Facades\Auth;
 
 class ShopWalletController extends BaseController
 {
@@ -67,14 +69,23 @@ class ShopWalletController extends BaseController
             return redirect()->back();
     }
 
+    public function viewCashiers(Request $request)
+    {
+        $cashiers = Auth::user()->office->cashiers;
+        return view('admin.shop-wallet.cashiers', compact('cashiers'));
+    }
+
     public function index()
     {
         return view('admin.home');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        return view('admin.wallet.dashboard');
+        $officeID = Auth::user()->office->id;
+        $shop = ShopWallet::where('office_id', $officeID)->first();
+        $cashier_count = CashierWallet::where("office_id", $officeID)->count();
+        return view('admin.shop-wallet.dashboard', compact('shop', 'cashier_count'));
     }
 
 }

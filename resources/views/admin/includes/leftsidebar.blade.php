@@ -416,14 +416,6 @@
             </li>
 
 
-
-            <!-- <li class="side-nav-item">
-                <a href="apps-file-manager.html" class="side-nav-link">
-                    <i class="uil-folder-plus"></i>
-                    <span> File Manager </span>
-                </a>
-            </li> -->
-
             <li class="side-nav-title side-nav-item">Inventories</li>
 
             <li class="side-nav-item">
@@ -457,7 +449,7 @@
 
 
 
-            <!-- <li class="side-nav-item">
+        <!-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarSixthteethLevel" aria-expanded="false" aria-controls="sidebarSixthteethLevel">
                     <span> Inventories</span>
                     <span class="menu-arrow"></span>
@@ -470,41 +462,59 @@
                         {{-- <li>
                              <a href="{{url('viewUnit')}}">View Unit</a>
                          </li>--}}
+                </ul>
+            </div>
+        </li> -->
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Roles/Permissons </span>
+                    <span class="menu-arrow"></span>
+                </a>
+
+                <div class="collapse" id="navRoles">
+                    <ul class="side-nav-third-level">
+                        <li>
+                            <a href="{{route('entrust-gui::roles.index')}}">View Roles</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('entrust-gui::roles.create')}}">Create Roles</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('entrust-gui::permissions.index')}}">View Permissions</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('entrust-gui::permissions.create')}}">Create Permissions</a>
+                        </li>
+
                     </ul>
                 </div>
-            </li> -->
-
-
-
-
-                        <li class="side-nav-item">
-    <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel">
-        <span> Roles/Permissons </span>
-        <span class="menu-arrow"></span>
-    </a>
-
-    <div class="collapse" id="navRoles">
-        <ul class="side-nav-third-level">
-            <li>
-                <a href="{{route('entrust-gui::roles.index')}}">View Roles</a>
             </li>
 
-            <li>
-                <a href="{{route('entrust-gui::roles.create')}}">Create Roles</a>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#shop-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Shop Wallet </span>
+                    <span class="menu-arrow"></span>
+                </a>
+
+                <div class="collapse" id="shop-wallet">
+                    <ul class="side-nav-third-level">
+                        <li>
+                            <a href="{{route('shop-wallet.dashboard')}}">Wallet Dashboard</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('shop-wallet.cashiers')}}">View Cashiers</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
-
-            <li>
-                <a href="{{route('entrust-gui::permissions.index')}}">View Permissions</a>
-            </li>
-
-            <li>
-                <a href="{{route('entrust-gui::permissions.create')}}">Create Permissions</a>
-            </li>
-
-        </ul>
-    </div>
-</li>
-
 
 
 
@@ -521,19 +531,13 @@
                         <li>
                             <a href="{{url('viewAttendance')}}">View Attendance</a>
                         </li>
-{{--                        <li>--}}
-{{--                            <a href="ui-alerts.html">Alerts</a>--}}
-{{--                        </li>--}}
+                        {{--                        <li>--}}
+                        {{--                            <a href="ui-alerts.html">Alerts</a>--}}
+                        {{--                        </li>--}}
 
                     </ul>
                 </div>
             </li>
-
-
-
-
-
-
 
             <div class="clearfix"></div>
         </ul>

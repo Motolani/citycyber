@@ -327,8 +327,8 @@ Route::prefix('office')->group(function () {
 });
 
 Route::prefix('shop-wallet')->group(function () {
-    Route::get('/', 'ShopWalletController@dashboard');
-    Route::get('/cashiers', 'ShopWalletController@viewCashiers');
+    Route::get('/', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
+    Route::get('/cashiers', 'ShopWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/cashier/fund', 'ShopWalletController@viewFundCashier');
     Route::post('/cashier/fund', 'ShopWalletController@fundCashier');
 });
