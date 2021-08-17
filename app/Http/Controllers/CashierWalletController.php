@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
 
-class ShopWalletController extends BaseController
+class CashierWalletController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -28,45 +28,26 @@ class ShopWalletController extends BaseController
 
     public function createWallet(Request $request)
     {
-        $officeID = $request->id;
+        $officeID = Auth::user()->office->id;
         $request->validate([
             'wallet_code' => 'required|max:20',
         ]);
 
-        //Check if Office Level is Valid
-        $office = Office::where("id", $officeID)->where("level", ">", 3)->first();
-        if(isset($office)){
-            alert()->error('This Office cannot have a Wallet', 'Error');
-            return redirect()->back();
-        }
-
-
-        //Check if this Office already has a Wallet
-        $shopWallets = ShopWallet::where("office_id", $officeID)->first();
-        if(isset($shopWallets)){
-            alert()->error('This Office already has a Wallet', 'Error');
-            return redirect()->back();
-        }
-
         //Create the Shop Wallet
-        $shop_wallet = new ShopWallet();
-        $shop_wallet->office_id = $officeID;
-        $shop_wallet->wallet_code = $request->wallet_code;
-        $shop_wallet->save();
-        alert()->success('Office has been successfully Created.', 'Created');
+        $wallet = new CashierWallet();
+        $wallet->office_id = $officeID;
+        $wallet->wallet_code = $request->wallet_code;
+        $wallet->save();
+        alert()->success('Cashier has been successfully Created.', 'Created');
         return redirect()->back();
     }
 
 
-    public function viewCreateWallet(Request $request)
+    public function viewAdd(Request $request)
     {
-        $id = $request->id;
-        $office = Office::where('id',$id)->first();
-        if(isset($office))
-            return view('admin.wallet.create', compact('office'));
-
-        else
-            return redirect()->back();
+        $office_id = Auth::user()->office->id;
+        $office = Office::where('id',$office_id)->first();
+        return view('admin.cashier-wallet.create', compact("office"));
     }
 
     public function viewCashiers(Request $request)

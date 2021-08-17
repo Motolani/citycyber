@@ -328,16 +328,22 @@ Route::prefix('office')->group(function () {
 
 Route::prefix('shop-wallet')->group(function () {
     Route::get('/', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
-    Route::get('/cashiers', 'ShopWalletController@viewCashiers')->name('shop-wallet.cashiers');
+    Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/cashier/fund', 'ShopWalletController@viewFundCashier');
     Route::post('/cashier/fund', 'ShopWalletController@fundCashier');
 });
 
 
+//Cashier Wallet Routes
+Route::prefix('cashier-wallet')->group(function () {
+    Route::get('/', 'CashierWalletController@dashboard')->name('cashier-wallet.dashboard');
+    Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier-wallet.viewAdd');
+    Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
+});
+
 
 Route::get('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
 Route::post('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
-
 
 
 Route::get('/viewCreateSuspension', 'SuspensionController@viewCreateSuspension');
