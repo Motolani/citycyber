@@ -7,6 +7,7 @@ use App\IncidenceOpration;
 use App\Office;
 use App\OfficeLevel;
 use App\ShopWallet;
+use App\ShopWalletHistory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,43 @@ class ShopWalletController extends BaseController
         alert()->success('Office has been successfully Created.', 'Created');
         return redirect()->back();
     }
+
+
+
+ public function fundWallet(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|max:20',
+        ]);
+
+        $officeID = Auth::user()->office->id;
+        $amount = $request->amount;
+
+
+        //Get the Shop and add to the balance
+        $shop = ShopWallet::where('id', $officeID)->first();
+        $shop->balance += $amount;
+        $shop->save();
+
+
+        //Log in Wallet History
+        $history = new ShopWalletHistory();
+        $history->shop_wallet_id = $officeID;
+        $history->staff_id = Auth::user()->id;
+        $history->amount = $amount;
+        $history->balance_after = $shop->balance;
+        $history->save();
+        alert()->success('Shop has been successfully Funded.', 'Funded');
+        return redirect()->back();
+    }
+
+
+
+    public function viewFund(Request $request)
+    {
+        return view('admin.shop-wallet.fund');
+    }
+
 
 
     public function viewCreateWallet(Request $request)

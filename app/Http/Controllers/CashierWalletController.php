@@ -50,6 +50,13 @@ class CashierWalletController extends BaseController
         return view('admin.cashier-wallet.create', compact("office"));
     }
 
+
+    public function viewFundCashier(Request $request, $cashierID)
+    {
+        $cashier = CashierWallet::where('id', $cashierID);
+        return view('admin.cashier-wallet.fund', compact("cashier"));
+    }
+
     public function viewCashiers(Request $request)
     {
         $cashiers = Auth::user()->office->cashiers;

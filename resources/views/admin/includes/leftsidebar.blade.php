@@ -506,6 +506,10 @@
                 <div class="collapse" id="shop-wallet">
                     <ul class="side-nav-third-level">
                         <li>
+                            <a href="{{route('shop.viewFund')}}">Fund</a>
+                        </li>
+
+                        <li>
                             <a href="{{route('shop-wallet.dashboard')}}">Wallet Dashboard</a>
                         </li>
 

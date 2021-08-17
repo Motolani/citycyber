@@ -327,18 +327,20 @@ Route::prefix('office')->group(function () {
 });
 
 Route::prefix('shop-wallet')->group(function () {
+    Route::get('/fund', 'ShopWalletController@viewFund')->name('shop.viewFund');
+    Route::post('/fund', 'ShopWalletController@fundWallet')->name('shop.fund');
     Route::get('/', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
-    Route::get('/cashier/fund', 'ShopWalletController@viewFundCashier');
-    Route::post('/cashier/fund', 'ShopWalletController@fundCashier');
 });
 
 
 //Cashier Wallet Routes
-Route::prefix('cashier-wallet')->group(function () {
+Route::prefix('cashier')->group(function () {
     Route::get('/', 'CashierWalletController@dashboard')->name('cashier-wallet.dashboard');
     Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier-wallet.viewAdd');
     Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
+    Route::get('/cashier/fund', 'CashierWalletController@viewFundCashier');
+    Route::post('/cashier/fund', 'CashierWalletController@fundCashier')->name('shop-wallet.cashier.fund');
 });
 
 
