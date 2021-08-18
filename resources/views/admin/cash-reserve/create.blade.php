@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Create Shop Wallet</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Fund Cashier Wallet</h4>
+                <h4 class="page-title">Create Cash Reserve</h4>
             </div>
         </div>
     </div>
@@ -28,20 +28,27 @@
                 @endif
                 <div class="card-body" >
                     <h4 class="header-title" style = "">
-                        Fund a Cashier Wallet
+                        Here you can Create a Cash Reserve
                     </h4>
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('cashier.fund')}}">
+                            <form method = "POST" action="{{route('cash.create')}}">
                                 @csrf
 
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
-                                            <label class="form-label">Amount to Fund</label>
-                                            <input type="text" name= "amount" class="form-control" placeholder="200" required>
-                                            <input type="hidden" name= "cashier_id" class="form-control" value="{{$cashier->id}}" />
+                                            <label class="form-label">Office Name</label>
+                                            <select class="form-control select2" name = "office" data-toggle="select2" data-toggle="select2" id="level">
+                                                @foreach($offices as $office)
+                                                    <option value="{{$office->id}}">{{$office->name}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            <label class="form-label mt-3">Wallet Code</label>
+                                            <input type="text" name= "wallet_code" class="form-control" placeholder="LAG5039" required>
+                                            <input type="hidden" name= "id" class="form-control" value="{{$office->id}}" />
                                         </div>
                                     </div>
 

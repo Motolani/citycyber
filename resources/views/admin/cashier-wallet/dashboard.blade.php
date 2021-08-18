@@ -14,98 +14,83 @@
                         <li class="breadcrumb-item active">Profile</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Shop Wallet</h4>
+                <h4 class="page-title">Cashier Wallet</h4>
                 @if (session('message'))
                     <div class="alert alert-success">
                     {{ session('message') }}
                     </div>
                 @endif
+                <a href="{{route('cashier.viewRequestFunds')}}" class="btn btn-success mb-2">Request Funds</a>
             </div>
         </div>
-    </div>     
-    <!-- end page title -->
-
+    </div>
     <div class="row">
         <div class="col-xl-8">
-
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="card tilebox-one">
-                        <div class="card-body">
-                            <i class="dripicons-user float-end text-muted"></i>
-                            <h6 class="text-muted text-uppercase mt-0">All Cashiers</h6>
-                            <h2 class="m-b-20">{{$cashier_count}}</h2>
-                        </div> <!-- end card-body-->
-                    </div> <!--end card-->
-                </div><!-- end col -->
-
                 <div class="col-sm-4">
                     <div class="card tilebox-one">
                         <div class="card-body">
                             <i class="dripicons-jewel float-end text-muted"></i>
                             <h6 class="text-muted text-uppercase mt-0">Balance</h6>
-                            <h2 class="m-b-20">₦<span>{{$shop->balance}}</span></h2>
-                        </div> <!-- end card-body-->
-                    </div> <!--end card-->
-                </div><!-- end col -->
+                            <h2 class="m-b-20">₦<span>{{$cashierWallet->balance}}</span></h2>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- end col -->
-
     </div>
-    <!-- end row -->
 
 
-    <div class="tab-content">
-        <div class="tab-pane show active" id="modal-position-preview">
-            <!-- Top modal content -->
-            <div id="top-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-top">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="topModalLabel">Edit Office</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form class="ps-3 pe-3" action="{{url('updateOffice')}}" method="post">
-                            @csrf
-                            <div class="modal-body">
-                                
-                
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Name</label>
-                                    <input class="form-control" type="text" id="name" name = "name" value = "{{isset($office)? $office->name:''}}" required="" placeholder="Office Name">
-                                </div>
+{{--    <div class="tab-content">--}}
+{{--        <div class="tab-pane show active" id="modal-position-preview">--}}
+{{--            <!-- Top modal content -->--}}
+{{--            <div id="top-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">--}}
+{{--                <div class="modal-dialog modal-top">--}}
+{{--                    <div class="modal-content">--}}
+{{--                        <div class="modal-header">--}}
+{{--                            <h4 class="modal-title" id="topModalLabel">Edit Office</h4>--}}
+{{--                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+{{--                        </div>--}}
+{{--                        <form class="ps-3 pe-3" action="{{url('updateOffice')}}" method="post">--}}
+{{--                            @csrf--}}
+{{--                            <div class="modal-body">--}}
+{{--                                --}}
+{{--                --}}
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="username" class="form-label">Name</label>--}}
+{{--                                    <input class="form-control" type="text" id="name" name = "name" value = "{{isset($office)? $office->name:''}}" required="" placeholder="Office Name">--}}
+{{--                                </div>--}}
 
-                                <div class="mb-3">
-                                    <label for="emailaddress" class="form-label">Email address</label>
-                                    <input class="form-control" type="email" name = "emailAddress" value = "{{isset($office)? $office->emailAddress:''}}" required="" placeholder="john@deo.com">
-                                </div>
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="emailaddress" class="form-label">Email address</label>--}}
+{{--                                    <input class="form-control" type="email" name = "emailAddress" value = "{{isset($office)? $office->emailAddress:''}}" required="" placeholder="john@deo.com">--}}
+{{--                                </div>--}}
 
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">phone</label>
-                                    <input class="form-control" type="text" name = "phone" value = "{{isset($office)? $office->phone:''}}" required="" id="phone" placeholder="Enter Phone">
-                                </div>
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="phone" class="form-label">phone</label>--}}
+{{--                                    <input class="form-control" type="text" name = "phone" value = "{{isset($office)? $office->phone:''}}" required="" id="phone" placeholder="Enter Phone">--}}
+{{--                                </div>--}}
 
-                                
-                                <div class="mb-3">
-                                    <label for="emailaddress" class="form-label">Address </label>
-                                    <input class="form-control" type="text" name = "address" value = "{{isset($office)? $office->location:''}}" required="" placeholder="Enter Address">
-                                </div>
-                                <input class="form-control" type="hidden" name = "id" value = "{{isset($office)? $office->id:''}}" required="" placeholder="john@deo.com">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+{{--                                --}}
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="emailaddress" class="form-label">Address </label>--}}
+{{--                                    <input class="form-control" type="text" name = "address" value = "{{isset($office)? $office->location:''}}" required="" placeholder="Enter Address">--}}
+{{--                                </div>--}}
+{{--                                <input class="form-control" type="hidden" name = "id" value = "{{isset($office)? $office->id:''}}" required="" placeholder="john@deo.com">--}}
+{{--                            </div>--}}
+{{--                            <div class="modal-footer">--}}
+{{--                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>--}}
+{{--                                <button type="submit" class="btn btn-primary">Save changes</button>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
+{{--                    </div><!-- /.modal-content -->--}}
+{{--                </div><!-- /.modal-dialog -->--}}
+{{--            </div><!-- /.modal -->--}}
 
-            <!-- Right modal content -->
-            
-        </div> <!-- end preview-->
-    </div> <!-- end tab-content-->
+{{--            <!-- Right modal content -->--}}
+{{--            --}}
+{{--        </div> <!-- end preview-->--}}
+{{--    </div> <!-- end tab-content-->--}}
     @endsection
 
 
@@ -198,5 +183,3 @@
  </script>
 
 @endsection
-
-

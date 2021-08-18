@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CashierFundRequest;
 use App\CashierWallet;
 use App\IncidenceOpration;
 use App\Office;
@@ -28,6 +29,7 @@ class CashierWalletController extends BaseController
 
     public function createWallet(Request $request)
     {
+        //TODO:  Assign a Staff to the Cashier Wallet
         $officeID = Auth::user()->office->id;
         $request->validate([
             'wallet_code' => 'required|max:20',
@@ -51,10 +53,64 @@ class CashierWalletController extends BaseController
     }
 
 
+    public function viewRequestFunds(Request $request)
+    {
+        return view('admin.cashier-wallet.request-funds');
+    }
+
+
+    public function requestFunds(Request $request)
+    {
+        return view('admin.cashier-wallet.request-funds');
+    }
+
+
     public function viewFundCashier(Request $request, $cashierID)
     {
-        $cashier = CashierWallet::where('id', $cashierID);
+        $cashier = CashierWallet::where('id', $cashierID)->first();
         return view('admin.cashier-wallet.fund', compact("cashier"));
+    }
+
+    public function fundCashier(Request $request)
+    {
+        //TODO:  Balance must be a positive value
+        $request->validate([
+            'amount' => 'required|max:20',
+        ]);
+        $amount = $request->amount;
+        $cashier_id = $request->cashier_id;
+
+        //Get the ShopWallet and Check if it has sufficient funds
+        $shop = Auth::user()->office->shopWallet;
+
+        if($shop->balance < $amount) {
+            alert()->error('You do not have sufficient Funds.', 'Insufficient Funds');
+            return redirect()->back();
+        }
+
+        //Create a Request and Mark it as Approved
+        $fundRequest = new CashierFundRequest();
+        $fundRequest->staff_office_id = Auth::user()->office->id;
+        $fundRequest->cashier_id = $cashier_id;
+        $fundRequest->am_id = Auth::user()->id;
+        $fundRequest->amount = $amount;
+        $fundRequest->description = "FORCED FUNDING";
+        $fundRequest->status = "APPROVED";
+        $fundRequest->type = "CREDIT";
+        $fundRequest->send_type = "CREATED";
+        $fundRequest->save();
+
+        //Debit the ShopWalet
+        $shop->balance -= $amount;
+        $shop->save();
+
+        //Get the Cashier and credit their balance
+        $cashier = CashierWallet::where('id', $cashier_id)->first();
+        $cashier->balance += $amount;
+        $cashier->save();
+
+        alert()->success('Cashier has been successfully Funded.', 'Funded');
+        return redirect()->back();
     }
 
     public function viewCashiers(Request $request)
@@ -70,10 +126,8 @@ class CashierWalletController extends BaseController
 
     public function dashboard(Request $request)
     {
-        $officeID = Auth::user()->office->id;
-        $shop = ShopWallet::where('office_id', $officeID)->first();
-        $cashier_count = CashierWallet::where("office_id", $officeID)->count();
-        return view('admin.shop-wallet.dashboard', compact('shop', 'cashier_count'));
+        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+        return view('admin.cashier-wallet.dashboard', compact('cashierWallet'));
     }
 
 }

@@ -336,11 +336,27 @@ Route::prefix('shop-wallet')->group(function () {
 
 //Cashier Wallet Routes
 Route::prefix('cashier')->group(function () {
-    Route::get('/', 'CashierWalletController@dashboard')->name('cashier-wallet.dashboard');
-    Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier-wallet.viewAdd');
+    Route::get('/', 'CashierWalletController@dashboard')->name('cashier.dashboard');
+    Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier.viewAdd');
     Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
-    Route::get('/cashier/fund', 'CashierWalletController@viewFundCashier');
-    Route::post('/cashier/fund', 'CashierWalletController@fundCashier')->name('shop-wallet.cashier.fund');
+    Route::post('/request', 'CashierWalletController@requestFunds')->name('cashier.request');
+    Route::get('/request', 'CashierWalletController@viewRequestFunds')->name('cashier.viewRequestFunds');
+    Route::get('/fund-requests', 'CashierWalletController@fundRequests')->name('cashier.fundRequests');
+    Route::get('/fund/{cashierid}', 'CashierWalletController@viewFundCashier')->name('cashier.viewFundCashier');
+    Route::post('/fund', 'CashierWalletController@fundCashier')->name('cashier.fund');
+});
+
+//Cash Reserve Wallet Routes
+Route::prefix('cash-reserve')->group(function () {
+    Route::get('/', 'CashReserveController@dashboard')->name('cash.dashboard');
+    Route::get('/add', 'CashReserveController@viewAdd')->name('cash.viewAdd');
+    Route::get('/create', 'CashReserveController@viewCreate')->name('cash.viewCreate');
+    Route::get('/fund-requests', 'CashReserveController@fundRequests')->name('cash.fundRequests');
+    Route::post('/create', 'CashReserveController@create')->name('cash.create');
+    Route::post('/request', 'CashReserveController@requestFunds')->name('cash.request');
+    Route::get('/request', 'CashReserveController@viewRequestFunds')->name('cash.viewRequestFunds');
+    Route::get('/fund', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
+    Route::post('/fund', 'CashReserveController@fundCashier')->name('cash.fund');
 });
 
 

@@ -33,7 +33,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('cashier.fund')}}">
+                            <form method = "POST" action = "{{route('shop-wallet.cashier.fund')}}">
                                 @csrf
 
                                 <div class="row">
@@ -41,7 +41,7 @@
                                         <div class="mb-3 mt-4">
                                             <label class="form-label">Amount to Fund</label>
                                             <input type="text" name= "amount" class="form-control" placeholder="200" required>
-                                            <input type="hidden" name= "cashier_id" class="form-control" value="{{$cashier->id}}" />
+                                            <input type="hidden" name= "id" class="form-control" value="{{$cashier->id}}" />
                                         </div>
                                     </div>
 

@@ -495,7 +495,6 @@
                 </div>
             </li>
 
-
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#shop-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
@@ -520,7 +519,44 @@
                 </div>
             </li>
 
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#cashier-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Cashier Wallet </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="cashier-wallet">
+                    <ul class="side-nav-third-level">
+                        <li>
+                            <a href="{{route('cashier.dashboard')}}">Wallet Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{route('cashier.fundRequests')}}">My Fund Requests</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#cash-reserve" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Cash Reserve Wallet </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="cash-reserve">
+                    <ul class="side-nav-third-level">
+                        <li>
+                            <a href="{{route('cash.dashboard')}}">Wallet Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{route('cash.viewCreate')}}">Create Cash Reserve</a>
+                        </li>
+                        <li>
+                            <a href="{{route('cash.fundRequests')}}">Fund Requests</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
             <li class="side-nav-title side-nav-item mt-1">Attendance</li>
 
@@ -535,10 +571,6 @@
                         <li>
                             <a href="{{url('viewAttendance')}}">View Attendance</a>
                         </li>
-                        {{--                        <li>--}}
-                        {{--                            <a href="ui-alerts.html">Alerts</a>--}}
-                        {{--                        </li>--}}
-
                     </ul>
                 </div>
             </li>
@@ -547,10 +579,7 @@
         </ul>
 
     </div>
-    <!-- Sidebar -left -->
-
 </div>
-<!-- Left Sidebar End -->
 
 
 

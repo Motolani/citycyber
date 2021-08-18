@@ -43,15 +43,15 @@
                                 </thead>
 
                                 <tbody>
-                                @if(isset($cashiers))
-                                    @foreach($cashiers as $item)
+                                @if(isset($items))
+                                    @foreach($items as $item)
                                         <tr>
                                             <td>{{$item->id}}</td>
                                             <td>{{$item->balance}}</td>
                                             <td>{{$item->wallet_code}}</td>
                                             <td>
-                                                <a href="/cashier/fund/{{$item->id}}" class="btn btn-success btn-sm">
-                                                    <span class="uil-envelope-add"></span>Fund</a>
+                                                <a href="/shop-wallet/fund-wallet/{{$item->id}}" class="btn btn-success btn-sm">
+                                                    ¥<span class="uil-envelope-add"></span>Fund</a>
                                             </td>
                                         </tr>
                                     @endforeach
