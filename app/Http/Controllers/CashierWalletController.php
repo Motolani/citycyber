@@ -73,7 +73,7 @@ class CashierWalletController extends BaseController
 
     public function fundCashier(Request $request)
     {
-        //TODO:  Balance must be a positive value
+        //TODO:  Amount must be a positive value
         $request->validate([
             'amount' => 'required|max:20',
         ]);
@@ -113,10 +113,68 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
+
+
+    public function rejectFunds(Request $request, $requestID)
+    {
+        //TODO:  Amount must be a positive value
+        $request->validate([
+            'reason'=> 'required'
+        ]);
+
+        $reason = $request->reason;
+        $cashier_id = $request->cashier_id;
+
+        //Get the Cashier Wallet
+        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+
+        //Get the Fund Request Row
+        $fundRequest = CashierFundRequest::where('id', $requestID)->first();
+
+        //Get the Shop Wallet
+        $shopWallet = ShopWallet::where('office_id', $fundRequest->staff_office_id)->first();
+
+        //Get amount to refund
+        $amountToRefund = $fundRequest->amount;
+
+        /*
+         * Check if the Cashier Balance is enough for the refund
+         * Smart Asses might Spend the money and refund
+         * */
+        if($cashierWallet->balance < $amountToRefund) {
+            alert()->error('You do not have sufficient Funds for this refund.', 'Insufficient Funds');
+            return redirect()->back();
+        }
+
+        //Debit the Cashier Wallet
+        $cashierWallet->balance -= $amountToRefund;
+        $cashierWallet->save();
+
+        //Credit the AM Shop Wallet balance
+        $shopWallet->balance += $amountToRefund;
+        $shopWallet->save();
+
+        //Change request to Rejected
+        $fundRequest->status = "REJECTED";
+        $fundRequest->comment = $reason;
+        $fundRequest->save();
+
+        alert()->success('You have successfully rejected the Funds.', 'Successful');
+        return redirect()->back();
+    }
+
     public function viewCashiers(Request $request)
     {
         $cashiers = Auth::user()->office->cashiers;
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
+    }
+
+    public function showFundRequests(Request $request)
+    {
+        $fundRequests = CashierFundRequest::where('cashier_id', Auth::user()->id)
+            ->with('cashier')
+            ->get();
+        return view('admin.cashier-wallet.fund-requests-list', compact('fundRequests'));
     }
 
     public function index()

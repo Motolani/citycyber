@@ -23,11 +23,15 @@ class ShopWallet extends Model
             //Log the transaction in History
             $history = new ShopWalletHistory();
             $history->shop_wallet_id = $shop->id;
-            $history->staff_id = $shop->staff_id;
+            $history->staff_id = $shop->office->manager->id;
             $history->amount = $amount;
             $history->balance_after = $balanceAfter;
             $history->type = $type;
             $history->save();
         });
+    }
+
+    public function office(){
+        return $this->belongsTo('App\Office', 'office_id', 'id');
     }
 }

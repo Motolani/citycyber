@@ -531,7 +531,7 @@
                             <a href="{{route('cashier.dashboard')}}">Wallet Dashboard</a>
                         </li>
                         <li>
-                            <a href="{{route('cashier.fundRequests')}}">My Fund Requests</a>
+                            <a href="{{route('cashier.showFundRequests')}}">Fund Requests</a>
                         </li>
                     </ul>
                 </div>
