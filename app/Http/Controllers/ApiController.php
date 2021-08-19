@@ -12,9 +12,16 @@ class ApiController extends BaseController
 	public function loadParent(Request $request){
 	   $offices = new Offices();
 	   $getParent = $offices->GetAllParents($request->level);
+	   $dec = (object)$getParent->original;
+		// dd($dec);
+	   
+
+	   
+
 	   return response()->json([
-		"status"=>"200",
-		"data"=>$getParent,
+		"status"=>$dec->status,
+		"data"=>$dec->data,
+		"message"=>$dec->message
 	   ]);
 	}
 

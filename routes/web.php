@@ -374,6 +374,51 @@ Route::get('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+//crud for POS
+Route::get('createposview', 'PosController@createPosForm');
+Route::get('createPosFormData', 'PosController@createPosFormData')->name('createPosFormData');
+Route::get('viewpos', 'PosController@viewPos');
+Route::get('updateanddeletedos', 'PosController@updateAndDeletePos');
+
+
+
+//crud for Customer
+Route::get('createcustomerview', 'CustomerController@createCustomerForm');
+Route::get('createCustomerFormData', 'CustomerController@createCustomerFormData')->name('createCustomerFormData');
+Route::get('viewCustomer', 'CustomerController@viewCustomer');
+Route::get('updateanddeletecustomer', 'CustomerController@updateAndDeleteCustomer');
+
+
+//crud for Payment
+Route::get('createpaymentview', 'PaymentController@createPaymentForm');
+Route::get('createPaymentFormData', 'PaymentController@createPaymentFormData')->name('createPaymentFormData');
+Route::get('viewPayment', 'PaymentController@viewPayment');
+Route::get('updateanddeletepayment', 'PaymentController@updateAndDeletePayment');
+
+
+
+//crud for GameFormData
+Route::get('creategameview', 'GameController@createGameForm');
+Route::get('createGameFormData', 'GameController@createGameFormData')->name('createGameFormData');
+Route::get('viewGame', 'GameController@viewGame');
+Route::get('updateanddeletegame', 'GameController@updateAndDeleteGame');
+
+
+//crud for WinFormData
+Route::get('createwinview', 'WinController@createWinForm');
+Route::get('createWinFormData', 'WinController@createWinFormData')->name('createWinFormData');
+Route::get('viewWin', 'WinController@viewWin');
+Route::get('updateanddeletewin', 'WinController@updateAndDeleteWin');
+
+
+//crud for BankAcountFormData
+Route::get('createbankaccountview', 'BankController@createBankAccountForm');
+Route::get('createBankAccountFormData', 'BankController@createBankAccountFormData')->name('createBankAccountFormData');
+Route::get('viewBankAccount', 'BankController@viewBankAccount');
+Route::get('updateanddeletebankaccount', 'BankController@updateAndDeleteBankAccount');
+
+//createPosFormData
+
 //Roles and Permissions
 Route::group(['middleware' => ['auth']], function() {
 //    Route::resource('roles', RoleController::class);
