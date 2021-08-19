@@ -331,6 +331,8 @@ Route::prefix('shop-wallet')->group(function () {
     Route::post('/fund', 'ShopWalletController@fundWallet')->name('shop.fund');
     Route::get('/', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
+    Route::get('/request-funds', 'ShopWalletController@showRequestFunds')->name('shop-wallet.showRequestFunds');
+    Route::post('/request-funds', 'ShopWalletController@requestFunds')->name('shop-wallet.requestFunds');
 });
 
 

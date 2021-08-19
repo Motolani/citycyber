@@ -43,7 +43,7 @@ class CashReserveController extends BaseController
             //Create the Cash Reserve Wallet
             $wallet = new CashReserveWallet();
             $wallet->office_id = $officeID;
-            $wallet->staff_id = $officeID;
+            $wallet->staff_id = $office->managerid;
             $wallet->wallet_code = $request->wallet_code;
             $wallet->save();
             alert()->success('Cash Reserve has been  Created successfully.', 'Created');

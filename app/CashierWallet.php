@@ -11,6 +11,10 @@ class CashierWallet extends Model
         return $this->belongsTo('App\Office', 'office_id', 'id');
     }
 
+    public function user(){
+        return $this->belongsTo('App\User', 'staff_id', 'id');
+    }
+
 
     protected static function boot()
     {

@@ -20,6 +20,7 @@
                     {{ session('message') }}
                     </div>
                 @endif
+                <a href="/shop-wallet/request-funds/" class="btn btn-success btn-smX mb-"> Request Funds from Cash Reserve </a>
             </div>
         </div>
     </div>     
@@ -39,7 +40,7 @@
                     </div> <!--end card-->
                 </div><!-- end col -->
 
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <div class="card tilebox-one">
                         <div class="card-body">
                             <i class="dripicons-jewel float-end text-muted"></i>
@@ -51,7 +52,6 @@
             </div>
         </div>
         <!-- end col -->
-
     </div>
     <!-- end row -->
 
