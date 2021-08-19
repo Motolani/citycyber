@@ -449,26 +449,9 @@
 
 
 
-        <!-- <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarSixthteethLevel" aria-expanded="false" aria-controls="sidebarSixthteethLevel">
-                    <span> Inventories</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarSixthteethLevel">
-                    <ul class="side-nav-third-level">
-                        <li>
-                            <a href="{{url('alldeduction')}}">Manage Deduction</a>
-                        </li>
-                        {{-- <li>
-                             <a href="{{url('viewUnit')}}">View Unit</a>
-                         </li>--}}
-                </ul>
-            </div>
-        </li> -->
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel" class="side-nav-link">
-                    <i class="uil-briefcase"></i>
                     <span> Roles/Permissons </span>
                     <span class="menu-arrow"></span>
                 </a>
@@ -571,10 +554,143 @@
                         <li>
                             <a href="{{url('viewAttendance')}}">View Attendance</a>
                         </li>
+
                     </ul>
                 </div>
             </li>
 
+
+
+            <li class="side-nav-title side-nav-item">Others </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages2" aria-expanded="false" aria-controls="sidebarPages2" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Bank Accounts </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages2">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createbankaccountview')}}">Create Account</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('viewBankAccount')}}">View/Edit Bank Account</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages3" aria-expanded="false" aria-controls="sidebarPages3" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Pos </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages3">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createposview')}}">Create Pos</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('viewPos')}}">View/Edit Pos</a>
+                        </li>
+
+
+
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages4" aria-expanded="false" aria-controls="sidebarPages4" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Customer </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages4">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createcustomerview')}}">Create Customer</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('viewCustomer')}}">View/Edit Customer</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages5" aria-expanded="false" aria-controls="sidebarPages5" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Payments </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages5">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createpaymentview')}}">Create Payment</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('viewPayment')}}">View/Edit Payments</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages6" aria-expanded="false" aria-controls="sidebarPages6" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Games </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages6">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('creategameview')}}">Create Games</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('viewGame')}}">View/Edit Games</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPages7" aria-expanded="false" aria-controls="sidebarPages7" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Wins </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPages7">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createwinview')}}">Create Win</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('viewWin')}}">View/Edit Win</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <div class="clearfix"></div>
         </ul>
 

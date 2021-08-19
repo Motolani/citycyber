@@ -247,12 +247,12 @@
                 type: 'post',
                 data: {level: level_id},
 
-                success: function (data) {
-                    console.log("dataGOtenn",data)
+                success: function (response) {
+                    console.log("dataGOtenn",response)
                     //$('#addons option:not(:first)').remove();
-                    return loadParent(data);
+                    return loadParent(response);
 
-                    //console.log("response",data);
+                    console.log("response",data);
                 },
                 error: function (xhr, err) {
                     var responseTitle= $(xhr.responseText).filter('title').get(0);
@@ -262,11 +262,13 @@
             });
 
         }
-        function loadParent(data) {
-            console.log('thisadata',data.status);
-            let status = data.data.original.status;
+        function loadParent(response) {
+
+           let data  = JSON.parse(response);
+            console.log('thisadata',data);
+            let status = data.status;
             
-            console.log("statusBelowCheck",data);
+            console.log("statusBelowCheck",data.message);
             if(status == "200"){
 
                 let aa =$('#h_div');
@@ -275,7 +277,7 @@
                 console.log("h_div loggererere ----",aa);
                 aa.show();$('#first_cardB').hide();
                 startcad.hide();
-                $.each(data.data.original.data, function(key, lev){
+                $.each(data.data, function(key, lev){
                     console.log("level", lev);
                     let option = `<option value="${lev.level}|${lev.location}|${lev.type}"> ${lev.type}</option>`;
                     $("#types").append(option);
@@ -283,7 +285,7 @@
 
             }else{
                 let message = $('#erroMessage');
-                let ms = data.data.original.message;
+                let ms = data.message;
                 console.log('myMessageResponseisHere',data)
                 $("#msg").append(ms);
                 message.show();

@@ -86,9 +86,9 @@ class Offices extends Controller
 	}
 
         return response()->json([
-	"status" => "300",
-	"data" => [],
-	"message" => "No parent for the selected level."
+        "status" => "300",
+        "data" => [],
+        "message" => "No parent for the selected level."
 	]);
     }
 

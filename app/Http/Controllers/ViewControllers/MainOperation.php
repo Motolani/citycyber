@@ -20,7 +20,7 @@ use App\Level;
 use App\Http\Controllers\BaseController;
 //use Auth;
 use Illuminate\Support\Facades\Auth;
-class MainOperation extends Controller
+class MainOperation extends BaseController
 {
     /**
      * Create a new controller instance.

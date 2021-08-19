@@ -14,13 +14,11 @@
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.3",
-<<<<<<< HEAD
         "spatie/laravel-permission": "^2.38",
-        "uxweb/sweet-alert": "^2.0"
-=======
+
         "uxweb/sweet-alert": "^2.0",
         "zizaco/entrust": "^1.9"
->>>>>>> origin/petty_cash
+
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
