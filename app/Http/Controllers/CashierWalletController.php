@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\CashierFundRequest;
 use App\CashierWallet;
+use App\CashReserveFundRequest;
+use App\CashReserveWallet;
 use App\IncidenceOpration;
 use App\Office;
 use App\OfficeLevel;
@@ -61,8 +63,45 @@ class CashierWalletController extends BaseController
 
     public function requestFunds(Request $request)
     {
-        return view('admin.cashier-wallet.request-funds');
-    }
+        //TODO:  Amount must be a positive value
+        $request->validate([
+            'amount' => 'required|max:20',
+        ]);
+        $amount = $request->amount;
+        $destination = $request->destination;
+
+        //Check if the Request should go to Cash Reserve
+        if($destination == "bm"){
+            $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
+
+            //Create the Request
+            $fundRequest = new CashReserveFundRequest();
+            $fundRequest->staff_office_id = Auth::user()->office->id;
+            $fundRequest->manager_id = $cashReserve->branchManager->id;
+            $fundRequest->am_id = Auth::user()->id;
+            $fundRequest->amount = $amount;
+            $fundRequest->description = "REQUEST EXTRA FUNDS";
+            $fundRequest->status = "PENDING";
+            $fundRequest->type = "CREDIT";
+            $fundRequest->send_type = "RAISED";
+            $fundRequest->save();
+        }
+        else{
+            //Create a Request for AM Shop Wallet
+            $fundRequest = new CashierFundRequest();
+            $fundRequest->staff_office_id = Auth::user()->office->id;
+            $fundRequest->cashier_id = $destination;
+            $fundRequest->am_id = Auth::user()->office->manager->id;
+            $fundRequest->amount = $amount;
+            $fundRequest->description = "FORCED FUNDING";
+            $fundRequest->status = "PENDING";
+            $fundRequest->type = "CREDIT";
+            $fundRequest->send_type = "RAISED";
+            $fundRequest->save();
+        }
+
+        alert()->success('Request has been sent successfully.', 'Request Sent');
+        return redirect()->back();    }
 
 
     public function viewFundCashier(Request $request, $cashierID)

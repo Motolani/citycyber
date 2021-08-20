@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Request Funds</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Request funds from Area Manager</h4>
+                <h4 class="page-title">Request funds</h4>
             </div>
         </div>
     </div>
@@ -34,8 +34,15 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
-                                            <label class="form-label">Amount to Fund</label>
+                                            <label class="form-label">Amount to Request</label>
                                             <input type="text" name= "amount" class="form-control" placeholder="200" required>
+                                        </div>
+                                        <div class="mb-3 mt-4">
+                                            <label class="form-label">Send Request to</label>
+                                            <select class="form-control select2" name="destination" data-toggle="select" required>
+                                                <option value="am">Area Manager</option>
+                                                <option value="bm">Branch Manager</option>
+                                            </select>
                                         </div>
                                     </div>
 

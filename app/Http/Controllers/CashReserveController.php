@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\CashierFundRequest;
 use App\CashierWallet;
 use App\CashReserve;
+use App\CashReserveFundRequest;
 use App\CashReserveWallet;
 use App\IncidenceOpration;
 use App\Office;
@@ -73,7 +75,6 @@ class CashReserveController extends BaseController
 
     public function requestFunds(Request $request)
     {
-        return view('admin.cash-reserve.request-funds');
     }
 
 
@@ -88,6 +89,12 @@ class CashReserveController extends BaseController
     {
         $offices = Office::where("level", ">", 3)->get();
         return view('admin.cash-reserve.create', compact('offices'));
+    }
+
+    public function fundRequests(Request $request)
+    {
+        $fundRequests = CashReserveFundRequest::where('am_id', Auth::user()->id)->latest()->get();
+        return view('admin.cash-reserve.fund-requests-list', compact('fundRequests'));
     }
 
     public function index()

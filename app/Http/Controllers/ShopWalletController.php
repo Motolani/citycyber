@@ -44,7 +44,6 @@ class ShopWalletController extends BaseController
             return redirect()->back();
         }
 
-
         //Check if this Office already has a Wallet
         $shopWallets = ShopWallet::where("office_id", $officeID)->first();
         if(isset($shopWallets)){
@@ -61,8 +60,6 @@ class ShopWalletController extends BaseController
         return redirect()->back();
     }
 
-
-
     public function fundWallet(Request $request)
     {
         $request->validate([
@@ -71,7 +68,6 @@ class ShopWalletController extends BaseController
 
         $officeID = Auth::user()->office->id;
         $amount = $request->amount;
-
 
         //Get the Shop and add to the balance
         $shop = ShopWallet::where('id', $officeID)->first();
@@ -90,11 +86,17 @@ class ShopWalletController extends BaseController
         return redirect()->back();
     }
 
-
-
-    public function viewFund(Request $request)
+    public function viewFund(Request $request, $shopid)
     {
-        return view('admin.shop-wallet.fund');
+        $shop = ShopWallet::where('id', $shopid)->first();
+        return view('admin.shop-wallet.fund', compact('shop'));
+    }
+
+    public function viewAll(Request $request)
+    {
+        $shopWallets = Auth::user()->offices;
+//        dd($shopWallets[0]->shopWallet);
+        return view('admin.shop-wallet.shop-list', compact('shopWallets'));
     }
 
 
@@ -115,12 +117,12 @@ class ShopWalletController extends BaseController
 
         //Check if the Request should go to Cash Reserve
         if($destination == "cash-reserve"){
-            $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id);
+            $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
 
             //Create the Request
             $fundRequest = new CashReserveFundRequest();
             $fundRequest->staff_office_id = Auth::user()->office->id;
-            $fundRequest->manager_id = $cashReserve->manager_id;
+            $fundRequest->manager_id = $cashReserve->manager->id;
             $fundRequest->am_id = Auth::user()->id;
             $fundRequest->amount = $amount;
             $fundRequest->description = "FORCED FUNDING";
@@ -143,7 +145,7 @@ class ShopWalletController extends BaseController
             $fundRequest->save();
         }
 
-        alert()->success('Request has been sent successfully.', 'Sent');
+        alert()->success('Request has been sent successfully.', 'Request Sent');
         return redirect()->back();
     }
 
@@ -154,7 +156,7 @@ class ShopWalletController extends BaseController
         $id = $request->id;
         $office = Office::where('id',$id)->first();
         if(isset($office))
-            return view('admin.wallet.create', compact('office'));
+            return view('admin.shop-wallet.create', compact('office'));
 
         else
             return redirect()->back();
@@ -162,7 +164,7 @@ class ShopWalletController extends BaseController
 
     public function viewCashiers(Request $request)
     {
-        $cashiers = Auth::user()->office->cashiers;
+        $cashiers = CashierWallet::where('office_id', Auth::user()->office->id)->get();
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
     }
 
@@ -171,11 +173,11 @@ class ShopWalletController extends BaseController
         return view('admin.home');
     }
 
-    public function dashboard(Request $request)
+    public function dashboard(Request $request, $id)
     {
-        $officeID = Auth::user()->office->id;
-        $shop = ShopWallet::where('office_id', $officeID)->first();
-        $cashier_count = CashierWallet::where("office_id", $officeID)->count();
+        //$officeID = Auth::user()->office->id;
+        $shop = ShopWallet::where('office_id', $id)->first();
+        $cashier_count = CashierWallet::where("office_id", $id)->count();
         return view('admin.shop-wallet.dashboard', compact('shop', 'cashier_count'));
     }
 

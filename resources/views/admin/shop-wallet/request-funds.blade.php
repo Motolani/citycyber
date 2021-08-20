@@ -51,7 +51,7 @@
                                                 <option value="cash-reserve">Cash Reserve</option>
                                                 @if(isset($cashiers))
                                                     @foreach($cashiers as  $cashier)
-                                                        <option value="{{$cashier->id}}">{{$cashier->user->firstname}}</option>
+                                                        <option value="{{$cashier->id}}">{{$cashier->user->firstname}} (Cashier)</option>
                                                     @endforeach
                                                 @endif
                                             </select>

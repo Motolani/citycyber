@@ -49,28 +49,32 @@ class PettyCashController extends BaseController
         $pettyCash->staff_id = Auth::user()->id;
         $pettyCash->description = $request->description;
         $pettyCash->save();
+        alert()->success('Petty Cash has been requested successfully.', 'Successful');
+
         return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
     }
 
     public function submitExpense(Request $request)
     {
-        //dd($request);
+//        dd($request);
 
         $request->validate([
-            'amount' => 'required|max:255',
+//            'amount' => 'required|max:255',
 //            'file' => 'required|mimes:jpg,png',
         ]);
 
         $fileName = time().'.'.$request->file->extension();
         $path = $request->file->move(public_path('uploads'), $fileName);
+        //dd($path);
 
 
-        $pettyCashID = $request->pettyCashID;
-        $pettyCash = PettyCashRequest::where('id', $pettyCashID);
+        $ticketID = $request->ticketID;
+        $pettyCash = PettyCashRequest::where('ticket_id', $ticketID)->first();
         $pettyCash->balance = $request->balance;
         $pettyCash->upload_path = $path;
         $pettyCash->save();
 
+        alert()->success('Petty Cash has been requested successfully.', 'Successful');
         return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
     }
 

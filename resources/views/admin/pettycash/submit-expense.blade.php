@@ -42,6 +42,7 @@
                                         <div class="mb-3 mt-4">
                                             <label class="form-label">Ticket ID</label>
                                             <input type="text" name="ticketID" value="{{$data->ticket_id}}" class="form-control" required disabled>
+                                            <input type="hidden" name="ticketID" value="{{$data->ticket_id}}" class="form-control">
                                         </div>
                                     </div> <!-- end col -->
 

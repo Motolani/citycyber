@@ -327,9 +327,10 @@ Route::prefix('office')->group(function () {
 });
 
 Route::prefix('shop-wallet')->group(function () {
-    Route::get('/fund', 'ShopWalletController@viewFund')->name('shop.viewFund');
+    Route::get('/fund/{shopid}', 'ShopWalletController@viewFund')->name('shop.viewFund');
     Route::post('/fund', 'ShopWalletController@fundWallet')->name('shop.fund');
-    Route::get('/', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
+    Route::get('/view/{id}', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
+    Route::get('/view-all', 'ShopWalletController@viewAll')->name('shop-wallet.viewAll');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/request-funds', 'ShopWalletController@showRequestFunds')->name('shop-wallet.showRequestFunds');
     Route::post('/request-funds', 'ShopWalletController@requestFunds')->name('shop-wallet.requestFunds');

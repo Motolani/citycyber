@@ -14,13 +14,13 @@
                         <li class="breadcrumb-item active">Profile</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Shop Wallet</h4>
+                <h4 class="page-title">Shop Wallet for {{$shop->office->name}}</h4>
                 @if (session('message'))
                     <div class="alert alert-success">
                     {{ session('message') }}
                     </div>
                 @endif
-                <a href="/shop-wallet/request-funds/" class="btn btn-success btn-smX mb-"> Request Funds from Cash Reserve </a>
+                <a href="/shop-wallet/request-funds/" class="btn btn-success btn-smX mb-2"> Request Funds from Cash Reserve </a>
             </div>
         </div>
     </div>     

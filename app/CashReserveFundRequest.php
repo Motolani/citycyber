@@ -5,9 +5,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class CashReserveFundRequest extends Model
 {
-    protected $table = "cash_reserves_fund_requests";
+        protected $table = "cash_reserves_fund_requests";
 
-//    public function cashier(){
-//        return $this->belongsTo('App\User', 'cashier_id', 'id');
-//    }
+    public function branchManager(){
+        return $this->belongsTo('App\User', 'manager_id', 'id');
+    }
+
+public function areaManager(){
+        return $this->belongsTo('App\User', 'am_id', 'id');
+    }
 }

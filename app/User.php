@@ -47,4 +47,8 @@ class User extends Authenticatable
     public function office(){
         return $this->hasOne('App\Office', 'managerid', 'id');
     }
+
+    public function offices(){
+        return $this->hasMany('App\Office', 'managerid', 'id');
+    }
 }

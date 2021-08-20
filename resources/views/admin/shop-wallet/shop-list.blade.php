@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style="display:none" id="headerShow">View/Edit Office</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Cashiers</h4>
+                <h4 class="page-title">Shop Wallets</h4>
             </div>
         </div>
     </div>
@@ -23,10 +23,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">List of all Cashiers</h4>
-{{--                <a href="/cashier/add" aria-expanded="false" class="btn btn-success">--}}
-{{--                        Add New--}}
-{{--                    </a>--}}
+                    <h4 class="header-title">List of all Shop Wallets</h4>
                     <div class="tab-content">
                         @if (\Session::has('success'))
                             <div class="alert alert-success">
@@ -36,26 +33,36 @@
                                 <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>Staff</th>
                                     <th>Office</th>
-                                    <th>Balance</th>
                                     <th>Wallet Code</th>
+                                    <th>Wallet Balance</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @if(isset($cashiers))
-                                    @foreach($cashiers as $item)
+                                @if(isset($shopWallets))
+                                    @foreach($shopWallets as $item)
                                         <tr>
                                             <td>{{$item->id}}</td>
-                                            <td>{{$item->user->firstname}}</td>
-                                            <td>{{$item->office->name}}</td>
-                                            <td>{{$item->balance}}</td>
-                                            <td>{{$item->wallet_code}}</td>
+                                            <td>{{$item->name}}</td>
+                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->wallet_code : "None"}}</td>
+                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->balance : "None"}}</td>
                                             <td>
-                                                <a href="/cashier/fund/{{$item->id}}" class="btn btn-success btn-sm">
-                                                    <span class="uil-envelope-add"></span>Fund</a>
+                                                @if($item->shopWallet != null)
+                                                    <a href="/shop-wallet/view/{{$item->id}}" class="btn btn-success btn-sm">
+                                                        <span class="uil-eye"></span>View
+                                                    </a>
+
+                                                    <a href="/shop-wallet/fund/{{$item->id}}" class="btn btn-success btn-sm">
+                                                        <span class="uil-eye"></span> Fund
+                                                    </a>
+
+                                                    @else
+                                                    <a href="/office/create-wallet/{{$item->id}}" class="btn btn-success btn-sm">
+                                                        <span class="uil-wallet"></span>Create Wallet
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

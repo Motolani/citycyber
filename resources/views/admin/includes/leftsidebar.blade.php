@@ -367,7 +367,6 @@
                             </div>
                         </li>
 
-
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarThirteenthLevel" aria-expanded="false" aria-controls="sidebarNinethLevel">
                                 <span> Offence Module </span>
@@ -384,8 +383,6 @@
                                 </ul>
                             </div>
                         </li>
-
-
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarFourteenthLevel" aria-expanded="false" aria-controls="sidebarFourteenthLevel">
@@ -447,9 +444,6 @@
                 </div>
             </li>
 
-
-
-
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel" class="side-nav-link">
                     <span> Roles/Permissons </span>
@@ -478,21 +472,19 @@
                 </div>
             </li>
 
+            <li class="side-nav-title side-nav-item">Area Manager</li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#shop-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
-                    <span> Shop Wallet </span>
+                    <span> Shop Wallets </span>
                     <span class="menu-arrow"></span>
                 </a>
 
                 <div class="collapse" id="shop-wallet">
                     <ul class="side-nav-third-level">
-                        <li>
-                            <a href="{{route('shop.viewFund')}}">Fund</a>
-                        </li>
 
                         <li>
-                            <a href="{{route('shop-wallet.dashboard')}}">Wallet Dashboard</a>
+                            <a href="{{route('shop-wallet.viewAll')}}">View Shop Wallets</a>
                         </li>
 
                         <li>
@@ -502,24 +494,7 @@
                 </div>
             </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#cashier-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
-                    <i class="uil-briefcase"></i>
-                    <span> Cashier Wallet </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="cashier-wallet">
-                    <ul class="side-nav-third-level">
-                        <li>
-                            <a href="{{route('cashier.dashboard')}}">Wallet Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="{{route('cashier.showFundRequests')}}">Fund Requests</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
+            <li class="side-nav-title side-nav-item">Branch Manager</li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#cash-reserve" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
@@ -536,6 +511,30 @@
                         </li>
                         <li>
                             <a href="{{route('cash.fundRequests')}}">Fund Requests</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="side-nav-title side-nav-item">Cashier</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#cashier-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Cashier Wallet </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="cashier-wallet">
+                    <ul class="side-nav-third-level">
+                        <li>
+                            <a href="{{route('cashier.dashboard')}}">Wallet Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{route('cashier.viewRequestFunds')}}">Request Funds</a>
+                        </li>
+                        <li>
+                            <a href="{{route('cashier.showFundRequests')}}">Fund Requests</a>
                         </li>
                     </ul>
                 </div>
@@ -595,14 +594,9 @@
                         <li>
                             <a href="{{url('createposview')}}">Create Pos</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewPos')}}">View/Edit Pos</a>
                         </li>
-
-
-
                     </ul>
                 </div>
             </li>
@@ -619,8 +613,6 @@
                         <li>
                             <a href="{{url('createcustomerview')}}">Create Customer</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewCustomer')}}">View/Edit Customer</a>
                         </li>
@@ -641,8 +633,6 @@
                         <li>
                             <a href="{{url('createpaymentview')}}">Create Payment</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewPayment')}}">View/Edit Payments</a>
                         </li>

@@ -6,13 +6,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-
-                        <li class="breadcrumb-item active" style="display:none" id="headerShow">View/Edit Office</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">Cashiers</h4>
+                <h4 class="page-title">Fund Requests</h4>
             </div>
         </div>
     </div>
@@ -23,10 +17,8 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">List of all Cashiers</h4>
-{{--                <a href="/cashier/add" aria-expanded="false" class="btn btn-success">--}}
-{{--                        Add New--}}
-{{--                    </a>--}}
+                    <h4 class="header-title">Viewing all Fund Requests</h4>
+
                     <div class="tab-content">
                         @if (\Session::has('success'))
                             <div class="alert alert-success">
@@ -36,26 +28,44 @@
                                 <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>Staff</th>
-                                    <th>Office</th>
-                                    <th>Balance</th>
-                                    <th>Wallet Code</th>
+                                    <th>Manager</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                    <th>Comment</th>
+                                    <th>Request Type</th>
+                                    <th>Funding Type</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @if(isset($cashiers))
-                                    @foreach($cashiers as $item)
+                                @if(isset($fundRequests))
+                                    @foreach($fundRequests as $fundRequest)
                                         <tr>
-                                            <td>{{$item->id}}</td>
-                                            <td>{{$item->user->firstname}}</td>
-                                            <td>{{$item->office->name}}</td>
-                                            <td>{{$item->balance}}</td>
-                                            <td>{{$item->wallet_code}}</td>
+                                            <td>{{$fundRequest->id}}</td>
+                                            <td>{{$fundRequest->areaManager->firstname}}</td>
+                                            <td>{{$fundRequest->amount}}</td>
+                                            <td>{{$fundRequest->description}}</td>
+                                            <td>{{$fundRequest->comment}}</td>
+                                            <td>{{$fundRequest->send_type}}</td>
+                                            <td>{{$fundRequest->type}}</td>
+                                            <td>{{$fundRequest->status}}</td>
                                             <td>
-                                                <a href="/cashier/fund/{{$item->id}}" class="btn btn-success btn-sm">
-                                                    <span class="uil-envelope-add"></span>Fund</a>
+                                                @if($fundRequest->status == "APPROVED")
+                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                        <span class="uil-multiply"></span> Reject
+                                                    </a>
+
+                                                    @elseif($fundRequest->status == "PENDING")
+                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-success btn-sm" data-toggle="modal" data-target="#rejectModal">
+                                                        <span class="uil-multiply"></span> Accept
+                                                    </a>
+
+                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                        <span class="uil-multiply"></span> Reject
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -69,19 +79,26 @@
                 </div>
             </div>
         </div><!-- end col-->
+
+
     </div>
     <!-- end row-->
 
-
 @endsection
-
+<!-- The Modal -->
+@include('admin.includes.reject-modal')
 
 @section('script')
+
     <script>
         $(function() {
+            $(".rejectButton").click(function (e){
+                e.preventDefault();
+                $("#rejectForm").attr("action", e.target.href);
+            });
+
             $(document).ready(function() {
                 let aa = $('#h_div');
-                console.log("h_div logger ----", aa);
                 aa.hide();
                 $("#hide").click(function() {
                     $("div").hide();
