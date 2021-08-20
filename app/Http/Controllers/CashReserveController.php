@@ -11,6 +11,8 @@ use App\IncidenceOpration;
 use App\Office;
 use App\OfficeLevel;
 use App\ShopWallet;
+use App\Slip;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
@@ -97,6 +99,11 @@ class CashReserveController extends BaseController
         return view('admin.cash-reserve.fund-requests-list', compact('fundRequests'));
     }
 
+    public function showSlipRequests(Request $request)
+    {
+        $slips = Slip::where('manager_id', Auth::user()->id)->get();
+        return view('admin.cash-reserve.slips-list', compact('slips'));
+    }
     public function index()
     {
         return view('admin.home');
@@ -107,5 +114,44 @@ class CashReserveController extends BaseController
         $cashReserve = CashReserveWallet::where('id', Auth::user()->id)->first();
         return view('admin.cash-reserve.dashboard', compact('cashReserve'));
     }
+
+    public function acceptCashierRequest(Request $request, $requestID)
+    {
+        $amount = $request->amount;
+
+
+        //Get the Fund Request Row
+        $slipRequest = Slip::where('id', $requestID)->first();
+
+        //Get the Cash Reserve
+        $cashReserve = CashReserveWallet::where('staff_id', $slipRequest->manager_id)->first();
+
+        //Get the Cashier Wallet
+        $cashierWallet = $slipRequest->cashier;
+
+        /*
+         * Check if the Cash Reserve Balance is enough for the refund
+         * */
+        if($cashReserve->balance < $amount) {
+            alert()->error('You do not have sufficient Funds for this refund.', 'Insufficient Funds');
+            return redirect()->back();
+        }
+
+        //Debit the BM Wallet
+        $cashReserve->balance -= $amount;
+        $cashReserve->save();
+
+        //Credit the Cashier
+        $cashierWallet->balance += $amount;
+        $cashierWallet->save();
+
+        //Change request to Rejected
+        $slipRequest->status = "APPROVED";
+        $slipRequest->save();
+
+
+        alert()->success('Request has been approved.', 'Approved');
+        return redirect()->back();    }
+
 
 }

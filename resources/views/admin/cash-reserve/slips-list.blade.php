@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <h4 class="page-title">Fund Requests</h4>
+                <h4 class="page-title">Slip Requests</h4>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">Viewing all Fund Requests</h4>
+                    <h4 class="header-title">Viewing all Slip Requests</h4>
 
                     <div class="tab-content">
                         @if (\Session::has('success'))
@@ -28,41 +28,36 @@
                                 <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>Manager</th>
+                                    <th>Office</th>
+                                    <th>Cashier</th>
                                     <th>Amount</th>
                                     <th>Description</th>
                                     <th>Comment</th>
-                                    <th>Request Type</th>
-                                    <th>Funding Type</th>
                                     <th>Status</th>
+                                    <th>Type</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @if(isset($fundRequests))
-                                    @foreach($fundRequests as $fundRequest)
+                                @if(isset($slips))
+                                    @foreach($slips as $slip)
                                         <tr>
-                                            <td>{{$fundRequest->id}}</td>
-                                            <td>{{$fundRequest->areaManager->firstname}}</td>
-                                            <td>{{$fundRequest->amount}}</td>
-                                            <td>{{$fundRequest->description}}</td>
-                                            <td>{{$fundRequest->comment}}</td>
-                                            <td>{{$fundRequest->send_type}}</td>
-                                            <td>{{$fundRequest->type}}</td>
-                                            <td>{{$fundRequest->status}}</td>
+                                            <td>{{$slip->id}}</td>
+                                            <td>{{$slip->office->name}}</td>
+                                            <td>{{$slip->cashier->user->firstname}}</td>
+                                            <td>{{$slip->amount}}</td>
+                                            <td>{{$slip->description}}</td>
+                                            <td>{{$slip->comment}}</td>
+                                            <td>{{$slip->status}}</td>
+                                            <td>{{$slip->type}}</td>
                                             <td>
-                                                @if($fundRequest->status == "APPROVED")
-                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
-                                                        <span class="uil-multiply"></span> Reject
+                                                @if($slip->status == "PENDING")
+                                                    <a href="/cash-reserve/accept-cashier-request/{{$slip->id}}" class="btn btn-success btn-sm">
+                                                        <span class="uil-check"></span> Accept
                                                     </a>
 
-                                                    @elseif($fundRequest->status == "PENDING")
-                                                    <a href="/cash-reserve/accept/{{$fundRequest->id}}" class="btn btn-success btn-sm" data-toggle="modal" data-target="#rejectModal">
-                                                        <span class="uil-multiply"></span> Accept
-                                                    </a>
-
-                                                    <a href="/cash-reserve/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                    <a href="/cash-reserve/reject/{{$slip->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
                                                         <span class="uil-multiply"></span> Reject
                                                     </a>
                                                 @endif
@@ -73,16 +68,11 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-        </div><!-- end col-->
-
-
+        </div>
     </div>
-    <!-- end row-->
 
 @endsection
 <!-- The Modal -->

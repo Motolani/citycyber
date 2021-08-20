@@ -10,6 +10,7 @@ use App\IncidenceOpration;
 use App\Office;
 use App\OfficeLevel;
 use App\ShopWallet;
+use App\Slip;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
@@ -74,16 +75,15 @@ class CashierWalletController extends BaseController
         if($destination == "bm"){
             $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
 
-            //Create the Request
-            $fundRequest = new CashReserveFundRequest();
-            $fundRequest->staff_office_id = Auth::user()->office->id;
+            //Create the Request in Slips Table
+            $fundRequest = new Slip();
+            $fundRequest->manager_office_id = Auth::user()->office->id;
             $fundRequest->manager_id = $cashReserve->branchManager->id;
-            $fundRequest->am_id = Auth::user()->id;
+            $fundRequest->cashier_id = Auth::user()->id;
             $fundRequest->amount = $amount;
             $fundRequest->description = "REQUEST EXTRA FUNDS";
             $fundRequest->status = "PENDING";
-            $fundRequest->type = "CREDIT";
-            $fundRequest->send_type = "RAISED";
+            $fundRequest->type = "OUTSLIP";
             $fundRequest->save();
         }
         else{
@@ -152,8 +152,6 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
-
-
     public function rejectFunds(Request $request, $requestID)
     {
         //TODO:  Amount must be a positive value
@@ -215,6 +213,8 @@ class CashierWalletController extends BaseController
             ->get();
         return view('admin.cashier-wallet.fund-requests-list', compact('fundRequests'));
     }
+
+
 
     public function index()
     {

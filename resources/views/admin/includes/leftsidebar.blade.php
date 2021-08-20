@@ -510,7 +510,11 @@
                             <a href="{{route('cash.viewCreate')}}">Create Cash Reserve</a>
                         </li>
                         <li>
-                            <a href="{{route('cash.fundRequests')}}">Fund Requests</a>
+{{--                            <a href="{{route('cash.fundRequests')}}">Fund Requests</a>--}}
+                        </li>
+
+                        <li>
+                            <a href="{{route('cash.slipRequests')}}">Slip Requests</a>
                         </li>
                     </ul>
                 </div>

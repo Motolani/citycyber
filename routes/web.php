@@ -357,10 +357,12 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/create', 'CashReserveController@viewCreate')->name('cash.viewCreate');
     Route::get('/fund-requests', 'CashReserveController@fundRequests')->name('cash.fundRequests');
     Route::post('/create', 'CashReserveController@create')->name('cash.create');
+    Route::post('/fund', 'CashReserveController@fundCashier')->name('cash.fund');
     Route::post('/request', 'CashReserveController@requestFunds')->name('cash.request');
     Route::get('/request', 'CashReserveController@viewRequestFunds')->name('cash.viewRequestFunds');
     Route::get('/fund', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
-    Route::post('/fund', 'CashReserveController@fundCashier')->name('cash.fund');
+    Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
+    Route::get('/accept-cashier-request/{id}', 'CashReserveController@acceptCashierRequest')->name('cash.acceptCashierRequest');
 });
 
 
