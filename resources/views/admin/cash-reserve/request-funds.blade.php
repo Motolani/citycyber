@@ -71,7 +71,6 @@
     <!-- end row -->
 @endsection
 
-
 @section('script')
     <script>
         $('#destination').on('change', function() {
