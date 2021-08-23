@@ -103,7 +103,9 @@ class CashReserveController extends BaseController
 
     public function showSlipRequests(Request $request)
     {
-        $slips = Slip::where('manager_id', Auth::user()->id)->get();
+        $slips = Slip::where('manager_id', Auth::user()->id)
+            ->latest()
+            ->get();
         return view('admin.cash-reserve.slips-list', compact('slips'));
     }
     public function index()
@@ -127,7 +129,6 @@ class CashReserveController extends BaseController
     {
         $amount = $request->amount;
 
-
         //Get the Fund Request Row
         $slipRequest = Slip::where('id', $requestID)->first();
 
@@ -141,7 +142,7 @@ class CashReserveController extends BaseController
          * Check if the Cash Reserve Balance is enough for the refund
          * */
         if($cashReserve->balance < $amount) {
-            alert()->error('You do not have sufficient Funds for this refund.', 'Insufficient Funds');
+            alert()->error('You do not have sufficient Funds.', 'Insufficient Funds');
             return redirect()->back();
         }
 
@@ -210,7 +211,7 @@ class CashReserveController extends BaseController
         $fundRequest->description = "CALLBACK";
         $fundRequest->status = "CALLBACK";
         $fundRequest->type = "DEBIT";
-        $fundRequest->save();
+         $fundRequest->save();
 
         alert()->success('Funds have been credited to the Shop Wallet.', 'Successful');
         return redirect()->back();
