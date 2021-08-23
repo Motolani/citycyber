@@ -115,6 +115,12 @@ class CashReserveController extends BaseController
         return view('admin.cash-reserve.dashboard', compact('cashReserve'));
     }
 
+    public function viewAll(Request $request)
+    {
+        $cashReserve = CashReserveWallet::where('id', Auth::user()->id)->first();
+        return view('admin.cash-reserve.dashboard', compact('cashReserve'));
+    }
+
     public function acceptCashierRequest(Request $request, $requestID)
     {
         $amount = $request->amount;
@@ -152,6 +158,27 @@ class CashReserveController extends BaseController
 
         alert()->success('Request has been approved.', 'Approved');
         return redirect()->back();    }
+
+
+    public function rejectCashierRequest(Request $request, $requestID)
+    {
+        $request->validate([
+            'reason'=> 'required'
+        ]);
+
+        $reason = $request->reason;
+
+        //Get the Fund Request Row
+        $slipRequest = Slip::where('id', $requestID)->first();
+        
+        //Change request to Rejected
+        $slipRequest->status = "DISAPPROVED";
+        $slipRequest->comment = $reason;
+        $slipRequest->save();
+
+        alert()->success('You have successfully rejected the request.', 'Successful');
+        return redirect()->back();
+    }
 
 
 }

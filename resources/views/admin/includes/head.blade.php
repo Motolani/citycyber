@@ -29,6 +29,7 @@
 <link href="{{asset('assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style" />
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<link href="{{asset('assets/css/finco-style.css')}}" rel="stylesheet" type="text/css" />
 
  <script src="{{ asset('js/app.js') }}"></script>
 

@@ -57,7 +57,7 @@
                                                         <span class="uil-check"></span> Accept
                                                     </a>
 
-                                                    <a href="/cash-reserve/reject/{{$slip->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                    <a href="/cash-reserve/reject-cashier-request/{{$slip->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
                                                         <span class="uil-multiply"></span> Reject
                                                     </a>
                                                 @endif

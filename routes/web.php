@@ -344,6 +344,7 @@ Route::prefix('cashier')->group(function () {
     Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
     Route::post('/reject/{id}', 'CashierWalletController@rejectFunds')->name('cashier.rejectFunds');
     Route::post('/request', 'CashierWalletController@requestFunds')->name('cashier.request');
+    Route::get('/callback/{cashierid}', 'CashierWalletController@callbackFunds')->name('cashier.callbackFunds');
     Route::get('/request', 'CashierWalletController@viewRequestFunds')->name('cashier.viewRequestFunds');
     Route::get('/fund-requests', 'CashierWalletController@showFundRequests')->name('cashier.showFundRequests');
     Route::get('/fund/{cashierid}', 'CashierWalletController@viewFundCashier')->name('cashier.viewFundCashier');
@@ -363,6 +364,7 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/fund', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
     Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
     Route::get('/accept-cashier-request/{id}', 'CashReserveController@acceptCashierRequest')->name('cash.acceptCashierRequest');
+    Route::get('/reject-cashier-request/{id}', 'CashReserveController@rejectCashierRequest')->name('cash.rejectCashierRequest');
 });
 
 

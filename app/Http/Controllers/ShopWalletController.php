@@ -164,6 +164,7 @@ class ShopWalletController extends BaseController
 
     public function viewCashiers(Request $request)
     {
+        //*TODO: Modify Query to Select all Shop Wallets This AM controls and get the Cashiers from each
         $cashiers = CashierWallet::where('office_id', Auth::user()->office->id)->get();
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
     }

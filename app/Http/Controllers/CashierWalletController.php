@@ -50,9 +50,8 @@ class CashierWalletController extends BaseController
 
     public function viewAdd(Request $request)
     {
-        $office_id = Auth::user()->office->id;
-        $office = Office::where('id',$office_id)->first();
-        return view('admin.cashier-wallet.create', compact("office"));
+        $offices = Office::where('level', '>', 3)->get();
+        return view('admin.cashier-wallet.create', compact("offices"));
     }
 
 
@@ -200,9 +199,46 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
+
+    public function callbackFunds(Request $request, $cashierID)
+    {
+        //Get the Cashier Wallet
+        $cashierWallet = CashierWallet::where('id', $cashierID)->first();
+
+        //Get the Shop Wallet
+        $shopWallet = ShopWallet::where('office_id', $cashierWallet->office_id)->first();
+
+        //Get amount to refund
+        $amountToCallback = $cashierWallet->balance;
+
+        //Debit the Cashier Wallet
+        $cashierWallet->balance -= $amountToCallback;
+        $cashierWallet->save();
+
+        //Credit the AM Shop Wallet balance
+        $shopWallet->balance += $amountToCallback;
+        $shopWallet->save();
+
+        //Create Record in request table
+        $fundRequest = new CashierFundRequest();
+        $fundRequest->staff_office_id = Auth::user()->office->id;
+        $fundRequest->cashier_id = $cashierID;
+        $fundRequest->am_id = Auth::user()->office->manager->id;
+        $fundRequest->amount = $amountToCallback;
+        $fundRequest->description = "CALLBACK";
+        $fundRequest->status = "CALLBACK";
+        $fundRequest->type = "DEBIT";
+        $fundRequest->send_type = "RAISED";
+        $fundRequest->save();
+
+        alert()->success('Funds have been credited to the Shop Wallet.', 'Successful');
+        return redirect()->back();
+    }
+
     public function viewCashiers(Request $request)
     {
-        $cashiers = Auth::user()->office->cashiers;
+        //*TODO: Modify Query to Select all Shop Wallets This AM controls and get the Cashiers from each
+        $cashiers = CashierWallet::where('office_id', Auth::user()->office->id)->get();
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
     }
 

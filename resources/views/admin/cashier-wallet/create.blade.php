@@ -36,12 +36,19 @@
                             <form method = "POST" action = "{{route('cashier.create')}}">
                                 @csrf
 
+                                <label class="form-label">Office Name</label>
+                                <select class="form-control select2" name = "id" data-toggle="select2" data-toggle="select2" id="level">
+                                    @foreach($offices as $office)
+                                        <option value="{{$office->id}}">{{$office->name}}</option>
+                                    @endforeach
+                                </select>
+
+
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
                                             <label class="form-label">Wallet Code</label>
                                             <input type="text" name= "wallet_code" class="form-control" placeholder="LAG5039" required>
-                                            <input type="hidden" name= "id" class="form-control" value="{{$office->id}}" />
                                         </div>
                                     </div>
 

@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <i class="dripicons-jewel float-end text-muted"></i>
                             <h6 class="text-muted text-uppercase mt-0">Balance</h6>
-                            <h2 class="m-b-20">₦<span>{{$cashierWallet->balance}}</span></h2>
+                            <h2 class="m-b-20">₦<span>{{$cashierWallet->balance ?? 0}}</span></h2>
                         </div>
                     </div>
                 </div>

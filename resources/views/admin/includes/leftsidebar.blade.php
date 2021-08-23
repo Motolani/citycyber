@@ -96,8 +96,6 @@
                         <li>
                             <a href="{{url('viewStaffTable')}}">View Staff</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewCreateAdvance')}}">Advance</a>
                         </li>
@@ -105,13 +103,9 @@
                         <li>
                             <a href="{{url('viewCreateAllowance')}}">Allowance</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewLeaveRequest')}}">Request Leave/off</a>
                         </li>
-
-
                         {{--
                         <li>
                             <a href="apps-projects-details.html">Edit Staff</a>
@@ -472,80 +466,75 @@
                 </div>
             </li>
 
-            <li class="side-nav-title side-nav-item">Area Manager</li>
+            <li class="side-nav-title side-nav-item side-nav-title">Menu for Area Managers</li>
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#shop-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                <a href="{{route('shop-wallet.viewAll')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
-                    <span> Shop Wallets </span>
-                    <span class="menu-arrow"></span>
+                    <span> View Shop Wallets </span>
                 </a>
-
-                <div class="collapse" id="shop-wallet">
-                    <ul class="side-nav-third-level">
-
-                        <li>
-                            <a href="{{route('shop-wallet.viewAll')}}">View Shop Wallets</a>
-                        </li>
-
-                        <li>
-                            <a href="{{route('shop-wallet.cashiers')}}">View Cashiers</a>
-                        </li>
-                    </ul>
-                </div>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('shop-wallet.cashiers')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> View Cashiers </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('cash.viewCreate')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Create Cash Reserve </span>
+                </a>
             </li>
 
-            <li class="side-nav-title side-nav-item">Branch Manager</li>
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#cash-reserve" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                <a href="{{route('cashier.create')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
-                    <span> Cash Reserve Wallet </span>
-                    <span class="menu-arrow"></span>
+                    <span> Create Cashier </span>
                 </a>
-                <div class="collapse" id="cash-reserve">
-                    <ul class="side-nav-third-level">
-                        <li>
-                            <a href="{{route('cash.dashboard')}}">Wallet Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="{{route('cash.viewCreate')}}">Create Cash Reserve</a>
-                        </li>
-                        <li>
-{{--                            <a href="{{route('cash.fundRequests')}}">Fund Requests</a>--}}
-                        </li>
-
-                        <li>
-                            <a href="{{route('cash.slipRequests')}}">Slip Requests</a>
-                        </li>
-                    </ul>
-                </div>
             </li>
 
-
-
-            <li class="side-nav-title side-nav-item">Cashier</li>
+            <li class="side-nav-title side-nav-item">Menu for Branch Managers</li>
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#cashier-wallet" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="{{route('cash.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
-                    <span> Cashier Wallet </span>
-                    <span class="menu-arrow"></span>
+                    <span>My Cash Reserve</span>
                 </a>
-                <div class="collapse" id="cashier-wallet">
-                    <ul class="side-nav-third-level">
-                        <li>
-                            <a href="{{route('cashier.dashboard')}}">Wallet Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="{{route('cashier.viewRequestFunds')}}">Request Funds</a>
-                        </li>
-                        <li>
-                            <a href="{{route('cashier.showFundRequests')}}">Fund Requests</a>
-                        </li>
-                    </ul>
-                </div>
             </li>
+            <li class="side-nav-item">
+                <a href="{{route('cash.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>My Cash Reserve </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('cash.slipRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Slip Requests</span>
+                </a>
+            </li>
+
+            <li class="side-nav-title side-nav-item">Menu for Cashier</li>
+            <li class="side-nav-item">
+                <a href="{{route('cashier.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>My Wallet Dashboard</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('cashier.viewRequestFunds')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Request Funds</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('cashier.showFundRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Fund Requests</span>
+                </a>
+            </li>
+
 
             <li class="side-nav-title side-nav-item mt-1">Attendance</li>
-
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
                     <i class="uil-box"></i>
@@ -557,7 +546,6 @@
                         <li>
                             <a href="{{url('viewAttendance')}}">View Attendance</a>
                         </li>
-
                     </ul>
                 </div>
             </li>
@@ -586,7 +574,6 @@
                 </div>
             </li>
 
-
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages3" aria-expanded="false" aria-controls="sidebarPages3" class="side-nav-link">
                     <i class="uil-copy-alt"></i>
@@ -604,7 +591,6 @@
                     </ul>
                 </div>
             </li>
-
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages4" aria-expanded="false" aria-controls="sidebarPages4" class="side-nav-link">
@@ -624,7 +610,6 @@
                     </ul>
                 </div>
             </li>
-
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages5" aria-expanded="false" aria-controls="sidebarPages5" class="side-nav-link">
@@ -656,8 +641,6 @@
                         <li>
                             <a href="{{url('creategameview')}}">Create Games</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewGame')}}">View/Edit Games</a>
                         </li>
@@ -677,8 +660,6 @@
                         <li>
                             <a href="{{url('createwinview')}}">Create Win</a>
                         </li>
-
-
                         <li>
                             <a href="{{url('viewWin')}}">View/Edit Win</a>
                         </li>
