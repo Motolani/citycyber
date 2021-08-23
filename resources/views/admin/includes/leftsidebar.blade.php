@@ -499,6 +499,7 @@
                 </a>
             </li>
 
+            {{--            Menu For Branch Managers--}}
             <li class="side-nav-title side-nav-item">Menu for Branch Managers</li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="{{route('cash.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -516,6 +517,12 @@
                 <a href="{{route('cash.slipRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span>Slip Requests</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('cash.viewRequestFunds')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Request Funds</span>
                 </a>
             </li>
 

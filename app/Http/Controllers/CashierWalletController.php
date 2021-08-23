@@ -100,7 +100,8 @@ class CashierWalletController extends BaseController
         }
 
         alert()->success('Request has been sent successfully.', 'Request Sent');
-        return redirect()->back();    }
+        return redirect()->back();
+    }
 
 
     public function viewFundCashier(Request $request, $cashierID)

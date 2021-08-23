@@ -366,7 +366,7 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/callback/{id}', 'CashReserveController@callbackFunds')->name('cash.callbackFunds');
     Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
     Route::get('/accept-cashier-request/{id}', 'CashReserveController@acceptCashierRequest')->name('cash.acceptCashierRequest');
-    Route::get('/reject-cashier-request/{id}', 'CashReserveController@rejectCashierRequest')->name('cash.rejectCashierRequest');
+    Route::post('/reject-cashier-request/{id}', 'CashReserveController@rejectCashierRequest')->name('cash.rejectCashierRequest');
 });
 
 

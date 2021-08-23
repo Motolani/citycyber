@@ -73,18 +73,45 @@ class CashReserveController extends BaseController
 
     public function viewRequestFunds(Request $request)
     {
-        return view('admin.cash-reserve.request-funds');
+        $cashiers = CashierWallet::where('id', Auth::user()->office->id)->get();
+        return view('admin.cash-reserve.request-funds', compact('cashiers'));
     }
 
 
     public function requestFunds(Request $request)
     {
+        //TODO:  Amount must be a positive value
+        $request->validate([
+            'amount' => 'required|max:20',
+        ]);
+        $amount = $request->amount;
+        $cashier = $request->cashier;
+        $destination = $request->destination;
+
+        //Check if the Request should go to Cash Reserve
+//        if($destination == "am"){
+            $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
+
+            //Create the Request in Slips Table
+            $fundRequest = new Slip();
+            $fundRequest->manager_office_id = Auth::user()->office->id;
+            $fundRequest->manager_id = $cashReserve->areaManager->id;
+            $fundRequest->cashier_id = $cashier;
+            $fundRequest->amount = $amount;
+            $fundRequest->description = "REQUEST EXTRA FUNDS";
+            $fundRequest->status = "PENDING";
+            $fundRequest->type = "INSLIP";
+            $fundRequest->save();
+//        }
+
+        alert()->success('Request has been sent successfully.', 'Request Sent');
+        return redirect()->back();
     }
 
 
     public function viewFundCashReserve(Request $request, $cashierID)
     {
-        $cashier = CashierWallet::where('id', $cashierID);
+        $cashier = CashierWallet::where('id', $cashierID)->first();
         return view('admin.cash-reserve.fund', compact("cashier"));
     }
 

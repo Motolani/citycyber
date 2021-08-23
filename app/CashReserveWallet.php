@@ -11,6 +11,10 @@ class CashReserveWallet extends Model
         return $this->belongsTo('App\User', 'staff_id', 'id');
     }
 
+    public function areaManager(){
+        return $this->belongsTo('App\User', 'manager_id', 'id');
+    }
+
     public function office(){
         return $this->belongsTo('App\Office', 'office_id', 'id');
     }

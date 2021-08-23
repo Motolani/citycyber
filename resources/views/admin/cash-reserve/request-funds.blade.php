@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Request Funds</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Request funds from Area Manager</h4>
+                <h4 class="page-title">Request Extra funds</h4>
             </div>
         </div>
     </div>
@@ -29,12 +29,30 @@
                 <div class="card-body" >
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('cashier.request')}}">
+                            <form method = "POST" action = "{{route('cash.request')}}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12">
+                                        <div class="mb-3 mt-3">
+                                            <label class="form-label">Send Request to</label>
+                                            <select class="form-control select2" name="destination" id="destination" data-toggle="select2" required>
+                                                <option value="am">Area Manager</option>
+                                                <option value="cashier">Cashier</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 mt-3" id="cashier-block" style="display: none;">
+                                            <label class="form-label">Select Cashier</label>
+                                            <select class="form-control select2" name="cashier" data-toggle="select2" id="cashier" required>
+                                                @if(isset($cashiers))
+                                                    @foreach($cashiers as  $cashier)
+                                                        <option value="{{$cashier->id}}">{{$cashier->user->firstname}} </option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+
+                                        </div>
                                         <div class="mb-3 mt-4">
-                                            <label class="form-label">Amount to Fund</label>
+                                            <label class="form-label">Amount to Request</label>
                                             <input type="text" name= "amount" class="form-control" placeholder="200" required>
                                         </div>
                                     </div>
@@ -55,6 +73,16 @@
 
 
 @section('script')
+    <script>
+        $('#destination').on('change', function() {
+            if(this.value == 'cashier') {
+                $("#cashier-block").show();
+            }
+            else{
+                $("#cashier-block").hide();
+            }
+        });
+    </script>
 @endsection
 
 
