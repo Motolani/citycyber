@@ -331,6 +331,7 @@ Route::prefix('shop-wallet')->group(function () {
     Route::post('/fund', 'ShopWalletController@fundWallet')->name('shop.fund');
     Route::get('/view/{id}', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
     Route::get('/view-all', 'ShopWalletController@viewAll')->name('shop-wallet.viewAll');
+    Route::get('/cash-reserves', 'ShopWalletController@viewAllCashReserves')->name('shop-wallet.viewAllCashReserves');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/request-funds', 'ShopWalletController@showRequestFunds')->name('shop-wallet.showRequestFunds');
     Route::post('/request-funds', 'ShopWalletController@requestFunds')->name('shop-wallet.requestFunds');
@@ -357,11 +358,12 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/add', 'CashReserveController@viewAdd')->name('cash.viewAdd');
     Route::get('/create', 'CashReserveController@viewCreate')->name('cash.viewCreate');
     Route::get('/fund-requests', 'CashReserveController@fundRequests')->name('cash.fundRequests');
-    Route::post('/create', 'CashReserveController@create')->name('cash.create');
+    Route::post('/create', 'CashReserveController@createWallet')->name('cash.create');
     Route::post('/fund', 'CashReserveController@fundCashier')->name('cash.fund');
     Route::post('/request', 'CashReserveController@requestFunds')->name('cash.request');
     Route::get('/request', 'CashReserveController@viewRequestFunds')->name('cash.viewRequestFunds');
     Route::get('/fund', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
+    Route::get('/callback/{id}', 'CashReserveController@callbackFunds')->name('cash.callbackFunds');
     Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
     Route::get('/accept-cashier-request/{id}', 'CashReserveController@acceptCashierRequest')->name('cash.acceptCashierRequest');
     Route::get('/reject-cashier-request/{id}', 'CashReserveController@rejectCashierRequest')->name('cash.rejectCashierRequest');

@@ -56,6 +56,7 @@ class ShopWalletController extends BaseController
         $shop_wallet->office_id = $officeID;
         $shop_wallet->wallet_code = $request->wallet_code;
         $shop_wallet->save();
+
         alert()->success('Office has been successfully Created.', 'Created');
         return redirect()->back();
     }
@@ -97,6 +98,12 @@ class ShopWalletController extends BaseController
         $shopWallets = Auth::user()->offices;
 //        dd($shopWallets[0]->shopWallet);
         return view('admin.shop-wallet.shop-list', compact('shopWallets'));
+    }
+
+    public function viewAllCashReserves(Request $request)
+    {
+        $cashReserves = CashReserveWallet::where('am_id', Auth::user()->id)->get();
+        return view('admin.shop-wallet.cash-reserve-list', compact('cashReserves'));
     }
 
 

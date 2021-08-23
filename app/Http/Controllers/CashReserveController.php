@@ -34,6 +34,7 @@ class CashReserveController extends BaseController
 
     public function createWallet(Request $request)
     {
+        //TODO: Validate the Wallet code to make sure it has not been used
         $officeID = $request->office;
         $request->validate([
             'office' => 'required|max:20',
@@ -46,6 +47,7 @@ class CashReserveController extends BaseController
         if(isset($office)){
             //Create the Cash Reserve Wallet
             $wallet = new CashReserveWallet();
+            $wallet->am_id = $office->managerid;
             $wallet->office_id = $officeID;
             $wallet->staff_id = $office->managerid;
             $wallet->wallet_code = $request->wallet_code;
@@ -177,6 +179,40 @@ class CashReserveController extends BaseController
         $slipRequest->save();
 
         alert()->success('You have successfully rejected the request.', 'Successful');
+        return redirect()->back();
+    }
+
+
+    public function callbackFunds(Request $request, $id)
+    {
+        //Get the Cashier Wallet
+        $cashierReserve = CashReserveWallet::where('id', $id)->first();
+
+        //Get the Shop Wallet
+        $shopWallet = ShopWallet::where('office_id', $cashierReserve->office_id)->first();
+
+        //Get amount to refund
+        $amountToCallback = $cashierReserve->balance;
+
+        //Debit the Cashier Wallet
+        $cashierReserve->balance -= $amountToCallback;
+        $cashierReserve->save();
+
+        //Credit the AM Shop Wallet balance
+        $shopWallet->balance += $amountToCallback;
+        $shopWallet->save();
+
+        //Create Record in request table
+        $fundRequest = new CashReserveFundRequest();
+        $fundRequest->bm_id = $shopWallet->office->managerid;
+        $fundRequest->am_id = Auth::user()->id;
+        $fundRequest->amount = $amountToCallback;
+        $fundRequest->description = "CALLBACK";
+        $fundRequest->status = "CALLBACK";
+        $fundRequest->type = "DEBIT";
+        $fundRequest->save();
+
+        alert()->success('Funds have been credited to the Shop Wallet.', 'Successful');
         return redirect()->back();
     }
 

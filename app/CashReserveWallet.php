@@ -10,4 +10,8 @@ class CashReserveWallet extends Model
     public function branchManager(){
         return $this->belongsTo('App\User', 'staff_id', 'id');
     }
+
+    public function office(){
+        return $this->belongsTo('App\Office', 'office_id', 'id');
+    }
 }

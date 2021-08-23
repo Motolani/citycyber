@@ -474,6 +474,12 @@
                 </a>
             </li>
             <li class="side-nav-item">
+                <a href="{{route('shop-wallet.viewAllCashReserves')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> View Cash Reserves </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a href="{{route('shop-wallet.cashiers')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span> View Cashiers </span>
