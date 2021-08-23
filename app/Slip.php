@@ -16,4 +16,8 @@ class Slip extends Model
         return $this->belongsTo('App\CashierWallet', 'cashier_id', 'id');
     }
 
+    public function bm(){
+        return $this->belongsTo('App\CashierWallet', 'manager_office_id', 'id');
+    }
+
 }

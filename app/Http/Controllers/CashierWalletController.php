@@ -251,6 +251,13 @@ class CashierWalletController extends BaseController
         return view('admin.cashier-wallet.fund-requests-list', compact('fundRequests'));
     }
 
+    public function showSlipRequests(Request $request)
+    {
+        $slipRequests = Slip::where('cashier_id', Auth::user()->id)
+            ->get();
+        return view('admin.cashier-wallet.slip-requests-list', compact('slipRequests'));
+    }
+
 
 
     public function index()

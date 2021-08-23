@@ -526,6 +526,7 @@
                 </a>
             </li>
 
+            {{--            Menu For Cashiers--}}
             <li class="side-nav-title side-nav-item">Menu for Cashier</li>
             <li class="side-nav-item">
                 <a href="{{route('cashier.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -543,6 +544,12 @@
                 <a href="{{route('cashier.showFundRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span>Fund Requests</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('cashier.showSlipRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Slip Requests</span>
                 </a>
             </li>
 

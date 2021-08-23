@@ -348,6 +348,7 @@ Route::prefix('cashier')->group(function () {
     Route::get('/callback/{cashierid}', 'CashierWalletController@callbackFunds')->name('cashier.callbackFunds');
     Route::get('/request', 'CashierWalletController@viewRequestFunds')->name('cashier.viewRequestFunds');
     Route::get('/fund-requests', 'CashierWalletController@showFundRequests')->name('cashier.showFundRequests');
+    Route::get('/slip-requests', 'CashierWalletController@showSlipRequests')->name('cashier.showSlipRequests');
     Route::get('/fund/{cashierid}', 'CashierWalletController@viewFundCashier')->name('cashier.viewFundCashier');
     Route::post('/fund', 'CashierWalletController@fundCashier')->name('cashier.fund');
 });

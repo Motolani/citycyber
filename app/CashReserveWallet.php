@@ -12,7 +12,7 @@ class CashReserveWallet extends Model
     }
 
     public function areaManager(){
-        return $this->belongsTo('App\User', 'manager_id', 'id');
+        return $this->belongsTo('App\User', 'am_id', 'id');
     }
 
     public function office(){
