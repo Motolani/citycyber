@@ -200,7 +200,6 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
-
     public function callbackFunds(Request $request, $cashierID)
     {
         //Get the Cashier Wallet
@@ -239,7 +238,9 @@ class CashierWalletController extends BaseController
     public function viewCashiers(Request $request)
     {
         //*TODO: Modify Query to Select all Shop Wallets This AM controls and get the Cashiers from each
-        $cashiers = CashierWallet::where('office_id', Auth::user()->office->id)->get();
+        $cashiers = CashierWallet::where('office_id', Auth::user()->office->id)
+            ->latest()
+            ->get();
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
     }
 
@@ -247,6 +248,7 @@ class CashierWalletController extends BaseController
     {
         $fundRequests = CashierFundRequest::where('cashier_id', Auth::user()->id)
             ->with('cashier')
+            ->latest()
             ->get();
         return view('admin.cashier-wallet.fund-requests-list', compact('fundRequests'));
     }
@@ -254,11 +256,10 @@ class CashierWalletController extends BaseController
     public function showSlipRequests(Request $request)
     {
         $slipRequests = Slip::where('cashier_id', Auth::user()->id)
+            ->latest()
             ->get();
         return view('admin.cashier-wallet.slip-requests-list', compact('slipRequests'));
     }
-
-
 
     public function index()
     {
@@ -270,5 +271,73 @@ class CashierWalletController extends BaseController
         $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
         return view('admin.cashier-wallet.dashboard', compact('cashierWallet'));
     }
+
+    public function acceptSlipRequest(Request $request, $requestID)
+    {
+        $amount = $request->amount;
+
+        //Get the Fund Request Row
+        $slipRequest = Slip::where('id', $requestID)->first();
+
+        //Get the Cash Reserve
+        $cashReserve = CashReserveWallet::where('staff_id', $slipRequest->manager_id)->first();
+
+        //Get the Cashier Wallet
+        $cashierWallet = $slipRequest->cashier;
+
+        /*
+         * Check if the Cash Reserve Balance is enough for the transaction
+         * */
+        if($cashReserve->balance < $amount) {
+            alert()->error('You do not have sufficient Funds.', 'Insufficient Funds');
+            return redirect()->back();
+        }
+
+        //Credit the Cash Reserve
+        $cashReserve->balance += $amount;
+        $cashReserve->save();
+
+        //Debit the Cashier Wallet
+        $cashierWallet->balance -= $amount;
+        $cashierWallet->save();
+
+        //Change request to Rejected
+        $slipRequest->status = "APPROVED";
+        $slipRequest->save();
+
+
+        alert()->success('Request has been approved.', 'Approved');
+        return redirect()->back();
+    }
+
+    public function rejectSlipRequest(Request $request, $requestID)
+    {
+        //TODO:  Amount must be a positive value
+        $request->validate([
+            'reason'=> 'required'
+        ]);
+
+        $reason = $request->reason;
+        $cashier_id = $request->cashier_id;
+
+        //Get the Cashier Wallet
+        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+
+        //Get the Fund Request Row
+        $slipRequest = Slip::where('id', $requestID)->first();
+
+        //Get the Cashier Wallet
+        $cashierWallet = $slipRequest->cashier;
+
+        //Change request to Rejected
+        $slipRequest->status = "DISAPPROVED";
+        $slipRequest->save();
+
+
+        alert()->success('Request has been rejected.', 'Disapproved');
+        return redirect()->back();
+    }
+
+
 
 }

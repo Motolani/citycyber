@@ -34,7 +34,6 @@
                                 <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>Manager</th>
                                     <th>Amount</th>
                                     <th>Description</th>
                                     <th>Comment</th>
@@ -49,7 +48,6 @@
                                     @foreach($slipRequests as $slipRequest)
                                         <tr>
                                             <td>{{$slipRequest->id}}</td>
-                                            <td>{{$slipRequest->cashier->firstname}}</td>
                                             <td>{{$slipRequest->amount}}</td>
                                             <td>{{$slipRequest->description}}</td>
                                             <td>{{$slipRequest->comment}}</td>
@@ -57,8 +55,11 @@
                                             <td>{{$slipRequest->type}}</td>
                                             <td>{{$slipRequest->status}}</td>
                                             <td>
-                                                @if($slipRequest->status == "APPROVED")
-                                                    <a href="/cashier/reject/{{$slipRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                @if($slipRequest->status == "PENDING")
+                                                    <a href="/cashier/accept-slip/{{$slipRequest->id}}" class="btn btn-success btn-sm">
+                                                        <span class="uil-check"></span> Accept
+                                                    </a>
+                                                    <a href="/cashier/reject-slip/{{$slipRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
                                                         <span class="uil-multiply"></span> Reject
                                                     </a>
                                                 @endif

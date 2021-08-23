@@ -73,7 +73,9 @@ class CashReserveController extends BaseController
 
     public function viewRequestFunds(Request $request)
     {
-        $cashiers = CashierWallet::where('id', Auth::user()->office->id)->get();
+        $cashiers = CashierWallet::where('id', Auth::user()->office->id)
+            ->latest()
+            ->get();
         return view('admin.cash-reserve.request-funds', compact('cashiers'));
     }
 
@@ -90,18 +92,18 @@ class CashReserveController extends BaseController
 
         //Check if the Request should go to Cash Reserve
 //        if($destination == "am"){
-            $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
+        $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
 
-            //Create the Request in Slips Table
-            $fundRequest = new Slip();
-            $fundRequest->manager_office_id = Auth::user()->office->id;
-            $fundRequest->manager_id = $cashReserve->areaManager->id;
-            $fundRequest->cashier_id = $cashier;
-            $fundRequest->amount = $amount;
-            $fundRequest->description = "REQUEST EXTRA FUNDS";
-            $fundRequest->status = "PENDING";
-            $fundRequest->type = "INSLIP";
-            $fundRequest->save();
+        //Create the Request in Slips Table
+        $fundRequest = new Slip();
+        $fundRequest->manager_office_id = Auth::user()->office->id;
+        $fundRequest->manager_id = $cashReserve->areaManager->id;
+        $fundRequest->cashier_id = $cashier;
+        $fundRequest->amount = $amount;
+        $fundRequest->description = "REQUEST EXTRA FUNDS";
+        $fundRequest->status = "PENDING";
+        $fundRequest->type = "INSLIP";
+        $fundRequest->save();
 //        }
 
         alert()->success('Request has been sent successfully.', 'Request Sent');
@@ -118,13 +120,17 @@ class CashReserveController extends BaseController
 
     public function viewCreate(Request $request)
     {
-        $offices = Office::where("level", ">", 3)->get();
+        $offices = Office::where("level", ">", 3)
+            ->latest()
+            ->get();
         return view('admin.cash-reserve.create', compact('offices'));
     }
 
     public function fundRequests(Request $request)
     {
-        $fundRequests = CashReserveFundRequest::where('am_id', Auth::user()->id)->latest()->get();
+        $fundRequests = CashReserveFundRequest::where('am_id', Auth::user()->id)
+            ->latest()
+            ->get();
         return view('admin.cash-reserve.fund-requests-list', compact('fundRequests'));
     }
 
@@ -200,7 +206,7 @@ class CashReserveController extends BaseController
 
         //Get the Fund Request Row
         $slipRequest = Slip::where('id', $requestID)->first();
-        
+
         //Change request to Rejected
         $slipRequest->status = "DISAPPROVED";
         $slipRequest->comment = $reason;
@@ -238,7 +244,7 @@ class CashReserveController extends BaseController
         $fundRequest->description = "CALLBACK";
         $fundRequest->status = "CALLBACK";
         $fundRequest->type = "DEBIT";
-         $fundRequest->save();
+        $fundRequest->save();
 
         alert()->success('Funds have been credited to the Shop Wallet.', 'Successful');
         return redirect()->back();

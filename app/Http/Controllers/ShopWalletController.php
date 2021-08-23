@@ -106,7 +106,6 @@ class ShopWalletController extends BaseController
         return view('admin.shop-wallet.cash-reserve-list', compact('cashReserves'));
     }
 
-
     public function showRequestFunds(Request $request)
     {
         $cashiers = CashierWallet::where("office_id", Auth::user()->office->id)->get();
@@ -155,8 +154,6 @@ class ShopWalletController extends BaseController
         alert()->success('Request has been sent successfully.', 'Request Sent');
         return redirect()->back();
     }
-
-
 
     public function viewCreateWallet(Request $request)
     {
