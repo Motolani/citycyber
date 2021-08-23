@@ -154,7 +154,7 @@ class ShopWalletController extends BaseController
         $id = $request->id;
         $office = Office::where('id',$id)->first();
         if(isset($office))
-            return view('admin.wallet.create', compact('office'));
+            return view('admin.shop-wallet.create', compact('office'));
 
         else
             return redirect()->back();

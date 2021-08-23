@@ -7,7 +7,7 @@ class Pos extends Model
 {
         protected $table = "pos";
 
-        protected $fillable = ['terminal_id','bank_id'];
+        protected $fillable = ['terminal_id','bank_id','bank_name'];
 }
 
 

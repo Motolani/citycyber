@@ -39,7 +39,12 @@ class CustomerController extends BaseController
     public function createCustomerFormData(Request $request)
     {
         
+
+        // $check = \App\Customer::where("code")->exists();
+
+
         $id = Auth::user()->id;
+        $offices = \App\Office::all();
         $customer = new \App\Customer([
             "office_id"=>$request->office_id,
             "cashier_id" =>$id,
@@ -47,13 +52,19 @@ class CustomerController extends BaseController
             "name" =>$request->customer_name,
             "type"=>$request->customer_type,
             "dob"=>$request->dob,
+            "customer_code"=>$request->customer_code,
         ]);
         
-        $customer->save();
-
-        $offices = \App\Office::all();
-
-        return view("admin.customer.createCustomer", compact('offices'))->with('message','Customer Created Successfully');
+        if($customer->save()){
+            alert()->success('Record Created Successfully', '');
+            return view("admin.customer.createCustomer", compact('offices'))->with('message','Customer Created Successfully');
+        }
+        else{
+            alert()->error('Error Message', 'Record Not Created Successfully');
+            return view("admin.customer.createCustomer", compact('offices'))->with('message','Customer Created Successfully');
+        }
+        
+               
     }
 
     

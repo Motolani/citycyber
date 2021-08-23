@@ -49,11 +49,13 @@ class WinController extends BaseController
     public function createWinFormData(Request $request)
     {
 
+        // dd($request);
         $check = \App\Win::where('ticket_id',$request->ticket_id)->exists();
 
-        if($check){
-            return redirect()->back()->with("message","Ticket Id already Submitted");
-        }
+        // if($check){
+        //     alert()->success('Ticket id Alra', '');
+        //     return redirect()->back()->with("message","Ticket Id already Submitted");
+        // }
         // dd($request);
         $id = Auth::user()->id;
         $charge = 2;
@@ -78,6 +80,8 @@ class WinController extends BaseController
         $pos = \App\Pos::all();
 
         $customers = \App\Customer::all();
+
+        alert()->success('Data Created Successfully!!', '');
 
         return view("admin.win.createWin", compact(['customers','banks','offices','pos']))->with('message','Data Created Successfully');
     }

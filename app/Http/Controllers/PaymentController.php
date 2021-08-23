@@ -35,16 +35,60 @@ class PaymentController extends BaseController
         
         $customers = \App\Customer::all();
 
-        $banks = \App\Bank::all();
+        // $banks = \App\Bank::all();
 
-        return view("admin.payment.createPayment", compact(['customers','banks']));
+        $branch_id = Auth::user()->branchId;
+        $banks = \App\Bank_Account::all();
+
+        $pos = \App\Pos::all();
+
+        return view("admin.payment.createPayment", compact(['customers','banks','pos']));
 
     }
 
     
     public function createPaymentFormData(Request $request)
     {
-        //  dd($request);
+
+
+        $customers = \App\Customer::all();
+
+        $branch_id = Auth::user()->branchId;
+        $banks = \App\Bank_Account::all();
+        $pos = \App\Pos::all();
+        
+        if( $request->trantype == "pos"){
+            
+            if(!isset($request->reference)){
+
+                alert()->error('Error Message', 'Reference Not Found');
+                // return redirect()->back()->with("message","Please enetr a reference");
+            }else{
+                $reference = $request->reference;
+            }
+        }elseif($request->trantype == "transfer"){
+            if(!isset($request->reference)){
+                // return redirect()->back()->with("message","Please enetr a reference");
+
+                alert()->success('Please enter a reference', '');
+                return view("admin.payment.createPayment", compact(['customers','banks','pos']));
+            }else{
+            $reference = $request->reference;
+            }
+        }
+        elseif($request->trantype=="cash"){
+            $reference = time().rand(1000,9999);
+        }
+
+
+        $check = \App\Payment::where('reference',$reference)->exists();
+
+        if($check){
+            alert()->error('Error Message', 'Reference already Profiled');
+            return view("admin.payment.createPayment", compact(['customers','banks','pos']));
+            // return redirect()->back()->with("message","Reference already Profiled");
+        }
+
         $id = Auth::user()->id;
         $charge = 2;
         $amount = $charge + $request->amount;
@@ -52,18 +96,21 @@ class PaymentController extends BaseController
             "customer_id"=>$request->customer_id,
             "bank_id" =>$request->bank_id,
             "amount"=>$amount,
-            "charge"=>1,
+            "charge"=>2,
             "actual_amount"=>$request->amount,
-            "type"=>$request->payment_type,
+            "type"=>$request->trantype,
+            "pos_id"=>$request->pos_id,
+            "reference"=>$reference,
             // "status"=>$request->status,
         ]);
         
         $payment->save();
 
-        $customers = \App\Customer::all();
+        // $customers = \App\Customer::all();
 
-        $banks = \App\Bank::all();
-        return view("admin.payment.createPayment", compact(['customers','banks']))->with('message','Data Created Successfully');
+        // $banks = \App\Bank::all();
+        alert()->success('Payment Created Successfully', '');
+        return view("admin.payment.createPayment", compact(['customers','banks','pos']))->with('message','Data Created Successfully');
     }
 
     
@@ -72,8 +119,8 @@ class PaymentController extends BaseController
     public function viewPayment(Request $request){
         
         $payments = \App\Payment::join('customers','customers.id','payments.customer_id')
-                            ->join('banks','banks.id','payments.bank_id')
-                            ->select("banks.bank_name","customers.name", "payments.amount", "customers.name as customer_name","customers.gender","customers.type as customer_type","payments.id as id")->get();
+                ->join('banks','banks.id','payments.bank_id')
+                ->select("banks.bank_name","customers.name", "payments.amount","payments.actual_amount", "customers.name as customer_name","customers.gender","customers.type as customer_type","payments.id as id")->orderBy("id","desc")->get();
         
         $customers = \App\Customer::all();
         $banks = \App\Bank::all();
