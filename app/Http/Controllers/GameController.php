@@ -45,44 +45,162 @@ class GameController extends BaseController
 
     }
 
+    public function gameValidation(Request $request){
+        $payment = \App\Payment::where("reference",$request->reference)->where('reference','!=',null);
+        $reference = $request->reference;
+        if($payment->exists()){
+            $paymentDetails = $payment->first();
+            $amount = $paymentDetails->amount;
+            if($amount>$request->amount){
+                $checkIfPlayedAlready = \App\Game::where('reference',$request->reference)->where('reference','!=',null);
+                if($checkIfPlayedAlready->exists()){
+                    $sumAmount = $checkIfPlayedAlready->sum("amount");
+
+                    $validateAmount = $amount - $sumAmount;
+                    if($validateAmount >= $request->amount){
+                        $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                        $gameAmount = $request->amount;
+                        alert()->success('Verified Successfully!!', '');
+                        return view('admin.game.proceed',compact(['customer_name','customer_id','gameAmount','reference']));
+                    }else{
+                        alert()->error('Error Message', 'You do not have up to the game amount, please make payment and try again. Thank you.');
+                        return redirect()->back()->with("message","You do not have up to the game amount, please make payment and try again. Thank you.");
+                    }
+                }else{
+                    
+                    
+                    $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                    $customer_name = $customer->name;
+                    $customer_id = $customer->id;
+                    $gameAmount = $request->amount;
+                    alert()->success('Verified Successfully!!', '');
+                    return view('admin.game.proceed',compact(['customer_name','customer_id','gameAmount','reference']));
+                }
+            }else{
+                alert()->error('Error Message', 'Reference You do not have up to the game amount, please make payment and try again. Thank you');
+                return redirect()->back()->with("message","You do not have up to the game amount, please make payment and try again. Thank you.");
+            }
+        }else{
+            return redirect()->back()->with("message","Sorry, we could not find your reference. Please verify and try again. Thank you");
+        }
+
+        
+    }
     
     public function createGameFormData(Request $request)
     {
 
 
-        $check = \App\Game::where('ticket_id',$request->ticket_id)->exists();
+        $payment = \App\Payment::where("reference",$request->reference)->where('reference','!=',null);
+        $reference = $request->reference;
+        if($payment->exists()){
+            // dd('here');
+            $paymentDetails = $payment->first();
+            $amount = $paymentDetails->amount;
+            if($amount>=$request->amount){
+                // dd('here');
+                $checkIfPlayedAlready = \App\Game::where('reference',$request->reference)->where('reference','!=',null);
+                if($checkIfPlayedAlready->exists()){
+                    $sumAmount = $checkIfPlayedAlready->sum("amount");
 
-        if($check){
-            return redirect()->back()->with("message","Ticket Id already Submitted");
+                    $validateAmount = $amount - $sumAmount;
+                    if($validateAmount >= $request->amount){
+                        $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                        $gameAmount = $request->amount;
+                        $id = Auth::user()->id;
+                        $charge = 2;
+                        $amount = $charge + $request->amount;
+                        $game = new \App\Game([
+                            "office_id"=>Auth::user()->branchId,
+                            "ticket_id" =>$request->ticket_id,
+                            "customer_id"=>$request->customer_id,
+                            "cashier_id"=>$id,
+                            "amount"=>$request->amount,
+                            "type"=>$request->type,
+                            "status"=>$request->status,
+                            "reference"=>$request->reference,
+                        ]);
+                        
+                        $game->save();
+
+                        $offices = \App\Office::all();
+
+                        $banks = \App\Bank::all();
+
+                        $pos = \App\Pos::all();
+
+                        $customers = \App\Customer::all();
+                        alert()->success('Game Created Successfully', '');
+                        return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','Data Created Successfully');
+                    }else{
+
+                        // dd("hee");
+                        //alert()->error('Error Message', 'You do not have up to the game amount, please make payment and try again. Thank you.');
+                        $offices = \App\Office::all();
+
+                        $banks = \App\Bank::all();
+
+                        $pos = \App\Pos::all();
+
+                        $customers = \App\Customer::all();
+                        alert()->error('You do not have up to the game amount, please make payment and try again. Thank you.', '');
+                        return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','You do not have up to the game amount, please make payment and try again. Thank you.');
+                    }
+                }else{
+                    // dd('here');
+                    
+                    $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                    $customer_name = $customer->name;
+                    $customer_id = $customer->id;
+                    $gameAmount = $request->amount;
+                    
+                        $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                        $gameAmount = $request->amount;
+                        $id = Auth::user()->id;
+                        $charge = 2;
+                        $amount = $charge + $request->amount;
+                        $game = new \App\Game([
+                            "office_id"=>Auth::user()->branchId,
+                            "ticket_id" =>$request->ticket_id,
+                            "customer_id"=>$request->customer_id,
+                            "cashier_id"=>$id,
+                            "amount"=>$request->amount,
+                            "type"=>$request->type,
+                            "status"=>$request->status,
+                            "reference"=>$request->reference,
+                        ]);
+                        
+                        $game->save();
+
+                        $offices = \App\Office::all();
+
+                        $banks = \App\Bank::all();
+
+                        $pos = \App\Pos::all();
+
+                        $customers = \App\Customer::all();
+                        alert()->success('Game Recorded Successfully', '');
+                        // return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','Data Created Successfully');
+                }
+            }else{
+                alert()->error('Error Message', 'You do not have up to the game amount, please make payment and try again. Thank you.');
+
+                // return redirect()->back()->with("message","You do not have up to the game amount, please make payment and try again. Thank you.");
+            }
+        }else{
+            alert()->error('Error Message', 'No payment was made for the provided reference');
+
+            return redirect()->back()->with("message","No payment was made for the provided reference");
         }
-        // dd($request);
-        $id = Auth::user()->id;
-        $charge = 2;
-        $amount = $charge + $request->amount;
-        $game = new \App\Game([
-            "office_id"=>Auth::user()->branchId,
-            "ticket_id" =>$request->ticket_id,
-            "customer_id"=>$request->customer_id,
-            "cashier_id"=>$id,
-            "amount"=>$request->amount,
-            "type"=>$request->type,
-            "payment"=>$request->payment_type,
-            "pos_id"=>$request->pos_id,
-            "bank_id"=>$request->bank_id,
-            "status"=>$request->status,
-        ]);
+
+
+//        $check = \App\Game::where('reference',$request->reference);
+
+
+
         
-        $game->save();
-
-        $offices = \App\Office::all();
-
-        $banks = \App\Bank::all();
-
-        $pos = \App\Pos::all();
-
-        $customers = \App\Customer::all();
-
-        return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','Data Created Successfully');
+        // dd($request);
+        
     }
 
     

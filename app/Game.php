@@ -8,6 +8,6 @@ class Game extends Model
     protected $table = "games";
 
     protected $fillable = [
-        'office_id','ticket_id','customer_id','cashier_id','amount','type','payment','pos_id','bank_id','status'
+        'office_id','ticket_id','customer_id','reference','customer_code','cashier_id','amount','type','payment','pos_id','bank_id','status'
     ];
 }

@@ -29,7 +29,7 @@ class PosController extends BaseController
      */
     public function createPosForm()
     {
-	    $banks = \App\Bank::all();
+	    $banks = \App\Bank_Account::all();
         return view("admin.pos.createPos", compact('banks'));
     }
 
@@ -37,16 +37,19 @@ class PosController extends BaseController
     public function createPosFormData(Request $request)
     {
         
-        
+        $exp = explode("|",$request->bank_id);
+
         $pos = new Pos([
             "terminal_id"=>$request->terminal_id,
-            "bank_id" =>$request->bank_id,
+            "bank_id" =>$exp[0],//$request->bank_id,
+            "bank_name"=>$exp[1],
         ]);
 
         $pos->save();
 
-        $banks = \App\Bank::all();
-
+        $banks = \App\Bank_Account::all();
+            // dd($banks);
+            alert()->success('Record Created Successfully', '');
         return view("admin.pos.createPos", compact('banks'))->with('message','Pos Created Successfully');
     }
 
@@ -55,8 +58,8 @@ class PosController extends BaseController
 
     public function viewPos(Request $request){
         
-        $pos = \App\Pos::join('banks','banks.id','pos.bank_id')->select("banks.*", "pos.terminal_id","pos.id as pos_id")->get();
-        $banks = \App\Bank::all();
+        $pos = \App\Pos::join('bank_accounts','bank_accounts.id','pos.bank_id')->select("bank_accounts.*", "pos.terminal_id","pos.id as pos_id")->get();
+        $banks = \App\Bank_Account::all();
         return view('admin.pos.viewPos',compact(['pos','banks']));
 
    }
