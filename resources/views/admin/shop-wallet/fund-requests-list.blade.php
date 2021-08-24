@@ -62,7 +62,7 @@
                                                     <a href="/shop-wallet/approve-fund-request/{{$fundRequest->id}}" class="btn btn-success btn-sm">
                                                         <span class="uil-check"></span> Approve
                                                     </a>
-                                                    <a href="/cashier/disapprove-fund-request/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                    <a href="/shop-wallet/disapprove-fund-request/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
                                                         <span class="uil-multiply"></span> Disapprove
                                                     </a>
 
