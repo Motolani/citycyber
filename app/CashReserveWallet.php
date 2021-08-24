@@ -25,6 +25,7 @@ class CashReserveWallet extends Model
 
         //Watch the update event to detect balance changes and Log them in Transaction Log cash_reserve_histories
         CashierWallet::updated(function ($cashier) {
+            //TODO  Check if it's the balance that is updated
             $balanceBefore = $cashier->getOriginal('balance');
             $balanceAfter = $cashier->balance;
             //abs function will remove negative sign in case balanceBefore is more than balanceAfter

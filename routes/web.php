@@ -328,13 +328,14 @@ Route::prefix('office')->group(function () {
 
 Route::prefix('shop-wallet')->group(function () {
     Route::get('/fund/{shopid}', 'ShopWalletController@viewFund')->name('shop.viewFund');
-    Route::post('/fund', 'ShopWalletController@fundWallet')->name('shop.fund');
+    Route::post('/fund/{id}', 'ShopWalletController@fundWallet')->name('shop.fund');
     Route::get('/view/{id}', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
     Route::get('/view-all', 'ShopWalletController@viewAll')->name('shop-wallet.viewAll');
     Route::get('/cash-reserves', 'ShopWalletController@viewAllCashReserves')->name('shop-wallet.viewAllCashReserves');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/request-funds', 'ShopWalletController@showRequestFunds')->name('shop-wallet.showRequestFunds');
     Route::post('/request-funds', 'ShopWalletController@requestFunds')->name('shop-wallet.requestFunds');
+    Route::get('/fund-requests', 'ShopWalletController@viewFundRequests')->name('shop-wallet.viewFundRequests');
 });
 
 
@@ -368,6 +369,7 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/fund', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
     Route::get('/callback/{id}', 'CashReserveController@callbackFunds')->name('cash.callbackFunds');
     Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
+    Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('cash.viewCashiers');
     Route::get('/accept-cashier-request/{id}', 'CashReserveController@acceptCashierRequest')->name('cash.acceptCashierRequest');
     Route::post('/reject-cashier-request/{id}', 'CashReserveController@rejectCashierRequest')->name('cash.rejectCashierRequest');
 });

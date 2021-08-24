@@ -35,7 +35,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
                                             <label class="form-label">Amount to Request</label>
-                                            <input type="text" name= "amount" class="form-control" placeholder="200" required>
+                                            <input type="text" name= "amount" class="form-control" placeholder="20000" required>
                                         </div>
                                         <div class="mb-3 mt-4">
                                             <label class="form-label">Send Request to</label>
@@ -57,7 +57,6 @@
             </div>
         </div>
     </div>
-    <!-- end row -->
 @endsection
 
 

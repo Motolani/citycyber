@@ -47,19 +47,16 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
-
     public function viewAdd(Request $request)
     {
         $offices = Office::where('level', '>', 3)->get();
         return view('admin.cashier-wallet.create', compact("offices"));
     }
 
-
     public function viewRequestFunds(Request $request)
     {
         return view('admin.cashier-wallet.request-funds');
     }
-
 
     public function requestFunds(Request $request)
     {
@@ -86,13 +83,13 @@ class CashierWalletController extends BaseController
             $fundRequest->save();
         }
         else{
-            //Create a Request for AM Shop Wallet
+            //Create a Request for Shop Wallet
             $fundRequest = new CashierFundRequest();
             $fundRequest->staff_office_id = Auth::user()->office->id;
-            $fundRequest->cashier_id = $destination;
+            $fundRequest->cashier_id = Auth::user()->id;
             $fundRequest->am_id = Auth::user()->office->manager->id;
             $fundRequest->amount = $amount;
-            $fundRequest->description = "FORCED FUNDING";
+            $fundRequest->description = "";
             $fundRequest->status = "PENDING";
             $fundRequest->type = "CREDIT";
             $fundRequest->send_type = "RAISED";
@@ -102,7 +99,6 @@ class CashierWalletController extends BaseController
         alert()->success('Request has been sent successfully.', 'Request Sent');
         return redirect()->back();
     }
-
 
     public function viewFundCashier(Request $request, $cashierID)
     {
@@ -332,7 +328,6 @@ class CashierWalletController extends BaseController
         //Change request to Rejected
         $slipRequest->status = "DISAPPROVED";
         $slipRequest->save();
-
 
         alert()->success('Request has been rejected.', 'Disapproved');
         return redirect()->back();

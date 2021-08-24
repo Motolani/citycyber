@@ -61,24 +61,24 @@ class ShopWalletController extends BaseController
         return redirect()->back();
     }
 
-    public function fundWallet(Request $request)
+    public function fundWallet(Request $request, $shopID)
     {
+        //TODO: Validate Amount.  Min: 1 Naira
         $request->validate([
-            'amount' => 'required|max:20',
+            'amount' => 'required',
         ]);
 
-        $officeID = Auth::user()->office->id;
+//        $officeID = Auth::user()->office->id;
         $amount = $request->amount;
 
         //Get the Shop and add to the balance
-        $shop = ShopWallet::where('id', $officeID)->first();
+        $shop = ShopWallet::where('id', $shopID)->first();
         $shop->balance += $amount;
         $shop->save();
 
-
         //Log in Wallet History
         $history = new ShopWalletHistory();
-        $history->shop_wallet_id = $officeID;
+        $history->shop_wallet_id = $shopID;
         $history->staff_id = Auth::user()->id;
         $history->amount = $amount;
         $history->balance_after = $shop->balance;
@@ -131,7 +131,7 @@ class ShopWalletController extends BaseController
             $fundRequest->manager_id = $cashReserve->manager->id;
             $fundRequest->am_id = Auth::user()->id;
             $fundRequest->amount = $amount;
-            $fundRequest->description = "FORCED FUNDING";
+            $fundRequest->description = "";
             $fundRequest->status = "PENDING";
             $fundRequest->type = "CREDIT";
             $fundRequest->send_type = "RAISED";
@@ -184,6 +184,14 @@ class ShopWalletController extends BaseController
         $shop = ShopWallet::where('office_id', $id)->first();
         $cashier_count = CashierWallet::where("office_id", $id)->count();
         return view('admin.shop-wallet.dashboard', compact('shop', 'cashier_count'));
+    }
+
+    public function viewFundRequests(Request $request)
+    {
+        $fundRequests = CashierFundRequest::where('am_id', Auth::user()->id)
+            ->latest()
+            ->get();
+        return view('admin.shop-wallet.fund-requests-list', compact('fundRequests'));
     }
 
 }

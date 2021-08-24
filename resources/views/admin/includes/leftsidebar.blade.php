@@ -498,6 +498,12 @@
                     <span> Create Cashier </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="{{route('shop-wallet.viewFundRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Fund Requests</span>
+                </a>
+            </li>
 
             {{--            Menu For Branch Managers--}}
             <li class="side-nav-title side-nav-item">Menu for Branch Managers</li>
@@ -507,12 +513,12 @@
                     <span>My Cash Reserve</span>
                 </a>
             </li>
-{{--            <li class="side-nav-item">--}}
-{{--                <a href="{{route('cash.viewCashiers')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">--}}
-{{--                    <i class="uil-briefcase"></i>--}}
-{{--                    <span>My Cashiers </span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+            <li class="side-nav-item">
+                <a href="{{route('cash.viewCashiers')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>My Cashiers </span>
+                </a>
+            </li>
             <li class="side-nav-item">
                 <a href="{{route('cash.slipRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
