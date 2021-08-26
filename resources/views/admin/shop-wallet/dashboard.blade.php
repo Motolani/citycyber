@@ -28,7 +28,6 @@
 
     <div class="row">
         <div class="col-xl-8">
-
             <div class="row">
                 <div class="col-sm-4">
                     <div class="card tilebox-one">

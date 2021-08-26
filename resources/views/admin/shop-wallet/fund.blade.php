@@ -19,6 +19,18 @@
 
 
     <div class="row">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="card tilebox-one">
+                    <div class="card-body">
+                        <i class="dripicons-jewel float-end text-muted"></i>
+                        <h6 class="text-muted text-uppercase mt-0">Balance</h6>
+                        <h2 class="m-b-20">₦<span>{{$shop->balance}}</span></h2>
+                    </div> <!-- end card-body-->
+                </div> <!--end card-->
+            </div><!-- end col -->
+        </div>
+
         <div class="col-3" id = "first_cardB" ></div>
         <div class="col-12" id = "h_div" style = "align-content:right, float:right">
             <div class="card">
