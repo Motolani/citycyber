@@ -90,7 +90,10 @@ class ShopWalletController extends BaseController
     public function viewFund(Request $request, $shopid)
     {
         $shop = ShopWallet::where('id', $shopid)->first();
-        return view('admin.shop-wallet.fund', compact('shop'));
+        $history = ShopWalletHistory::where("shop_wallet_id", $shopid)
+            ->latest()
+            ->get();
+        return view('admin.shop-wallet.fund', compact('shop', 'history'));
     }
 
     public function viewAll(Request $request)
