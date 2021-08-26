@@ -194,6 +194,37 @@ class ShopWalletController extends BaseController
         return view('admin.shop-wallet.fund-requests-list', compact('fundRequests'));
     }
 
+
+    public function approveCashierFundRequest(Request $request, $requestID)
+    {
+        //TODO:  Amount must be a positive value
+        $request->validate([
+            'reason'=> 'required'
+        ]);
+
+        $reason = $request->reason;
+        $cashier_id = $request->cashier_id;
+
+        //Get the Cashier Wallet
+        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+
+        //Get the Shop Wallet the Cashier Belongs to
+        $shopWallet = $cashierWallet->office->shopWallet;
+
+        //Get the Fund Request Row
+        $fundRequest = CashierFundRequest::where('id', $requestID)->first();
+
+        //Debit Shop Wallet
+
+        //Change request to Rejected
+        $fundRequest->status = "APPROVED";
+        $fundRequest->save();
+
+        alert()->success('You have successfully rejected the Request.', 'Successful');
+        return redirect()->back();
+    }
+
+
     public function disapproveCashierFundRequest(Request $request, $requestID)
     {
         //TODO:  Amount must be a positive value

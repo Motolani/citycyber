@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Create Shop Wallet</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Fund Shop Wallet</h4>
+                <h4 class="page-title">Fund {{$shop->office->name    }} Shop Wallet</h4>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('shop.fund')}}">
+                            <form method = "POST" action = "/shop-wallet/fund/{{$shop->id}}">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12">
