@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CashierFundRequest;
 use App\CashierWallet;
+use App\CashierWalletHistory;
 use App\CashReserveFundRequest;
 use App\CashReserveWallet;
 use App\IncidenceOpration;
@@ -14,6 +15,7 @@ use App\Slip;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CashierWalletController extends BaseController
 {
@@ -103,7 +105,11 @@ class CashierWalletController extends BaseController
     public function viewFundCashier(Request $request, $cashierID)
     {
         $cashier = CashierWallet::where('id', $cashierID)->first();
-        return view('admin.cashier-wallet.fund', compact("cashier"));
+        $history = CashierWalletHistory::where("staff_id", $cashierID)
+            ->latest()
+            ->take(40)
+            ->get();
+        return view('admin.cashier-wallet.fund', compact("cashier", "history"));
     }
 
     public function fundCashier(Request $request)
@@ -139,7 +145,7 @@ class CashierWalletController extends BaseController
         $shop->update(['balance' => DB::raw("balance - $amount")]);
 
         //Get the Cashier and credit their balance
-        $cashier = CashierWallet::where('id', $cashier_id);
+        $cashier = CashierWallet::where('id', $cashier_id)->first();
         $cashier->update(['balance' => DB::raw("balance + $amount")]);
 
         alert()->success('Cashier has been successfully Funded.', 'Funded');

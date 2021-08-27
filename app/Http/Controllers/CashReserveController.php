@@ -167,8 +167,7 @@ class CashReserveController extends BaseController
 
 
         //Get the Cash Reserve
-        $cashReserveQuery = CashReserveWallet::where('staff_id', $slipRequest->manager_id);
-        $cashReserve = $cashReserveQuery->first();
+        $cashReserve = CashReserveWallet::where('staff_id', $slipRequest->manager_id)->first();
 
         //Get the Cashier Wallet
         $cashierWallet = $slipRequest->cashier;
@@ -182,7 +181,7 @@ class CashReserveController extends BaseController
         }
 
         //Debit the BM Wallet
-        $cashReserveQuery->update(['balance' => DB::raw("balance - $amount")]);
+        $cashReserve->update(['balance' => DB::raw("balance - $amount")]);
 
         //Credit the Cashier
         $cashierWallet->update(['balance' => DB::raw("balance + $amount")]);
@@ -220,8 +219,7 @@ class CashReserveController extends BaseController
     public function callbackFunds(Request $request, $id)
     {
         //Get the Cashier Wallet
-        $cashierReserveQuery = CashReserveWallet::where('id', $id);
-        $cashierReserve = $cashierReserveQuery->first();
+        $cashierReserve = CashReserveWallet::where('id', $id)->first();
 
         //Get the Shop Wallet
         $shopWallet = ShopWallet::where('office_id', $cashierReserve->office_id)->first();

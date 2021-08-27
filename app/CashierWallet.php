@@ -27,9 +27,12 @@ class CashierWallet extends Model
         CashierWallet::updated(function ($cashier) {
             //TODO  Check if it's the balance that is updated
             $balanceBefore = $cashier->getOriginal('balance');
+            $cashier->refresh();
             $balanceAfter = $cashier->balance;
+
             //abs function will remove negative sign in case balanceBefore is more than balanceAfter
             $amount = abs($balanceAfter - $balanceBefore);
+
             $type = ($balanceAfter > $balanceBefore) ? "credit" : "debit";
 
             //Log the transaction in History

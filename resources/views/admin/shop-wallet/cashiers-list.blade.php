@@ -54,10 +54,10 @@
                                             <td>{{$item->balance}}</td>
                                             <td>{{$item->wallet_code}}</td>
                                             <td>
-                                                <a href="/cashier/fund/{{$item->id}}" class="btn btn-success btn-sm">
+                                                <a href="/cashier/fund/{{$item->staff_id}}" class="btn btn-success btn-sm">
                                                     <span class="uil-envelope-add"></span> Fund
                                                 </a>
-                                                <a href="/cashier/callback/{{$item->id}}" class="btn btn-warning btn-sm">
+                                                <a href="/cashier/callback/{{$item->staff_id}}" class="btn btn-warning btn-sm">
                                                     <span class="uil-backward"></span> Callback
                                                 </a>
                                             </td>

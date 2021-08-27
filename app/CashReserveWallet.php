@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 class CashReserveWallet extends Model
 {
     protected $table = "cash_reserves";
+    protected $fillable = [
+        'balance'];
 
     public function branchManager(){
         return $this->belongsTo('App\User', 'staff_id', 'id');
@@ -24,18 +26,18 @@ class CashReserveWallet extends Model
         parent::boot();
 
         //Watch the update event to detect balance changes and Log them in Transaction Log cash_reserve_histories
-        CashierWallet::updated(function ($cashier) {
+        CashReserveWallet::updated(function ($cashReserve) {
             //TODO  Check if it's the balance that is updated
-            $balanceBefore = $cashier->getOriginal('balance');
-            $balanceAfter = $cashier->balance;
+            $balanceBefore = $cashReserve->getOriginal('balance');
+            $cashReserve->refresh();
+            $balanceAfter = $cashReserve->balance;
             //abs function will remove negative sign in case balanceBefore is more than balanceAfter
             $amount = abs($balanceAfter - $balanceBefore);
             $type = ($balanceAfter > $balanceBefore) ? "credit" : "debit";
 
             //Log the transaction in History
-            $history = new CashierWalletHistory();
-            $history->shop_wallet_id = $cashier->office_id;
-            $history->staff_id = $cashier->staff_id;
+            $history = new CashReserveHistory();
+            $history->bm_id = $cashReserve->staff_id;
             $history->amount = $amount;
             $history->balance_after = $balanceAfter;
             $history->type = $type;

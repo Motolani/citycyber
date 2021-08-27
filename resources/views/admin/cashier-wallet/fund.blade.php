@@ -35,7 +35,6 @@
                         <div class="tab-pane show active" id="typeahead-preview">
                             <form method = "POST" action = "{{route('cashier.fund')}}">
                                 @csrf
-
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
@@ -54,6 +53,9 @@
                     </div> <!-- end tab-content-->
                 </div> <!-- end card-body -->
             </div> <!-- end card-->
+
+            @include('admin.includes.history')
+
         </div> <!-- end col -->
     </div>
     <!-- end row -->
