@@ -14,6 +14,7 @@ use App\ShopWalletHistory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ShopWalletController extends BaseController
 {
@@ -71,19 +72,10 @@ class ShopWalletController extends BaseController
 //        $officeID = Auth::user()->office->id;
         $amount = $request->amount;
 
-        //Get the Shop and add to the balance
-        $shop = ShopWallet::where('id', $shopID)->first();
-        $shop->balance += $amount;
-        $shop->save();
+        //Update the Shop balance
+        ShopWallet::where('id', $shopID)->update(['balance' => DB::raw("balance + $amount")]);
 
-        //Log in Wallet History
-        $history = new ShopWalletHistory();
-        $history->shop_wallet_id = $shopID;
-        $history->staff_id = Auth::user()->id;
-        $history->amount = $amount;
-        $history->balance_after = $shop->balance;
-        $history->save();
-        alert()->success('Shop has been successfully Funded.', 'Funded');
+        alert()->success("Shop has been successfully Funded.", 'Funded');
         return redirect()->back();
     }
 

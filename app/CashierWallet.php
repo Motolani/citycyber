@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class CashierWallet extends Model
 {
+    protected $fillable = [
+        'balance'];
+
     protected $table = "cashier_wallets";
 
     public function office(){

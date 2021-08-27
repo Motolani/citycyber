@@ -346,6 +346,7 @@ Route::prefix('cashier')->group(function () {
     Route::get('/', 'CashierWalletController@dashboard')->name('cashier.dashboard');
     Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier.viewAdd');
     Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
+    Route::post('/accept/{id}', 'CashierWalletController@acceptFunds')->name('cashier.acceptFunds');
     Route::post('/reject/{id}', 'CashierWalletController@rejectFunds')->name('cashier.rejectFunds');
     Route::post('/request', 'CashierWalletController@requestFunds')->name('cashier.request');
     Route::get('/callback/{cashierid}', 'CashierWalletController@callbackFunds')->name('cashier.callbackFunds');

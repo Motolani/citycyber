@@ -53,8 +53,10 @@
                         </div> <!-- end preview-->
                     </div> <!-- end tab-content-->
                 </div> <!-- end card-body -->
-            </div> <!-- end card-->
-        </div> <!-- end col -->
+            </div>
+
+            @include('admin.includes.history')
+        </div>
     </div>
     <!-- end row -->
 @endsection

@@ -136,13 +136,11 @@ class CashierWalletController extends BaseController
         $fundRequest->save();
 
         //Debit the ShopWalet
-        $shop->balance -= $amount;
-        $shop->save();
+        $shop->update(['balance' => DB::raw("balance - $amount")]);
 
         //Get the Cashier and credit their balance
-        $cashier = CashierWallet::where('id', $cashier_id)->first();
-        $cashier->balance += $amount;
-        $cashier->save();
+        $cashier = CashierWallet::where('id', $cashier_id);
+        $cashier->update(['balance' => DB::raw("balance + $amount")]);
 
         alert()->success('Cashier has been successfully Funded.', 'Funded');
         return redirect()->back();
@@ -159,13 +157,14 @@ class CashierWalletController extends BaseController
         $cashier_id = $request->cashier_id;
 
         //Get the Cashier Wallet
-        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+        $cashierWalletQuery = CashierWallet::where('id', Auth::user()->id);
+        $cashierWallet = $cashierWalletQuery->first();
 
         //Get the Fund Request Row
         $fundRequest = CashierFundRequest::where('id', $requestID)->first();
 
         //Get the Shop Wallet
-        $shopWallet = ShopWallet::where('office_id', $fundRequest->staff_office_id)->first();
+        $shopWalletQuery = ShopWallet::where('office_id', $fundRequest->staff_office_id);
 
         //Get amount to refund
         $amountToRefund = $fundRequest->amount;
@@ -180,12 +179,10 @@ class CashierWalletController extends BaseController
         }
 
         //Debit the Cashier Wallet
-        $cashierWallet->balance -= $amountToRefund;
-        $cashierWallet->save();
+        $cashierWalletQuery->update(['balance' => DB::raw("balance - $amountToRefund")]);
 
         //Credit the AM Shop Wallet balance
-        $shopWallet->balance += $amountToRefund;
-        $shopWallet->save();
+        $shopWalletQuery->update(['balance' => DB::raw("balance + $amountToRefund")]);
 
         //Change request to Rejected
         $fundRequest->status = "REJECTED";
@@ -196,24 +193,42 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
+    public function acceptFunds(Request $request, $requestID)
+    {
+        //TODO:  Amount must be a positive value
+        $request->validate([
+            'reason'=> 'required'
+        ]);
+
+        //Get the Fund Request Row
+        $fundRequest = CashierFundRequest::where('id', $requestID)->first();
+
+        //Change request to Rejected
+        $fundRequest->status = "ACCEPTED";
+        $fundRequest->save();
+
+        alert()->success('You have successfully rejected the Funds.', 'Successful');
+        return redirect()->back();
+    }
+
     public function callbackFunds(Request $request, $cashierID)
     {
         //Get the Cashier Wallet
-        $cashierWallet = CashierWallet::where('id', $cashierID)->first();
+        $cashierWalletQuery = CashierWallet::where('id', $cashierID);
+        $cashierWallet = $cashierWalletQuery->first();
 
         //Get the Shop Wallet
-        $shopWallet = ShopWallet::where('office_id', $cashierWallet->office_id)->first();
+        $shopWalletQuery = ShopWallet::where('office_id', $cashierWallet->office_id);
+        $shopWallet = $shopWalletQuery->first();
 
         //Get amount to refund
         $amountToCallback = $cashierWallet->balance;
 
         //Debit the Cashier Wallet
-        $cashierWallet->balance -= $amountToCallback;
-        $cashierWallet->save();
+        $cashierWalletQuery->update(['balance' => DB::raw("balance - $amountToCallback")]);
 
         //Credit the AM Shop Wallet balance
-        $shopWallet->balance += $amountToCallback;
-        $shopWallet->save();
+        $shopWalletQuery->update(['balance' => DB::raw("balance + $amountToCallback")]);
 
         //Create Record in request table
         $fundRequest = new CashierFundRequest();
@@ -276,7 +291,8 @@ class CashierWalletController extends BaseController
         $slipRequest = Slip::where('id', $requestID)->first();
 
         //Get the Cash Reserve
-        $cashReserve = CashReserveWallet::where('staff_id', $slipRequest->manager_id)->first();
+        $cashReserveQuery = CashReserveWallet::where('staff_id', $slipRequest->manager_id);
+        $cashReserve = $cashReserveQuery->first();
 
         //Get the Cashier Wallet
         $cashierWallet = $slipRequest->cashier;
@@ -290,12 +306,10 @@ class CashierWalletController extends BaseController
         }
 
         //Credit the Cash Reserve
-        $cashReserve->balance += $amount;
-        $cashReserve->save();
+        $cashReserveQuery->update(['balance' => DB::raw("balance + $amount")]);
 
         //Debit the Cashier Wallet
-        $cashierWallet->balance -= $amount;
-        $cashierWallet->save();
+        $cashierWallet->update(['balance' => DB::raw("balance - $amount")]);
 
         //Change request to Rejected
         $slipRequest->status = "APPROVED";

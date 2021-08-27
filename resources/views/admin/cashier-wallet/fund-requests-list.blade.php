@@ -59,6 +59,9 @@
                                             <td>{{$fundRequest->status}}</td>
                                             <td>
                                                 @if($fundRequest->status == "APPROVED")
+                                                    <a href="/cashier/accept/{{$fundRequest->id}}" class="btn btn-primary btn-sm">
+                                                        <span class="uil-multiply"></span> Accept
+                                                    </a>
                                                     <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
                                                         <span class="uil-multiply"></span> Reject
                                                     </a>

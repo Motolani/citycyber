@@ -16,6 +16,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CashReserveController extends BaseController
 {
@@ -160,13 +161,14 @@ class CashReserveController extends BaseController
 
     public function acceptCashierRequest(Request $request, $requestID)
     {
-        $amount = $request->amount;
-
         //Get the Fund Request Row
         $slipRequest = Slip::where('id', $requestID)->first();
+        $amount = $slipRequest->amount;
+
 
         //Get the Cash Reserve
-        $cashReserve = CashReserveWallet::where('staff_id', $slipRequest->manager_id)->first();
+        $cashReserveQuery = CashReserveWallet::where('staff_id', $slipRequest->manager_id);
+        $cashReserve = $cashReserveQuery->first();
 
         //Get the Cashier Wallet
         $cashierWallet = $slipRequest->cashier;
@@ -180,12 +182,10 @@ class CashReserveController extends BaseController
         }
 
         //Debit the BM Wallet
-        $cashReserve->balance -= $amount;
-        $cashReserve->save();
+        $cashReserveQuery->update(['balance' => DB::raw("balance - $amount")]);
 
         //Credit the Cashier
-        $cashierWallet->balance += $amount;
-        $cashierWallet->save();
+        $cashierWallet->update(['balance' => DB::raw("balance + $amount")]);
 
         //Change request to Rejected
         $slipRequest->status = "APPROVED";
@@ -220,7 +220,8 @@ class CashReserveController extends BaseController
     public function callbackFunds(Request $request, $id)
     {
         //Get the Cashier Wallet
-        $cashierReserve = CashReserveWallet::where('id', $id)->first();
+        $cashierReserveQuery = CashReserveWallet::where('id', $id);
+        $cashierReserve = $cashierReserveQuery->first();
 
         //Get the Shop Wallet
         $shopWallet = ShopWallet::where('office_id', $cashierReserve->office_id)->first();
@@ -229,12 +230,10 @@ class CashReserveController extends BaseController
         $amountToCallback = $cashierReserve->balance;
 
         //Debit the Cashier Wallet
-        $cashierReserve->balance -= $amountToCallback;
-        $cashierReserve->save();
+        $cashierReserve->update(['balance' => DB::raw("balance - $amountToCallback")]);
 
         //Credit the AM Shop Wallet balance
-        $shopWallet->balance += $amountToCallback;
-        $shopWallet->save();
+        $shopWallet->update(['balance' => DB::raw("balance + $amountToCallback")]);
 
         //Create Record in request table
         $fundRequest = new CashReserveFundRequest();
