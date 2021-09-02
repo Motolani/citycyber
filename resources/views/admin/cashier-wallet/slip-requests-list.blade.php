@@ -51,7 +51,6 @@
                                             <td>{{$slipRequest->amount}}</td>
                                             <td>{{$slipRequest->description}}</td>
                                             <td>{{$slipRequest->comment}}</td>
-                                            <td>{{$slipRequest->send_type}}</td>
                                             <td>{{$slipRequest->type}}</td>
                                             <td>{{$slipRequest->status}}</td>
                                             <td>

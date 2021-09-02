@@ -50,12 +50,69 @@
                 </div><!-- end col -->
             </div>
         </div>
-        <!-- end col -->
     </div>
-    <!-- end row -->
 
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
 
-    <div class="tab-content">
+                    <h4 class="header-title">List of all Cashiers</h4>
+                    {{--                <a href="/cashier/add" aria-expanded="false" class="btn btn-success">--}}
+                    {{--                        Add New--}}
+                    {{--                    </a>--}}
+                    <div class="tab-content">
+                        @if (\Session::has('success'))
+                            <div class="alert alert-success">
+                                {!! \Session::get('success') !!}</li>
+                            </div @endif <div class="tab-pane show active" id="buttons-table-preview">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Staff</th>
+                                    <th>Office</th>
+                                    <th>Balance</th>
+                                    <th>Wallet Code</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                @if(isset($cashiers))
+                                    @foreach($cashiers as $item)
+                                        <tr>
+                                            <td>{{$item->id}}</td>
+                                            <td>{{$item->user->firstname}}</td>
+                                            <td>{{$item->office->name}}</td>
+                                            <td>{{$item->balance}}</td>
+                                            <td>{{$item->wallet_code}}</td>
+                                            <td>
+                                                <a href="/cashier/fund/{{$item->staff_id}}" class="btn btn-success btn-sm">
+                                                    <span class="uil-envelope-add"></span> Fund
+                                                </a>
+                                                <a href="/cashier/callback/{{$item->staff_id}}" class="btn btn-warning btn-sm">
+                                                    <span class="uil-backward"></span> Callback
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            @include('admin.includes.history')
+        </div>
+    </div>
+
+        <div class="tab-content">
         <div class="tab-pane show active" id="modal-position-preview">
             <!-- Top modal content -->
             <div id="top-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -68,8 +125,6 @@
                         <form class="ps-3 pe-3" action="{{url('updateOffice')}}" method="post">
                             @csrf
                             <div class="modal-body">
-                                
-                
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Name</label>
                                     <input class="form-control" type="text" id="name" name = "name" value = "{{isset($office)? $office->name:''}}" required="" placeholder="Office Name">
@@ -84,7 +139,6 @@
                                     <label for="phone" class="form-label">phone</label>
                                     <input class="form-control" type="text" name = "phone" value = "{{isset($office)? $office->phone:''}}" required="" id="phone" placeholder="Enter Phone">
                                 </div>
-
                                 
                                 <div class="mb-3">
                                     <label for="emailaddress" class="form-label">Address </label>
@@ -100,9 +154,6 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-
-            <!-- Right modal content -->
-            
         </div> <!-- end preview-->
     </div> <!-- end tab-content-->
     @endsection

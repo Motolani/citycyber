@@ -11,6 +11,7 @@ use App\Office;
 use App\OfficeLevel;
 use App\ShopWallet;
 use App\ShopWalletHistory;
+use App\Slip;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
@@ -139,7 +140,7 @@ class ShopWalletController extends BaseController
             $fundRequest->cashier_id = $destination;
             $fundRequest->am_id = Auth::user()->id;
             $fundRequest->amount = $amount;
-            $fundRequest->description = "FORCED FUNDING";
+            $fundRequest->description = "FIRST FUNDING";
             $fundRequest->status = "APPROVED";
             $fundRequest->type = "CREDIT";
             $fundRequest->send_type = "CREATED";
@@ -177,8 +178,14 @@ class ShopWalletController extends BaseController
     {
         //$officeID = Auth::user()->office->id;
         $shop = ShopWallet::where('office_id', $id)->first();
+        $cashiers = CashierWallet::where("office_id", $id)->get();
+        $history = ShopWalletHistory::where("shop_wallet_id", $id)
+            ->latest()
+            ->take(40)
+            ->get();
+
         $cashier_count = CashierWallet::where("office_id", $id)->count();
-        return view('admin.shop-wallet.dashboard', compact('shop', 'cashier_count'));
+        return view('admin.shop-wallet.dashboard', compact('shop','history', 'cashiers', 'cashier_count'));
     }
 
     public function viewFundRequests(Request $request)
@@ -190,14 +197,17 @@ class ShopWalletController extends BaseController
     }
 
 
+    public function viewSlipRequests(Request $request)
+    {
+        $slipRequests = Slip::where('manager_id', Auth::user()->id)
+            ->latest()
+            ->get();
+        return view('admin.shop-wallet.slip-requests-list', compact('slipRequests'));
+    }
+
+
     public function approveCashierFundRequest(Request $request, $requestID)
     {
-        //TODO:  Amount must be a positive value
-        $request->validate([
-            'reason'=> 'required'
-        ]);
-
-        $reason = $request->reason;
         $cashier_id = $request->cashier_id;
 
         //Get the Cashier Wallet
@@ -208,14 +218,71 @@ class ShopWalletController extends BaseController
 
         //Get the Fund Request Row
         $fundRequest = CashierFundRequest::where('id', $requestID)->first();
+        $amount = $fundRequest->amount;
+
+        //Check for insufficient funds
+        if($amount > $shopWallet->balance) {
+            alert()->error('You do not have sufficient funds for this transaction.', 'Insufficient Funds');
+            return redirect()->back();
+        }
 
         //Debit Shop Wallet
+        $shopWallet->update(['balance' => DB::raw("balance - $amount")]);
 
-        //Change request to Rejected
+        //Credit Cashier
+        $cashierWallet->update(['balance' => DB::raw("balance + $amount")]);
+
+        //Change request to Approved
         $fundRequest->status = "APPROVED";
         $fundRequest->save();
 
-        alert()->success('You have successfully rejected the Request.', 'Successful');
+        alert()->success('You have successfully approved the Request.', 'Successful');
+        return redirect()->back();
+    }
+
+
+    public function approveSlipRequest(Request $request, $requestID)
+    {
+        //Get the Fund Request Row
+        $slipRequest = Slip::where('id', $requestID)->first();
+        $amount = $slipRequest->amount;
+
+        //Shop Wallet
+        $shopWallet = $slipRequest->office->shopWallet;
+
+        //Cash Reserve
+        $cashReserve = CashReserveWallet::where('staff_id', $slipRequest->cashier_id)->first();
+
+        //Debit Shop Wallet
+        $shopWallet->update(['balance' => DB::raw("balance - $amount")]);
+
+        //Credit Cash Reserve
+        $cashReserve->update(['balance' => DB::raw("balance + $amount")]);
+
+        //Change request to Rejected
+        $slipRequest->status = "APPROVED";
+        $slipRequest->save();
+
+        alert()->success('You have successfully Approved the Request.', 'Successful');
+        return redirect()->back();
+    }
+
+    public function disapproveSlipRequest(Request $request, $requestID)
+    {
+        $request->validate([
+            'reason'=> 'required'
+        ]);
+
+        $reason = $request->reason;
+        //Get the Fund Request Row
+        $slipRequest = Slip::where('id', $requestID)->first();
+
+        //Change request to Rejected
+        $slipRequest->reason = $reason;
+        $slipRequest->status = "DISAPPROVED";
+        $slipRequest->save();
+
+        alert()->success('You have successfully Disapproved the Request.', 'Disapproved');
         return redirect()->back();
     }
 
@@ -228,10 +295,6 @@ class ShopWalletController extends BaseController
         ]);
 
         $reason = $request->reason;
-        $cashier_id = $request->cashier_id;
-
-        //Get the Cashier Wallet
-        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
 
         //Get the Fund Request Row
         $fundRequest = CashierFundRequest::where('id', $requestID)->first();

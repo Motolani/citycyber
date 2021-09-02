@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style="display:none" id="headerShow">View/Edit Office</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Shop Wallets</h4>
+                <h4 class="page-title">Slip Requests</h4>
             </div>
         </div>
     </div>
@@ -23,7 +23,8 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">List of all Shop Wallets</h4>
+                    <h4 class="header-title">Viewing all FuSlipnd Requests</h4>
+
                     <div class="tab-content">
                         @if (\Session::has('success'))
                             <div class="alert alert-success">
@@ -33,38 +34,42 @@
                                 <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>Office</th>
-                                    <th>Wallet Code</th>
-                                    <th>Wallet Balance</th>
+                                    <th>Cashier</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                    <th>Comment</th>
+                                    <th>Request Type</th>
+                                    <th>Funding Type</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @if(isset($shopWallets))
-                                    @foreach($shopWallets as $item)
+                                @if(isset($slipRequests))
+                                    @foreach($slipRequests as $fundRequest)
                                         <tr>
-                                            <td>{{$item->id}}</td>
-                                            <td>{{$item->name}}</td>
-                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->wallet_code : "None"}}</td>
-                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->balance : "None"}}</td>
+                                            <td>{{$fundRequest->id}}</td>
+                                            <td>{{$fundRequest->cashier->firstname}}</td>
+                                            <td>{{$fundRequest->amount}}</td>
+                                            <td>{{$fundRequest->description}}</td>
+                                            <td>{{$fundRequest->comment}}</td>
+                                            <td>{{$fundRequest->send_type}}</td>
+                                            <td>{{$fundRequest->type}}</td>
+                                            <td>{{$fundRequest->status}}</td>
                                             <td>
-                                                @if($item->shopWallet != null)
-                                                    <a href="/shop-wallet/view/{{$item->id}}" class="btn btn-success btn-sm">
-                                                        <span class="uil-eye"></span>View
+                                                @if($fundRequest->status == "PENDING")
+                                                    <a href="/shop-wallet/approve-slip/{{$fundRequest->id}}" class="btn btn-success btn-sm">
+                                                        <span class="uil-check"></span> Approve
                                                     </a>
-                                                    <a href="/shop-wallet/{{$item->shopWallet->office_id}}/cashiers" class="btn btn-success btn-sm">
-                                                        <span class="uil-eye"></span>View Cashiers
-                                                    </a>
-
-                                                    <a href="/shop-wallet/fund/{{$item->id}}" class="btn btn-success btn-sm">
-                                                        <span class="uil-eye"></span> Fund
+                                                    <a href="/shop-wallet/disapprove-slip/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
+                                                        <span class="uil-multiply"></span> Disapprove
                                                     </a>
 
-                                                    @else
-                                                    <a href="/office/create-wallet/{{$item->id}}" class="btn btn-success btn-sm">
-                                                        <span class="uil-wallet"></span>Create Wallet
-                                                    </a>
+                                                    {{--                                                @elseif($fundRequest->status == "APPROVED")--}}
+                                                    {{--                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">--}}
+                                                    {{--                                                        <span class="uil-multiply"></span> Reject--}}
+                                                    {{--                                                    </a>--}}
                                                 @endif
                                             </td>
                                         </tr>
@@ -79,19 +84,26 @@
                 </div>
             </div>
         </div><!-- end col-->
+
+
     </div>
     <!-- end row-->
 
-
 @endsection
-
+<!-- The Modal -->
+@include('admin.includes.reject-modal')
 
 @section('script')
+
     <script>
         $(function() {
+            $(".rejectButton").click(function (e){
+                e.preventDefault();
+                $("#rejectForm").attr("action", e.target.href);
+            });
+
             $(document).ready(function() {
                 let aa = $('#h_div');
-                console.log("h_div logger ----", aa);
                 aa.hide();
                 $("#hide").click(function() {
                     $("div").hide();

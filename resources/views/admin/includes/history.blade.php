@@ -1,4 +1,4 @@
-<div class="col-12" id = "h_div" style = "align-content:right, float:right">
+<div class="col-12" style = "align-content:right, float:right">
     <div class="card">
         <div class="card-body" >
             <div class="tab-content">

@@ -48,7 +48,7 @@ class CashReserveController extends BaseController
         if(isset($office)){
             //Create the Cash Reserve Wallet
             $wallet = new CashReserveWallet();
-            $wallet->am_id = $office->managerid;
+            $wallet->am_id = Auth::user()->id;
             $wallet->office_id = $officeID;
             $wallet->staff_id = $office->managerid;
             $wallet->wallet_code = $request->wallet_code;

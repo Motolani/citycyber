@@ -21,7 +21,7 @@ class CashierWalletController extends BaseController
 {
     /**
      * Create a new controller instance.
-     *
+     *acceptFunds
      * @return void
      */
     public function __construct()
@@ -135,7 +135,7 @@ class CashierWalletController extends BaseController
         $fundRequest->cashier_id = $cashier_id;
         $fundRequest->am_id = Auth::user()->id;
         $fundRequest->amount = $amount;
-        $fundRequest->description = "FORCED FUNDING";
+        $fundRequest->description = "FIRST FUNDING";
         $fundRequest->status = "APPROVED";
         $fundRequest->type = "CREDIT";
         $fundRequest->send_type = "CREATED";
@@ -163,14 +163,13 @@ class CashierWalletController extends BaseController
         $cashier_id = $request->cashier_id;
 
         //Get the Cashier Wallet
-        $cashierWalletQuery = CashierWallet::where('id', Auth::user()->id);
-        $cashierWallet = $cashierWalletQuery->first();
+        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
 
         //Get the Fund Request Row
         $fundRequest = CashierFundRequest::where('id', $requestID)->first();
 
         //Get the Shop Wallet
-        $shopWalletQuery = ShopWallet::where('office_id', $fundRequest->staff_office_id);
+        $shopWalletQuery = ShopWallet::where('office_id', $fundRequest->staff_office_id)->first();
 
         //Get amount to refund
         $amountToRefund = $fundRequest->amount;
@@ -185,7 +184,7 @@ class CashierWalletController extends BaseController
         }
 
         //Debit the Cashier Wallet
-        $cashierWalletQuery->update(['balance' => DB::raw("balance - $amountToRefund")]);
+        $cashierWallet->update(['balance' => DB::raw("balance - $amountToRefund")]);
 
         //Credit the AM Shop Wallet balance
         $shopWalletQuery->update(['balance' => DB::raw("balance + $amountToRefund")]);
@@ -201,11 +200,6 @@ class CashierWalletController extends BaseController
 
     public function acceptFunds(Request $request, $requestID)
     {
-        //TODO:  Amount must be a positive value
-        $request->validate([
-            'reason'=> 'required'
-        ]);
-
         //Get the Fund Request Row
         $fundRequest = CashierFundRequest::where('id', $requestID)->first();
 
@@ -252,10 +246,9 @@ class CashierWalletController extends BaseController
         return redirect()->back();
     }
 
-    public function viewCashiers(Request $request)
+    public function viewCashiers(Request $request, $officeID)
     {
-        //*TODO: Modify Query to Select all Shop Wallets This AM controls and get the Cashiers from each
-        $cashiers = CashierWallet::where('office_id', Auth::user()->office->id)
+        $cashiers = CashierWallet::where('office_id', $officeID)
             ->latest()
             ->get();
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
@@ -286,19 +279,20 @@ class CashierWalletController extends BaseController
     public function dashboard(Request $request)
     {
         $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+        $history = CashierWalletHistory::where('');
         return view('admin.cashier-wallet.dashboard', compact('cashierWallet'));
     }
 
     public function acceptSlipRequest(Request $request, $requestID)
     {
-        $amount = $request->amount;
 
         //Get the Fund Request Row
         $slipRequest = Slip::where('id', $requestID)->first();
+        $amount = $slipRequest->amount;
+
 
         //Get the Cash Reserve
-        $cashReserveQuery = CashReserveWallet::where('staff_id', $slipRequest->manager_id);
-        $cashReserve = $cashReserveQuery->first();
+        $cashReserve = CashReserveWallet::where('am_id', $slipRequest->manager_id)->first();
 
         //Get the Cashier Wallet
         $cashierWallet = $slipRequest->cashier;
@@ -312,7 +306,7 @@ class CashierWalletController extends BaseController
         }
 
         //Credit the Cash Reserve
-        $cashReserveQuery->update(['balance' => DB::raw("balance + $amount")]);
+        $cashReserve->update(['balance' => DB::raw("balance + $amount")]);
 
         //Debit the Cashier Wallet
         $cashierWallet->update(['balance' => DB::raw("balance - $amount")]);

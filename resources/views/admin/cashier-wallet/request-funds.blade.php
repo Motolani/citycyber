@@ -40,8 +40,8 @@
                                         <div class="mb-3 mt-4">
                                             <label class="form-label">Send Request to</label>
                                             <select class="form-control select2" name="destination" data-toggle="select" required>
-                                                <option value="am">Area Manager</option>
-                                                <option value="bm">Branch Manager</option>
+                                                <option value="am">Wallet</option>
+                                                <option value="bm">Cash</option>
                                             </select>
                                         </div>
                                     </div>

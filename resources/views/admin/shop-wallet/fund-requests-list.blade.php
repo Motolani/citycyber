@@ -66,10 +66,10 @@
                                                         <span class="uil-multiply"></span> Disapprove
                                                     </a>
 
-                                                @elseif($fundRequest->status == "APPROVED")
-                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">
-                                                        <span class="uil-multiply"></span> Reject
-                                                    </a>
+                                                    {{--                                                @elseif($fundRequest->status == "APPROVED")--}}
+                                                    {{--                                                    <a href="/cashier/reject/{{$fundRequest->id}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal">--}}
+                                                    {{--                                                        <span class="uil-multiply"></span> Reject--}}
+                                                    {{--                                                    </a>--}}
                                                 @endif
                                             </td>
                                         </tr>
