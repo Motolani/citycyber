@@ -1,6 +1,7 @@
 <div class="col-12" style = "align-content:right, float:right">
     <div class="card">
         <div class="card-body" >
+            <h4 class="header-title">Transaction History</h4>
             <div class="tab-content">
                 <div class="tab-pane show active" id="typeahead-preview">
                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
