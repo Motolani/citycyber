@@ -20,7 +20,6 @@
                     {{ session('message') }}
                     </div>
                 @endif
-                <a href="/shop-wallet/request-funds/" class="btn btn-success btn-smX mb-2"> Request Funds from Cash Reserve </a>
             </div>
         </div>
     </div>     
@@ -49,6 +48,9 @@
                     </div> <!--end card-->
                 </div><!-- end col -->
             </div>
+
+            <a href="/cash-reserve/fund/{{$shop->office->cashReserve->id}}" class="btn btn-success btn-smX mb-2"> Fund Cash Reserve </a>
+
         </div>
     </div>
 

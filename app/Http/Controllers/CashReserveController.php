@@ -6,6 +6,7 @@ use App\CashierFundRequest;
 use App\CashierWallet;
 use App\CashReserve;
 use App\CashReserveFundRequest;
+use App\CashReserveHistory;
 use App\CashReserveWallet;
 use App\IncidenceOpration;
 use App\Office;
@@ -112,12 +113,38 @@ class CashReserveController extends BaseController
     }
 
 
-    public function viewFundCashReserve(Request $request, $cashierID)
+
+    public function viewFundCashReserve(Request $request, $cashReserveId)
     {
-        $cashier = CashierWallet::where('id', $cashierID)->first();
-        return view('admin.cash-reserve.fund', compact("cashier"));
+        $cashReserve = CashReserveWallet::where('id', $cashReserveId)->first();
+        $history = CashReserveHistory::where('cash_reserve_id', $cashReserveId)->get();
+        return view('admin.cash-reserve.fund-cash-reserve', compact("cashReserve", "history"));
     }
 
+    public function fundCashReserve(Request $request)
+    {
+        //Get the Cash Reserve Wallet
+        $cashReserve = CashReserveWallet::where('id', $request->id)->first();
+
+        //Get amount to fund
+        $amount = $request->amount;
+
+        //Debit the Cashier Wallet
+        $cashReserve->update(['balance' => DB::raw("balance + $amount")]);
+
+        //Create Record in request table
+        $fundRequest = new CashReserveFundRequest();
+        $fundRequest->bm_id = $cashReserve->office->managerid;
+        $fundRequest->am_id = Auth::user()->id;
+        $fundRequest->amount = $amount;
+        $fundRequest->description = "Funds from Area Manager";
+        $fundRequest->status = "APPROVED";
+        $fundRequest->type = "CREDIT";
+        $fundRequest->save();
+
+        alert()->success('Funds have been credited to the Cash Reserve.', 'Successful');
+        return redirect()->back();
+    }
 
     public function viewCreate(Request $request)
     {

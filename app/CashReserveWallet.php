@@ -38,6 +38,7 @@ class CashReserveWallet extends Model
             //Log the transaction in History
             $history = new CashReserveHistory();
             $history->bm_id = $cashReserve->staff_id;
+            $history->cash_reserve_id = $cashReserve->id;
             $history->amount = $amount;
             $history->balance_after = $balanceAfter;
             $history->type = $type;

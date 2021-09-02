@@ -12,6 +12,11 @@ class Office extends Model
         return $this->hasOne('App\ShopWallet', 'office_id', 'id');
     }
 
+
+    public function cashReserve(){
+        return $this->hasOne('App\CashReserveWallet', 'office_id', 'id');
+    }
+
     public function manager(){
         return $this->belongsTo('App\User', 'managerid', 'id');
     }

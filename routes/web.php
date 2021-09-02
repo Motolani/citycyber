@@ -370,10 +370,12 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/create', 'CashReserveController@viewCreate')->name('cash.viewCreate');
     Route::get('/fund-requests', 'CashReserveController@fundRequests')->name('cash.fundRequests');
     Route::post('/create', 'CashReserveController@createWallet')->name('cash.create');
-    Route::post('/fund', 'CashReserveController@fundCashier')->name('cash.fund')->middleware('validate-amount');
+    Route::post('/fund-cashier', 'CashReserveController@fundCashier')->name('cash.fund-cashier')->middleware('validate-amount');
+    Route::get('/fund/{id}', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve')->middleware('validate-amount');
+    Route::post('/fund', 'CashReserveController@fundCashReserve')->name('cash.fundCashReserve')->middleware('validate-amount');
     Route::post('/request', 'CashReserveController@requestFunds')->name('cash.request')->middleware('validate-amount');
     Route::get('/request', 'CashReserveController@viewRequestFunds')->name('cash.viewRequestFunds');
-    Route::get('/fund', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
+    Route::get('/fund/{id}', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
     Route::get('/callback/{id}', 'CashReserveController@callbackFunds')->name('cash.callbackFunds');
     Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('cash.viewCashiers');

@@ -35,7 +35,9 @@ class ShopWallet extends Model
         });
     }
 
-    public function office(){
+    public function office()
+    {
         return $this->belongsTo('App\Office', 'office_id', 'id');
     }
+
 }
