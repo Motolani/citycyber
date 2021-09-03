@@ -21,7 +21,7 @@
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->amount}}</td>
                                     <td>{{$item->type}}</td>
-                                    <td>{{$item->created_at->diffForHumans()}}</td>
+                                    <td>{{$item->created_at}}</td>
                                 </tr>
                             @endforeach
                         @endif

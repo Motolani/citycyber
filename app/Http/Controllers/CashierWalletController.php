@@ -12,6 +12,7 @@ use App\Office;
 use App\OfficeLevel;
 use App\ShopWallet;
 use App\Slip;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,17 @@ class CashierWalletController extends BaseController
         $wallet = new CashierWallet();
         $wallet->office_id = $officeID;
         $wallet->wallet_code = $request->wallet_code;
-        $wallet->save();
+        try {
+            $wallet->save();
+        }
+        catch (QueryException $e){
+            $error_code = $e->errorInfo[1];
+
+            if($error_code == 1062){
+                alert()->error('The Wallet Code already exist', 'Invalid Wallet Code');
+                return redirect()->back();
+            }
+        }
         alert()->success('Cashier has been successfully Created.', 'Created');
         return redirect()->back();
     }

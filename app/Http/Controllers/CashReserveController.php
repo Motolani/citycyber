@@ -14,6 +14,7 @@ use App\OfficeLevel;
 use App\ShopWallet;
 use App\Slip;
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,17 @@ class CashReserveController extends BaseController
             $wallet->office_id = $officeID;
             $wallet->staff_id = $office->managerid;
             $wallet->wallet_code = $request->wallet_code;
-            $wallet->save();
+            try{
+                $wallet->save();
+            }
+            catch (QueryException $e){
+                $error_code = $e->errorInfo[1];
+
+                if($error_code == 1062){
+                    alert()->error('The Wallet Code already exist', 'Invalid Wallet Code');
+                    return redirect()->back();
+                }
+            }
             alert()->success('Cash Reserve has been  Created successfully.', 'Created');
             return redirect()->back();
         }
