@@ -14,7 +14,12 @@ class CashierWallet extends Model
         return $this->belongsTo('App\Office', 'office_id', 'id');
     }
 
+    //TODO: Romove this relationship as it is redundant
     public function user(){
+        return $this->belongsTo('App\User', 'staff_id', 'id');
+    }
+
+    public function staff(){
         return $this->belongsTo('App\User', 'staff_id', 'id');
     }
 

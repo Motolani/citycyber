@@ -76,16 +76,12 @@ class ShopWalletController extends BaseController
 
     public function fundWallet(Request $request, $shopID)
     {
-        //TODO: Validate Amount.  Min: 1 Naira
-        $request->validate([
-            'amount' => 'required',
-        ]);
-
 //        $officeID = Auth::user()->office->id;
         $amount = $request->amount;
 
         //Update the Shop balance
-        ShopWallet::where('id', $shopID)->update(['balance' => DB::raw("balance + $amount")]);
+        ShopWallet::where('id', $shopID)->first()
+        ->update(['balance' => DB::raw("balance + $amount")]);
 
         alert()->success("Shop has been successfully Funded.", 'Funded');
         return redirect()->back();
@@ -97,6 +93,7 @@ class ShopWalletController extends BaseController
         $history = ShopWalletHistory::where("shop_wallet_id", $shopid)
             ->latest()
             ->get();
+
         return view('admin.shop-wallet.fund', compact('shop', 'history'));
     }
 

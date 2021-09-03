@@ -542,7 +542,7 @@
             {{--            Menu For Cashiers--}}
             <li class="side-nav-title side-nav-item">Menu for Cashier</li>
             <li class="side-nav-item">
-                <a href="{{route('cashier.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                <a href="{{route('cashier.dashboard', Auth::user()->id)}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span>My Wallet Dashboard</span>
                 </a>

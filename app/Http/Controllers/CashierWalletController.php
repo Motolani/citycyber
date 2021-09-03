@@ -225,8 +225,7 @@ class CashierWalletController extends BaseController
     public function callbackFunds(Request $request, $cashierID)
     {
         //Get the Cashier Wallet
-        $cashierWalletQuery = CashierWallet::where('id', $cashierID);
-        $cashierWallet = $cashierWalletQuery->first();
+        $cashierWallet = CashierWallet::where('id', $cashierID)->first();
 
         //Get the Shop Wallet
         $shopWalletQuery = ShopWallet::where('office_id', $cashierWallet->office_id);
@@ -236,7 +235,7 @@ class CashierWalletController extends BaseController
         $amountToCallback = $cashierWallet->balance;
 
         //Debit the Cashier Wallet
-        $cashierWalletQuery->update(['balance' => DB::raw("balance - $amountToCallback")]);
+        $cashierWallet->update(['balance' => DB::raw("balance - $amountToCallback")]);
 
         //Credit the AM Shop Wallet balance
         $shopWalletQuery->update(['balance' => DB::raw("balance + $amountToCallback")]);
@@ -287,11 +286,17 @@ class CashierWalletController extends BaseController
         return view('admin.home');
     }
 
-    public function dashboard(Request $request)
+    public function dashboard(Request $request, $cashierId)
     {
-        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
-        $history = CashierWalletHistory::where('');
-        return view('admin.cashier-wallet.dashboard', compact('cashierWallet'));
+        //If No ID was passed, fetch the currently logged in user
+        if(!isset($cashierId)){
+            $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
+        }
+        else {
+            $cashierWallet = CashierWallet::where('id', $cashierId)->first();
+        }
+        $history = CashierWalletHistory::where('staff_id', $cashierWallet->staff->id)->get();
+        return view('admin.cashier-wallet.dashboard', compact('cashierWallet', 'history'));
     }
 
     public function acceptSlipRequest(Request $request, $requestID)

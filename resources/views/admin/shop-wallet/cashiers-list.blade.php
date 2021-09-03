@@ -35,8 +35,7 @@
                             <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
-                                    <th>Staff</th>
+                                    <th>Cashier Name</th>
                                     <th>Office</th>
                                     <th>Balance</th>
                                     <th>Wallet Code</th>
@@ -48,16 +47,18 @@
                                 @if(isset($cashiers))
                                     @foreach($cashiers as $item)
                                         <tr>
-                                            <td>{{$item->id}}</td>
                                             <td>{{$item->user->firstname}}</td>
                                             <td>{{$item->office->name}}</td>
                                             <td>{{$item->balance}}</td>
                                             <td>{{$item->wallet_code}}</td>
                                             <td>
-                                                <a href="/cashier/fund/{{$item->staff_id}}" class="btn btn-success btn-sm">
+                                                <a href="{{route('cashier.dashboard', Auth::user()->id)}}" class="btn btn-success btn-sm">
+                                                    <span class="uil-eye"></span> View Dashboard
+                                                </a>
+                                                <a href="/cashier/fund/{{$item->id}}" class="btn btn-success btn-sm">
                                                     <span class="uil-envelope-add"></span> Fund
                                                 </a>
-                                                <a href="/cashier/callback/{{$item->staff_id}}" class="btn btn-warning btn-sm">
+                                                <a href="/cashier/callback/{{$item->id}}" class="btn btn-warning btn-sm">
                                                     <span class="uil-backward"></span> Callback
                                                 </a>
                                             </td>

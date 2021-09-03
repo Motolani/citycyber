@@ -7,7 +7,6 @@
                     <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                         <thead>
                         <tr>
-                            <th>id</th>
                             <th>Amount</th>
                             <th>Type</th>
                             <th>Date</th>
@@ -18,7 +17,6 @@
                         @if(isset($history))
                             @foreach($history as $item)
                                 <tr>
-                                    <td>{{$item->id}}</td>
                                     <td>{{$item->amount}}</td>
                                     <td>{{$item->type}}</td>
                                     <td>{{$item->created_at}}</td>

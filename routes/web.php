@@ -347,7 +347,7 @@ Route::prefix('shop-wallet')->group(function () {
 
 //Cashier Wallet Routes
 Route::prefix('cashier')->group(function () {
-    Route::get('/', 'CashierWalletController@dashboard')->name('cashier.dashboard');
+    Route::get('/{id}', 'CashierWalletController@dashboard')->name('cashier.dashboard');
     Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier.viewAdd');
     Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
     Route::get('/accept/{id}', 'CashierWalletController@acceptFunds')->name('cashier.acceptFunds');
