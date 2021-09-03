@@ -86,9 +86,8 @@ class CashReserveController extends BaseController
 
     public function viewRequestFunds(Request $request)
     {
-        $cashiers = CashierWallet::where('id', Auth::user()->office->id)
-            ->latest()
-            ->get();
+        //Get Logged in User Office
+        $cashiers = Auth::user()->office->cashiers;
         return view('admin.cash-reserve.request-funds', compact('cashiers'));
     }
 
@@ -103,8 +102,6 @@ class CashReserveController extends BaseController
         $cashier = $request->cashier;
         $destination = $request->destination;
 
-        //Check if the Request should go to Cash Reserve
-//        if($destination == "am"){
         $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
 
         //Create the Request in Slips Table

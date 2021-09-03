@@ -20,5 +20,4 @@ class Office extends Model
     public function manager(){
         return $this->belongsTo('App\User', 'managerid', 'id');
     }
-
 }

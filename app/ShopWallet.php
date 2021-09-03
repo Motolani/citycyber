@@ -39,5 +39,4 @@ class ShopWallet extends Model
     {
         return $this->belongsTo('App\Office', 'office_id', 'id');
     }
-
 }
