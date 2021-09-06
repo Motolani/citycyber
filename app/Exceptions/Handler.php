@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Session;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +47,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //Hide all Errors FOR PRESENTATION ONLY
+        return redirect()->back()->with('error', 'A temporary error occurred.  Details of this error have been logged.');
         return parent::render($request, $exception);
     }
 }

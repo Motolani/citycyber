@@ -26,7 +26,13 @@
 
             <!-- Start Content-->
             <div class="container-fluid">
-                @if (count($errors) > 0)
+                @if(Session::has('error'))
+                    <div class="alert alert-danger mt-3">
+                            {{Session::get('error')}}
+                    </div>
+                @endif
+
+                    @if (count($errors) > 0)
                     <div class="alert alert-danger mt-3">
                         @foreach ($errors->all() as $error)
                             {{ $error }}<br />
@@ -34,7 +40,6 @@
                     </div>
                 @endif
                 @yield('content')
-
             </div>
         </div> <!-- content -->
 

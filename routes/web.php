@@ -331,7 +331,7 @@ Route::prefix('shop-wallet')->group(function () {
     Route::post('/fund/{id}', 'ShopWalletController@fundWallet')->name('shop.fund')->middleware('validate-amount');
     Route::get('/fund/{shopid}', 'ShopWalletController@viewFund')->name('shop.viewFund');
     Route::get('/view/{id}', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
-    Route::get('/view-all', 'ShopWalletController@viewAll')->name('shop-wallet.viewAll');
+    Route::post('/view-all', 'ShopWalletController@viewAll')->name('shop-wallet.viewAll');
     Route::get('/cash-reserves', 'ShopWalletController@viewAllCashReserves')->name('shop-wallet.viewAllCashReserves');
     Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/request-funds', 'ShopWalletController@showRequestFunds')->name('shop-wallet.showRequestFunds');
