@@ -312,14 +312,10 @@ class MainViewController extends BaseController
 
 
     function submitStaffForm(Request $request){
-
         if(isset($request->back) && $request->back == "Back"){
             if($request->session()->has('companyInfo')){
-
                 $companyInfo = $request->session()->get('companyInfo');
-
                 return view('admin.staff.createCompanyInfo', compact("companyInfo"));
-
             }
         }else{
 
