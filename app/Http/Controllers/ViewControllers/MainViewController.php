@@ -348,8 +348,12 @@ class MainViewController extends BaseController
 
         if(isset($request->submit) && $request->submit == "createLevel"){
             $requiredDoc = "";
-            $count = sizeof($request->selectedDoc);
+            //$count = sizeof($request->selectedDoc);
             //dd($request);
+            if (!isset($request->selectedDoc)){
+                alert()->error('Please make a selection.', 'No Selection');
+                return redirect()->back();
+            }
             foreach($request->selectedDoc as $selected){
                 $requiredDoc = $selected.",".$requiredDoc ;
             }
@@ -374,14 +378,12 @@ class MainViewController extends BaseController
                 //     "message"=>"Saved Successfully"
                 // ]);
                 $documents = \App\Document_table::all();
-                return redirect()->back()->with("message","Level Creted Successfully",compact('documents'));
+                return redirect()->back()->with("message","Level Created Successfully",compact('documents'));
             }
 
 
         }else{
-
             $documents = \App\Document_table::all();
-
             return view('admin.staff.data.createLevel',compact('documents'));
         }
     }
@@ -583,7 +585,7 @@ class MainViewController extends BaseController
                 //     "message"=>"Saved Successfully"
                 // ]);
 
-                return redirect()->back()->with("message","Unit Creted Successfully");
+                return redirect()->back()->with("message","Unit Created Successfully");
             }
         }else{
 

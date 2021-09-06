@@ -25,7 +25,7 @@
 
                     <h4 class="header-title">Available Table</h4>
                     <p class="text-muted font-14">
-                        Below are the lists of Offices availabe within City Cyber. Offices can also be edited
+                        Below are the lists of Offices available within City Cyber. Offices can also be edited
                     </p>
 
                     <ul class="nav nav-tabs nav-bordered mb-3">
@@ -65,7 +65,7 @@
                                             <tr>
                                                 <td><input type="checkbox" class="checkable" name="items[]" value="{{$incident->id}}" /></td>
                                                 <td>{{$incident->created_at}}</td>
-                                                <td>{{$incident->staff->firstname}}</td>
+                                                <td>{{!isset($incident->staff) ? "" : $incident->staff->firstname}}</td>
                                                 <td>{{$incident->offence}}</td>
                                                 <td>{{$incident->comment}}</td>
                                                 <td>{{$incident->admin->firstname}}</td>

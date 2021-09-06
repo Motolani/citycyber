@@ -480,7 +480,7 @@ class MainViewController extends BaseController
                 //     "message"=>"Saved Successfully"
                 // ]);
 		$documents = \App\Document_table::all();
-                return redirect()->back()->with("message","Level Creted Successfully",compact('documents'));
+                return redirect()->back()->with("message","Level Created Successfully",compact('documents'));
             }
             
             
@@ -689,7 +689,7 @@ class MainViewController extends BaseController
                 //     "message"=>"Saved Successfully"
                 // ]);
 		
-                return redirect()->back()->with("message","Unit Creted Successfully");
+                return redirect()->back()->with("message","Unit Created Successfully");
               }
             }else{
 

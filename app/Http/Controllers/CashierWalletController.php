@@ -301,7 +301,6 @@ class CashierWalletController extends BaseController
 
     public function acceptSlipRequest(Request $request, $requestID)
     {
-
         //Get the Fund Request Row
         $slipRequest = Slip::where('id', $requestID)->first();
         $amount = $slipRequest->amount;

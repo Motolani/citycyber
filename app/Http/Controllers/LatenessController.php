@@ -6,7 +6,7 @@ use App\Lateness;
 use App\Level;
 use Illuminate\Support\Facades\DB;
 
-class LatenessController extends Controller
+class LatenessController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -15,12 +15,11 @@ class LatenessController extends Controller
      */
     public function __construct()
     {
-                //Add this line to call Parent Constructor from BaseController
-                parent::__construct();
-
+        //Add this line to call Parent Constructor from BaseController
+        parent::__construct();
         $this->middleware('auth');
     }
-    
+
     /**
      * Show the application dashboard.
      *
@@ -28,7 +27,7 @@ class LatenessController extends Controller
      */
     public function index()
     {
-	    $lateness = Lateness::all();
+        $lateness = Lateness::all();
         return view("admin.staff.data.allLateness", compact('lateness'));
     }
 
@@ -39,21 +38,21 @@ class LatenessController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-                'starthour' => 'required|max:255',
-                'endhour' => 'required',
-                'amount' => 'required',
-        ]);	
+            'starthour' => 'required|max:255',
+            'endhour' => 'required',
+            'amount' => 'required',
+        ]);
 
-        $bonus = new Lateness();        
+        $bonus = new Lateness();
         $bonus->starthour = $request->starthour;
         $bonus->endhour = $request->endhour;
         $bonus->amount = $request->amount;
         $saved = $bonus->save();
 
         if($saved)
-        return redirect('/alllateness')->with('message', 'Lateness created successfully!.');
+            return redirect('/alllateness')->with('message', 'Lateness created successfully!.');
         else
-        return redirect('/alllateness')->with('message', 'Lateness not saved!.');
+            return redirect('/alllateness')->with('message', 'Lateness not saved!.');
     }
 
     public function store(Request $request)
@@ -62,33 +61,33 @@ class LatenessController extends Controller
     }
 
     public function update(Request $request, $id)
-    { 
-        $bonus = Lateness::find($id);  
+    {
+        $bonus = Lateness::find($id);
         $bonus->starthour = $request->starthour;
         $bonus->endhour = $request->endhour;
         $bonus->amount = $request->amount;
         $saved = $bonus->save();
 
         if($saved)
-        return redirect('/alllateness')->with('message', 'Lateness created successfully!.');
+            return redirect('/alllateness')->with('message', 'Lateness created successfully!.');
         else
-        return redirect('/alllateness')->with('message', 'Lateness not saved!.');
+            return redirect('/alllateness')->with('message', 'Lateness not saved!.');
     }
 
     public function show(Request $request, $id)
     {
         $lateness = Lateness::find($id);
-	return view("admin.staff.data.editLateness", compact('lateness'));
+        return view("admin.staff.data.editLateness", compact('lateness'));
     }
 
     public function destroy(Request $request, $id)
     {
         $deleted = Lateness::find($id)->delete();
         return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting status!.');
-/*
-	$status = Status::all();
-        return view("admin.staff.data.viewStatus", compact('status'));
-*/
+        /*
+            $status = Status::all();
+                return view("admin.staff.data.viewStatus", compact('status'));
+        */
     }
 }
 

@@ -338,7 +338,7 @@ dd($requiredDocuments);
                 //     "message"=>"Saved Successfully"
                 // ]);
 
-                return redirect()->with("success","Level Creted Successfully");
+                return redirect()->with("success","Level Created Successfully");
             }
             
             

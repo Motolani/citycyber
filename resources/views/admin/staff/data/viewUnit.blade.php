@@ -9,7 +9,7 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        
+
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">View/Edit Unit</li>
                     </ol>
                 </div>
@@ -35,50 +35,50 @@
                                 Preview
                             </a>
                         </li>
-                        
+
                     </ul> <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
-                                    <tr>
-                                        <th>Edit</th>
-                                        <th>Unit</th>
-                                        <th>Created At</th>
-                                        
-                                    </tr>
+                                <tr>
+                                    <th>Edit</th>
+                                    <th>Unit</th>
+                                    <th>Created At</th>
+
+                                </tr>
                                 </thead>
-                            
-                            
+
+
                                 <tbody>
                                 @if(isset($units))
                                     @foreach($units as $unit)
                                         <tr>
 
                                             <td>
-                        
-                        
+
+
                                                 <form method="post" action="{{url('editUnit')}}">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$unit->id}}">
-                                                        <input type="hidden" name="description" value="{{$unit->id}}">
-                                                        <button class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
-                                            </form>
+                                                    <input type="hidden" name="description" value="{{$unit->id}}">
+                                                    {{--                                                        <button class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>--}}
+                                                </form>
                                             </td>
                                             <td>{{$unit->title}}</td>
                                             <td>{{$unit->created_at}}</td>
-                                            
-                                            
-                                            
+
+
+
                                         </tr>
                                     @endforeach
-				                @endif
+                                @endif
                                 </tbody>
-                            </table>                                           
+                            </table>
                         </div> <!-- end preview-->
-                    
+
                     </div> <!-- end tab-content-->
-                    
+
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
@@ -90,11 +90,11 @@
 
 
 @section('script')
- <script>
-    
+    <script>
 
-  
- </script>
+
+
+    </script>
 
 @endsection
 
