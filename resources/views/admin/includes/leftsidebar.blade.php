@@ -584,7 +584,7 @@
 
 
 
-            <li class="side-nav-title side-nav-item">Others </li>
+{{--            <li class="side-nav-title side-nav-item">Others </li>--}}
 
 {{--            <li class="side-nav-item">--}}
 {{--                <a data-bs-toggle="collapse" href="#sidebarPages2" aria-expanded="false" aria-controls="sidebarPages2" class="side-nav-link">--}}
@@ -643,61 +643,59 @@
 {{--                </div>--}}
 {{--            </li>--}}
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages5" aria-expanded="false" aria-controls="sidebarPages5" class="side-nav-link">
-                    <i class="uil-copy-alt"></i>
-                    <span> Payments </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPages5">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('createpaymentview')}}">Create Payment</a>
-                        </li>
-                        <li>
-                            <a href="{{url('viewPayment')}}">View/Edit Payments</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#sidebarPages5" aria-expanded="false" aria-controls="sidebarPages5" class="side-nav-link">--}}
+{{--                    <i class="uil-copy-alt"></i>--}}
+{{--                    <span> Payments </span>--}}
+{{--                    <span class="menu-arrow"></span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="sidebarPages5">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('createpaymentview')}}">Create Payment</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('viewPayment')}}">View/Edit Payments</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
 
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#sidebarPages6" aria-expanded="false" aria-controls="sidebarPages6" class="side-nav-link">--}}
+{{--                    <i class="uil-copy-alt"></i>--}}
+{{--                    <span> Games </span>--}}
+{{--                    <span class="menu-arrow"></span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="sidebarPages6">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('creategameview')}}">Create Games</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('viewGame')}}">View/Edit Games</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages6" aria-expanded="false" aria-controls="sidebarPages6" class="side-nav-link">
-                    <i class="uil-copy-alt"></i>
-                    <span> Games </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPages6">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('creategameview')}}">Create Games</a>
-                        </li>
-                        <li>
-                            <a href="{{url('viewGame')}}">View/Edit Games</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages7" aria-expanded="false" aria-controls="sidebarPages7" class="side-nav-link">
-                    <i class="uil-copy-alt"></i>
-                    <span> Wins </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPages7">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('createwinview')}}">Create Win</a>
-                        </li>
-                        <li>
-                            <a href="{{url('viewWin')}}">View/Edit Win</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#sidebarPages7" aria-expanded="false" aria-controls="sidebarPages7" class="side-nav-link">--}}
+{{--                    <i class="uil-copy-alt"></i>--}}
+{{--                    <span> Wins </span>--}}
+{{--                    <span class="menu-arrow"></span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="sidebarPages7">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('createwinview')}}">Create Win</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('viewWin')}}">View/Edit Win</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
             <div class="clearfix"></div>
         </ul>
 
