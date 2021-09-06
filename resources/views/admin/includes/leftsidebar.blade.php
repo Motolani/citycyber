@@ -606,42 +606,42 @@
 {{--                </div>--}}
 {{--            </li>--}}
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages3" aria-expanded="false" aria-controls="sidebarPages3" class="side-nav-link">
-                    <i class="uil-copy-alt"></i>
-                    <span> Pos </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPages3">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('createposview')}}">Create Pos</a>
-                        </li>
-                        <li>
-                            <a href="{{url('viewPos')}}">View/Edit Pos</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#sidebarPages3" aria-expanded="false" aria-controls="sidebarPages3" class="side-nav-link">--}}
+{{--                    <i class="uil-copy-alt"></i>--}}
+{{--                    <span> Pos </span>--}}
+{{--                    <span class="menu-arrow"></span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="sidebarPages3">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('createposview')}}">Create Pos</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('viewPos')}}">View/Edit Pos</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages4" aria-expanded="false" aria-controls="sidebarPages4" class="side-nav-link">
-                    <i class="uil-copy-alt"></i>
-                    <span> Customer </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPages4">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('createcustomerview')}}">Create Customer</a>
-                        </li>
-                        <li>
-                            <a href="{{url('viewCustomer')}}">View/Edit Customer</a>
-                        </li>
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#sidebarPages4" aria-expanded="false" aria-controls="sidebarPages4" class="side-nav-link">--}}
+{{--                    <i class="uil-copy-alt"></i>--}}
+{{--                    <span> Customer </span>--}}
+{{--                    <span class="menu-arrow"></span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="sidebarPages4">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('createcustomerview')}}">Create Customer</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('viewCustomer')}}">View/Edit Customer</a>--}}
+{{--                        </li>--}}
 
-                    </ul>
-                </div>
-            </li>
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages5" aria-expanded="false" aria-controls="sidebarPages5" class="side-nav-link">
