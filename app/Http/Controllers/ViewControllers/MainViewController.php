@@ -843,7 +843,7 @@ class MainViewController extends BaseController
             }else{
                 $message = "Staff Role Could not be Updated Successfully";
                 $staffRole = \App\StaffRole::all();
-                return view("admin.staff.data.viewStaffRole",compact("staffRole"))->with("message",$message);
+                return view("admin.staff.data.viewRole",compact("staffRole"))->with("message",$message);
             }
         }else if($request->submit == "delete"){
 
@@ -855,7 +855,7 @@ class MainViewController extends BaseController
             }else{
                 $staffRole = \App\StaffRole::all();
                 $message = "Status Could not be Deleted Successfully";
-                return view("admin.staff.data.viewStaffRole",compact("staffRole"))->with("message",$message);
+                return view("admin.staff.data.viewRole",compact("staffRole"))->with("message",$message);
             }
         }
 

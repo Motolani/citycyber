@@ -395,13 +395,12 @@
                                     <li>
                                         <a href="{{url('createLeaveType')}}">Create Leave Type</a>
                                     </li>
-                                    <li>
-                                        <a href="{{url('allLeaveType')}}">View Leave Type</a>
-                                    </li>
+{{--                                    <li>--}}
+{{--                                        <a href="{{url('allLeaveType')}}">View Leave Type</a>--}}
+{{--                                    </li>--}}
                                 </ul>
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </li>

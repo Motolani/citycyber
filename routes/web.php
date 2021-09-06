@@ -409,7 +409,7 @@ Route::get('/viewCreateLoan', 'ViewControllers\MainOperation@viewCreateLoan');
 Route::post('/viewCreateLoan', 'ViewControllers\MainOperation@viewCreateLoan');
 
 Route::get('/allLeaveType', 'ViewControllers\MainViewController@viewLeave');
-Route::get('createLeaveType', 'ViewControllers\MainViewController@createLeaveType');
+Route::post('createLeaveType', 'ViewControllers\MainViewController@createLeaveType');
 Route::post('/updateDeleteLeaveType', 'ViewControllers\MainViewController@updateDeleteLeaveType');
 Route::get('/deleteLeavetype/{id}', 'ViewControllers\MainViewController@deleteOffType');
 /*Route::get('viewsss', function () {
