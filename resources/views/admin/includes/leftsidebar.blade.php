@@ -586,25 +586,25 @@
 
             <li class="side-nav-title side-nav-item">Others </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarPages2" aria-expanded="false" aria-controls="sidebarPages2" class="side-nav-link">
-                    <i class="uil-copy-alt"></i>
-                    <span> Bank Accounts </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarPages2">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('createbankaccountview')}}">Create Account</a>
-                        </li>
+{{--            <li class="side-nav-item">--}}
+{{--                <a data-bs-toggle="collapse" href="#sidebarPages2" aria-expanded="false" aria-controls="sidebarPages2" class="side-nav-link">--}}
+{{--                    <i class="uil-copy-alt"></i>--}}
+{{--                    <span> Bank Accounts </span>--}}
+{{--                    <span class="menu-arrow"></span>--}}
+{{--                </a>--}}
+{{--                <div class="collapse" id="sidebarPages2">--}}
+{{--                    <ul class="side-nav-second-level">--}}
+{{--                        <li>--}}
+{{--                            <a href="{{url('createbankaccountview')}}">Create Account</a>--}}
+{{--                        </li>--}}
 
 
-                        <li>
-                            <a href="{{url('viewBankAccount')}}">View/Edit Bank Account</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+{{--                        <li>--}}
+{{--                            <a href="{{url('viewBankAccount')}}">View/Edit Bank Account</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </li>--}}
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages3" aria-expanded="false" aria-controls="sidebarPages3" class="side-nav-link">
