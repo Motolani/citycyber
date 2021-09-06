@@ -52,7 +52,7 @@
                                             <td>{{$item->balance}}</td>
                                             <td>{{$item->wallet_code}}</td>
                                             <td>
-                                                <a href="{{route('cashier.dashboard', Auth::user()->id)}}" class="btn btn-success btn-sm">
+                                                <a href="{{route('cashier.dashboard', $item->id)}}" class="btn btn-success btn-sm">
                                                     <span class="uil-eye"></span> View Dashboard
                                                 </a>
                                                 <a href="/cashier/fund/{{$item->id}}" class="btn btn-success btn-sm">

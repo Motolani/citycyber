@@ -12,7 +12,7 @@
     </a>
 
     <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-dark">
+    <a href="#" class="logo text-center logo-dark">
                     <span class="logo-lg">
                         <img src="{{('assets/images/logo-dark.png')}}" alt="" height="16">
                     </span>
@@ -29,7 +29,7 @@
             <li class="side-nav-title side-nav-item">Navigation</li>
 
             <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                <a data-bs-toggle="collapse" href="/dashboard" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                     <i class="uil-home-alt"></i>
                     <span class="badge bg-success float-end">4</span>
                     <span> Dashboards </span>
