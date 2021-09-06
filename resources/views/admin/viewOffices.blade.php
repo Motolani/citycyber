@@ -78,7 +78,9 @@
                                                     <input type="hidden" name="description" value="{{$office->name}}">
                                                     <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
                                                 </form>
-                                                <a href="/office/create-wallet/{{$office->id}}" value = "edit" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Create Wallet</a>
+                                                @if($office->shopWallet == null)
+                                                    <a href="/office/create-wallet/{{$office->id}}" value = "edit" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Create Wallet</a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
