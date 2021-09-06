@@ -23,6 +23,14 @@ class CashierWallet extends Model
         return $this->belongsTo('App\User', 'staff_id', 'id');
     }
 
+    public function sender(){
+        return $this->belongsTo('App\User', 'from_id', 'id');
+    }
+
+  public function recipient(){
+        return $this->belongsTo('App\User', 'to_id', 'id');
+    }
+
 
     protected static function boot()
     {
@@ -44,6 +52,8 @@ class CashierWallet extends Model
             $history = new CashierWalletHistory();
             $history->shop_wallet_id = $cashier->office_id;
             $history->staff_id = $cashier->staff_id;
+            $history->from_id = Auth::user()->id;
+            $history->to_id = $cashier->staff_id;
             $history->amount = $amount;
             $history->balance_after = $balanceAfter;
             $history->type = $type;

@@ -21,6 +21,15 @@ class CashReserveWallet extends Model
         return $this->belongsTo('App\Office', 'office_id', 'id');
     }
 
+    public function sender(){
+        return $this->belongsTo('App\User', 'from_id', 'id');
+    }
+
+    public function recipient(){
+        return $this->belongsTo('App\User', 'to_id', 'id');
+    }
+
+
     protected static function boot()
     {
         parent::boot();
@@ -39,6 +48,8 @@ class CashReserveWallet extends Model
             $history = new CashReserveHistory();
             $history->bm_id = $cashReserve->staff_id;
             $history->cash_reserve_id = $cashReserve->id;
+            $history->from_id = Auth::user()->id;
+            $history->to_id = $cashReserve->staff_id;
             $history->amount = $amount;
             $history->balance_after = $balanceAfter;
             $history->type = $type;

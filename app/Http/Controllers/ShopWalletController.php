@@ -186,6 +186,7 @@ class ShopWalletController extends BaseController
     {
         //$officeID = Auth::user()->office->id;
         $shop = ShopWallet::where('office_id', $id)->first();
+
         $cashiers = CashierWallet::where("office_id", $id)->get();
         $history = ShopWalletHistory::where("shop_wallet_id", $id)
             ->latest()

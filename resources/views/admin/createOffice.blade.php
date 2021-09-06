@@ -41,7 +41,7 @@
 
             <h4 class="header-title" id = "headerShow">Create Office</h4>
                 <p class="text-muted font-14">
-                    Here you can created Offices e.g(Hub,Hq,Branches,Areas etc)
+                    Here you can create Offices e.g(Hub,Hq,Branches,Areas etc)
                 </p>
 
                 <ul class="nav nav-tabs nav-bordered mb-3">
@@ -87,7 +87,7 @@
             <div class="card-body" >
                 <h4 class="header-title" style = "">Create Office</h4>
                 <p class="text-muted font-14">
-                    Here you can created Offices e.g(Hub,Hq,Branches,Areas etc)
+                    Here you can create Offices e.g(Hub,Hq,Branches,Areas etc)
                 </p>
 
                 <ul class="nav nav-tabs nav-bordered mb-3">

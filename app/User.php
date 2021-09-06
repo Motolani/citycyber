@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function offices(){
         return $this->hasMany('App\Office', 'managerid', 'id');
     }
+
+    public function getFullName(){
+        return $this->firstname . " " . $this->lastname;
+    }
 }

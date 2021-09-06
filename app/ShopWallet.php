@@ -10,6 +10,12 @@ class ShopWallet extends Model
 
     protected $table = "shop_wallets";
 
+    public function office()
+    {
+        return $this->belongsTo('App\Office', 'office_id', 'id');
+    }
+
+
     protected static function boot()
     {
         parent::boot();
@@ -28,15 +34,12 @@ class ShopWallet extends Model
             $history = new ShopWalletHistory();
             $history->shop_wallet_id = $shop->id;
             $history->staff_id = $shop->office->manager->id;
+            $history->from_id = Auth::user()->id;
+            $history->to_id = $shop->office->manager->id;
             $history->amount = $amount;
             $history->balance_after = $balanceAfter;
             $history->type = $type;
             $history->save();
         });
-    }
-
-    public function office()
-    {
-        return $this->belongsTo('App\Office', 'office_id', 'id');
     }
 }
