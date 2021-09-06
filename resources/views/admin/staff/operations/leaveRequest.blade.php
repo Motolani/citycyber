@@ -56,8 +56,7 @@
                             <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
-
-                                        <th>Ceared At</th>
+                                        <th>Created At</th>
                                         <th>Category</th>
                                         <th>Days</th>
                                         
@@ -69,12 +68,9 @@
                                 @if(isset($leaveData))
                                     @foreach($leaveData as $type)
                                         <tr>
-
-            
                                             <td>{{$type->type}}</td>
                                             <td>{{$type->category}}</td>
                                             <td>{{$type->day}}</td>
-                                            
                                         </tr>
                                     @endforeach
 				                @endif

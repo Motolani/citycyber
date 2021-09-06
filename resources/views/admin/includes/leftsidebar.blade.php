@@ -90,9 +90,9 @@
                 </a>
                 <div class="collapse" id="sidebarProjects">
                     <ul class="side-nav-second-level">
-                        <li>
-                            <a href="{{url('newStaff')}}">Create Staff</a>
-                        </li>
+{{--                        <li>--}}
+{{--                            <a href="{{url('newStaff')}}">Create Staff</a>--}}
+{{--                        </li>--}}
                         <li>
                             <a href="{{url('viewStaffTable')}}">View Staff</a>
                         </li>

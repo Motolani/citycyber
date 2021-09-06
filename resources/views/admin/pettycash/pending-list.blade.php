@@ -27,7 +27,7 @@
                             <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="all" /></th>
+{{--                                    <th><input type="checkbox" id="all" /></th>--}}
                                     <th>Staff Name</th>
                                     <th>Ticket ID</th>
                                     <th>Amount</th>
@@ -44,7 +44,7 @@
                                     @if(isset($items))
                                         @foreach($items as $item)
                                             <tr>
-                                                <td><input type="checkbox" class="checkable" name="items[]" value="{{$item->id}}" /></td>
+{{--                                                <td><input type="checkbox" class="checkable" name="items[]" value="{{$item->id}}" /></td>--}}
                                                 <td>{{$item->staff->firstname}}</td>
                                                 <td>{{$item->ticket_id}}</td>
                                                 <td>{{$item->amount}}</td>
@@ -63,8 +63,8 @@
                                 </form>
                             </table>
 
-                            <button class="btn btn-primary btn-sm" id="bulkAccept"><span class="uil-check"></span>Accept Selected</button>
-                            <button class="btn btn-danger btn-sm" id="bulkDeny"><span class="uil-multiply"></span>Deny Selected</button>
+{{--                            <button class="btn btn-primary btn-sm" id="bulkAccept"><span class="uil-check"></span>Accept Selected</button>--}}
+{{--                            <button class="btn btn-danger btn-sm" id="bulkDeny"><span class="uil-multiply"></span>Deny Selected</button>--}}
 
 
                         </div> <!-- end preview-->

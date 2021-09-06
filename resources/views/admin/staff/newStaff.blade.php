@@ -123,7 +123,7 @@ Dashboard
                                         <div class="mb-3">
                                             <label class="form-label">Middle Name</label>
                                             <input required id="middleName"
-                                                value="{{ Session::get('personalInfo')['middleName'] }}"
+                                                value="{{ Auth::user()->middleName}}"
                                                 name="middleName" class="form-control" type="text"
                                                 placeholder="Middle Name">
                                         </div>
@@ -133,7 +133,7 @@ Dashboard
                                         <div class="mb-3">
                                             <label class="form-label">Last Name</label>
                                             <input required id="lastName" name="lastName"
-                                                value="{{ Session::get('personalInfo')['lastName'] }}"
+                                                value="{{ Auth::user()->lastName}}"
                                                 class="form-control" type="text" placeholder="Last Name">
                                         </div>
                                     </div> <!-- end col -->
@@ -459,6 +459,3 @@ Dashboard
 </script>
 
 @endsection
-
-
-

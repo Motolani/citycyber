@@ -64,7 +64,7 @@ class PettyCashController extends BaseController
         ]);
 
         $fileName = time().'.'.$request->file->extension();
-        $path = $request->file->move(public_path('uploads'), $fileName);
+        $path = $request->file->move(storage_path('uploads'), $fileName);
         //dd($path);
 
 
