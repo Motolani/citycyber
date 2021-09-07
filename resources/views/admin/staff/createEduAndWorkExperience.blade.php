@@ -130,10 +130,10 @@ Dashboard
                                             </td>
 
                                             <td>
-                                                <textarea autocomplete="off"
+                                                <input autocomplete="off"
                                                     value="{{ Session::has('workEducation') ? Session::get('workEducation')['job_functions'][$i] : '' }}"
-                                                    class="form-control underline" name="job_functions[]"
-                                                    id=""></textarea>
+                                                    class="form-control underline" name="job_functions[]" id="job_functions" type="text"
+                                                    id="">
                                             </td>
 
                                             <td></td>
@@ -174,8 +174,8 @@ Dashboard
                                                 </td>
 
                                                 <td>
-                                                    <textarea autocomplete="off" class="form-control underline"
-                                                        name="job_functions[]" id="job_functions" value=""></textarea>
+                                                    <input autocomplete="off" class="form-control underline"
+                                                        name="job_functions[]" id="job_functions" value="" type="text">
                                                 </td>
 
                                                 <td></td>

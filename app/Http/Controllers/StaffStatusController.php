@@ -40,8 +40,8 @@ class StaffStatusController extends BaseController
         $status->title = $request->title;
         $status->save();
 
-        $status = Status::all();
-
+	$status = Status::all();
+        alert()->success('Status Created Successfully', '');
         return view('admin.staff.data.viewStatus', compact("status"));
     }
 
@@ -51,15 +51,19 @@ class StaffStatusController extends BaseController
     }
 
     public function update(Request $request, $id)
-    {
-        $status = Status::find($id);
-        $status->title = $request->title;
-        $saved = $status->save();
-        if($saved)
-            return redirect('/staffstatus')->with('message', 'Status updated successfully!.');
-        else
-            return redirect('/staffstatus')->with('message', 'Status not saved!.');
-        //return Status::find($id)->fill($requst->all())->save();
+    { 
+	$status = Status::find($id);
+	$status->title = $request->title;
+	$saved = $status->save();
+	if($saved){
+        alert()->success('Status Updated Successfully', '');
+    return redirect('/staffstatus')->with('message', 'Status updated successfully!.');
+    }
+    else{
+        alert()->success('Update Failed', '');
+    return redirect('/staffstatus')->with('message', 'Status not saved!.');
+    }
+	//return Status::find($id)->fill($requst->all())->save();
     }
 
     public function show(Request $request, $id)
@@ -70,10 +74,10 @@ class StaffStatusController extends BaseController
     public function destroy(Request $request, $id)
     {
         $deleted = Status::find($id)->delete();
-        return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting status!.');
-        /*
-            $status = Status::all();
-                return view("admin.staff.data.viewStatus", compact('status'));
-        */
+	return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting status!.');
+/*
+	$status = Status::all();
+        return view("admin.staff.data.viewStatus", compact('status'));
+*/
     }
 }

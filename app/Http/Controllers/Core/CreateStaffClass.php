@@ -38,6 +38,7 @@ class CreateStaffClass extends Controller{
 
     //Personal Infos
     function creatStaff(Request $request,$data){//dd($data);
+        // dd($data);
         $personalInfo = $data['personalInfo'];
         $companyInfo = $data['companyInfo'];
         $workEducation = $data['workEducation'];
@@ -253,7 +254,8 @@ class CreateStaffClass extends Controller{
 
 
      function createStaffbankacc($data){//dd($data);
-        $len = $len = sizeof($data->accountNumber);
+        // dd($data->acc_num);
+        // $len = $len = sizeof($data);
         $result = false;
        	//dd($data); 
             $createStaffbankacc = new StaffBankAcc([
@@ -300,7 +302,7 @@ class CreateStaffClass extends Controller{
     function guarantors($data){
         $len = sizeof($data->name);
         $result = false;    
-	//dd($data);
+	// dd($data);
         for($i = 0; $i<$len;$i++){
             $guarantors = new Guarantor([
                 "userId"=>$data->staffId,
@@ -322,25 +324,32 @@ class CreateStaffClass extends Controller{
 
 
     function nextofkins($data){
-        
-        $len =  sizeof($data->name);
+        // dd($data);
+        // $len =  sizeof($data->relationship);
         $result = false;    
 
-        for($i = 0; $i<$len;$i++){
+        // for($i = 0; $i<$len;$i++){
         
+            // $nextofkins = new NextOfKin([
+            //     "userId"=>$data->staffId,
+            //     "name"=>$data->name[$i],
+            //     "relationship"=>$data->relationship[$i],
+            //     "phone"=>$data->phone[$i],
+            //     "address"=>$data->address[$i],
+            // ]);
             $nextofkins = new NextOfKin([
                 "userId"=>$data->staffId,
-                "name"=>$data->name[$i],
-                "relationship"=>$data->relationship[$i],
-                "phone"=>$data->phone[$i],
-                "address"=>$data->address[$i],
+                "name"=>$data->name,
+                "relationship"=>$data->relationship,
+                "phone"=>$data->phone,
+                "address"=>$data->address,
             ]);
             if($nextofkins->save()){
                 $result =  true;
             }else{
                 $result =  false;
             }
-        }
+        
         return $result;
 
         

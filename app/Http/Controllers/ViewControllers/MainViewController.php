@@ -17,6 +17,7 @@ use App\Classes;
 use App\Status;
 use App\ResumptionType;
 use App\Level;
+use SweetAlert;
 use App\Http\Controllers\BaseController;
 //use Auth;
 use Illuminate\Support\Facades\Auth;
@@ -254,7 +255,7 @@ class MainViewController extends BaseController
                 'terminationDate' => 'required',
                 'staffLevel' => 'required',
                 'resumptionType' => 'required',
-                'staff_number'=> 'required'
+                'staff_number'=> ''
             ]);
 
             $companyInfo = $request->session()->put('companyInfo', $validatedData);
@@ -330,6 +331,7 @@ class MainViewController extends BaseController
             $message = $response->message;
             if($response->status == "200"){
                 $request->session()->flush();
+                alert()->success('Staff Created Successfully', '');
                 return view('admin.staff.newStaff',compact('message'));//->with('message', $response->message);
             }else{
                 $request->session()->flush();

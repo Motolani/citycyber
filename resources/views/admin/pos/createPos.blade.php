@@ -52,7 +52,7 @@ Dashboard
                                             <option>Select Bank</option>
                                                 @if(isset($banks))
                                                     @foreach($banks as $data)
-                                                    <option value="{{$data->id}}" >{{$data->bank_name}}</option>                                        
+                                                    <option value="{{$data->id}}|{{$data->bank_name}}" >{{$data->bank_name}}</option>                                        
                                                     @endforeach
                                                 @endif
                                         </select>

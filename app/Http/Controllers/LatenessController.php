@@ -61,8 +61,8 @@ class LatenessController extends BaseController
     }
 
     public function update(Request $request, $id)
-    {
-        $bonus = Lateness::find($id);
+    { 
+        $bonus = Lateness::find($id);  
         $bonus->starthour = $request->starthour;
         $bonus->endhour = $request->endhour;
         $bonus->amount = $request->amount;

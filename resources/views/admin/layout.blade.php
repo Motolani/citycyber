@@ -112,20 +112,25 @@
 
 
 <!-- third party js -->
-<script src="{{('/assets/js/vendor/jquery.dataTables.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/dataTables.bootstrap4.js')}}"></script>
-<script src="{{('/assets/js/vendor/dataTables.responsive.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/dataTables.buttons.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/buttons.html5.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/buttons.flash.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/buttons.print.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/dataTables.keyTable.min.js')}}"></script>
-<script src="{{('/assets/js/vendor/dataTables.select.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/dataTables.bootstrap4.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/buttons.html5.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/buttons.flash.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/buttons.print.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/dataTables.keyTable.min.js')}}"></script>
+<script src="{{asset('/assets/js/vendor/dataTables.select.min.js')}}"></script>
 <!-- third party js ends -->
 
 {{--<script src="{{('/assets/js/pages/demo.datatable-init.js')}}"></script>--}}
+
+
+
+
+
 
 @yield('script')
 

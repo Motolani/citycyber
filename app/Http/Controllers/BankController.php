@@ -63,6 +63,7 @@ class BankController extends BaseController
 
 
         $customers = \App\Customer::all();
+        alert()->success('Bank Account Created Successfully', '');
         return view("admin.bank_account.createBankAccount", compact(['customers','banks']))->with('message','Data Created Successfully');
     }
 
@@ -85,6 +86,7 @@ class BankController extends BaseController
         //  dd($request);
         if(isset($request->submit) && $request->submit == "delete"){
             $delete = \App\Bank_Account::where('id',$request->id)->delete();
+            alert()->success('Bank deleted Successfully', '');
             return redirect()->back()->with("message","Successfully Deleted");
 
         }elseif(isset($request->submit) && $request->submit == "update"){
@@ -105,6 +107,7 @@ class BankController extends BaseController
             
                 
             if($update){
+                alert()->success('Updated Successfully', '');
             return redirect()->back()->with("message","Updated Successfully");
             }else{
                 // SweetAlert::message('Robots are working!');

@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use App\Bonus;
 use App\BonusOpration;
 use App\Level;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use SweetAlert;
 
 class BonusController extends BaseController
 {
@@ -80,6 +82,7 @@ class BonusController extends BaseController
 
                 ]);
                 $bonuses->save();
+                alert()->success('Bonus Created Successfully', '');
 		return redirect()->back()->with("message",'Bonus Created Successfully');
                 //return view('admin.staff.operations.viewBonus',compact(['bonuses','message','user_id']));
 
