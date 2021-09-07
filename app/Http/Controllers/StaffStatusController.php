@@ -14,7 +14,7 @@ class StaffStatusController extends Controller
     public function __construct()
     {
                 //Add this line to call Parent Constructor from BaseController
-                parent::__construct();
+                // parent::__construct();
 
         $this->middleware('auth');
     }
@@ -41,7 +41,7 @@ class StaffStatusController extends Controller
 	$status->save();
 
 	$status = Status::all();
-
+        alert()->success('Status Created Successfully', '');
         return view('admin.staff.data.viewStatus', compact("status"));
     }
 
@@ -55,10 +55,14 @@ class StaffStatusController extends Controller
 	$status = Status::find($id);
 	$status->title = $request->title;
 	$saved = $status->save();
-	if($saved)
-	return redirect('/staffstatus')->with('message', 'Status updated successfully!.');
-     	else
-	return redirect('/staffstatus')->with('message', 'Status not saved!.');
+	if($saved){
+        alert()->success('Status Updated Successfully', '');
+    return redirect('/staffstatus')->with('message', 'Status updated successfully!.');
+    }
+    else{
+        alert()->success('Update Failed', '');
+    return redirect('/staffstatus')->with('message', 'Status not saved!.');
+    }
 	//return Status::find($id)->fill($requst->all())->save();
     }
 

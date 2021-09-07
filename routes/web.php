@@ -384,8 +384,8 @@ Route::prefix('cash-reserve')->group(function () {
 });
 
 
-Route::get('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
-Route::post('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
+// Route::get('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
+// Route::post('/viewCreateBonus', 'ViewControllers\MainViewController@viewCreateBonus');
 
 
 Route::get('/viewCreateSuspension', 'SuspensionController@viewCreateSuspension');

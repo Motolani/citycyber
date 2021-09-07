@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\IncidenceOpration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
-
+use Illuminate\Support\Facades\Auth;
 class IncidenceController extends BaseController
 {
     /**
@@ -56,6 +56,7 @@ class IncidenceController extends BaseController
     
             ]);
             $offences->save();
+            alert()->success('Incidence Created Successfully', '');
             return redirect()->back()->with("message",'Offence Created Successfully');
     
             //return view('admin.staff.operations.viewIncidence',compact(['offences','message','user_id']));

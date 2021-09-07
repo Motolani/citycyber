@@ -16,7 +16,7 @@ class LatenessController extends Controller
     public function __construct()
     {
                 //Add this line to call Parent Constructor from BaseController
-                parent::__construct();
+                // parent::__construct();
 
         $this->middleware('auth');
     }
@@ -50,10 +50,14 @@ class LatenessController extends Controller
         $bonus->amount = $request->amount;
         $saved = $bonus->save();
 
-        if($saved)
+        if($saved){
+            alert()->success('Lateness Created Successfully', '');
         return redirect('/alllateness')->with('message', 'Lateness created successfully!.');
-        else
+        }
+        else{
+            alert()->success('Lateness Creation Failed', '');
         return redirect('/alllateness')->with('message', 'Lateness not saved!.');
+        }
     }
 
     public function store(Request $request)

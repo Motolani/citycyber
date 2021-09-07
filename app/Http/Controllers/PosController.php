@@ -38,7 +38,7 @@ class PosController extends BaseController
     {
         
         $exp = explode("|",$request->bank_id);
-
+        
         $pos = new Pos([
             "terminal_id"=>$request->terminal_id,
             "bank_id" =>$exp[0],//$request->bank_id,

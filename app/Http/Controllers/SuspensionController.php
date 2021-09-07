@@ -6,7 +6,8 @@ use App\IncidenceOpration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use App\SuspensionOpration;
-
+use SweetAlert;
+use Illuminate\Support\Facades\Auth;
 class SuspensionController extends BaseController
 {
     /**
@@ -68,7 +69,8 @@ class SuspensionController extends BaseController
             ->where('suspensionoprations.staff_id',$user_id)
             ->select('users.*','offices.name as officename','suspensionoprations.comment','suspensionoprations.startDate','suspensionoprations.endDate','suspensionoprations.status')
             ->get();
-			//dd($suspensions);
+            //dd($suspensions);
+            alert()->success('Suspension Created Successfully', '');
 			return redirect()->back()->with("message",'Suspension Created Successfully');
                 //return view('admin.staff.operations.viewSuspension',compact(['message','suspensions','user_id']));
 
