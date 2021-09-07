@@ -262,8 +262,9 @@
             }
             function loadParent(response) {
 
-                console.log('thisadata',data);
-                let data  = JSON.parse(response);
+                // console.log('thisadata',data);
+                // let data  = JSON.parse(response);
+                let data  = response;
                 let status = data.status;
 
                 console.log("statusBelowCheck",data.message);

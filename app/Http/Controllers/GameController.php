@@ -54,11 +54,15 @@ class GameController extends BaseController
             if($amount>$request->amount){
                 $checkIfPlayedAlready = \App\Game::where('reference',$request->reference)->where('reference','!=',null);
                 if($checkIfPlayedAlready->exists()){
+                    // dd("here");
                     $sumAmount = $checkIfPlayedAlready->sum("amount");
 
                     $validateAmount = $amount - $sumAmount;
                     if($validateAmount >= $request->amount){
                         $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                        $gameAmount = $request->amount;
+                        $customer_name = $customer->name;
+                        $customer_id = $customer->id;
                         $gameAmount = $request->amount;
                         alert()->success('Verified Successfully!!', '');
                         return view('admin.game.proceed',compact(['customer_name','customer_id','gameAmount','reference']));
@@ -78,7 +82,8 @@ class GameController extends BaseController
                 }
             }else{
                 alert()->error('Error Message', 'Reference You do not have up to the game amount, please make payment and try again. Thank you');
-                return redirect()->back()->with("message","You do not have up to the game amount, please make payment and try again. Thank you.");
+                return view('admin.game.createGame');
+                // return redirect()->back()->with("message","You do not have up to the game amount, please make payment and try again. Thank you.");
             }
         }else{
             return redirect()->back()->with("message","Sorry, we could not find your reference. Please verify and try again. Thank you");
@@ -106,6 +111,7 @@ class GameController extends BaseController
                     $validateAmount = $amount - $sumAmount;
                     if($validateAmount >= $request->amount){
                         $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
+                        $customer_name = $customer->name;
                         $gameAmount = $request->amount;
                         $id = Auth::user()->id;
                         $charge = 2;
@@ -114,6 +120,7 @@ class GameController extends BaseController
                             "office_id"=>Auth::user()->branchId,
                             "ticket_id" =>$request->ticket_id,
                             "customer_id"=>$request->customer_id,
+                            "customer_name"=>$customer_name,
                             "cashier_id"=>$id,
                             "amount"=>$request->amount,
                             "type"=>$request->type,
@@ -123,28 +130,22 @@ class GameController extends BaseController
                         
                         $game->save();
 
-                        $offices = \App\Office::all();
+                        // $offices = \App\Office::all();
 
-                        $banks = \App\Bank::all();
+                        // $banks = \App\Bank::all();
 
-                        $pos = \App\Pos::all();
+                        // $pos = \App\Pos::all();
 
                         $customers = \App\Customer::all();
                         alert()->success('Game Created Successfully', '');
-                        return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','Data Created Successfully');
+                        return view("admin.game.createGame", compact(['customers']))->with('message','Data Created Successfully');
                     }else{
 
-                        // dd("hee");
-                        //alert()->error('Error Message', 'You do not have up to the game amount, please make payment and try again. Thank you.');
-                        $offices = \App\Office::all();
-
-                        $banks = \App\Bank::all();
-
-                        $pos = \App\Pos::all();
+                        
 
                         $customers = \App\Customer::all();
                         alert()->error('You do not have up to the game amount, please make payment and try again. Thank you.', '');
-                        return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','You do not have up to the game amount, please make payment and try again. Thank you.');
+                        return view("admin.game.createGame", compact(['customers']));//->with('message','You do not have up to the game amount, please make payment and try again. Thank you.');
                     }
                 }else{
                     // dd('here');
@@ -153,7 +154,7 @@ class GameController extends BaseController
                     $customer_name = $customer->name;
                     $customer_id = $customer->id;
                     $gameAmount = $request->amount;
-                    
+                    //dd($customer_name);
                         $customer = \App\Customer::where('id',$paymentDetails->customer_id)->first();
                         $gameAmount = $request->amount;
                         $id = Auth::user()->id;
@@ -163,6 +164,7 @@ class GameController extends BaseController
                             "office_id"=>Auth::user()->branchId,
                             "ticket_id" =>$request->ticket_id,
                             "customer_id"=>$request->customer_id,
+                            "customer_name"=>$customer_name,
                             "cashier_id"=>$id,
                             "amount"=>$request->amount,
                             "type"=>$request->type,
@@ -180,12 +182,11 @@ class GameController extends BaseController
 
                         $customers = \App\Customer::all();
                         alert()->success('Game Recorded Successfully', '');
-                        // return view("admin.game.createGame", compact(['customers','banks','offices','pos']))->with('message','Data Created Successfully');
+                        return view("admin.game.createGame", compact(['customers']));//->with('message','Data Created Successfully');
                 }
             }else{
                 alert()->error('Error Message', 'You do not have up to the game amount, please make payment and try again. Thank you.');
 
-                // return redirect()->back()->with("message","You do not have up to the game amount, please make payment and try again. Thank you.");
             }
         }else{
             alert()->error('Error Message', 'No payment was made for the provided reference');
@@ -208,16 +209,17 @@ class GameController extends BaseController
 
     public function viewGame(Request $request){
         
-        $games = \App\Game::join('offices','offices.id','games.office_id')
-                            ->join('banks','banks.id','games.bank_id')
-                            ->join('users','users.id','games.cashier_id')
-                            ->join('customers','customers.id','games.customer_id')
-                            ->join('pos','pos.id','games.pos_id')
-                            ->select("banks.bank_name","banks.id as bank_id","customers.name as customer_name", "customers.id as customer_id", "games.amount", "games.id as game_id","games.type as game_type","games.id", "games.ticket_id", "customers.name as customer_name","customers.gender","customers.type as customer_type","games.id as id","games.payment as payment_type","pos.terminal_id","pos.id as pos_id")->get();
+        // $games = \App\Game::join('offices','offices.id','games.office_id')
+        //                     ->join('banks','banks.id','games.bank_id')
+        //                     ->join('users','users.id','games.cashier_id')
+        //                     ->join('customers','customers.id','games.customer_id')
+        //                     ->join('pos','pos.id','games.pos_id')
+        //                     ->select("banks.bank_name","banks.id as bank_id","customers.name as customer_name", "customers.id as customer_id", "games.amount", "games.id as game_id","games.type as game_type","games.id", "games.ticket_id", "customers.name as customer_name","customers.gender","customers.type as customer_type","games.id as id","games.payment as payment_type","pos.terminal_id","pos.id as pos_id")->get();
         $pos = \App\Pos::all();
         $customers = \App\Customer::all();
         $banks = \App\Bank::all();
         $offices = \App\Office::all();
+        $games  = \App\Game::all();
         return view('admin.game.viewGame',compact(['games','pos','banks','customers']));
     }
 

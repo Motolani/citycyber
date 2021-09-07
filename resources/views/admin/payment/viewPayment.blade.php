@@ -54,8 +54,11 @@
                                 <thead>
                                     <tr>
                                         <th>Edit</th>
+                                        <th>Date </th>
                                         <th>Customer Name</th>
                                         <th>Amount</th>
+                                        <th>Payment Type</th>
+                                        <th>Reference</th>
                                         <th>Customer Type</th>
                                         <th>Bank Name</th>
                                         <th>Delete</th>
@@ -73,8 +76,11 @@
                                                 <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$data->bank_name}}','{{$data->name}}', '{{$data->amount}}','{{$data->customer_name}}','{{$data->gender}}','{{$data->customer_type}}','{{$data->id}}')"  class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
                                             
                                             </td>
+                                            <td>{{$data->created_at}}</td>
                                             <td>{{$data->name}}</td>
-                                            <td>{{$data->amount}}</td>
+                                            <td>₦{{$data->amount}}</td>
+                                            <td>{{$data->type}}</td>
+                                            <td>{{$data->reference}}</td>
                                             <td>{{$data->customer_type}}</td>
                                             <td>{{$data->bank_name}}</td>
 

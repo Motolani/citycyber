@@ -49,7 +49,7 @@ class PaymentController extends BaseController
     
     public function createPaymentFormData(Request $request)
     {
-
+        // dd($request);
 
         $customers = \App\Customer::all();
 
@@ -92,16 +92,40 @@ class PaymentController extends BaseController
         $id = Auth::user()->id;
         $charge = 2;
         $amount = $charge + $request->amount;
+
+        $exp = explode("|",$request->customer_id);
+
+        $exp2 = null;
+        $exp3 = null;
+        $bank_id = null; $bank_name = null; $account_holder_name = null;
+        $pos_id = null; $terminal_id = null;
+        if(isset($request->bank_id)){
+        $exp2 = explode("|",$request->bank_id);
+            $bank_id = $exp2[0]; 
+            $bank_name = $exp2[1];
+            $account_holder_name = $exp2[2];
+        }
+
+        if(isset($request->pos_id)){
+            $exp3 = explode("|",$request->pos_id);
+            $pos_id = $exp3[0]; $terminal_id = $exp3[1];
+            $bank_name = $exp3[2]; 
+        }
+
         $payment = new \App\Payment([
-            "customer_id"=>$request->customer_id,
-            "bank_id" =>$request->bank_id,
+            "customer_id"=>$exp[0],
+            "customer_name"=>$exp[1],
+            "bank_id" =>$bank_id,
+            "bank_name" =>$bank_name,
+            "account_holder_name" =>$account_holder_name,
             "amount"=>$amount,
             "charge"=>2,
             "actual_amount"=>$request->amount,
             "type"=>$request->trantype,
-            "pos_id"=>$request->pos_id,
+            "pos_id"=>$pos_id,
+            "terminal_id"=>$terminal_id,
+            //$request->pos_id,
             "reference"=>$reference,
-            // "status"=>$request->status,
         ]);
         
         $payment->save();
@@ -119,8 +143,8 @@ class PaymentController extends BaseController
     public function viewPayment(Request $request){
         
         $payments = \App\Payment::join('customers','customers.id','payments.customer_id')
-                ->join('banks','banks.id','payments.bank_id')
-                ->select("banks.bank_name","customers.name", "payments.amount","payments.actual_amount", "customers.name as customer_name","customers.gender","customers.type as customer_type","payments.id as id")->orderBy("id","desc")->get();
+                //->join('banks','banks.id','payments.bank_id')
+                ->select("payments.bank_name","payments.type","payments.reference","payments.created_at","customers.name", "payments.amount","payments.actual_amount", "customers.name as customer_name","customers.gender","customers.type as customer_type","payments.id as id")->orderBy("id","desc")->get();
         
         $customers = \App\Customer::all();
         $banks = \App\Bank::all();

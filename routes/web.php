@@ -458,10 +458,12 @@ Route::get('updateanddeletepayment', 'PaymentController@updateAndDeletePayment')
 
 //crud for GameFormData
 Route::get('creategameview', 'GameController@createGameForm');
+Route::post('gameValidation', 'GameController@gameValidation')->name("gameValidation");
 Route::get('createGameFormData', 'GameController@createGameFormData')->name('createGameFormData');
 Route::get('viewGame', 'GameController@viewGame');
 Route::get('updateanddeletegame', 'GameController@updateAndDeleteGame');
 
+//gameValidation
 
 //crud for WinFormData
 Route::get('createwinview', 'WinController@createWinForm');

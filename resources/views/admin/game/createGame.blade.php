@@ -16,7 +16,7 @@ Dashboard
                     <li class="breadcrumb-item active">Games</li>
                 </ol>
             </div>
-            <h4 class="page-title">Games</h4>
+            <h4 class="page-title">Games Validation</h4>
         </div>
     </div>
 </div>     
@@ -44,72 +44,14 @@ Dashboard
                     <div class="tab-pane show active" id="input-types-preview">
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
-                                <form action = "{{route('createGameFormData')}}" method = "GET"> 
+                                <form action = "{{route('gameValidation')}}" method = "POST"> 
                                 @csrf
-
-                                    <div class="form-group mt-2 mb-2">
-                                        <label for="">Customer<span class="red" style="color:red" ;>&#x2a;</span></label>
-                                        <select class="form-control select2" name="customer_id" data-toggle="select" required>
-                                            <option>Select Customer</option>
-                                                @if(isset($customers))
-                                                    @foreach($customers as $data)
-                                                    <option value="{{$data->id}}" >{{$data->name}}</option>                                        
-                                                    @endforeach
-                                                @endif
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group mt-2 mb-2">
-                                        <label for="">Bank<span class="red" style="color:red" ;>&#x2a;</span></label>
-                                        <select class="form-control select" name="bank_id" data-toggle="select" required>
-                                            <option>Select Bank</option>
-                                                @if(isset($banks))
-                                                    @foreach($banks as $data)
-                                                    <option value="{{$data->id}}" >{{$data->bank_name}}</option>                                        
-                                                    @endforeach
-                                                @endif
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group mt-2 mb-2">
-                                        <label for="">Pos<span class="red" style="color:red" ;>&#x2a;</span></label>
-                                        <select class="form-control select" id = "pos_id" name="pos_id" data-toggle="select" required>
-                                            <option>Select Pos</option>
-                                                @if(isset($pos))
-                                                    @foreach($pos as $data)
-                                                    <option value="{{$data->id}}" >{{$data->terminal_id}}</option>                                        
-                                                    @endforeach
-                                                @endif
-                                        </select>
-                                    </div>
 
                                     
 
-                                    <div class="form-group mt-2 mb-2">
-                                        <label for="">Payment Type<span class="red" style="color:red" ;>&#x2a;</span></label>
-                                        <select class="form-control select" name="payment_type" data-toggle="select" required>
-                                            <option>Select Payment Type</option>
-                                            <option value="transfer" >Tranfer</option> 
-                                            <option value="cash" >Cash</option> 
-                                            <option value="pos" >Pos</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mt-2 mb-2">
-                                        <label for=""> Type<span class="red" style="color:red" ;>&#x2a;</span></label>
-                                        <select class="form-control select" name="type" data-toggle="select" required>
-                                            <option>Select Type</option>
-                                            <option value="VIRTUAL" >Virtual</option> 
-                                            <option value="LIVE" >Live</option> 
-                                           
-                                        </select>
-                                    </div>
-
                                     <div class="mb-3">
-                                        <label for="example-email" class="form-label">Ticket_id</label>
-                                        <input type="text" id="ticket_id" name="ticket_id" class="form-control" placeholder="ticket id"required>
+                                        <label for="example-email" class="form-label">Reference</label>
+                                        <input type="text" id="reference" name="reference" class="form-control" placeholder="Reference"required>
                                     </div>
 
 

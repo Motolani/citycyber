@@ -49,16 +49,17 @@
                         
                     </ul> <!-- end nav-->
                     <div class="tab-content">
-                        <div class="tab-pane show active" id="buttons-table-preview">
-                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                        <div class="tab-pane show active" id="basic-datatable-preview">
+                            <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>Edit</th>
+                                        <th>Created At</th>
                                         <th>Customer Name</th>
                                         <th>Amount</th>
-                                        <th>Customer Type</th>
-                                        <th>Bank Name</th>
-                                        <th>Pos</th>
+                                        <th>Type</th>
+                                        <th>Reference</th>
+                                       
                                         <th>Delete</th>
 
                                     </tr>
@@ -79,12 +80,13 @@
                                                 
 
                                             </td>
+                                            <td>{{$data->created_at}}</td>
                                             <td>{{$data->customer_name}}</td>
-                                            <td>{{$data->amount}}</td>
-                                            <td>{{$data->customer_type}}</td>
-                                            <td>{{$data->bank_name}}</td>
+                                            <td>₦{{$data->amount}}</td>
+                                            <td>{{$data->type}}</td>
+                                            <td>{{$data->reference}}</td>
 
-                                            <td>{{$data->terminal_id}}</td>
+                                            
 
 
 
