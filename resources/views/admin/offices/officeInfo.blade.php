@@ -46,10 +46,10 @@
                                             <li class="list-inline-item me-3">
                                                 <p class="mb-0 font-13 text-white-50"> {{isset($office)? $office->location:''}}</p>
                                             </li>
-{{--                                            <li class="list-inline-item">--}}
-{{--                                                <h5 class="mb-1">Parent Office</h5>--}}
-{{--                                                <p class="mb-0 font-13 text-white-50">{{isset($office)? $office->type:''}} </p>--}}
-{{--                                            </li>--}}
+                                            {{--                                            <li class="list-inline-item">--}}
+                                            {{--                                                <h5 class="mb-1">Parent Office</h5>--}}
+                                            {{--                                                <p class="mb-0 font-13 text-white-50">{{isset($office)? $office->type:''}} </p>--}}
+                                            {{--                                            </li>--}}
                                         </ul>
                                     </div>
                                 </div>
@@ -87,6 +87,24 @@
         <div class="col-sm-3">
             <div class="card tilebox-one">
                 <div class="card-body">
+                    <i class="dripicons-box float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Staffs On Leave</h6>
+
+                    <h2 class="m-b-20">
+                        @if(count($staffsOnLeave) > 0)
+                            <a href="#" data-bs-target="#staff-leave-modal" data-bs-toggle="modal">{{count($staffsOnLeave)}}</a>
+                        @else
+                            <span>{{count($staffsOnLeave)}}</span>
+                        @endif
+                    </h2>
+                    <!-- <span class="badge bg-primary"> +89% </span> <span class="text-muted">Last year</span> -->
+                </div> <!-- end card-body-->
+            </div> <!--end card-->
+        </div><!-- end col -->
+
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
                     <i class="dripicons-user float-end text-muted"></i>
                     <h6 class="text-muted text-uppercase mt-0">Staff Absent</h6>
                     <h2 class="m-b-20">{{$staffAbsent ?? 0}}</h2>
@@ -105,16 +123,6 @@
             </div> <!--end card-->
         </div><!-- end col -->
 
-        <div class="col-sm-3">
-            <div class="card tilebox-one">
-                <div class="card-body">
-                    <i class="dripicons-box float-end text-muted"></i>
-                    <h6 class="text-muted text-uppercase mt-0">Staffs On Leave</h6>
-                    <h2 class="m-b-20"><span>{{$staffsOnLeave}}</span></h2>
-                    <!-- <span class="badge bg-primary"> +89% </span> <span class="text-muted">Last year</span> -->
-                </div> <!-- end card-body-->
-            </div> <!--end card-->
-        </div><!-- end col -->
 
     </div>
 
@@ -209,10 +217,10 @@
                                             <td>Status</td>
                                             <td>{{$office->status == 0 ? "Active" : "Inactive"}}</td>
                                         </tr>
-{{--                                        <tr>--}}
-{{--                                            <td>Parent Office</td>--}}
-{{--                                            <td>{{$office->parent}}</td>--}}
-{{--                                        </tr>--}}
+                                        {{--                                        <tr>--}}
+                                        {{--                                            <td>Parent Office</td>--}}
+                                        {{--                                            <td>{{$office->parent}}</td>--}}
+                                        {{--                                        </tr>--}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -343,37 +351,16 @@
                     <h4 class="modal-title" id="topModalLabel">All Staff</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                    <div class="modal-body">
-                        @foreach($office->staffs as $staff)
-                            <div class="mb-2">
-                                <h4><a href="{{route()}}"> {{$staff->firstname}} </a></h4>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="staff-absent-modal" class="modal fade" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-top">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="topModalLabel">Absent Staff</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    @foreach($office->staffs as $staff)
+                        <div class="mb-2">
+                            <h4><a href="{{route('viewStaffProfile', ['user_id'=>$staff->id])}}"> {{$staff->firstname}} </a></h4>
+                        </div>
+                    @endforeach
                 </div>
-                    <div class="modal-body">
-                        @foreach($office->staffs as $staff)
-                            <div class="mb-2">
-                                <h4>{{$staff->name}}</h4>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -385,16 +372,16 @@
                     <h4 class="modal-title" id="topModalLabel">Staffs on Leave</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                    <div class="modal-body">
-                        @foreach($office->staffs as $staff)
-                            <div class="mb-2">
-                                <h4>{{$staff->name}}</h4>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    </div>
+                <div class="modal-body">
+                    @foreach($staffsOnLeave as $staff)
+                        <div class="mb-2">
+                            <h4>{{$staff->name}}</h4>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>

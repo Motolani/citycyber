@@ -63,12 +63,12 @@ class MainViewController extends BaseController
         //get list of all staff in this office that clocked in today
         $staffPresent = \App\Attendance::where('office_id', $office->id)->whereDay('created_at', now()->day)->count();
         $staffAbsent = $office->staffs_count - $staffPresent;
-        $staffsOnLeave = 0;
+        $staffsOnLeave = [];
 
         //Loop through Office Staff
         foreach ($office->staffs as $staff){
             if($staff->isOnLeave()){
-                $staffsOnLeave++;
+                $staffsOnLeave[] = $staff;
             }
         }
 
