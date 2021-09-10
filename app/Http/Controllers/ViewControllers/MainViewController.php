@@ -65,6 +65,11 @@ class MainViewController extends BaseController
         $staffAbsent = $office->staffs_count - $staffPresent;
         $staffsOnLeave = [];
 
+        //Get all Depatments the Office has.  Officeid field might need to be added
+        $departments = Department::where('id', '>', 0)
+            //->where('office_id', $office->id)
+            ->get();
+
         //Loop through Office Staff
         foreach ($office->staffs as $staff){
             if($staff->isOnLeave()){
@@ -72,7 +77,7 @@ class MainViewController extends BaseController
             }
         }
 
-        return view('admin.offices.officeInfo',compact('office', 'staffAbsent', 'staffsOnLeave'));
+        return view('admin.offices.officeInfo',compact('office', 'staffAbsent', 'staffsOnLeave', 'departments'));
     }
 
     public function updateOffice(Request $request){

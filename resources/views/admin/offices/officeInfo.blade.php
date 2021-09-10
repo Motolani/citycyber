@@ -8,12 +8,6 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{url('home')}}">CityCyber</a></li>
-                        <li class="breadcrumb-item active">Profile</li>
-                    </ol>
-                </div>
                 <h4 class="page-title">Profile</h4>
                 @if (session('message'))
                     <div class="alert alert-success">
@@ -128,32 +122,27 @@
 
     <div class="row">
         <div class="col-xl-4">
-
-            <!-- Toll free number box-->
-            <div class="card text-white bg-info overflow-hidden">
-                <div class="card-body">
-                    <div class="toll-free-box text-center">
-                        <h4> <i class="mdi mdi-deskphone"></i> Phone Number : {{isset($office->phone)?$office->phone:""}}</h4>
-                    </div>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
             <!-- End Toll free number box-->
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mb-3">Head Of Departments</h4>
-                    @if(isset($staff))
-                        @foreach($staff as $staf)
-                            <div class="inbox-widget">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="assets/images/users/min.jpg" style = "height: 50px; width:50px;" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">{{$staf->name}}</p>
-                                    <p class="inbox-item-text">{{$staf->department}}</p>
-                                    <p class="inbox-item-date">
-                                        <a href="#" class="btn btn-sm btn-link text-info font-13"> View </a>
-                                    </p>
-                                </div>
-                            </div>
-                    @endforeach
+                    @if(isset($departments))
+                        <table class="table table-borderless table-nowrap mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Department </th>
+                                <th>HOD</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($departments as $department)
+                                <tr>
+                                    <td>{{$department->title}}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                 @endif
                 <!-- end inbox-widget -->
                 </div> <!-- end card-body-->
