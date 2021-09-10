@@ -17,13 +17,13 @@
                 <h4 class="page-title">Profile</h4>
                 @if (session('message'))
                     <div class="alert alert-success">
-                    {{ session('message') }}
+                        {{ session('message') }}
                     </div>
                 @endif
             </div>
         </div>
-    </div>     
-    <!-- end page title --> 
+    </div>
+    <!-- end page title -->
 
 
     <div class="row">
@@ -41,45 +41,19 @@
                                 </div>
                                 <div class="col">
                                     <div>
-                                        
-                                        <h4 class="mt-1 mb-1 text-white">Office Name</h4>
-                                        <p class="font-13 text-white-50">{{isset($office)? $office->name:''}}</p>
-
+                                        <h4 class="mt-1 mb-1 text-white">{{$office->name}}</h4>
                                         <ul class="mb-0 list-inline text-light">
                                             <li class="list-inline-item me-3">
-                                                <h5 class="mb-1">Address</h5>
                                                 <p class="mb-0 font-13 text-white-50"> {{isset($office)? $office->location:''}}</p>
                                             </li>
-                                            <li class="list-inline-item">
-                                                <h5 class="mb-1">Parent Office</h5>
-                                                <p class="mb-0 font-13 text-white-50">{{isset($office)? $office->type:''}} </p>
-                                            </li>
+{{--                                            <li class="list-inline-item">--}}
+{{--                                                <h5 class="mb-1">Parent Office</h5>--}}
+{{--                                                <p class="mb-0 font-13 text-white-50">{{isset($office)? $office->type:''}} </p>--}}
+{{--                                            </li>--}}
                                         </ul>
                                     </div>
-
-                                    
                                 </div>
 
-
-                                <!-- <div class="col">
-                                    <div>
-                                        <h4 class="mt-1 mb-1 text-white">Michael Franklin</h4>
-                                        <p class="font-13 text-white-50"> Authorised Brand Seller</p>
-
-                                        <ul class="mb-0 list-inline text-light">
-                                            <li class="list-inline-item me-3">
-                                                <h5 class="mb-1">$ 25,184</h5>
-                                                <p class="mb-0 font-13 text-white-50">Total Revenue</p>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <h5 class="mb-1">5482</h5>
-                                                <p class="mb-0 font-13 text-white-50">Number of Orders</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    
-                                </div> -->
                             </div>
                         </div> <!-- end col-->
 
@@ -98,10 +72,55 @@
     </div>
     <!-- end row -->
 
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
+                    <i class="dripicons-user float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Total Staff</h6>
+                    <h2 class="m-b-20"><a href="#" data-bs-target="#all-staff-modal" data-bs-toggle="modal"> {{$office->staffs_count}} </a></h2>
+                    <!-- <span class="badge bg-primary"> +11% </span> <span class="text-muted">From previous period</span> -->
+                </div> <!-- end card-body-->
+            </div> <!--end card-->
+        </div><!-- end col -->
+
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
+                    <i class="dripicons-user float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Staff Absent</h6>
+                    <h2 class="m-b-20">{{$staffAbsent ?? 0}}</h2>
+                </div> <!-- end card-body-->
+            </div> <!--end card-->
+        </div>
+
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
+                    <i class="dripicons-jewel float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Balance</h6>
+                    <h2 class="m-b-20">₦<span>{{$office->shopWallet->balance ?? "No Wallet"}}</span></h2>
+                    <!-- <span class="badge bg-danger"> -29% </span> <span class="text-muted">From previous period</span> -->
+                </div> <!-- end card-body-->
+            </div> <!--end card-->
+        </div><!-- end col -->
+
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
+                    <i class="dripicons-box float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Staffs On Leave</h6>
+                    <h2 class="m-b-20"><span>{{$staffsOnLeave}}</span></h2>
+                    <!-- <span class="badge bg-primary"> +89% </span> <span class="text-muted">Last year</span> -->
+                </div> <!-- end card-body-->
+            </div> <!--end card-->
+        </div><!-- end col -->
+
+    </div>
 
     <div class="row">
         <div class="col-xl-4">
-            
+
             <!-- Toll free number box-->
             <div class="card text-white bg-info overflow-hidden">
                 <div class="card-body">
@@ -111,83 +130,157 @@
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
             <!-- End Toll free number box-->
-
-            <!-- Messages-->
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mb-3">Head Of Departments</h4>
                     @if(isset($staff))
-                    @foreach($staff as $staf)
-                    <div class="inbox-widget">
-                        <div class="inbox-item">
-                            <div class="inbox-item-img"><img src="assets/images/users/min.jpg" style = "height: 50px; width:50px;" class="rounded-circle" alt=""></div>
-                            <p class="inbox-item-author">{{$staf->name}}</p>
-                            <p class="inbox-item-text">{{$staf->department}}</p>
-                            <p class="inbox-item-date">
-                                <a href="#" class="btn btn-sm btn-link text-info font-13"> View </a>
-                            </p>
+                        @foreach($staff as $staf)
+                            <div class="inbox-widget">
+                                <div class="inbox-item">
+                                    <div class="inbox-item-img"><img src="assets/images/users/min.jpg" style = "height: 50px; width:50px;" class="rounded-circle" alt=""></div>
+                                    <p class="inbox-item-author">{{$staf->name}}</p>
+                                    <p class="inbox-item-text">{{$staf->department}}</p>
+                                    <p class="inbox-item-date">
+                                        <a href="#" class="btn btn-sm btn-link text-info font-13"> View </a>
+                                    </p>
+                                </div>
+                            </div>
+                    @endforeach
+                @endif
+                <!-- end inbox-widget -->
+                </div> <!-- end card-body-->
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <div class="col-xl-12 col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                            <li class="nav-item">
+                                <a href="#basic" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
+                                    About
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#photos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                                    JOB DETAILS
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="aboutme">
+
+                                <h5 class="text-uppercase"><i class="mdi mdi-briefcase me-1"></i>
+                                    Additional Info</h5>
+                                <!-- end timeline -->
+
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-nowrap mb-0">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>Title </th>
+                                            <th>Details</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{{$office->name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Manager</td>
+                                            <td>{{$office->manager->name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email Address</td>
+                                            <td>{{$office->emailAddress}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Office Phone</td>
+                                            <td>{{$office->phone}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address</td>
+                                            <td>{{$office->location}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td>{{$office->status == 0 ? "Active" : "Inactive"}}</td>
+                                        </tr>
+{{--                                        <tr>--}}
+{{--                                            <td>Parent Office</td>--}}
+{{--                                            <td>{{$office->parent}}</td>--}}
+{{--                                        </tr>--}}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane" id="photos">
+
+                                <h5 class="text-uppercase"><i class="mdi mdi-briefcase me-1"></i>
+                                    Job Details</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-nowrap mb-0">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>Title </th>
+                                            <th>Details</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td>{{isset($staff->status)?$staff->status:'Nill'}}</td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>Branch</td>
+                                            <td>{{isset($staff->branchId)?$staff->branchId:'Nill'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Role</td>
+                                            <td>{{isset($staff->departmentrole)?$staff->departmentrole:'Nill'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Level</td>
+                                            <td>{{isset($staff->level)?$staff->level:'Nill'}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Resumption Type</td>
+                                            <td>{{isset($staff->resumptionType)?$staff->resumptionType:'Nill'}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>View Scope</td>
+                                            <td>{{isset($staff->departmentrole)?$staff->departmentrole:'Nill'}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Department</td>
+                                            <td>{{isset($staff->department)?$staff->department:'Nill'}}</td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>Unit</td>
+                                            <td>{{isset($staff->unit)?$staff->unit:'Nill'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Resumption Date</td>
+                                            <td>{{isset($staff->resumptionDate)?$staff->resumptionDate:'Nill'}}</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    @endforeach
-                    @endif
-                    <!-- end inbox-widget -->
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-
-        </div> <!-- end col-->
-
-        <div class="col-xl-8">
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="card tilebox-one">
-                        <div class="card-body">
-                            <i class="dripicons-user float-end text-muted"></i>
-                            <h6 class="text-muted text-uppercase mt-0">Total Staff</h6>
-                            <h2 class="m-b-20">1,587</h2>
-                            <!-- <span class="badge bg-primary"> +11% </span> <span class="text-muted">From previous period</span> -->
-                        </div> <!-- end card-body-->
-                    </div> <!--end card-->
-                </div><!-- end col -->
-
-                <div class="col-sm-4">
-                    <div class="card tilebox-one">
-                        <div class="card-body">
-                            <i class="dripicons-jewel float-end text-muted"></i>
-                            <h6 class="text-muted text-uppercase mt-0">Balance</h6>
-                            <h2 class="m-b-20">#<span>46,782</span></h2>
-                            <!-- <span class="badge bg-danger"> -29% </span> <span class="text-muted">From previous period</span> -->
-                        </div> <!-- end card-body-->
-                    </div> <!--end card-->
-                </div><!-- end col -->
-
-                <div class="col-sm-4">
-                    <div class="card tilebox-one">
-                        <div class="card-body">
-                            <i class="dripicons-box float-end text-muted"></i>
-                            <h6 class="text-muted text-uppercase mt-0">Sales</h6>
-                            <h2 class="m-b-20"># <span>46,782</span></h2>
-                            <!-- <span class="badge bg-primary"> +89% </span> <span class="text-muted">Last year</span> -->
-                        </div> <!-- end card-body-->
-                    </div> <!--end card-->
-                </div><!-- end col -->
-
-            </div>
-
-            <!-- Chart-->
-            <!-- <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title mb-3">Orders & Revenue</h4>
-                    <div dir="ltr">
-                        <div style="height: 260px;" class="chartjs-chart">
-                            <canvas id="high-performing-product"></canvas>
-                        </div>
-                    </div>        
                 </div>
-            </div> -->
-            <!-- End Chart-->
-
-            
+            </div>
         </div>
         <!-- end col -->
 
@@ -208,8 +301,8 @@
                         <form class="ps-3 pe-3" action="{{url('updateOffice')}}" method="post">
                             @csrf
                             <div class="modal-body">
-                                
-                
+
+
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Name</label>
                                     <input class="form-control" type="text" id="name" name = "name" value = "{{isset($office)? $office->name:''}}" required="" placeholder="Office Name">
@@ -225,7 +318,7 @@
                                     <input class="form-control" type="text" name = "phone" value = "{{isset($office)? $office->phone:''}}" required="" id="phone" placeholder="Enter Phone">
                                 </div>
 
-                                
+
                                 <div class="mb-3">
                                     <label for="emailaddress" class="form-label">Address </label>
                                     <input class="form-control" type="text" name = "address" value = "{{isset($office)? $office->location:''}}" required="" placeholder="Enter Address">
@@ -237,104 +330,164 @@
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </form>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
-            <!-- Right modal content -->
-            
+                    </div>
+                </div>
+            </div>
         </div> <!-- end preview-->
     </div> <!-- end tab-content-->
-    @endsection
+
+    <div id="all-staff-modal" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="topModalLabel">All Staff</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <div class="modal-body">
+                        @foreach($office->staffs as $staff)
+                            <div class="mb-2">
+                                <h4><a href="{{route()}}"> {{$staff->firstname}} </a></h4>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="staff-absent-modal" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-top">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="topModalLabel">Absent Staff</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <div class="modal-body">
+                        @foreach($office->staffs as $staff)
+                            <div class="mb-2">
+                                <h4>{{$staff->name}}</h4>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="staff-leave-modal" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-top">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="topModalLabel">Staffs on Leave</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <div class="modal-body">
+                        @foreach($office->staffs as $staff)
+                            <div class="mb-2">
+                                <h4>{{$staff->name}}</h4>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 
 @section('script')
- <script>
-    //  $(document).ready(function(){
-    //     let aa =$('#h_div');
-    //     let header = $('headerShow');
-	// console.log("h_div logger ----",aa);
-    //    	header.hide();
-    //     aa.hide();
-    //     $('#h_div_status').text('hide div successfully');
-    // });
-    $(function () {
-        $(document).ready(function(){
-        let aa =$('#h_div');
-        console.log("h_div logger ----",aa);
-        aa.hide();
-        $("#hide").click(function(){
-            $("div").hide();
-        });
+    <script>
+        //  $(document).ready(function(){
+        //     let aa =$('#h_div');
+        //     let header = $('headerShow');
+        // console.log("h_div logger ----",aa);
+        //    	header.hide();
+        //     aa.hide();
+        //     $('#h_div_status').text('hide div successfully');
+        // });
+        $(function () {
+            $(document).ready(function(){
+                let aa =$('#h_div');
+                console.log("h_div logger ----",aa);
+                aa.hide();
+                $("#hide").click(function(){
+                    $("div").hide();
+                });
 
 
-        
-        $("#getParents").click(function(){
-            let header = $('headerShow');
-            let level_id = $(this).val();
-	    
-	
-	    let levels = $('#level').val();
-	    let level = levels.split('|', 1)[0];
-	    let levelName = levels.split('|', 2)[1];
-	    $("#officeType").val(levelName);
 
-            //let levelInput = `<input value="${levels}" type = "hidden" id = "level"> </input>`;
-            $("#parentOfficeId").val(level);
-            console.log("level_iddddPhil",level);
-            getParent(level);
+                $("#getParents").click(function(){
+                    let header = $('headerShow');
+                    let level_id = $(this).val();
 
-            
 
-            //$("#kdd").html(total);
-            //$("div").show();
-        });
-        });
+                    let levels = $('#level').val();
+                    let level = levels.split('|', 1)[0];
+                    let levelName = levels.split('|', 2)[1];
+                    $("#officeType").val(levelName);
 
-        function getParent(level_id) {
-            let url = "{{url('api/loadParent')}}";
-        console.log('mymessage' + url);
-        $.ajax({
-            url: url,
-            type: 'post',
-            data: {level: level_id},
+                    //let levelInput = `<input value="${levels}" type = "hidden" id = "level"> </input>`;
+                    $("#parentOfficeId").val(level);
+                    console.log("level_iddddPhil",level);
+                    getParent(level);
 
-            success: function (data) {
-                //$('#addons option:not(:first)').remove();
-                loadParent(data);
 
-                console.log("response",data);
-            },
-            error: function (xhr, err) {
-                var responseTitle= $(xhr.responseText).filter('title').get(0);
-                alert($(responseTitle).text() + "\n" + formatErrorMessage(xhr, err) );
+
+                    //$("#kdd").html(total);
+                    //$("div").show();
+                });
+            });
+
+            function getParent(level_id) {
+                let url = "{{url('api/loadParent')}}";
+                console.log('mymessage' + url);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: {level: level_id},
+
+                    success: function (data) {
+                        //$('#addons option:not(:first)').remove();
+                        loadParent(data);
+
+                        console.log("response",data);
+                    },
+                    error: function (xhr, err) {
+                        var responseTitle= $(xhr.responseText).filter('title').get(0);
+                        alert($(responseTitle).text() + "\n" + formatErrorMessage(xhr, err) );
+                    }
+
+                });
+
+            }
+            function loadParent(data) {
+                console.log('thisadata',data);
+                let aa =$('#h_div');
+                let startcad = $('#first_card');
+
+                console.log("h_div loggererere ----",aa);
+                aa.show();$('#first_cardB').hide();
+                startcad.hide();
+                $.each(data.data, function(key, lev){
+                    console.log("level", lev);
+                    let option = `<option value="${lev.level}|${lev.location}|${lev.type}"> ${lev.type}</option>`;
+                    $("#types").append(option);
+                });
+
+                //Change the text of the default "loading" option.
+                $('#addons-select').removeClass('d-none').addClass('d-block')
+                $('#addon-loader').removeClass('d-block').addClass('d-none');
+                $('#submit').removeClass('d-none').addClass('d-block');
             }
 
         });
-
-        }
-        function loadParent(data) {
-            console.log('thisadata',data);
-	    let aa =$('#h_div');
-	    let startcad = $('#first_card');
-	  
-        console.log("h_div loggererere ----",aa);
-        aa.show();$('#first_cardB').hide();
-	    startcad.hide();
-            $.each(data.data, function(key, lev){
-		console.log("level", lev);
-                let option = `<option value="${lev.level}|${lev.location}|${lev.type}"> ${lev.type}</option>`;
-                $("#types").append(option);
-            });
-
-            //Change the text of the default "loading" option.
-            $('#addons-select').removeClass('d-none').addClass('d-block')
-            $('#addon-loader').removeClass('d-block').addClass('d-none');
-            $('#submit').removeClass('d-none').addClass('d-block');
-        }
-
-    });
- </script>
+    </script>
 
 @endsection
 

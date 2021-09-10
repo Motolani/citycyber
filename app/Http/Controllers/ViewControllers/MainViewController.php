@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ViewControllers;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Core\Offices;
+use App\LeaveRequest;
+use App\User;
 use Illuminate\Http\Request;
 //use ('../Core/Offices.php');
 use App\Http\Controllers\Core\CreateStaffClass;
@@ -52,19 +54,25 @@ class MainViewController extends BaseController
 
 
 
-
-
-
-
-
-
-
-
     public function officeInfo(Request $request){
 
-        $office = \App\Office::where('id',$request->id)->first();
+        $office = \App\Office::where('id',$request->id)
+            ->withCount("staffs")
+            ->first();
 
-        return view('admin.offices.officeInfo',compact('office'));
+        //get list of all staff in this office that clocked in today
+        $staffPresent = \App\Attendance::where('office_id', $office->id)->whereDay('created_at', now()->day)->count();
+        $staffAbsent = $office->staffs_count - $staffPresent;
+        $staffsOnLeave = 0;
+
+        //Loop through Office Staff
+        foreach ($office->staffs as $staff){
+            if($staff->isOnLeave()){
+                $staffsOnLeave++;
+            }
+        }
+
+        return view('admin.offices.officeInfo',compact('office', 'staffAbsent', 'staffsOnLeave'));
     }
 
     public function updateOffice(Request $request){

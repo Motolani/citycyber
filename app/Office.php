@@ -20,4 +20,8 @@ class Office extends Model
     public function manager(){
         return $this->belongsTo('App\User', 'managerid', 'id');
     }
+
+    public function staffs(){
+        return $this->hasMany('App\User', 'office_id', 'id');
+    }
 }

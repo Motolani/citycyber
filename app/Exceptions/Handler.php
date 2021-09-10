@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         //Hide all Errors FOR PRESENTATION ONLY
-        return redirect()->back()->with('error', 'A temporary error occurred.  Details of this error have been logged.');
+        //return redirect()->back()->with('error', 'A temporary error occurred.  Details of this error have been logged.');
         return parent::render($request, $exception);
     }
 }
