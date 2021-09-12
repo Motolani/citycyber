@@ -105,7 +105,7 @@
                                     <div class="col-lg-6 mt-3 mt-lg-0">
                                         <p class="mb-1 fw-bold text-muted"></p>
                                         <p class="text-muted font-14">
-                                            Select Parent Office
+                                            Select <span id="selectedParentOffice"></span> Office
                                         </p>
                                         <select id = "types" class="form-control select2" data-toggle="select2">
                                             <option>Select</option>
@@ -224,8 +224,9 @@
                         let header = $('headerShow');
                         let level_id = $(this).val();
 
-
                         let levels = $('#level').val();
+                        //Set value of the select label
+                        $("#selectedParentOffice").html($( "#level option:selected" ).text());
                         let level = levels.split('|', 1)[0];
                         let levelName = levels.split('|', 2)[1];
                         $("#officeType").val(levelName);
