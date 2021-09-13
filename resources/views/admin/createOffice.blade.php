@@ -100,8 +100,8 @@
                         <div class="tab-pane show active" id="typeahead-preview">
                             <form method = "POST" action = "{{route('createOffice')}}">
                                 @csrf
-                                <div class="row">
 
+                                <div class="row">
                                     <div class="col-lg-6 mt-3 mt-lg-0">
                                         <p class="mb-1 fw-bold text-muted"></p>
                                         <p class="text-muted font-14">
@@ -126,7 +126,7 @@
                                 <!-- end row -->
 
 
-                                <div class="row">
+                                <div class="row mt-3">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Name</label>
