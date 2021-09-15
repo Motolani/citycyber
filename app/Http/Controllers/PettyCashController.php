@@ -56,8 +56,6 @@ class PettyCashController extends BaseController
 
     public function submitExpense(Request $request)
     {
-//        dd($request);
-
         $request->validate([
 //            'amount' => 'required|max:255',
 //            'file' => 'required|mimes:jpg,png',

@@ -320,12 +320,20 @@ Route::prefix('pettycash')->group(function () {
 });
 
 
-//Shop Wallet Routes
+//Office Routes
 Route::prefix('office')->group(function () {
-    Route::get('/create-wallet/{id}', 'ShopWalletController@viewCreateWallet');
-    Route::post('/create-wallet', 'ShopWalletController@createWallet')->name("createWallet");
+    Route::get('/{officeid}/photos/add', 'PhotoController@viewAddPhotos')->name('viewAddPhotos');
+    Route::post('/{officeid}/photos/add', 'PhotoController@doAddPhotos')->name('doAddPhotos');
 });
 
+
+//Set As Default
+Route::prefix('photo')->group(function () {
+    Route::get('/set-as-default/{photoid}', 'PhotoController@setAsDefault')->name('setAsDefault');
+});
+
+
+//Shop Wallet Routes
 Route::prefix('shop-wallet')->group(function () {
     Route::get('/{id}/cashiers', 'CashierWalletController@viewCashiers');
     Route::post('/fund/{id}', 'ShopWalletController@fundWallet')->name('shop.fund')->middleware('validate-amount');

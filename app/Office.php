@@ -24,4 +24,38 @@ class Office extends Model
     public function staffs(){
         return $this->hasMany('App\User', 'office_id', 'id');
     }
+
+    public function photos(){
+        return $this->hasMany('App\Photo', 'office_id', 'id')->latest();
+    }
+
+    public function getDefaultPhoto() {
+        $default = $this->photos->where('is_default', true)->first();
+        if (!isset($default)){
+            if(isset($this->photos)) {
+                $default = $this->photos->get()[0];
+            }
+            else{
+                $default = "uploads/none.png";
+            }
+        }
+        return $default;
+    }
+
+    public function getDefaultPhotoPath() {
+        $default = $this->photos->where('is_default', true)->first();
+        if (!isset($default)){
+            if(count($this->photos) > 0) {
+                $default = $this->photos[0]->path;
+            }
+            else{
+                $default = "uploads/none.png";
+            }
+        }
+        else{
+            $default = $default->path;
+        }
+        return $default;
+    }
+
 }

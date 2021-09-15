@@ -39,17 +39,14 @@
                     </ul> <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
-                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100 data-table">
                                 <thead>
                                 <tr>
                                     <th>Date Created</th>
                                     <th>Name</th>
-                                    <th>Email Address</th>
-                                    <th>Phone</th>
                                     <th>Location</th>
                                     <th>State</th>
                                     <th>Type</th>
-                                    <th>Level</th>
                                     <th>Edit</th>
                                 </tr>
                                 </thead>
@@ -61,26 +58,17 @@
                                         <tr>
                                             <td>{{$office->created_at}}</td>
                                             <td>{{$office->name}}</td>
-                                            <td>{{$office->emailAddress}}</td>
-                                            <td>{{$office->phone}}</td>
                                             <td>{{$office->location}}</td>
                                             <td>{{$office->state}}</td>
                                             <td>{{$office->type}}</td>
-                                            <td>{{$office->level}}</td>
-                                            <td>{{--
-                                           <a href="{{url('officeInfo')}}"  rel="tooltip" class="btn btn-info"  data-created="{{$office->created_at}}">
-                                             <i class="uil-pen"></i>
-                                           </a>--}}
-
+                                            <td>
                                                 <form method="get" action="{{url('officeInfo')}}">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$office->id}}">
                                                     <input type="hidden" name="description" value="{{$office->name}}">
-                                                    <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
+                                                    <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span> View </button>
                                                 </form>
-                                                @if($office->shopWallet == null)
-                                                    <a href="/office/create-wallet/{{$office->id}}" value = "edit" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Create Wallet</a>
-                                                @endif
+                                                <a href="{{route('viewAddPhotos', ['officeid'=>$office->id])}}" value = "edit" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Upload Photos</a>
                                             </td>
                                         </tr>
                                     @endforeach

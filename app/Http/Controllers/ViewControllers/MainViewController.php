@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\ViewControllers;
+use App\Countries;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Core\Offices;
 use App\LeaveRequest;
@@ -44,14 +45,15 @@ class MainViewController extends BaseController
     {
         return view('admin.home');
     }
+
+
     public function getLevel(Request $request){
         $getLevel = new Offices();
         $levels = $getLevel->GetAllLevels();
-        //dd($levels);	
-        return view('admin.createOffice')->with(["levels"=>$levels]);
+        //dd($levels);
+        $countries = Countries::all();
+        return view('admin.createOffice', compact('levels', 'countries'));
     }
-
-
 
 
     public function officeInfo(Request $request){
@@ -127,7 +129,6 @@ class MainViewController extends BaseController
         }
         elseif($createStatus){
             return redirect()->back()->with("status",$createStatus );
-
         }
     }
 

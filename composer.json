@@ -65,5 +65,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/daddyfinco/laravel-photo-gallery.git",
+            "type": "git"
+        }
+    ]
 }

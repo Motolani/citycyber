@@ -9,7 +9,6 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Create Office</li>
                     </ol>
                 </div>
@@ -41,15 +40,6 @@
                     <p class="text-muted font-14">
                         Here you can create Offices e.g(Hub,Hq,Branches,Areas etc)
                     </p>
-
-                    <ul class="nav nav-tabs nav-bordered mb-3">
-                        <li class="nav-item">
-                            <a href="#typeahead-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                                Create Office
-                            </a>
-                        </li>
-                    </ul> <!-- end nav-->
-
 
                     <div id = "startCard" class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
@@ -87,14 +77,6 @@
                     <p class="text-muted font-14">
                         Here you can create Offices e.g(Hub,Hq,Branches,Areas etc)
                     </p>
-
-                    <ul class="nav nav-tabs nav-bordered mb-3">
-                        <li class="nav-item">
-                            <a href="#typeahead-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                                Create Office
-                            </a>
-                        </li>
-                    </ul> <!-- end nav-->
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
@@ -153,8 +135,8 @@
 
                                     <div class="col-lg-6 mt-3 mt-lg-0">
                                         <div class="mb-3">
-                                            <label class="form-label">Location</label>
-                                            <input name = "location" required type="text" class="form-control" data-provide="typeahead" id="remote" placeholder="location">
+                                            <label class="form-label">Address</label>
+                                            <input name = "location" required type="text" class="form-control" data-provide="typeahead" id="remote" placeholder="10 John str, Ipaja">
                                         </div>
                                     </div> <!-- end col -->
                                 </div>
@@ -162,20 +144,40 @@
 
 
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-3">
+                                        <div class="mb-0">
+                                            <label class="form-label">Country</label>
+                                            <select name="country" class="form-control select2" data-toggle="select2">
+                                                @foreach($countries as $country)
+                                                    <option value="{{$country->id}}">{{$country->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- end col -->
+
+                                    <div class="col-lg-3">
                                         <div class="mb-0">
                                             <label class="form-label">State</label>
                                             <input name = "state" required type="text" class="form-control" data-provide="typeahead" id="multiple-datase">
                                         </div>
-                                    </div> <!-- end col -->
+                                    </div>
+                                    <!-- end col -->
 
-
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-3">
                                         <div class="mb-0">
-                                            <label class="form-label">Country</label>
-                                            <input name = "country" type="text" class="form-control" data-provide="typeahead" id="multiple-datasets">
+                                            <label class="form-label">City</label>
+                                            <input name="city" required type="text" class="form-control" data-provide="typeahead">
                                         </div>
                                     </div> <!-- end col -->
+
+                                    <div class="col-lg-3">
+                                        <div class="mb-0">
+                                            <label class="form-label">LGA</label>
+                                            <input name="lga" required type="text" class="form-control" data-provide="typeahead">
+                                        </div>
+                                    </div> <!-- end col -->
+
                                 </div>
 
 

@@ -30,7 +30,7 @@
                             <div class="row align-items-center">
                                 <div class="col-auto">
                                     <div class="avatar-lg">
-                                        <img src="assets/images/users/house.jpg" style = "height: 100px; width:100px;" alt="" class="rounded-circle img-thumbnail">
+                                        <img src="{{$office->getDefaultPhotoPath()}}" style = "height: 100px; width:100px;" alt="" class="rounded-circle img-thumbnail">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -160,7 +160,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#photos" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
-                                    JOB DETAILS
+                                    PHOTOS
                                 </a>
                             </li>
                         </ul>
@@ -215,64 +215,17 @@
                                 </div>
 
                             </div>
+
                             <div class="tab-pane" id="photos">
-
-                                <h5 class="text-uppercase"><i class="mdi mdi-briefcase me-1"></i>
-                                    Job Details</h5>
                                 <div class="table-responsive">
-                                    <table class="table table-borderless table-nowrap mb-0">
-                                        <thead class="table-light">
-                                        <tr>
-                                            <th>Title </th>
-                                            <th>Details</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>Status</td>
-                                            <td>{{isset($staff->status)?$staff->status:'Nill'}}</td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>Branch</td>
-                                            <td>{{isset($staff->branchId)?$staff->branchId:'Nill'}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Role</td>
-                                            <td>{{isset($staff->departmentrole)?$staff->departmentrole:'Nill'}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Level</td>
-                                            <td>{{isset($staff->level)?$staff->level:'Nill'}}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Resumption Type</td>
-                                            <td>{{isset($staff->resumptionType)?$staff->resumptionType:'Nill'}}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>View Scope</td>
-                                            <td>{{isset($staff->departmentrole)?$staff->departmentrole:'Nill'}}</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Department</td>
-                                            <td>{{isset($staff->department)?$staff->department:'Nill'}}</td>
-                                        </tr>
-                                        <tr>
-
-                                            <td>Unit</td>
-                                            <td>{{isset($staff->unit)?$staff->unit:'Nill'}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Resumption Date</td>
-                                            <td>{{isset($staff->resumptionDate)?$staff->resumptionDate:'Nill'}}</td>
-                                        </tr>
-
-                                        </tbody>
-                                    </table>
+                                    <a href="{{route('viewAddPhotos', ['officeid'=>$office->id])}}" value = "edit" class="btn btn-primary btn-sm mt-1 mb-4">
+                                        Add more Photos
+                                    </a>
+                                    <div class="photos">
+                                        @include('admin.includes.photo-gallery')
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
