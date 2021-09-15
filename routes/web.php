@@ -327,6 +327,13 @@ Route::prefix('office')->group(function () {
 });
 
 
+//Address Routes
+Route::prefix('address')->group(function () {
+    Route::get('/get-cities-by-state/{stateid}', 'AddressController@getCitiesByState')->name('getCitesByState');
+    Route::get('/get-states-by-country/{countryid}', 'AddressController@getStatesByCountry')->name('getStatesByCountry');
+});
+
+
 //Set As Default
 Route::prefix('photo')->group(function () {
     Route::get('/set-as-default/{photoid}', 'PhotoController@setAsDefault')->name('setAsDefault');

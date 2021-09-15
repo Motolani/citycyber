@@ -147,7 +147,7 @@
                                     <div class="col-lg-3">
                                         <div class="mb-0">
                                             <label class="form-label">Country</label>
-                                            <select name="country" class="form-control select2" data-toggle="select2">
+                                            <select name="country" class="form-control select2 country" data-toggle="select2">
                                                 @foreach($countries as $country)
                                                     <option value="{{$country->id}}">{{$country->name}}</option>
                                                 @endforeach
@@ -159,7 +159,8 @@
                                     <div class="col-lg-3">
                                         <div class="mb-0">
                                             <label class="form-label">State</label>
-                                            <input name = "state" required type="text" class="form-control" data-provide="typeahead" id="multiple-datase">
+                                            <select name="state" class="form-control select2 state" data-toggle="select2">
+                                            </select>
                                         </div>
                                     </div>
                                     <!-- end col -->
@@ -167,7 +168,8 @@
                                     <div class="col-lg-3">
                                         <div class="mb-0">
                                             <label class="form-label">City</label>
-                                            <input name="city" required type="text" class="form-control" data-provide="typeahead">
+                                            <select name="city" class="form-control select2 city" data-toggle="select2">
+                                            </select>
                                         </div>
                                     </div> <!-- end col -->
 
@@ -220,24 +222,68 @@
                     $("div").hide();
                 });
 
+                $(".country").change(function () {
+                    var countryId = $(".country").val();
+                    var url = "/address/get-states-by-country/";
+
+                    $.ajax({
+                        url: url+countryId,
+                        type: 'get',
+                        success: function (response) {
+                            console.log(response);
+                            var d = response.data;
+                            var html ="";
+                            for(var i =0; i<d.length; i++) {
+                                html += "<option value='"+d[i].id+"' > "+d[i].name+" </option>";
+                            }
+                            $(".state").html(html);
+                        },
+                        error: function (xhr, err) {
+                            console.log(err);
+                        }
+
+                    });
+                });
+
+                $(".state").change(function () {
+                    var stateId = $(".state").val();
+                    var url = "/address/get-cities-by-state/";
+
+                    $.ajax({
+                        url: url+stateId,
+                        type: 'get',
+                        success: function (response) {
+                            console.log(response);
+                            var d = response.data;
+                            var html ="";
+                            for(var i =0; i<d.length; i++) {
+                                html += "<option value='"+d[i].id+"' > "+d[i].name+" </option>";
+                            }
+                            $(".city").html(html);
+                        },
+                        error: function (xhr, err) {
+                            console.log(err);
+                        }
+
+                    });
+                });
 
 
                 $("#getParents").click(function(){
-                        let header = $('headerShow');
-                        let level_id = $(this).val();
+                    let header = $('headerShow');
+                    let level_id = $(this).val();
 
-                        let levels = $('#level').val();
-                        //Set value of the select label
-                        $("#selectedParentOffice").html($( "#level option:selected" ).text());
-                        let level = levels.split('|', 1)[0];
-                        let levelName = levels.split('|', 2)[1];
-                        $("#officeType").val(levelName);
-                        $("#officeLevel").val(level);
-                        console.log("level_iddddPhil",level);
-                        getParent(level);
+                    let levels = $('#level').val();
+                    //Set value of the select label
+                    $("#selectedParentOffice").html($( "#level option:selected" ).text());
+                    let level = levels.split('|', 1)[0];
+                    let levelName = levels.split('|', 2)[1];
+                    $("#officeType").val(levelName);
+                    $("#officeLevel").val(level);
+                    console.log("level_iddddPhil",level);
+                    getParent(level);
 
-                    }
-                );
+                });
             });
 
             function getParent(level_id) {
