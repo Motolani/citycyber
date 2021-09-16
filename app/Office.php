@@ -21,8 +21,15 @@ class Office extends Model
         return $this->belongsTo('App\User', 'managerid', 'id');
     }
 
-    public function staffs(){
-        return $this->hasMany('App\User', 'office_id', 'id');
+    public function state(){
+        return $this->hasOne('App\States', 'id', 'state_id');
+    }
+
+    public function country(){
+        return $this->hasOne('App\Countries', 'id', 'country_id');
+    }
+    public function city(){
+        return $this->hasMany('App\Cities', 'id', 'city_id');
     }
 
     public function photos(){

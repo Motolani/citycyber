@@ -51,7 +51,6 @@
                                 </tr>
                                 </thead>
 
-
                                 <tbody>
                                 @if(isset($offices))
                                     @foreach($offices as $office)
@@ -59,7 +58,7 @@
                                             <td>{{$office->created_at}}</td>
                                             <td>{{$office->name}}</td>
                                             <td>{{$office->location}}</td>
-                                            <td>{{$office->state}}</td>
+                                            <td>{{$office->state->name ?? 'none'}}</td>
                                             <td>{{$office->type}}</td>
                                             <td>
                                                 <form method="get" action="{{url('officeInfo')}}">

@@ -22,20 +22,7 @@ class Offices extends Controller
         if($exist) {return "Duplicate name error.";}
 
 
-        $office = new Office();
-        $office->name = $data->name;
-        $office->emailAddress = $data->emailAddress;
-        $office->phone = $data->phone;
-        $office->location = $data->location;
-        $office->managerid = $data->managerid;
-        $office->type = $data->type;
-        $office->level = $data->level;
-        //$office->city = $data->city;
-        //$office->state = $data->state;
-        //$office->country = $data->country;
-        $office->parentOfficeId = $data->parentOfficeId;
 
-        return $office->save();
 
     }
 

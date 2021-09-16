@@ -5,6 +5,7 @@ use App\Countries;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Core\Offices;
 use App\LeaveRequest;
+use App\Office;
 use App\User;
 use Illuminate\Http\Request;
 //use ('../Core/Offices.php');
@@ -95,41 +96,50 @@ class MainViewController extends BaseController
     public function createOfficeRequest(Request $request){
 
         //dd($request);
+        $officeCode = $request->officeCode;
         $name = $request->name;
-        $emailAddress = $request->email;
+        $email = $request->email;
+        $office_code = $request->officeCode;
         $phone = $request->phone;
         $location = $request->location;
+        $countryId = $request->country;
+        $stateId = $request->state;
+        $cityId = $request->city;
+        $lga = $request->lga;
         $managerId = "";
         $type=$request->officeType;
         $level =$request->officeLevel;
-        $city ="city";//$request->city;
-        $state =$request->state;
-        $country =$request->country;
         $parentOfficeId =$request->officeLevel;
 
 
-        $req = new Request([
-            "name" => $name,
-            "emailAddress" => $emailAddress,
-            "phone" => $phone,
-            "location" => $location,
-            "managerId" => "",
-            "type"=>$type,
-            "level" =>$level,
-            "city" =>$city,
-            "state" =>$state,
-            "country" =>$country,
-            "parentOfficeId" =>$parentOfficeId,
-        ]);
-        $offices = new Offices();
-        $createStatus = $offices->CreateOffice($req);
 
-        if($createStatus == 1){
-            return redirect()->back()->with("status","Office Created Successfully");
-        }
-        elseif($createStatus){
-            return redirect()->back()->with("status",$createStatus );
-        }
+        $office = new Office();
+        $office->name = $name;
+        $office->emailAddress = $email;
+        $office->phone = $phone;
+        $office->office_code = $office_code;
+        $office->location = $location;
+        $office->country_id = $countryId;
+        $office->city_id = $cityId;
+        $office->lga = $lga;
+        $office->state_id = $stateId;
+        $office->managerid = $request->managerid;
+        $office->type = $type;
+        $office->level = $level;
+        $office->parentOfficeId = $parentOfficeId;
+        $office->save();
+
+        return redirect()->back()->with("status","Office Created Successfully");
+
+
+        //Absolutely useless lines of codes
+//        $createStatus = $offices->CreateOffice($req);
+//        if($createStatus == 1){
+//            return redirect()->back()->with("status","Office Created Successfully");
+//        }
+//        elseif($createStatus){
+//            return redirect()->back()->with("status",$createStatus );
+//        }
     }
 
     public function getAllOffice(){

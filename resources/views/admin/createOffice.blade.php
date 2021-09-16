@@ -86,31 +86,32 @@
                                 <div class="row">
                                     <div class="col-lg-6 mt-3 mt-lg-0">
                                         <p class="mb-1 fw-bold text-muted"></p>
-                                        <p class="text-muted font-14">
+                                        <label class="form-label">
+                                            Office ID
+                                        </label>
+                                        <input type="text" class="form-control" name="officeCode" data-provide="typeahead" id="officeId" placeholder="">
+                                    </div>
+
+                                    <div class="col-lg-6 mt-3 mt-lg-0">
+                                        <label class="form-label">
                                             Select <span id="selectedParentOffice"></span> Office
-                                        </p>
+                                        </label>
                                         <select id = "types" class="form-control select2" data-toggle="select2">
                                             <option>Select</option>
-
                                         </select>
                                     </div> <!-- end col -->
 
 
-                                    <div class="col-lg-6 mt-3 mt-lg-0">
-                                        <p class="mb-1 fw-bold text-muted"></p>
-                                        <p class="text-muted font-14">
+                                    <div class="col-lg-6 mt-3">
+                                        <label class="form-label">
                                             Office type
-                                        </p>
+                                        </label>
                                         <input value="" type = "hidden" name = "officeLevel" id = "officeLevel"/>
                                         <input type="text" class="form-control" name = "officeType" data-provide="typeahead" value = "" readonly id="officeType" placeholder="">
                                     </div> <!-- end col -->
-                                </div>
-                                <!-- end row -->
 
-
-                                <div class="row mt-3">
                                     <div class="col-lg-6">
-                                        <div class="mb-3">
+                                        <div class="mb-3 mt-3">
                                             <label class="form-label">Name</label>
                                             <input type="text" name = "name" class="form-control" data-provide="typeahead" id="the-basics" placeholder="name" required>
                                         </div>
@@ -122,10 +123,8 @@
                                             <input required id="bloodhound" name = "email" class="form-control" type="text" placeholder="email">
                                         </div>
                                     </div> <!-- end col -->
-                                </div>
-                                <!-- end row -->
 
-                                <div class="row">
+
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Phone</label>
@@ -133,17 +132,13 @@
                                         </div>
                                     </div> <!-- end col -->
 
-                                    <div class="col-lg-6 mt-3 mt-lg-0">
+                                    <div class="col-lg-12 mt-3 mt-lg-0">
                                         <div class="mb-3">
                                             <label class="form-label">Address</label>
                                             <input name = "location" required type="text" class="form-control" data-provide="typeahead" id="remote" placeholder="10 John str, Ipaja">
                                         </div>
                                     </div> <!-- end col -->
-                                </div>
-                                <!-- end row -->
 
-
-                                <div class="row">
                                     <div class="col-lg-3">
                                         <div class="mb-0">
                                             <label class="form-label">Country</label>
@@ -157,7 +152,7 @@
                                     <!-- end col -->
 
                                     <div class="col-lg-3">
-                                        <div class="mb-0">
+                                        <div class="mt-3">
                                             <label class="form-label">State</label>
                                             <select name="state" class="form-control select2 state" data-toggle="select2">
                                             </select>
@@ -179,11 +174,6 @@
                                             <input name="lga" required type="text" class="form-control" data-provide="typeahead">
                                         </div>
                                     </div> <!-- end col -->
-
-                                </div>
-
-
-                                <div class="row" style="margin-top:10px">
 
 
                                     <div class="col-lg-6">
