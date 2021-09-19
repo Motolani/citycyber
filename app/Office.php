@@ -8,6 +8,10 @@ class Office extends Model
         return $this->hasMany('App\CashierWallet', 'office_id', 'id');
     }
 
+    public function staffs(){
+        return $this->hasMany('App\User', 'office_id', 'id');
+    }
+
     public function shopWallet(){
         return $this->hasOne('App\ShopWallet', 'office_id', 'id');
     }
