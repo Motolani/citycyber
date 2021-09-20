@@ -93,61 +93,6 @@ class MainViewController extends BaseController
     }
 
 
-    public function createOfficeRequest(Request $request){
-
-        //dd($request);
-        $officeCode = $request->officeCode;
-        $name = $request->name;
-        $email = $request->email;
-        $office_code = $request->officeCode;
-        $phone = $request->phone;
-        $location = $request->location;
-        $countryId = $request->country;
-        $stateId = $request->state;
-        $cityId = $request->city;
-        $lga = $request->lga;
-        $managerId = "";
-        $type=$request->officeType;
-        $level =$request->officeLevel;
-        $parentOfficeId =$request->officeLevel;
-
-
-
-        $office = new Office();
-        $office->name = $name;
-        $office->emailAddress = $email;
-        $office->phone = $phone;
-        $office->office_code = $office_code;
-        $office->location = $location;
-        $office->country_id = $countryId;
-        $office->city_id = $cityId;
-        $office->lga = $lga;
-        $office->state_id = $stateId;
-        $office->managerid = $request->managerid;
-        $office->type = $type;
-        $office->level = $level;
-        $office->parentOfficeId = $parentOfficeId;
-        $office->save();
-
-        return redirect()->back()->with("status","Office Created Successfully");
-
-
-        //Absolutely useless lines of codes
-//        $createStatus = $offices->CreateOffice($req);
-//        if($createStatus == 1){
-//            return redirect()->back()->with("status","Office Created Successfully");
-//        }
-//        elseif($createStatus){
-//            return redirect()->back()->with("status",$createStatus );
-//        }
-    }
-
-    public function getAllOffice(){
-        $offices = new Offices();
-        $getOffice = $offices->GetAllOffice();
-        return view('admin.viewOffices')->with("offices",$getOffice);
-    }
-
 
     public function viewStaffTable(){
         $staff = \App\User::all();
@@ -332,35 +277,6 @@ class MainViewController extends BaseController
             return view('admin.staff.preview');
             //$createEmp = new CreateStaffClass();
             //$response = $createEmp->creatStaff($request,$data);		
-        }
-    }
-
-
-    function submitStaffForm(Request $request){
-        if(isset($request->back) && $request->back == "Back"){
-            if($request->session()->has('companyInfo')){
-                $companyInfo = $request->session()->get('companyInfo');
-                return view('admin.staff.createCompanyInfo', compact("companyInfo"));
-            }
-        }else{
-
-
-
-
-            $data = $request->session()->all();
-            $createEmp = new CreateStaffClass();
-            $response = $createEmp->creatStaff($request,$data);
-            //dd($response);
-            $response = json_decode($response->getContent());//dd($response->message);
-            $message = $response->message;
-            if($response->status == "200"){
-                $request->session()->flush();
-                alert()->success('Staff Created Successfully', '');
-                return view('admin.staff.newStaff',compact('message'));//->with('message', $response->message);
-            }else{
-                $request->session()->flush();
-                return view('admin.staff.newStaff',compact('message'));
-            }
         }
     }
 

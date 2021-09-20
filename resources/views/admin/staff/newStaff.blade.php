@@ -13,8 +13,6 @@
                     </ol>
                 </div>
 
-
-
                 <h4 class="page-title">Create Staff</h4>
             </div>
         </div>
@@ -71,24 +69,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#company" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            <a href="#company" data-toggle="tab" aria-expanded="false" class="nav-link disabled">
                                 COMPANY INFORMATION
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#experience" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            <a href="#experience" data-toggle="tab" aria-expanded="false" class="nav-link disabled">
                                 EXPERIENCE
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#summary" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            <a href="#summary" data-toggle="tab" aria-expanded="false" class="nav-link disabled ">
                                 SUMMARY
                             </a>
                         </li>
                     </ul> <!-- end nav-->
 
-                    <form method="POST" action="{{route('newStaff')}}">
+                    <form method="POST" action="{{route('submitStaffForm')}}" id="newStaffForm" enctype="multipart/form-data">
                         <div class="tab-content">
+
                             <div class="tab-pane active" id="personal">
                                 @include('admin.staff.personal-info')
                             </div>
@@ -104,7 +103,6 @@
                             <div class="tab-pane" id="summary">
                                 @include('admin.staff.preview')
                             </div>
-
                         </div>
                     </form>
 
@@ -154,8 +152,6 @@
                 console.log("thisIsMySelectedState", selectedState)
 
                 if (selectedState !== '') {
-
-
 
                     let url = "{{url('api/get-lga')}}";
                     console.log('mymessage' + url);

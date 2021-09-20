@@ -1,7 +1,7 @@
 
 <!-- Work Experience Details Ends-->
 <div class="row">
-                                <span class="label label-info" style=" font-size: 17px !important; text-transform: uppercase">Work Experience</span><br /><br /><small>Enter Work experience from oldest to
+    <span class="label label-info" style=" font-size: 17px !important; text-transform: uppercase">Work Experience</span><br /><br /><small>Enter Work experience from oldest to
         recent</small><br /><br />
 
 
@@ -318,14 +318,12 @@
                         @if(isset($education_class_collection))
                             @if(!$education_class_collection->isEmpty())
                                 @foreach($education_class_collection as $val)
-                                    <option value="{{ $val->id }}">{{
-                                                            $val->type }} </option>
+                                    <option value="{{ $val->id }}">{{ $val->type }} </option>
                                 @endforeach
                             @endif
                         @endif
                     </select>
                 </td>
-
                 <td></td>
             </tr>
         @endif
@@ -333,8 +331,8 @@
     </table>
 
     <div class="more_education" style="margin-bottom: 25px">
-                                    <span class="btn btn-primary">Click to Add More Education <i
-                                                class="ti-plus"></i></span>
+        <span class="btn btn-primary">Click to Add More Education <i class="ti-plus"></i>
+        </span>
     </div>
 </div>
 
@@ -342,12 +340,10 @@
 <div class="row" style="margin-top:10px">
     <div class="row" style="margin-top:30px">
         <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">
-            <button class="btn btn-primary" name="back" value="Back"
-                    id="submit">Back</button>
+            <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>
         </div>
         <div style="justify-content:flex-end; display: flex;" class="col-lg-6 pull-right">
-            <button class="btn btn-primary" name="proceed" value="Proceed"
-                    id="submit">Submit</button>
+            <input type="submit" class="btn btn-primary" name="proceed" value="Submit" id="submit">
         </div>
     </div>
 </div>

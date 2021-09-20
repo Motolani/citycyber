@@ -6,41 +6,47 @@
     if(Session::has('companyInfo')){
         $companyInfo = Session::get('companyInfo');
         $ex= explode("|",$companyInfo['bank']);
-        $selectedBank =$ex[1];
+
+        $selectedBank =$ex[0];
+
         $expUnit= explode("|",$companyInfo['staffUnit']);
-        $staffUnit = $expUnit[1];
+        $staffUnit = $expUnit[0];
 
         $expdept = explode("|",$companyInfo['staffDepartment']);
-        $staffDepartment = $expdept[1];
+        $staffDepartment = $expdept[0];
 
 
         $expLevel = explode("|",$companyInfo['staffLevel']);
-        $staffLevel = $expLevel[1];
+        $staffLevel = $expLevel[0];
 
         $expUnit = explode("|",$companyInfo['staffUnit']);
-        $staffUnit = $expUnit[1];
+        $staffUnit = $expUnit[0];
 
         $expRespType = explode("|",$companyInfo['resumptionType']);
-        $resumptionType = $expRespType[1];
+        $resumptionType = $expRespType[0];
 
         $office = explode("|",$companyInfo['staffBranch']);
-        $staffBranch = $office[1];
+        $staffBranch = $office[0];
         //staffDepartment
         //staffUnit
-
     }
-
     ?>
 
-    <div class="col-lg-6 mt-3 mt-lg-0">
-        <p class="mb-1 fw-bold text-muted"></p>
+    <div class="col-lg-12 mt-3">
+        <label class="form-label">
+            Staff Code
+        </label>
+        <input type="text" name="staffCode" class="form-control" id="staffCode" readonly value="{{$staffCode}}"/>
+        <button class="btn btn-primary btn-sm" type="button" id="editStaffCode"><span class="uil-edit"></span></button>
+    </div> <!-- end col -->
+
+
+    <div class="col-lg-6 mt-3">
         <p class="text-muted font-14">
             Staff Status
         </p>
-        <select id="state" class="form-control select2" name="status" data-toggle="select2">
-            <option
-                    value="{{Session::has('companyInfo') ? Session::get('companyInfo')['status'] : '' }}"
-                    selected>{{ Session::has('companyInfo') ?
+        <select class="form-control select2" name="status" data-toggle="select2">
+            <option value="{{Session::has('companyInfo') ? Session::get('companyInfo')['status'] : '' }}" selected>{{ Session::has('companyInfo') ?
                                             Session::get('companyInfo')['status'] : '' }}</option>
             <option>Abscondment</option>
             <option>Death</option>
@@ -51,7 +57,7 @@
         </select>
     </div> <!-- end col -->
 
-    <div class="col-lg-6 mt-3 mt-lg-0">
+    <div class="col-lg-6 mt-3">
         <p class="mb-1 fw-bold text-muted"></p>
         <p class="text-muted font-14">
             Select Staff Branch
@@ -80,14 +86,12 @@
 
 <!-- Bank Details Start -->
 <div class="row">
-    <div class="col-lg-3 mt-3 mt-lg-0">
+    <div class="col-lg-3 mt-3">
         <label for="example-date" class="form-label">Select Bank</label>
         <select id="bank" class="form-control select2" name="bank" data-toggle="select2" required>
 
             @if(Session::has('companyInfo'))
-                <option
-                        value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['bank'] : '' }}"
-                        selected>{{ isset($selectedBank)? $selectedBank: '' }}</option>
+                <option value="{{Session::get('companyInfo')['bank'] ?? 'Access Bank' }}" selected>{{ isset($selectedBank)? $selectedBank: '' }}</option>
             @endif
             @if(isset($banks))
                 @foreach($banks as $bank)
@@ -103,32 +107,26 @@
         <div class="mb-0">
             <label class="form-label">Account Name</label>
             <input name="accountName" required type="text" class="form-control"
-                   value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['accountName'] : '' }}"
+                   value="{{ Session::get('companyInfo')['accountName'] ?? '' }}"
                    data-provide="accountName" id="accountName">
         </div>
     </div> <!-- end col -->
-
 
 
     <div class="col-lg-3">
         <div class="mb-0">
             <label class="form-label">Account Number</label>
             <input name="accountNumber" required type="text" class="form-control"
-                   value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['accountNumber'] : '' }}"
-                   data-provide="accountNumber" id="accountNumber">
+                   value="{{Session::get('companyInfo')['accountNumber'] ?? '' }}" data-provide="accountNumber" id="accountNumber">
         </div>
     </div> <!-- end col -->
 </div>
-
-<br />
 <!-- bankd Details Ends-->
-
-
 
 <!-- staff unit and department starts -->
 <div class="row">
 
-    <div class="col-lg-4 mt-4 mt-lg-0">
+    <div class="col-lg-4 mt-4">
         <label for="example-date" class="form-label">Staff Unit</label>
         <select id="staffUnit" class="form-control select2" name="staffUnit"
                 data-toggle="select2" required>
@@ -152,14 +150,14 @@
         </select>
     </div> <!-- end col -->
 
-    <div class="col-lg-4 mt-4 mt-lg-0">
+    <div class="col-lg-4 mt-4">
         <label for="example-date" class="form-label">Staff Department</label>
         <select id="staffDepartment" class="form-control select2" name="staffDepartment"
                 data-toggle="select2" required>
             @if(Session::has('companyInfo'))
-                <option
-                        value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartment'] : '' }}"
-                        selected>{{ isset($staffDepartment)? $staffDepartment: '' }}</option>
+                <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartment'] : '' }}" selected>
+                    {{ isset($staffDepartment)? $staffDepartment: '' }}
+                </option>
             @endif
 
             @if(isset($departments))
@@ -167,7 +165,6 @@
                     <option value="{{$department->id}}|{{$department->title}}">{{$department->title}}</option>
                 @endforeach
             @else
-
                 <option>Branch Management</option>
                 <option>Director's Office</option>
             @endif
@@ -176,14 +173,12 @@
     </div> <!-- end col -->
 
 
-    <div class="col-lg-4 mt-4 mt-lg-0">
+    <div class="col-lg-4 mt-4">
         <label for="example-date" class="form-label">Staff Department Role</label>
         <select id="staffDepartmentRole" class="form-control select2"
                 name="staffDepartmentRole" data-toggle="select2" required>
-            <option
-                    value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
-                    selected>{{ Session::has('companyInfo') ?
-                                            Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option>
+            <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
+                    selected>{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option>
             <option>Member </option>
             <option>Department Head</option>
         </select>
@@ -197,6 +192,7 @@
     <thead>
     <tr>
         <th>S/N</th>
+        <th>Photo</th>
         <th>Guarantor's Name</th>
         <th>Guarantor's Phone</th>
         <th>Guarantor's Email</th>
@@ -213,7 +209,11 @@
                 <td>{{$counter++}}</td>
 
                 <td>
-                    <input placeholder="FirstName  LastName" autocomplete="off"
+                    <input type="file" class="form-control underline" type="text" name="g_photo[]" required>
+                </td>
+
+                <td>
+                    <input placeholder="First Name  LastName" autocomplete="off"
                            value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_name'][$i] : '' }}"
                            class="form-control underline" id="g_name" type="text" name="g_name[]" required>
                 </td>
@@ -240,16 +240,15 @@
                 </td>
 
                 <td>
-                    <input autocomplete="off"
-                           value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_home_address'][$i] : '' }}"
+                    <input autocomplete="off" value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_home_address'][$i] : '' }}"
                            class="form-control underline" id="g_home_address" type="text"
                            name="g_home_address[]" required>
                 </td>
 
                 <td>
-                                                <span style='cursor:pointer; display:inline !important' class='remove_tr btn btn-danger btn-xs'>
-                                                    <i class='fa fa-trash-o'> Remove</i>
-                                                </span>
+                    <span style='cursor:pointer; display:inline !important' class='remove_tr btn btn-danger btn-xs'>
+                        <i class='fa fa-trash-o'> Remove</i>
+                    </span>
                 </td>
 
             </tr>
@@ -257,6 +256,10 @@
     @else
         <tr>
             <td>1</td>
+
+            <td>
+                <input type="file" class="form-control underline" type="text" name="g_photo[]" required>
+            </td>
 
             <td>
                 <input placeholder="FirstName  LastName" autocomplete="off"
@@ -335,7 +338,7 @@
 <br />
 
 <div class="row">
-    <div class="col-lg-6 mt-3 mt-lg-0">
+    <div class="col-lg-6 mt-3">
         <p class="mb-1 fw-bold text-muted"></p>
         <p class="text-muted font-14">
             Staff Level
@@ -363,7 +366,7 @@
         </select>
     </div> <!-- end col -->
 
-    <div class="col-lg-6 mt-3 mt-lg-0">
+    <div class="col-lg-6 mt-3">
         <p class="mb-1 fw-bold text-muted"></p>
         <p class="text-muted font-14">
             Staff Resumption Type
@@ -392,37 +395,50 @@
 
 <div class="row" style="margin-top:30px">
     <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">
-        <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>
+        <button class="btn btn-primary" name="back" value="Back" id="previousCompanyInfo">Back</button>
     </div>
     <div style="justify-content:flex-end; display: flex;" class="col-lg-6 pull-right">
-        <button class="btn btn-primary" name="proceed" value="Proceed"
-                id="submit">Proceed</button>
+        <button class="btn btn-primary" name="proceed" value="Proceed"  id="proceedCompanyInfo">Proceed</button>
     </div>
 </div>
 <!-- end row -->
-<script>
 
-    //more guarantor's functionality
-    $('div.more_guarantor').click(function (e) {
-        //look for previous delete button and remove
-        $('table.guarantor tr:last').find('td:last').html("");
+{{--@section('script')--}}
+    <script>
+        $(document).ready(function() {
 
-        //clone business
-        var last_tr = $('table.guarantor tr:last').clone();
-        //implement changes and clear all data
-        last_tr.find(':text').val('');
-        first_td_data = last_tr.find('td:first').html();
-        first_td_data++;
-        last_tr.find('td:first').html(first_td_data);
-        last_tr.find('td:last').html("<span style='cursor:pointer; display:inline !important' class='remove_tr btn btn-danger btn-xs'><i class='fa fa-trash-o'> Remove</i></span>");
-        $('table.guarantor tr:last').after(last_tr);
-    });
+            $("#editStaffCode").click(function (e) {
+                $("#staffCode").removeAttr('readonly');
+            });
+
+            $("#previousCompanyInfo").click(function (e) {
+                $('.nav-tabs a[href="#personal"]').tab('show')
+            });
+
+            $("#proceedCompanyInfo").click(function (e) {
+                $('.nav-tabs a[href="#experience"]').tab('show')
+            });
+        });
+
+        //more guarantor's functionality
+        $('div.more_guarantor').click(function (e) {
+            //look for previous delete button and remove
+            $('table.guarantor tr:last').find('td:last').html("");
+
+            //clone business
+            var last_tr = $('table.guarantor tr:last').clone();
+            //implement changes and clear all data
+            last_tr.find(':text').val('');
+            first_td_data = last_tr.find('td:first').html();
+            first_td_data++;
+            last_tr.find('td:first').html(first_td_data);
+            last_tr.find('td:last').html("<span style='cursor:pointer; display:inline !important' class='remove_tr btn btn-danger btn-xs'><i class='fa fa-trash-o'> Remove</i></span>");
+            $('table.guarantor tr:last').after(last_tr);
+        });
 
 
-
-
-    //delete rows in tables #guarantor,work and education tables
-    $('form').on('click', '.remove_tr', function (e) {
+        //delete rows in tables #guarantor,work and education tables
+        $('form').on('click', '.remove_tr', function (e) {
             var whr = $(this).closest('table').attr('class');
             if (whr.indexOf("guarantor") !== -1) {
                 var to = "guarantor";
@@ -432,18 +448,16 @@
                 var to = "education";
             }
 
-
             $(this).closest('tr').slideUp(500).remove();
 
             if ($('table.' + to + ' tbody tr').length != 1) {
                 //After deleting, add delete button on remaining tr
                 $('table.' + to + ' tr:last').find('td:last').html("<span style='cursor:pointer; display:inline !important' class='remove_tr btn btn-danger btn-xs'><i class='fa fa-trash-o'> Remove</i></span>");
             }
+        });
 
+    </script>
+{{--@endsection--}}
 
-        }
-    );
-
-</script>
 
 

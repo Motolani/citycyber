@@ -60,8 +60,8 @@ Route::get('/createOffice', 'ViewControllers\MainViewController@createOfficeRequ
 //viewOffices
 //createOffice
 //getLevel
-Route::get('/viewOffices', 'ViewControllers\MainViewController@getAllOffice')->name('viewOffices');
-Route::post('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
+Route::get('/viewOffices', 'OfficeController@getAllOffice')->name('viewOffices');
+Route::post('/createOffice', 'OfficeController@createOfficeRequest')->name('createOffice');
 Route::get('/getLevel', 'ViewControllers\MainViewController@getLevel')->name('getLevel');
 
 
@@ -98,7 +98,7 @@ Route::get('/deletedepartment/{id}', 'DepartmentController@destroy');
 Route::post('/newStaff', 'ViewControllers\MainViewController@createStaffOne')->name('newStaff');
 Route::post('/createstaffConpanyInfo', 'ViewControllers\MainViewController@createStaffCompanyInfo')->name('createstaffConpanyInfo');
 Route::post('/createWorkAndEduction', 'ViewControllers\MainViewController@createWorkAndEduction')->name('createWorkAndEduction');
-Route::post('/submitStaffForm', 'ViewControllers\MainViewController@submitStaffForm')->name('submitStaffForm');
+Route::post('/submitStaffForm', 'StaffController@submitStaffForm')->name('submitStaffForm');
 
 Route::get('viewStaffProfile', 'ViewControllers\MainViewController@viewStaffProfile')->name('viewStaffProfile');
 
@@ -116,10 +116,7 @@ Route::get('viewStaffTable', function () {
 });
 */
 
-//viewStaffTable
-Route::get('newStaff', function () {
-    return view('admin.staff.newStaff');
-})->middleware('auth');
+Route::get('newStaff', 'StaffController@viewNewStaff');
 
 //newStaff
 Route::get('createCompanyInfo', function () {

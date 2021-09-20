@@ -1,3 +1,8 @@
+{{--<pre><?php--}}
+{{--print_r(Session::all());--}}
+{{--?>--}}
+{{--    </pre>--}}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,15 +29,15 @@
         @include('admin.includes.topbar')
         <!-- end Topbar -->
 
-            <!-- Start Content-->
+        <!-- Start Content-->
             <div class="container-fluid">
                 @if(Session::has('error'))
                     <div class="alert alert-danger mt-3">
-                            {{Session::get('error')}}
+                        {{Session::get('error')}}
                     </div>
                 @endif
 
-                    @if (count($errors) > 0)
+                @if (count($errors) > 0)
                     <div class="alert alert-danger mt-3">
                         @foreach ($errors->all() as $error)
                             {{ $error }}<br />
@@ -110,6 +115,8 @@
 <script src="{{asset('/assets/js/pages/demo.form-wizard.js')}}"></script>
 <!-- end demo js-->
 
+{{--Jquery Validator--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
 <!-- third party js -->
 <script src="{{asset('/assets/js/vendor/jquery.dataTables.min.js')}}"></script>
