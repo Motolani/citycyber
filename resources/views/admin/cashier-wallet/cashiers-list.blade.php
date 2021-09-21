@@ -35,7 +35,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Balance</th>
                                     <th>Wallet Code</th>
                                     <th>Action</th>
@@ -46,7 +45,6 @@
                                 @if(isset($items))
                                     @foreach($items as $item)
                                         <tr>
-                                            <td>{{$item->id}}</td>
                                             <td>{{$item->balance}}</td>
                                             <td>{{$item->wallet_code}}</td>
                                             <td>

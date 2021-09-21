@@ -27,7 +27,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Manager</th>
                                     <th>Amount</th>
                                     <th>Description</th>
@@ -43,7 +42,6 @@
                                 @if(isset($fundRequests))
                                     @foreach($fundRequests as $fundRequest)
                                         <tr>
-                                            <td>{{$fundRequest->id}}</td>
                                             <td>{{$fundRequest->areaManager->firstname}}</td>
                                             <td>{{$fundRequest->amount}}</td>
                                             <td>{{$fundRequest->description}}</td>

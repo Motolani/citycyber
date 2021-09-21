@@ -32,7 +32,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Office</th>
                                     <th>Wallet Code</th>
                                     <th>Wallet Balance</th>
@@ -44,7 +43,6 @@
                                 @if(isset($shopWallets))
                                     @foreach($shopWallets as $item)
                                         <tr>
-                                            <td>{{$item->id}}</td>
                                             <td>{{$item->name}}</td>
                                             <td>{{($item->shopWallet != null) ? $item->shopWallet->wallet_code : "None"}}</td>
                                             <td>{{($item->shopWallet != null) ? $item->shopWallet->balance : "None"}}</td>

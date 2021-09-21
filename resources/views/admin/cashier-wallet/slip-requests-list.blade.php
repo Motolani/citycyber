@@ -33,7 +33,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Amount</th>
                                     <th>Description</th>
                                     <th>Comment</th>
@@ -47,7 +46,6 @@
                                 @if(isset($slipRequests))
                                     @foreach($slipRequests as $slipRequest)
                                         <tr>
-                                            <td>{{$slipRequest->id}}</td>
                                             <td>{{$slipRequest->amount}}</td>
                                             <td>{{$slipRequest->description}}</td>
                                             <td>{{$slipRequest->comment}}</td>

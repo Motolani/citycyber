@@ -35,7 +35,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Staff</th>
                                     <th>Office</th>
                                     <th>Balance</th>
@@ -48,7 +47,6 @@
                                 @if(isset($cashReserves))
                                     @foreach($cashReserves as $item)
                                         <tr>
-                                            <td>{{$item->id}}</td>
                                             <td>{{$item->branchManager->firstname}}</td>
                                             <td>{{$item->office->name}}</td>
                                             <td>{{$item->balance}}</td>

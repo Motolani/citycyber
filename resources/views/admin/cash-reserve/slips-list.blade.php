@@ -27,7 +27,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Office</th>
                                     <th>Cashier</th>
                                     <th>Amount</th>
@@ -43,7 +42,6 @@
                                 @if(isset($slips))
                                     @foreach($slips as $slip)
                                         <tr>
-                                            <td>{{$slip->id}}</td>
                                             <td>{{$slip->office->name}}</td>
                                             <td>{{$slip->cashier->user->firstname}}</td>
                                             <td>{{$slip->amount}}</td>

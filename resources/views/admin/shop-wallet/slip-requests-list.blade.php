@@ -33,7 +33,6 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>id</th>
                                     <th>Cashier</th>
                                     <th>Amount</th>
                                     <th>Description</th>
@@ -49,7 +48,6 @@
                                 @if(isset($slipRequests))
                                     @foreach($slipRequests as $fundRequest)
                                         <tr>
-                                            <td>{{$fundRequest->id}}</td>
                                             <td>{{$fundRequest->cashier->firstname}}</td>
                                             <td>{{$fundRequest->amount}}</td>
                                             <td>{{$fundRequest->description}}</td>
