@@ -57,45 +57,6 @@ class MainViewController extends BaseController
     }
 
 
-    public function officeInfo(Request $request){
-
-        $office = \App\Office::where('id',$request->id)
-            ->withCount("staffs")
-            ->first();
-
-        //get list of all staff in this office that clocked in today
-        $staffPresent = \App\Attendance::where('office_id', $office->id)->whereDay('created_at', now()->day)->count();
-        $staffAbsent = $office->staffs_count - $staffPresent;
-        $staffsOnLeave = [];
-
-        //Get all Depatments the Office has.  Officeid field might need to be added
-        $departments = Department::where('id', '>', 0)
-            //->where('office_id', $office->id)
-            ->get();
-
-        //Loop through Office Staff
-        foreach ($office->staffs as $staff){
-            if($staff->isOnLeave()){
-                $staffsOnLeave[] = $staff;
-            }
-        }
-
-        return view('admin.offices.officeInfo',compact('office', 'staffAbsent', 'staffsOnLeave', 'departments'));
-    }
-
-    public function updateOffice(Request $request){
-        $updateOffice = \App\Office::where('id',$request->id)->update(["name"=>$request->name,"emailAddress"=>$request->emailAddress,"phone"=>$request->phone,"location"=>$request->address]);
-        if($updateOffice){
-            alert()->success("Office info Updated Successfully", 'Success');
-            return redirect()->back()->with("message","Office info Updated Successfully");
-        }else{
-            alert()->error("Office info could not be updated", 'Success');
-            return redirect()->back()->with("message","Office info could not be updated.");
-        }
-    }
-
-
-
     public function viewStaffTable(){
         $staff = \App\User::all();
         return view('admin.staff.viewStaffTable',compact('staff'));

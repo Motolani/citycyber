@@ -76,8 +76,8 @@ return view('admin.staff.data.viewStatus');
 })->name('staffstatus');
 */
 
-Route::get('/officeInfo', 'ViewControllers\MainViewController@officeInfo')->name('officeInfo');
-Route::post('/updateOffice', 'ViewControllers\MainViewController@updateOffice')->name('updateOffice');
+Route::get('/officeInfo', 'OfficeController@officeInfo')->name('officeInfo');
+Route::post('/updateOffice', 'OfficeController@updateOffice')->name('updateOffice');
 
 Route::resource('department', 'DepartmentController');
 Route::resource('staffstatus', 'StaffStatusController');

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -43,6 +44,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function age()
+    {
+        return Carbon::parse($this->DOB)->diff(Carbon::now())->format('%y years, %m months and %d days');
+
+    }
 
     public function office(){
         return $this->hasOne('App\Office', 'managerid', 'id');
