@@ -13,12 +13,12 @@ class DepartmentController extends BaseController
      */
     public function __construct()
     {
-                //Add this line to call Parent Constructor from BaseController
-                parent::__construct();
+        //Add this line to call Parent Constructor from BaseController
+        parent::__construct();
 
         $this->middleware('auth');
     }
-    
+
     /**
      * Show the application dashboard.
      *
@@ -36,8 +36,9 @@ class DepartmentController extends BaseController
             'title' => 'required|max:255',
         ]);
         $department = new Department();
-	$department->title = $request->title;
+        $department->title = $request->title;
         $department->save();
+        alert()->success('Department have been successfully created.', 'Success');
         return redirect()->back()->with('message', 'Department is created successfully');
     }
     public function store(Request $request)
@@ -46,14 +47,18 @@ class DepartmentController extends BaseController
     }
     public function update(Request $request, $id)
     {
-	$department = Department::find($id);
+        $department = Department::find($id);
         $department->title = $request->title;
         $saved = $department->save();
-	if($saved)
-	return redirect()->back()->with('message', 'Department is updated successfully');
-	else
-	return redirect()->back()->with('message', 'Error updating department');;
-        //return Department::find($id)->fill($requst->all())->save();
+        if($saved) {
+            alert()->success('Department have been successfully updated.', 'Success');
+            return redirect()->back()->with('message', 'Department is updated successfully');
+        }
+
+        else {
+            alert()->error('Error updaing department.', 'Error');
+            return redirect()->back()->with('message', 'Error updating department');
+        }
     }
     public function show(Request $request, $id)
     {
@@ -62,7 +67,8 @@ class DepartmentController extends BaseController
 
     public function destroy(Request $request, $id)
     {
-	$deleted = Department::find($id)->delete();
+        $deleted = Department::find($id)->delete();
+        alert()->success('Department have been successfully deleted.', 'Success');
         return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting department!.');
 //        return Department::find($id)->delete();
     }

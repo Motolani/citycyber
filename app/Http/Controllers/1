@@ -35,6 +35,7 @@ class DepartmentController extends Controller
         $department = new Department();
 	$department->title = $request->title;
         $department->save();
+
         return redirect()->back()->with('message', 'Department is created successfully');
     }
     public function store(Request $request)

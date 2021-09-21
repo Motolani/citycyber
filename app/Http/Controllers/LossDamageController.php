@@ -67,6 +67,7 @@ class LossDamageController extends BaseController
             $incident->status = 'confirmed';
             $incident->save();
         }
+        alert()->success('Successfully Approved.', 'Success');
         return redirect()->back()->with('success', 'Successfully Approved');
     }
 
@@ -90,6 +91,7 @@ class LossDamageController extends BaseController
             $incident->status = 'cancelled';;
             $incident->save();
         }
+        alert()->success('Successfully Denied.', 'Success');
         return redirect()->back()->with('success', 'Successfully Denied');
     }
 
@@ -113,6 +115,7 @@ class LossDamageController extends BaseController
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
 
+        alert()->success("The user have been $status", 'Success');
         return redirect()->back()->with('success', 'The User has been ' . $status);
     }
 }

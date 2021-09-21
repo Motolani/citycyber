@@ -71,6 +71,7 @@ class OfficeController extends BaseController
         $office->parentOfficeId = $parentOfficeId;
         $office->save();
 
+        alert()->success("Office Created Successfully", 'Office Created');
         return redirect()->back()->with("status","Office Created Successfully");
 
 

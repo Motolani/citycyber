@@ -166,8 +166,9 @@ class ShopWalletController extends BaseController
         if(isset($office))
             return view('admin.shop-wallet.create', compact('office'));
 
-        else
+        else {
             return redirect()->back();
+        }
     }
 
     public function viewCashiers(Request $request)

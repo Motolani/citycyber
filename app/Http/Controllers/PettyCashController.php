@@ -49,8 +49,8 @@ class PettyCashController extends BaseController
         $pettyCash->staff_id = Auth::user()->id;
         $pettyCash->description = $request->description;
         $pettyCash->save();
-        alert()->success('Petty Cash has been requested successfully.', 'Successful');
 
+        alert()->success('Petty Cash has been requested successfully.', 'Successful');
         return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
     }
 
@@ -90,10 +90,14 @@ class PettyCashController extends BaseController
         $department = Department::find($id);
         $department->title = $request->title;
         $saved = $department->save();
-        if($saved)
-            return redirect()->back()->with('message', 'Department is updated successfully');
-        else
-            return redirect()->back()->with('message', 'Error updating department');;
+        if($saved) {
+            alert()->success("Department have been successfully updated", 'Success');
+            return redirect()->back()->with('message', 'Department updated successfully');
+        }
+        else {
+            alert()->success("Error updating document", 'Error');
+            return redirect()->back()->with('message', 'Error updating department');
+        }
         //return Department::find($id)->fill($requst->all())->save();
     }
 
@@ -109,13 +113,17 @@ class PettyCashController extends BaseController
         if(isset($data)){
             return view('admin.pettycash.submit-expense', compact('data'));
         }
+        alert()->error("The requested data was not found", 'Success');
         return redirect()->back()->with('error', 'The requested data was not found');
     }
 
     public function destroy(Request $request, $id)
     {
         $deleted = Department::find($id)->delete();
-        return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting department!.');
+
+        $message = $deleted ? 'Deleted successfully!.' : 'Error deleting department!.';
+        alert()->success("$message", 'Success');
+        return redirect()->back()->with('message', $message);
 //        return Department::find($id)->delete();
     }
 
@@ -132,6 +140,7 @@ class PettyCashController extends BaseController
             $incident->status = 'approved';
             $incident->save();
         }
+        alert()->success("Successfully Approved", 'Success');
         return redirect()->back()->with('success', 'Successfully Approved');
     }
 
@@ -148,6 +157,7 @@ class PettyCashController extends BaseController
             $incident->status = 'disapproved';
             $incident->save();
         }
+        alert()->success("Successfully Denied", 'Success');
         return redirect()->back()->with('success', 'Successfully Denied');
     }
 
@@ -170,7 +180,7 @@ class PettyCashController extends BaseController
 
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
-
+        alert()->success("The User have been $status", 'Success');
         return redirect()->back()->with('success', 'The User has been ' . $status);
     }
 }

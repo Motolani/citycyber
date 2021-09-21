@@ -86,9 +86,11 @@ class MainViewController extends BaseController
     public function updateOffice(Request $request){
         $updateOffice = \App\Office::where('id',$request->id)->update(["name"=>$request->name,"emailAddress"=>$request->emailAddress,"phone"=>$request->phone,"location"=>$request->address]);
         if($updateOffice){
+            alert()->success("Office info Updated Successfully", 'Success');
             return redirect()->back()->with("message","Office info Updated Successfully");
         }else{
-            return redirect()->back()->with("message","Office info could not be updated Successfully");
+            alert()->error("Office info could not be updated", 'Success');
+            return redirect()->back()->with("message","Office info could not be updated.");
         }
     }
 
@@ -299,6 +301,8 @@ class MainViewController extends BaseController
             $check = \App\Level::where("title",$request->name)->exists();
             if($check){
                 $documents = \App\Document_table::all();
+
+                alert()->error("Level already Exist", 'Success');
                 return redirect()->back()->with("message","Level Already Exists",compact('documents'));
             }
 
@@ -316,6 +320,8 @@ class MainViewController extends BaseController
                 //     "message"=>"Saved Successfully"
                 // ]);
                 $documents = \App\Document_table::all();
+
+                alert()->success("Level Created Successfully", 'Success');
                 return redirect()->back()->with("message","Level Created Successfully",compact('documents'));
             }
 
@@ -430,17 +436,21 @@ class MainViewController extends BaseController
             $offType = \App\OffType::where("id",$request->id)->update(["type"=>$request->type,"days"=>$request->days]);
             //dd($request);
             if($offType){
+                alert()->success("Updated Successfully", 'Success');
                 return redirect()->back()->with("message","Updated Successfully");
             }else{
-                return redirect()->back()->with("message","Update not Successfull");
+                alert()->error("An error occurred while updating", 'Success');
+                return redirect()->back()->with("message","An error occurred while updating");
             }
         }else if($request->submit == "delete"){
 
             $resumptionTypes = \App\ResumptionType::where("id",$request->id)->delete();
             if($resumptionTypes){
+                alert()->success("Deleted Successfully", 'Success');
                 return redirect()->back()->with("message","Deleted Successfully");
             }else{
-                return redirect()->back()->with("message","Deleted Not Successfully");
+                alert()->success("Could not delete this Level", 'Success');
+                return redirect()->back()->with("message","Could not delete this Level");
             }
         }elseif($request->submit == "save"){
             $offtype = new \App\OffType([
@@ -449,6 +459,7 @@ class MainViewController extends BaseController
             ]);
             if($offtype->save()){
                 $offtypes = \App\OffType::all();
+                alert()->success("Leave Type Successfully Created", 'Success');
                 return redirect()->back()->with("message","Leave Type Successfully Created");
 
             }
@@ -474,17 +485,21 @@ class MainViewController extends BaseController
             $data = \App\OffCategory::where("id",$request->id)->update(["category"=>$request->type,"days"=>$request->days]);
             //dd($request);
             if($data){
+                alert()->success("Updated Successfully", 'Success');
                 return redirect()->back()->with("message","Updated Successfully");
             }else{
-                return redirect()->back()->with("message","Update not Successfull");
+                alert()->error("Could not update", 'Success');
+                return redirect()->back()->with("message","Could not update");
             }
         }else if($request->submit == "delete"){
 
             $data = \App\OffCategory::where("id",$request->id)->delete();
             if($data){
+                alert()->success("Deleted Successfully", 'Success');
                 return redirect()->back()->with("message","Deleted Successfully");
             }else{
-                return redirect()->back()->with("message","Deleted Not Successfully");
+                alert()->success("Could not Delete this category", 'Success');
+                return redirect()->back()->with("message","Could not Delete this Category");
             }
         }elseif($request->submit == "save"){
             $data = new \App\OffCategory([
@@ -493,6 +508,7 @@ class MainViewController extends BaseController
             ]);
             if($data->save()){
                 $data = \App\OffCategory::all();
+                alert()->success("Created Successfully", 'Success');
                 return redirect()->back()->with("message","Leave Category Created Successfully");
 
             }
@@ -509,6 +525,7 @@ class MainViewController extends BaseController
             $unit = \App\Unit::where('title',$request->title)->exists();
 
             if($unit){
+                alert()->success("Unit already exists", 'Success');
                 return redirect()->with("message","Unit Already Exists");
             }
 

@@ -111,6 +111,7 @@ class BankController extends BaseController
             return redirect()->back()->with("message","Updated Successfully");
             }else{
                 // SweetAlert::message('Robots are working!');
+                alert()->error('Could not update', 'Error');
                 return redirect()->back()->with("message","could not be Updated Successfully"); 
             }
         }
