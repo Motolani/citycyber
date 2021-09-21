@@ -334,6 +334,7 @@ Route::prefix('address')->group(function () {
 
 //Set As Default
 Route::prefix('photo')->group(function () {
+    Route::get('/delete/{photoid}', 'PhotoController@delete')->name('photo.delete');
     Route::get('/set-as-default/{photoid}', 'PhotoController@setAsDefault')->name('setAsDefault');
 });
 

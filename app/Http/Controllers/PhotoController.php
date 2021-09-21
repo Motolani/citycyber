@@ -77,4 +77,21 @@ class PhotoController extends BaseController
     }
 
 
+    public function delete(Request $request, $photo_id)
+    {
+            //ids of all other photos
+            $photo = Photo::where('id', $photo_id)->first();
+            if (isset($photo)) {
+                $deletePhoto = $photo->delete();
+                unlink($photo->path);
+                alert()->success('Photo have been deleted successfully.', 'Successful');
+                return redirect()->back();
+            }
+            else{
+                alert()->error('Photo not found.', 'Error');
+                return redirect()->back();
+            }
+    }
+
+
 }

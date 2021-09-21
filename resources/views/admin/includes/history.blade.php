@@ -21,8 +21,8 @@
                                 <tr>
                                     <td>{{$item->amount}}</td>
                                     <td>{{$item->type}}</td>
-                                    <td>{{!isset($item->sender) ? "" : $item->sender-getFullName()}}</td>
-                                    <td>{{!isset($item->recipient) ? "" : $item->recipient-getFullName()}}</td>
+                                    <td>{{!isset($item->sender) ? "" : $item->sender->getFullName()}}</td>
+                                    <td>{{!isset($item->recipient) ? "" : $item->recipient->getFullName()}}</td>
                                     <td>{{$item->created_at}}</td>
                                 </tr>
                             @endforeach

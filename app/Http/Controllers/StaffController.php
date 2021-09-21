@@ -27,7 +27,7 @@ class StaffController extends BaseController
         //Add this line to call Parent Constructor from BaseController
         parent::__construct();
 
-        $this->middleware(['web','auth']);
+        $this->middleware(['auth']);
     }
 
     public function index()

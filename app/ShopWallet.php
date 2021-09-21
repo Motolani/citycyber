@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ShopWallet extends Model
 {
@@ -13,6 +14,10 @@ class ShopWallet extends Model
     public function office()
     {
         return $this->belongsTo('App\Office', 'office_id', 'id');
+    }
+
+    public function getFullName(){
+        return $this->firstname . " " . $this->lastname;
     }
 
 
