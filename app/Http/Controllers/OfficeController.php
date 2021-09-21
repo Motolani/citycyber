@@ -48,7 +48,6 @@ class OfficeController extends BaseController
         $countryId = $request->country;
         $stateId = $request->state;
         $cityId = $request->city;
-        $lga = $request->lga;
         $managerId = "";
         $type=$request->officeType;
         $level =$request->officeLevel;
@@ -64,7 +63,7 @@ class OfficeController extends BaseController
         $office->location = $location;
         $office->country_id = $countryId;
         $office->city_id = $cityId;
-        $office->lga = $lga;
+        $office->lga = '';
         $office->state_id = $stateId;
         $office->managerid = $request->managerid;
         $office->type = $type;

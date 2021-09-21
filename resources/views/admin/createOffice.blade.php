@@ -139,26 +139,24 @@
                                         </div>
                                     </div> <!-- end col -->
 
-                                    <div class="col-lg-3">
-                                        <div class="mb-0">
+                                    <div class="col-lg-4">
                                             <label class="form-label">Country</label>
                                             <select name="country" class="form-control select2 country" data-toggle="select2">
                                                 @foreach($countries as $country)
                                                     <option value="{{$country->id}}" {{$country->id == 160 ? 'selected' : ''}}>{{$country->name}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
                                     </div>
                                     <!-- end col -->
 
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <label class="form-label">State</label>
                                         <select name="state" class="form-control select2 state" data-toggle="select2">
                                         </select>
                                     </div>
                                     <!-- end col -->
 
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="mb-0">
                                             <label class="form-label">City</label>
                                             <select name="city" class="form-control select2 city" data-toggle="select2">
@@ -166,12 +164,12 @@
                                         </div>
                                     </div> <!-- end col -->
 
-                                    <div class="col-lg-3">
-                                        <div class="mb-0">
-                                            <label class="form-label">LGA</label>
-                                            <input name="lga" required type="text" class="form-control" data-provide="typeahead">
-                                        </div>
-                                    </div> <!-- end col -->
+{{--                                    <div class="col-lg-3">--}}
+{{--                                        <div class="mb-0">--}}
+{{--                                            <label class="form-label">LGA</label>--}}
+{{--                                            <input name="lga" required type="text" class="form-control" data-provide="typeahead">--}}
+{{--                                        </div>--}}
+{{--                                    </div> <!-- end col -->--}}
 
 
                                     <div class="col-lg-6">
@@ -180,8 +178,7 @@
                                         </div>
                                     </div> <!-- end col -->
 
-
-                                    <div style="justify-content:flex-end" class="col-lg-6 pull-right">
+                                    <div style="justify-content:flex-end" class="col-lg-6 pull-right mt-3">
                                         <button class="btn btn-primary" style="float: right;" id="submit">Submit</button>
                                     </div>
                                 </div>
