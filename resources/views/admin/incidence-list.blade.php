@@ -41,7 +41,7 @@
                             <div class="alert alert-success">
                                 {!! \Session::get('success') !!}</li>
                             </div @endif <div class="tab-pane show active" id="buttons-table-preview">
-                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                            <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
                                     <th><input type="checkbox" id="all" /></th>

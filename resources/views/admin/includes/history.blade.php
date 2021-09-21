@@ -4,7 +4,7 @@
             <h4 class="header-title">Transaction History</h4>
             <div class="tab-content">
                 <div class="tab-pane show active" id="typeahead-preview">
-                    <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                    <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                         <thead>
                         <tr>
                             <th>Amount</th>

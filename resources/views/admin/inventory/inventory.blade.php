@@ -54,7 +54,7 @@ Dashboard
                             <!-- Inventory Details Start -->
                             <div class="row">
                                     
-                            <table class="table table-hover stock">
+                            <table class="table data-table table-hover stock">
                                 <thead>
                                     <tr>
                                         <th>S/N</th>

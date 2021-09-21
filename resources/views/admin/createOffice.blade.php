@@ -152,11 +152,9 @@
                                     <!-- end col -->
 
                                     <div class="col-lg-3">
-                                        <div class="mt-3">
-                                            <label class="form-label">State</label>
-                                            <select name="state" class="form-control select2 state" data-toggle="select2">
-                                            </select>
-                                        </div>
+                                        <label class="form-label">State</label>
+                                        <select name="state" class="form-control select2 state" data-toggle="select2">
+                                        </select>
                                     </div>
                                     <!-- end col -->
 

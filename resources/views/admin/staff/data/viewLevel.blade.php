@@ -50,15 +50,13 @@
                     </ul> <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
-                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                            <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>View More</th>
                                         <th>Date Created</th>
                                         <th>Level</th>
                                         <th>Salary</th>
-                                        
-					                    
                                     </tr>
                                 </thead>
                             
@@ -67,10 +65,7 @@
                                 @if(isset($levels))
                                     @foreach($levels as $level)
                                         <tr>
-
                                             <td>
-                        
-                        
                                                 <form method="post" action="{{url('editLevel')}}">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$level->id}}">
