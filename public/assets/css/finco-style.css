@@ -20,3 +20,10 @@ td form button{
 .help-inline{
   color: #FF0000;
 }
+
+img.img-thumbnail{
+  object-fit: cover;
+  overflow: hidden;
+  height: 80%;
+  width : 100%;
+}
