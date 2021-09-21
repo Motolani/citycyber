@@ -19,7 +19,7 @@
             <div class="mb-3">
                 <label class="form-label">First Name</label>
                 <input type="text" name="firstName" class="form-control"
-                       value="{{Session::get('personalInfo')['firstName'] ?? '' }}" data-provide="typeahead" id="firstName" placeholder="First Name" required>
+                       value="{{Session::get('personalInfo')['firstName'] ?? '' }}" data-provide="typeahead" id="firstName" placeholder="First Name">
             </div>
         </div>
         <!-- end col -->
@@ -27,7 +27,7 @@
         <div class="col-lg-4 mt-3">
             <div class="mb-3">
                 <label class="form-label">Middle Name</label>
-                <input required id="middleName"
+                <input id="middleName"
                        value="{{Session::get('personalInfo')['middleName'] ?? '' }}"
                        name="middleName" class="form-control" type="text"
                        placeholder="Middle Name">
@@ -37,7 +37,7 @@
         <div class="col-lg-4 mt-3">
             <div class="mb-3">
                 <label class="form-label">Last Name</label>
-                <input required id="lastName" name="lastName"
+                <input id="lastName" name="lastName"
                        value="{{Session::get('personalInfo')['lastName'] ?? '' }}"
                        class="form-control" type="text" placeholder="Last Name">
             </div>
@@ -211,7 +211,7 @@
 
         <div class="row mt-3">
             <div class="pull-right">
-                <button name="proceed" value="proceed" class="btn btn-primary" style="float: right;" id="proceedPersonal">Proceed</button>
+                <button name="proceed" type="button" value="proceed" class="btn btn-primary" style="float: right;" id="proceedPersonal">Proceed</button>
             </div>
         </div>
     </div>
@@ -219,8 +219,66 @@
 
 <script>
     // $("#newStaffForm").validate();
+    jQuery().ready(function() {
+        var v = jQuery("#newStaffForm").validate({
+            rules: {
+                firstName: {
+                    required: true,
+                    minlength: 2,
+                },
+                lastName: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 100,
+                },
+                middleName: {
+                    required: true,
+                },
+                residentialAddress: {
+                    required: true,
+                },
+                homeAddress: {
+                    required: true,
+                },
+                maritalStatus: {
+                    required: true,
+                },
+                nok_photo: {
+                    required: true,
+                },
+                nextofkinName: {
+                    required: true,
+                },
+                nextofkinRelationship: {
+                    required: true,
+                },
+                nextofkinPhone: {
+                    required: true,
+                },
+                nextofkinAddress: {
+                    required: true,
+                },
+                nextofkinContact: {
+                    required: true,
+                },
+                emmergencyPhone: {
+                    required: true,
+                },
+                emergencyAddress: {
+                    required: true,
+                },
+            },
+            errorElement: "span",
+            errorClass: "help-inline",
+        });
 
-    $("#proceedPersonal").click(function (e) {
-        $('.nav-tabs a[href="#company"]').tab('show');
+        $("#proceedPersonal").click(function (e) {
+            if (v.form()) {
+                $('.nav-tabs a[href="#company"]').tab('show');
+            }
+        });
+
     });
+
+
 </script>

@@ -144,7 +144,7 @@
                                             <label class="form-label">Country</label>
                                             <select name="country" class="form-control select2 country" data-toggle="select2">
                                                 @foreach($countries as $country)
-                                                    <option value="{{$country->id}}">{{$country->name}}</option>
+                                                    <option value="{{$country->id}}" {{$country->id == 160 ? 'selected' : ''}}>{{$country->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

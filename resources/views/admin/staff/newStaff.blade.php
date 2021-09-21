@@ -85,7 +85,7 @@
                         </li>
                     </ul> <!-- end nav-->
 
-                    <form method="POST" action="{{route('submitStaffForm')}}" id="newStaffForm" enctype="multipart/form-data">
+                    <form method="POST" novalidate="novalidate" action="{{route('submitStaffForm')}}" id="newStaffForm" enctype="multipart/form-data">
                         <div class="tab-content">
 
                             <div class="tab-pane active" id="personal">

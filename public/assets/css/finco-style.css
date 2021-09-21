@@ -16,3 +16,7 @@ td form{
 td form button{
   margin-top: 6px;
 }
+
+.help-inline{
+  color: #FF0000;
+}
