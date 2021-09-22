@@ -32,7 +32,7 @@
     }
     ?>
 
-    <div class="col-lg-12 mt-3">
+    <div class="col-lg-6 mt-3">
         <label class="form-label">
             Staff Code
         </label>
@@ -115,30 +115,27 @@
     </div> <!-- end col -->
     <!-- bankd Details Ends-->
 
-    <!-- staff unit and department starts -->
-
     <div class="col-lg-6 mt-3">
-        <label for="example-date" class="form-label">Staff Unit</label>
-        <select id="staffUnit" class="form-control select2" name="staffUnit" data-toggle="select2">
-
-            @if(Session::has('companyInfo'))
-                <option
-                        value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffUnit'] : '' }}"
-                        selected>{{ isset($staffUnit)? $staffUnit: 'n' }}</option>
-            @endif
-            @if(isset($units))
-                @foreach($units as $unit)
-                    <option value="{{$unit->id}}|{{$unit->title}}">{{$unit->title}}</option>
-                @endforeach
-            @else
-
-                <option>Regular Spot</option>
-                <option>VIP</option>
-            @endif
-
-
+        <label for="example-date" class="form-label">Access Level</label>
+        <select id="accessLevel" class="form-control select2" name="accessLevel" data-toggle="select2" required>
+            @foreach($roles as $role)
+                <option value="{{ $role->id }}">{{ $role->name }}</option>
+            @endforeach
         </select>
     </div> <!-- end col -->
+
+
+    <div class="col-lg-6 mt-3">
+        <label for="example-date" class="form-label">Staff Department Role</label>
+        <select id="staffDepartmentRole" class="form-control select2" name="staffDepartmentRole" data-toggle="select2" required>
+            <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
+                    selected>{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option>
+            <option>Member </option>
+            <option>Department Head</option>
+        </select>
+    </div> <!-- end col -->
+
+
 
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Department</label>
@@ -163,13 +160,27 @@
     </div> <!-- end col -->
 
 
+    <!-- staff unit and department starts -->
     <div class="col-lg-6 mt-3">
-        <label for="example-date" class="form-label">Staff Department Role</label>
-        <select id="staffDepartmentRole" class="form-control select2" name="staffDepartmentRole" data-toggle="select2" required>
-            <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
-                    selected>{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option>
-            <option>Member </option>
-            <option>Department Head</option>
+        <label for="example-date" class="form-label">Staff Unit</label>
+        <select id="staffUnit" class="form-control select2" name="staffUnit" data-toggle="select2">
+
+            @if(Session::has('companyInfo'))
+                <option
+                        value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffUnit'] : '' }}"
+                        selected>{{ isset($staffUnit)? $staffUnit: 'n' }}</option>
+            @endif
+            @if(isset($units))
+                @foreach($units as $unit)
+                    <option value="{{$unit->id}}|{{$unit->title}}">{{$unit->title}}</option>
+                @endforeach
+            @else
+
+                <option>Regular Spot</option>
+                <option>VIP</option>
+            @endif
+
+
         </select>
     </div> <!-- end col -->
     <!-- staff unit and department ends -->
@@ -293,7 +304,7 @@
         <span class="btn btn-primary">Click to Add More Guarantors <i class="fa fa-plus"></i></span>
     </div>
 
-    <div class="col-lg-3 mt-3">
+    <div class="col-lg-4 mt-3">
         <div class="mb-3 position-relative" id="datepicker2">
             <label class="form-label">Resumption Date</label>
             <input type="text" name="resumptionDate" placeholder="Enter in format YYYY-MM-DD e.g 1980-12-01"
@@ -303,7 +314,7 @@
     </div> <!-- end col -->
 
 
-    <div class="col-lg-3 mt-3">
+    <div class="col-lg-4 mt-3">
         <div class="mb-3 position-relative" id="datepicker3">
             <label class="form-label">Assumption date</label>
             <input type="text" name="assumptionDate" placeholder="Enter in format YYYY-MM-DD e.g 1980-12-01"
@@ -312,7 +323,7 @@
         </div>
     </div> <!-- end col -->
 
-    <div class="col-lg-6 mt-3">
+    <div class="col-md-4 mt-3">
         <div class="mb-3 position-relative" id="datepicker4">
             <label class="form-label">Termination date</label>
             <input type="text" name="terminationDate" placeholder="Enter in format YYYY-MM-DD e.g 1980-12-01"

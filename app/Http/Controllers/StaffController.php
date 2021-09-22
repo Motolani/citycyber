@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Bank;
+use App\Department;
 use App\EmergencyContact;
 use App\Guarantor;
 use App\IncidenceOpration;
+use App\Level;
 use App\NextOfKin;
 use App\Office;
+use App\ResumptionType;
+use App\Role;
 use App\StaffBankAcc;
+use App\Unit;
 use App\User;
 use App\WorkExperience;
 use http\Exception;
@@ -62,7 +68,7 @@ class StaffController extends BaseController
         ];
 
         $testCompanyInfo = [
-            'status' => 'Regular',
+            'status' => 'Regular',//Default
             'staffBranch' => 'HQ|',
             'bank' => 'Access Bank|',
             'accountName' => 'Agbontaen Efetobor',
@@ -70,7 +76,7 @@ class StaffController extends BaseController
             'gender' => 'Male',
             'staffUnit' => 'REGULAR SUPPORT|',
             'staffDepartment' => 'SECURITY|',
-            'staffDepartmentRole' => 'Member',
+            'staffDepartmentRole' => 'Member',//Default
             'staffLevel' => 'required|',
             'g_name' => ["Efe"],
             'g_phone'=> ["07099886579"],
@@ -98,7 +104,6 @@ class StaffController extends BaseController
             'education_qual_id' => 'required',
             'education_class_id' => 'required',
         ];
-
         $request->session()->put('personalInfo', $testPersonalInfo);
         $request->session()->put('companyInfo', $testCompanyInfo);
         //************************* Strictly for testing this shit *************************
@@ -106,14 +111,15 @@ class StaffController extends BaseController
 
 
         $companyInfo = $request->session()->get('companyInfo');
-        $departments = \App\Department::all();
-        $banks = \App\Bank::all();
-        $units = \App\Unit::all();
-        $levels = \App\Level::all();
-        $resumptionTypes = \App\ResumptionType::all();
-        $offices = \App\Office::all();
+        $departments = Department::all();
+        $banks = Bank::all();
+        $units = Unit::all();
+        $levels = Level::all();
+        $roles = Role::all();
+        $resumptionTypes = ResumptionType::all();
+        $offices = Office::all();
 
-        return view('admin.staff.newStaff', compact('staffCode','companyInfo','offices','resumptionTypes','levels','units','banks','departments'));
+        return view('admin.staff.newStaff', compact('staffCode','companyInfo','offices','resumptionTypes','levels','units','banks','departments', 'roles'));
     }
 
     function submitStaffForm(Request $request){
@@ -181,7 +187,6 @@ class StaffController extends BaseController
 
         $personalInfo = $request->session()->put('personalInfo', $validatePersonalInfo);
         $companyInfo = $request->session()->put('companyInfo', $validateCompanyInfo);
-
         $experience = $request->session()->put('workEducation', $validateExperience);
 
         if(isset($request->back) && $request->back == "Back"){
@@ -225,8 +230,6 @@ class StaffController extends BaseController
 
 
     function creatStaff(Request $request,$data){
-        //dd($data);
-        // dd($data);
         $personalInfo = $data['personalInfo'];
         $companyInfo = $data['companyInfo'];
         $workEducation = $data['workEducation'];
@@ -272,6 +275,7 @@ class StaffController extends BaseController
         $resumptionType = $companyInfo["resumptionType"];
         $terminationDate = $companyInfo["terminationDate"];
         $guarantorName = $companyInfo["g_name"];
+        $roleId = $request->accessLevel;
         $guarantorPhone = $companyInfo["g_phone"];
         $guarantorEmail = $companyInfo["g_email"];
         $guarantorOfficeAddress = $companyInfo["g_office_address"];
@@ -320,6 +324,7 @@ class StaffController extends BaseController
             "level"=>$staffLevel,
             "resumptionType"=>$resumptionType,
             "imgUrl"=>$photoPath,
+            "imgUrl"=>$photoPath,
             "branchId"=>$staffBranch,
             "unit"=>$staffUnit,
             "department"=>$staffDepartment,
@@ -333,10 +338,10 @@ class StaffController extends BaseController
             "maritalstatus"=>$maritalStatus,
             "username"=>$firstName,
         ]);
-        //dd($staff);
         if($staff->save()) {
             $staffId = $staff->id;
         }
+        $staff->roles()->attach($roleId);
 
         //Process Work Experience
         $eperience = new Request([

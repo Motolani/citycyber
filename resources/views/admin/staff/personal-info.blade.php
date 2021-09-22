@@ -1,14 +1,12 @@
     <div id="container" class="row form-group" style="margin-top: 20px">
         <div class="col-md-4">
             <div id="staff-container">
-                <img src="http://www.fao.org/fileadmin/templates/experts-feed-safety/images/profile-img03.jpg"
-                     id="profilepic" alt="Profile Photo" />
-
+                <img src="http://www.fao.org/fileadmin/templates/experts-feed-safety/images/profile-img03.jpg" id="profilepic" alt="Profile Photo" />
                 <label for="formFileSm" class="form-label">
                     Select a Staff Image.Only JPEG, PNG &amp;
                     GIF formats. Image should not be larger than 300 KB
                 </label>
-                <input onchange="loadFile(event)" class="form-control form-control-sm" id="formFileSm" type="file" required name="imgUrl"/>
+                <input onchange="loadFile(event)" class="form-control form-control-sm" id="formFileSm" type="file" name="imgUrl"/>
             </div>
         </div>
 
@@ -53,7 +51,8 @@
                        data-provide="typeahead" id="prefetch" name="residentialAddress"
                        placeholder="please enter Residential Address">
             </div>
-        </div> <!-- end col -->
+        </div>
+        <!-- end col -->
 
         <div class="col-lg-6 mt-3">
             <div class="mb-3">
@@ -63,7 +62,8 @@
                        data-provide="typeahead" id="homeAddress"
                        placeholder="Please enter Home Address" required>
             </div>
-        </div> <!-- end col -->
+        </div>
+        <!-- end col -->
 
         <div class="col-lg-6 mt-3">
             <div class="mb-0">
@@ -81,7 +81,8 @@
                        value="{{ Session::has('personalInfo')?Session::get('personalInfo')['email']:'' }}"
                        class="form-control" data-provide="typeahead" id="email" name="email" required>
             </div>
-        </div> <!-- end col -->
+        </div>
+        <!-- end col -->
 
         <div class="col-lg-6 mt-3">
             <label class="mb-1 fw-bold">
@@ -143,7 +144,7 @@
         <div class="col-lg-6 mt-3">
             <div class="mb-0">
                 <label class="form-label">Next of Kin Photo</label>
-                <input name="nok_photo" required type="file" class="form-control" id="nokPhoto" />
+                <input name="nok_photo" type="file" class="form-control" id="nokPhoto" />
             </div>
         </div> <!-- end col -->
 
@@ -243,8 +244,11 @@
                 maritalStatus: {
                     required: true,
                 },
+                imgUrl: {
+                    // required: true,
+                },
                 nok_photo: {
-                    required: true,
+                    // required: true,
                 },
                 nextofkinName: {
                     required: true,
