@@ -344,22 +344,22 @@
                         </li>
 
 
-                        <li class="side-nav-item">
-                            <a data-bs-toggle="collapse" href="#sidebarTwelvethLevel" aria-expanded="false" aria-controls="sidebarNinethLevel">
-                                <span> Role Module</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <div class="collapse" id="sidebarTwelvethLevel">
-                                <ul class="side-nav-third-level">
-                                    <li>
-                                        <a href="{{url('createStaffRole')}}">Create Role</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{url('viewStaffRole')}}">Manage Role</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+{{--                        <li class="side-nav-item">--}}
+{{--                            <a data-bs-toggle="collapse" href="#sidebarTwelvethLevel" aria-expanded="false" aria-controls="sidebarNinethLevel">--}}
+{{--                                <span> Role Module</span>--}}
+{{--                                <span class="menu-arrow"></span>--}}
+{{--                            </a>--}}
+{{--                            <div class="collapse" id="sidebarTwelvethLevel">--}}
+{{--                                <ul class="side-nav-third-level">--}}
+{{--                                    <li>--}}
+{{--                                        <a href="{{url('createStaffRole')}}">Create Role</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="{{url('viewStaffRole')}}">Manage Role</a>--}}
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
 
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarThirteenthLevel" aria-expanded="false" aria-controls="sidebarNinethLevel">
