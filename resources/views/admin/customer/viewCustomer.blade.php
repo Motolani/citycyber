@@ -36,14 +36,7 @@
                         Below are the lists of Customer Created 
                     </p>
 
-                    <ul class="nav nav-tabs nav-bordered mb-3">
-                        <li class="nav-item">
-                            <a href="#buttons-table-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                                Preview
-                            </a>
-                        </li>
-                        
-                    </ul> <!-- end nav-->
+                     <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">

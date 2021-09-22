@@ -44,25 +44,15 @@ Dashboard
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <form>
-                                    
-
                                     <div class="mb-3">
                                         <label for="example-email" class="form-label">Document Type Name</label>
                                         <input type="text" id="text" name="title" class="form-control" placeholder="document-type-name"required>
                                     </div>
-
-
                                     <div class="col-auto">
                                         <button type="submit" name = "submit" value = "createDocument" class="btn btn-primary mb-9">CREATE DOCUMENT TYPE</button>
                                     </div>
-                            
-
-                                    
-
                                 </form>
                             </div> <!-- end col -->
-
-                            
                         </div>
                         <!-- end row-->                      
                     </div> <!-- end preview-->
@@ -71,19 +61,13 @@ Dashboard
         </div> <!-- end card -->
     </div><!-- end col -->
 </div><!-- end row -->
-
-
-
 @endsection
 
 
 @section('script')
 
 <script>
-
-        
     $(function () {
-
         let url = "{{url('api/get-states')}}";
         console.log('mymessage' + url);
         $.ajax({

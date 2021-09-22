@@ -53,12 +53,12 @@ Dashboard
                             <form action="{{url('createlateness')}}" method="POST">
                                 @csrf                    
                                 <div class="mb-3">
-                                    <label for="example-email" class="form-label">Lateness Start Duration (In Hours)</label>
+                                    <label for="example-email" class="form-label">Lateness Start Duration (In Minutes)</label>
                                     <input type="lateness-start-duration" id="example-email" name="starthour" class="form-control" placeholder="Lateness Start Duration"required>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="example-email" class="form-label">Lateness End Duration (In Hours)</label>
+                                    <label for="example-email" class="form-label">Lateness End Duration (In Minutes)</label>
                                     <input type="lateness-end-duration" id="example-email" name="endhour" class="form-control" placeholder="Lateness End Duration"required>
                                 </div>
                                 <div class="mb-3">
