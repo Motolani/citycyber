@@ -22,8 +22,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-                    <h4 class="header-title">Available Table</h4>
                     <p class="text-muted font-14">
                         <!-- Below are the lists of Offices availabe within City Cyber. Offices can also be edited -->
                     </p>

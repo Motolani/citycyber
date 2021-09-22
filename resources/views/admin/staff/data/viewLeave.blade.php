@@ -38,7 +38,7 @@
                         class="uil-plus"></span> Create New Off/Leave</a>
 
                         
-                    <!-- <h4 class="header-title">Available Table</h4> -->
+                    <!--  -->
                     <p class="text-muted font-14">
                         Below are the lists of Offence types availabe within City Cyber.
                     </p>

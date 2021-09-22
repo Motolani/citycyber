@@ -22,12 +22,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-                    <h4 class="header-title">Available Table</h4>
-                    <p class="text-muted font-14">
-                        <!-- Below are the lists of Offices availabe within City Cyber. Offices can also be edited -->
-                    </p>
-
                     <ul class="nav nav-tabs nav-bordered mb-3">
                         <!-- <li class="nav-item">
                                 <a href="#buttons-table-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">

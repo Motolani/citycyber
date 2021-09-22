@@ -31,11 +31,7 @@
                             		<li>{{$message}}</li>
                     		</ul>
                 	</div>
-            	@endif
-
-
-
-                    <h4 class="header-title">Available Table</h4>
+            	@endifclass="table data-table table-striped
                     <p class="text-muted font-14">
                         Below are the lists of Pos Created 
                     </p>

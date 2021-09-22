@@ -41,7 +41,7 @@
                     </div>
                 @endif
 
-                    <h4 class="header-title">Available Table</h4>
+
                     <p class="text-muted font-14">
                         Transfers Lost and Statuses
                     </p>

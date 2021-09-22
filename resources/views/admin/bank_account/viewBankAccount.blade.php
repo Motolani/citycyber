@@ -32,10 +32,6 @@
                     		</ul>
                 	</div>
             	@endif
-
-
-
-                    <h4 class="header-title">Available Table</h4>
                     <p class="text-muted font-14">
                         Below are the lists of Bank Accounts Created 
                     </p>

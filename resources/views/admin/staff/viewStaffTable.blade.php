@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">Available Table</h4>
+
                     <p class="text-muted font-14">
                         Below are the lists of Staff availabe within City Cyber. You can also be View More details about selected Staff
                     </p>
@@ -52,7 +52,6 @@
                                     <th>Resumption Date</th>
                                 </tr>
                                 </thead>
-
 
                                 <tbody>
                                 @if(isset($staff))
@@ -105,15 +104,3 @@
     </div>
     <!-- end row-->
 @endsection
-
-
-@section('script')
-    <script>
-
-
-    </script>
-
-@endsection
-
-
-
