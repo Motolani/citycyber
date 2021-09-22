@@ -62,7 +62,7 @@ class StaffController extends BaseController
         ];
 
         $testCompanyInfo = [
-            'status' => 'required',
+            'status' => 'Regular',
             'staffBranch' => 'HQ|',
             'bank' => 'Access Bank|',
             'accountName' => 'Agbontaen Efetobor',
