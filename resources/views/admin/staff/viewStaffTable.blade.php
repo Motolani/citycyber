@@ -45,13 +45,11 @@
                                     <th>View More</th>
                                     <th>Date Created</th>
                                     <th>Staff Name</th>
-                                    <th>View Scope</th>
                                     <th>Level</th>
-                                    <th>Branch</th>
+                                    <th>Office</th>
                                     <th>Status</th>
                                     <th>Phone</th>
                                     <th>Resumption Date</th>
-
                                 </tr>
                                 </thead>
 
@@ -70,16 +68,13 @@
                                             </td>
                                             <td>{{$user->created_at}}</td>
                                             <td>{{$user->firstname.' '.$user->firstname}}</td>
-                                            <td>{{$user->departmentrole}}</td>
                                             <td>{{$user->level}}</td>
-                                            <td>{{$user->branchId}}</td>
+                                            <td>{{$user->office->name ?? "No Office"}}</td>
                                             <td>{{$user->status}}</td>
                                             <td>{{$user->phone}}</td>
                                             <td>{{$user->resumptionDate}}</td>
-
                                         </tr>
                                     @endforeach
-
 
                                 @else
                                     <tr>
@@ -96,7 +91,6 @@
                                         <td>Regular</td>
                                         <td>07035666498</td>
                                         <td>18-06-2021</td>
-
                                     </tr>
                                 @endif
                                 </tbody>
@@ -110,8 +104,6 @@
         </div><!-- end col-->
     </div>
     <!-- end row-->
-
-
 @endsection
 
 
