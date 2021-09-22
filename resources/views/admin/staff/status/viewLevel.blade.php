@@ -13,7 +13,7 @@
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">View/Edit Level</li>
                     </ol>
                 </div>
-                <h4 class="page-title">View/Edit User</h4>
+                <h4 class="page-title">View/Edit Level</h4>
             </div>
         </div>
     </div>
