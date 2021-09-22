@@ -9,13 +9,10 @@ Dashboard
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
 
-                    <li class="breadcrumb-item active" style="display:none" id="headerShow">Edit Staff</li>
+                    <li class="breadcrumb-item active" style="display:none" id="headerShow">Edit Level</li>
                 </ol>
             </div>
-
-
-
-            <h4 class="page-title">Edit Staff</h4>
+            <h4 class="page-title">Edit Level</h4>
         </div>
     </div>
 </div>
@@ -65,14 +62,6 @@ Dashboard
                 <p class="text-muted font-14">
                     Here, admin can Edit staff level, select required document for the level and assign Salary amount to the level
                 </p>
-
-                <ul class="nav nav-tabs nav-bordered mb-3">
-                    <li class="nav-item">
-                        <a href="#typeahead-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                            Edit Level
-                        </a>
-                    </li>
-                </ul> <!-- end nav-->
 
                 <div class="tab-content">
                     <div class="tab-pane show active" id="typeahead-preview">

@@ -12,10 +12,7 @@ Dashboard
                     <li class="breadcrumb-item active" style="display:none" id="headerShow">Edit Staff</li>
                 </ol>
             </div>
-
-
-
-            <h4 class="page-title">Edit Staff</h4>
+            <h4 class="page-title">Edit Level</h4>
         </div>
     </div>
 </div>
@@ -61,7 +58,7 @@ Dashboard
    		    </div>
 		@endif
 
-                <h4 class="header-title" style="">Staff Management</h4>
+                <h3 class="" style="">Edit {{$name}}</h3>
                 <p class="text-muted font-14">
                     Here, admin can Edit staff level, select required document for the level and assign Salary amount to the level
                 </p>
@@ -80,8 +77,6 @@ Dashboard
                             @csrf
                             
                             <div class="row">
-                                
-
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">

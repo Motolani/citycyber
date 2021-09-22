@@ -306,11 +306,8 @@ class MainViewController extends BaseController
 
 
     public function viewLevel(Request $request){
-
         $levels = \App\Level::all();
-
         return view('admin.staff.data.viewLevel',compact('levels'));
-
     }
 
 
@@ -333,7 +330,6 @@ class MainViewController extends BaseController
 
             $documents = [];
             foreach($allDoc as $doc){
-
                 if(in_array($doc->id,$required_doc)){
                     $renderDoc = ["id"=>$doc->id, "name"=>$doc->name,"type"=>"checked"];
                     array_push($documents, $renderDoc);

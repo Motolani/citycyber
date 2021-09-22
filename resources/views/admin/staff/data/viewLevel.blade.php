@@ -9,11 +9,11 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        
+
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">View/Edit Level</li>
                     </ol>
                 </div>
-                <h4 class="page-title">View/Edit User</h4>
+                <h4 class="page-title">View/Edit Level</h4>
             </div>
         </div>
     </div>
@@ -23,33 +23,30 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-
-		@if (isset($message))
-                	<div class="alert alert-success">
-                    		<ul>
-                            		<li>{{$message}}</li>
-                    		</ul>
-                	</div>
-            	@endif
+                    @if (isset($message))
+                        <div class="alert alert-success">
+                            <ul>
+                                <li>{{$message}}</li>
+                            </ul>
+                        </div>
+                    @endif
                     <p class="text-muted font-14">
                         Below are the lists of Staff availabe within City Cyber. You can also be View More details about selected Staff
                     </p>
 
-                     <!-- end nav-->
+                    <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
-                                    <tr>
-                                        <th>View More</th>
-                                        <th>Date Created</th>
-                                        <th>Level</th>
-                                        <th>Salary</th>
-                                    </tr>
+                                <tr>
+                                    <th>View More</th>
+                                    <th>Date Created</th>
+                                    <th>Level</th>
+                                    <th>Salary</th>
+                                </tr>
                                 </thead>
-                            
-                            
+                                
                                 <tbody>
                                 @if(isset($levels))
                                     @foreach($levels as $level)
@@ -58,23 +55,23 @@
                                                 <form method="post" action="{{url('editLevel')}}">
                                                     @csrf
                                                     <input type="hidden" name="id" value="{{$level->id}}">
-                                                        <input type="hidden" name="description" value="{{$level->id}}">
-                                                        <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
-                                            </form>
+                                                    <input type="hidden" name="description" value="{{$level->id}}">
+                                                    <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
+                                                </form>
                                             </td>
                                             <td>{{$level->created_at}}</td>
                                             <td>{{$level->title}}</td>
                                             <td>{{$level->salary}}</td>
-                                            
+
                                         </tr>
                                     @endforeach
-				                @endif
+                                @endif
                                 </tbody>
-                            </table>                                           
+                            </table>
                         </div> <!-- end preview-->
-                    
+
                     </div> <!-- end tab-content-->
-                    
+
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
@@ -86,11 +83,11 @@
 
 
 @section('script')
- <script>
-    
+    <script>
 
-  
- </script>
+
+
+    </script>
 
 @endsection
 
