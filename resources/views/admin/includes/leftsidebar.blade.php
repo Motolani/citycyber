@@ -199,10 +199,10 @@
                             <div class="collapse" id="sidebarThirdLevel">
                                 <ul class="side-nav-third-level">
                                     <li>
-                                        <a href="{{url('createUnit')}}">Create Unit</a>
+                                        <a href="{{route('createUnit')}}">Create Unit</a>
                                     </li>
                                     <li>
-                                        <a href="{{url('viewUnit')}}">View Unit</a>
+                                        <a href="{{route('viewUnit')}}">View Unit</a>
                                     </li>
                                 </ul>
                             </div>

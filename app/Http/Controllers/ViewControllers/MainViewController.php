@@ -47,7 +47,6 @@ class MainViewController extends BaseController
         return view('admin.home');
     }
 
-
     public function getLevel(Request $request){
         $getLevel = new Offices();
         $levels = $getLevel->GetAllLevels();
@@ -55,7 +54,6 @@ class MainViewController extends BaseController
         $countries = Countries::all();
         return view('admin.createOffice', compact('levels', 'countries'));
     }
-
 
     public function viewStaffTable(){
         $staff = \App\User::all();
@@ -93,8 +91,6 @@ class MainViewController extends BaseController
         $nextOfKin = \App\NextOfKin::where('userId',$user_id)->first();//dd('here');
         return view('admin.staff.staffProfile', compact(['staff','workExperience','staffBankAcc','emmergencyContact','guarantor','nextOfKin','requiredDocuments']));
     }
-
-
 
     public function createStaffOne(Request $request){
 
@@ -243,7 +239,6 @@ class MainViewController extends BaseController
         }
     }
 
-
     //crud for Level Starts
     public function createLevel(Request $request){
 
@@ -293,9 +288,6 @@ class MainViewController extends BaseController
         }
     }
 
-
-
-
     public function viewLeave(Request $request){
 
         $offtypes = \App\OffType::all();
@@ -304,12 +296,10 @@ class MainViewController extends BaseController
 
     }
 
-
     public function viewLevel(Request $request){
         $levels = \App\Level::all();
         return view('admin.staff.data.viewLevel',compact('levels'));
     }
-
 
     public function updateLevel(Request $request){
         //dd($request);
@@ -362,8 +352,6 @@ class MainViewController extends BaseController
         }
     }
 
-
-
     public function deleteLevel(Request $request){
 
         $levels = \App\Level::where('id',$request->id)->delete();
@@ -373,10 +361,6 @@ class MainViewController extends BaseController
         }
     }
 
-    //crud for Level Ends
-
-
-
     public function viewLeaveCategory(Request $request){
 
         $offcategories = \App\OffCategory::all();
@@ -384,8 +368,6 @@ class MainViewController extends BaseController
         return view('admin.staff.data.viewLeaveCategory',compact('offcategories'));
 
     }
-
-
 
     public function updateDeleteLeaveType(Request $request){
         //dd($request);
@@ -424,7 +406,6 @@ class MainViewController extends BaseController
         }
 //	return view('admin.staff.data.createLeave');
     }
-
 
     public function createLeaveType(){
         //dd("here");
@@ -473,73 +454,6 @@ class MainViewController extends BaseController
         }
 
     }
-
-
-    //crud for Unit Starts
-    public function createUnit(Request $request){
-        if(isset($request->submit) && $request->submit == "createUnit"){
-
-            $unit = \App\Unit::where('title',$request->title)->exists();
-
-            if($unit){
-                alert()->success("Unit already exists", 'Success');
-                return redirect()->with("message","Unit Already Exists");
-            }
-
-            $create = new \App\Unit([
-
-                "title"=>$request->name,
-            ]);
-            if($create->save()){
-
-                // return response()->json([
-                //     "status"=> "200",
-                //     "message"=>"Saved Successfully"
-                // ]);
-
-                return redirect()->back()->with("message","Unit Created Successfully");
-            }
-        }else{
-
-            return view('admin.staff.data.createUnit');
-        }
-
-
-    }
-
-
-    public function viewUnit(Request $request){
-        $units = \App\Unit::all();
-        return view('admin.staff.data.viewUnit',compact('units'));
-
-    }
-
-
-    public function updateUnit(Request $request){
-
-
-
-        $unit = \App\Unit::where('id',$request->id)->update(["title"=>$request->name]);
-        if($unit){
-            $message = "unit Updated Successfully";
-            return view('admin.staff.level.viewLevel',compact('message'));
-        }
-    }
-
-
-
-    public function deleteUnit(Request $request){
-
-        $unit = \App\Unit::where('id',$request->id)->delete();
-        if($unit){
-            $message = "Unit Deleted Successfully";
-            return view('admin.staff.level.viewLevel',compact('message'));
-        }
-    }
-
-
-
-
 
 
     //crud for resumption types
@@ -608,10 +522,7 @@ class MainViewController extends BaseController
     }
 
 
-
-
     //crud for Document types
-
     public function createDocument(Request $request){
         if(isset($request->submit) && $request->submit == "createDocument"){
             $create = new \App\Document_table([
@@ -626,7 +537,6 @@ class MainViewController extends BaseController
             return view("admin.staff.data.createDocument");
         }
     }
-
 
     public function viewDocument(Request $request){
         $document_table = \App\Document_table::all();
@@ -828,12 +738,5 @@ class MainViewController extends BaseController
                 return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
             }
         }
-
     }
-
 }
-
-
-
-
-

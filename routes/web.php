@@ -148,12 +148,15 @@ Route::post('deleteLevel', 'ViewControllers\MainViewController@deleteLevel');
 
 
 //crud for staff Unit starts
-Route::get('/createUnit', 'ViewControllers\MainViewController@createUnit')->name('createUnit');
-Route::post('/createUnit', 'ViewControllers\MainViewController@createUnit')->name('createUnit');
-Route::get('/viewUnit', 'ViewControllers\MainViewController@viewUnit')->name('viewUnit');
-Route::get('editUnit/{id}', 'ViewControllers\MainViewController@editUnit');
-Route::post('updateUnit', 'ViewControllers\MainViewController@updateUnit');
-Route::post('deleteUnit', 'ViewControllers\MainViewController@deleteUnit');
+
+Route::prefix('unit')->group(function () {
+    Route::get('/createUnit', 'UnitController@createUnit')->name('createUnit');
+    Route::post('/createUnit', 'UnitController@createUnit')->name('createUnit');
+    Route::get('/viewUnit', 'UnitController@viewUnit')->name('viewUnit');
+    Route::get('editUnit/{id}', 'UnitController@viewEditUnit')->name('unit.edit');
+    Route::post('updateUnit', 'UnitController@updateUnit')->name('unit.doEdit');
+    Route::get('deleteUnit/{id}', 'UnitController@deleteUnit')->name('unit.delete');
+});
 //crud for staff Unit ends
 
 
