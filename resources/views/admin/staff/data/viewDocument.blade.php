@@ -7,13 +7,13 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        
-                        <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Delete/Edit Document</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">Delete/Edit Document</h4>
+{{--                <div class="page-title-right">--}}
+{{--                    <ol class="breadcrumb m-0">--}}
+{{--                        --}}
+{{--                        <li class="breadcrumb-item active" style = "display:none" id = "headerShow">Delete/Edit Document</li>--}}
+{{--                    </ol>--}}
+{{--                </div>--}}
+                <h4 class="page-title">List of Documents</h4>
             </div>
         </div>
     </div>
@@ -36,14 +36,6 @@
                         Below are the lists of Documents types availabe within City Cyber.
                     </p>
 
-                    <ul class="nav nav-tabs nav-bordered mb-3">
-                        <li class="nav-item">
-                            <a href="#buttons-table-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                                Preview
-                            </a>
-                        </li>
-                        
-                    </ul> <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
