@@ -62,19 +62,17 @@
         <select id="staffBranch" class="form-control select2" name="staffBranch"
                 data-toggle="select2" required>
             @if(Session::has('companyInfo'))
-                <option
-                        value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffBranch'] : '' }}"
+                <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffBranch'] : '' }}"
                         selected>{{ isset($staffBranch)? $staffBranch: '' }}</option>
             @endif
+
             @if(isset($offices))
                 @foreach($offices as $office)
                     <option value="{{$office->id}}|{{$office->name}}">{{$office->name}}</option>
                 @endforeach
             @else
 
-
             @endif
-
         </select>
     </div> <!-- end col -->
 
@@ -100,8 +98,7 @@
     <div class="col-md-6 mt-3">
         <label class="form-label">Account Name</label>
         <input name="accountName" required type="text" class="form-control"
-               value="{{ Session::get('companyInfo')['accountName'] ?? '' }}"
-               data-provide="accountName" id="accountName">
+               value="{{ Session::get('companyInfo')['accountName'] ?? '' }}" data-provide="accountName" id="accountName">
     </div>
     <!-- end col -->
 
@@ -128,20 +125,23 @@
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Department Role</label>
         <select id="staffDepartmentRole" class="form-control select2" name="staffDepartmentRole" data-toggle="select2" required>
+            <option value=""> Select </option>
             <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
                     selected>{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option>
             <option>Member </option>
             <option>Department Head</option>
         </select>
-    </div> <!-- end col -->
-
+    </div>
+    <!-- end col -->
 
 
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Department</label>
         <select id="staffDepartment" class="form-control select2" name="staffDepartment"
                 data-toggle="select2" required>
-            @if(Session::has('companyInfo'))
+            <option value=""> Select </option>
+
+        @if(Session::has('companyInfo'))
                 <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartment'] : '' }}" selected>
                     {{ isset($staffDepartment)? $staffDepartment: '' }}
                 </option>
@@ -164,6 +164,7 @@
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Unit</label>
         <select id="staffUnit" class="form-control select2" name="staffUnit" data-toggle="select2">
+            <option value=""> Select </option>
 
             @if(Session::has('companyInfo'))
                 <option
@@ -448,8 +449,35 @@
             }
         });
 
+        //staffDepartment
+        $("#staffDepartment").change(function (e) {
+            let selectedStaffDepartment = $(this).val();
+            //If the user selected a department
+            if(selectedStaffDepartment != "") {
+                $("#staffUnit").prop('disabled', true);
+            }
+            else{
+                $("#staffUnit").prop('disabled', false);
+            }
+        });
+
+        //staffRole
+        $("#staffUnit").change(function (e) {
+            let selectedStaffDepartment = $(this).val();
+            //If the user selected a department
+            if(selectedStaffDepartment != "") {
+                $("#staffDepartment").prop('disabled', true);
+            }
+            else{
+                $("#staffDepartment").prop('disabled', false);
+            }
+        });
+
 
     });
+
+
+
 
     //more guarantor's functionality
     $('div.more_guarantor').click(function (e) {

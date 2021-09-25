@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Bank;
 use App\Department;
+use App\Education;
 use App\EmergencyContact;
 use App\Guarantor;
 use App\IncidenceOpration;
@@ -90,6 +91,11 @@ class StaffController extends BaseController
             'staff_number'=> ''
         ];
 
+        $testExperience = [
+            'education_type' => ['Edu 1', 'University'],
+            'institution_name' => ['Middlesex University', 'University of Mauritius'],
+        ];
+
         $validateExperience = [
             'establishment_name' => 'required',
             'work_start_year' => 'required',
@@ -106,6 +112,7 @@ class StaffController extends BaseController
         ];
         $request->session()->put('personalInfo', $testPersonalInfo);
         $request->session()->put('companyInfo', $testCompanyInfo);
+        $request->session()->put('workEducation', $testExperience);
         //************************* Strictly for testing this shit *************************
 
 
@@ -170,7 +177,7 @@ class StaffController extends BaseController
         ]);
 
         $validateExperience = $request->validate([
-            'establishment_name' => '',
+            'institution_name' => '',
             'work_start_year' => '',
             'work_end_year' => '',
             'position_held' => '',
@@ -189,24 +196,16 @@ class StaffController extends BaseController
         $companyInfo = $request->session()->put('companyInfo', $validateCompanyInfo);
         $experience = $request->session()->put('workEducation', $validateExperience);
 
-        if(isset($request->back) && $request->back == "Back"){
-            if($request->session()->has('companyInfo')){
-                $companyInfo = $request->session()->get('companyInfo');
-                return view('admin.staff.createCompanyInfo', compact("companyInfo"));
-            }
-        }
-        else{
-            $data = $request->session()->all();
-            $response = $this->creatStaff($request,$data);
+        $data = $request->session()->all();
+        $response = $this->creatStaff($request,$data);
 
-            $response = json_decode($response->getContent());//dd($response->message);
-            $message = $response->message;
-            if($response->status == "200"){
-                alert()->success('Staff Created Successfully', '');
-                return redirect()->back();//->with('message', $response->message);
-            }else{
-                return redirect()->back();
-            }
+        $response = json_decode($response->getContent());//dd($response->message);
+        $message = $response->message;
+        if($response->status == "200"){
+            alert()->success('Staff Created Successfully', '');
+            return redirect()->back();//->with('message', $response->message);
+        }else{
+            return redirect()->back();
         }
     }
 
@@ -283,16 +282,16 @@ class StaffController extends BaseController
         $staffLevel = $companyInfo["staffLevel"];
 
         //Workand Educational Details
-        $establishment_name = $workEducation["establishment_name"];
+        $institution_name = $workEducation["institution_name"];
         $work_start_year = $workEducation["work_start_year"];
         $work_end_year = $workEducation["work_end_year"];
         $position_held = $workEducation["position_held"];
         $job_functions = $workEducation["job_functions"];
-        $education_type_id = $workEducation["education_type_id"];
+//        $education_type = $workEducation["education_type"];
         $start_year = $workEducation["start_year"];
         $end_year = $workEducation["end_year"];
-        $course_name = $workEducation["course_name"];
-        $education_qual_id = $workEducation["education_qual_id"];
+//        $course_name = $workEducation["course_name"];
+//        $education_qual_id = $workEducation["qualification"];
 
         //explode all options to get their ids
         $ex= explode("|",$companyInfo['bank']);
@@ -324,7 +323,6 @@ class StaffController extends BaseController
             "level"=>$staffLevel,
             "resumptionType"=>$resumptionType,
             "imgUrl"=>$photoPath,
-            "imgUrl"=>$photoPath,
             "branchId"=>$staffBranch,
             "unit"=>$staffUnit,
             "department"=>$staffDepartment,
@@ -345,9 +343,12 @@ class StaffController extends BaseController
 
         //Process Work Experience
         $eperience = new Request([
-            "staffId"=> $staffId,"nameOfEstablish"=>$establishment_name,"position"=>$position_held,"job_functions"=>$job_functions,"startyear"=>$start_year,"endyear"=>$end_year,
+            "staffId"=> $staffId,"nameOfEstablish"=>$institution_name,"position"=>$position_held,"job_functions"=>$job_functions,"startyear"=>$start_year,"endyear"=>$end_year,
         ]);
         $this->workExperience($eperience);
+
+        //Process Education
+        $this->proccessEducation($request, $staff);
 
 
         //Proccess Bank Accounts
@@ -390,6 +391,7 @@ class StaffController extends BaseController
         }
     }
 
+
     function workExperience($request) {
         $len = sizeof($request->position);
         $result = false;
@@ -412,6 +414,32 @@ class StaffController extends BaseController
             }
             catch(\Exception $ex){
                 //dd($ex);
+            }
+        }
+        return $result;
+    }
+
+    function proccessEducation(Request $request, $staff) {
+        $len = sizeof($request->institution_name);
+        $result = true;
+
+        for($i = 0; $i<$len;$i++){
+
+            try {
+                //Upload the Photo
+                $fileName = time() . '.' . $request->document_photo[$i]->extension();
+                $photoPath = $request->document_photo[$i]->move('uploads', $fileName);
+                $education = new Education();
+                $education->userId = $staff->id;
+                $education->document_path = $photoPath;
+                $education->endyear = $request->end_year[$i];
+                $education->course = $request->course_name[$i];
+                $education->startyear = $request->start_year[$i];
+                $education->qualification = $request->qualification[$i];
+                $education->educationType = $request->education_type[$i];
+                $education->name_of_institution = $request->institution_name[$i];
+                $education->save();
+            } catch (\Exception $e) {
             }
         }
         return $result;

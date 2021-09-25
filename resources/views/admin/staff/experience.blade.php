@@ -19,49 +19,45 @@
         </thead>
         <tbody>
         @if(Session::has('workEducation') &&
-        Session::get('workEducation')['establishment_name'])
+        Session::get('workEducation')['institution_name'])
             <?php $counter = 1;?>
-            @for ($i = 0; $i < sizeof(Session::get('workEducation')['establishment_name']);
+            @for ($i = 0; $i < sizeof(Session::get('workEducation')['institution_name']);
                 $i++) <tr>
                 <td>{{$counter++}}</td>
 
                 <td>
-                    <input type="text" name="establishment_name[]" autocomplete="off"
-                           value="{{ Session::has('workEducation') ? Session::get('workEducation')['establishment_name'][$i] : '' }}"
+                    <input type="text" name="institution_name[]" autocomplete="off"
+                           value="{{ Session::get('workEducation')['institution_name'][$i] ?? '' }}"
                            class="form-control" data-provide="datepicker"
-                           data-date-container="#datepicker1">
+                           data-date-container="">
                 </td>
 
                 <td>
                     <div class="mb-3 position-relative" id="work_start_year">
-                        <input type="text" name="work_start_year[]" autocomplete="off"
-                               placeholder="YYYY only e.g 2004"
-                               value="{{ Session::has('workEducation') ? Session::get('workEducation')['work_start_year'][$i] : '' }}"
-                               class="form-control" data-provide="datepicker"
-                               data-date-container="#work_start_year">
+                        <select name="work_start_year[]" class="form-control select select2" data-toggle="select2">
+                            @include('admin.includes.year-options')
+                        </select>
                     </div>
                 </td>
 
                 <td>
                     <div class="mb-3 position-relative" id="work_end_year">
-                        <input type="text" name="work_end_year[]" autocomplete="off"
-                               placeholder="YYYY only e.g 2004"
-                               value="{{ Session::has('workEducation') ? Session::get('workEducation')['work_end_year'][$i] : '' }}"
-                               class="form-control" data-provide="datepicker"
-                               data-date-container="#work_end_year">
+                        <select name="work_end_year[]" class="form-control select select2" data-toggle="select2">
+                            @include('admin.includes.year-options')
+                        </select>
                     </div>
                 </td>
 
                 <td>
                     <input autocomplete="off"
-                           value="{{ Session::has('workEducation') ? Session::get('workEducation')['position_held'][$i] : '' }}"
+                           value="{{ Session::get('workEducation')['position_held'][$i] ?? '' }}"
                            class="form-control underline" id="position_held" type="text"
                            name="position_held[]">
                 </td>
 
                 <td>
                     <input autocomplete="off"
-                           value="{{ Session::has('workEducation') ? Session::get('workEducation')['job_functions'][$i] : '' }}"
+                           value="{{ Session::get('workEducation')['job_functions'][$i] ?? '' }}"
                            class="form-control underline" name="job_functions[]" id="job_functions" type="text"
                            id="">
                 </td>
@@ -76,7 +72,7 @@
 
                 <td>
                     <input autocomplete="off" class="form-control underline"
-                           id="establishment_name" type="text" name="establishment_name[]">
+                           id="institution_name" type="text" name="institution_name[]">
                 </td>
 
                 <td>
@@ -115,170 +111,120 @@
     </table>
 
     <div class="more_work" style="margin-bottom: 25px">
-                                    <span class="btn btn-primary">Click to Add More Work Experience <i
-                                                class="fa fa-plus"></i></span>
+        <span class="btn btn-primary">Click to Add More Work Experience <i class="fa fa-plus"></i></span>
     </div>
 </div>
 
 <!-- Educational Details Details Ends-->
 <div class="row">
-                                <span class="label label-info"
-                                      style=" font-size: 17px !important; text-transform: uppercase">Education
-                                    Details</span><br /><br /><small>Enter Education Details from oldest to
-        recent</small><br /><br />
+    <span class="label label-info" style=" font-size: 17px !important; text-transform: uppercase">Education Details</span>
+    <br /><br />
+    <small>Enter Education Details from oldest to recent</small>
+    <br /><br />
 
 
     <table class="table table-hover education">
         <thead>
         <tr>
             <td>S/N</td>
+            <th>Upload</th>
             <th>Education Type</th>
             <th>Start Year</th>
             <th>End Year</th>
             <th>Name of Institution</th>
-            <th>Course/Certification</th>
+            <th>Course</th>
             <th>Qualification</th>
-            <th>Class</th>
+            {{--            <th>Class</th>--}}
             <th></th>
         </tr>
         </thead>
         <tbody>
         @if(Session::has('workEducation'))
             <?php $counter = 1;?>
-            @for ($i = 0; $i < sizeof(Session::get('workEducation')['education_type_id']);
-                $i++) <tr>
+            @for ($i = 0; $i < sizeof(Session::get('workEducation')['education_type']); $i++)
+                <tr>
+                    <td>{{$counter++}}</td>
+                    <td><input type="file" name="document_photo[]" class="form-control" /></td>
 
-                <td>{{$counter++}}</td>
-                <td>
+                    <td>
+                        <input type="text" name="education_type[]" class="form-control" value="{{ Session::get('workEducation')['education_type'][$i] ?? '' }}" />
+                    </td>
 
-                    <select class="form-control" name="education_type_id[]"
-                            id="education_type_id">
-                        <option
-                                value="{{ Session::has('workEducation') ? Session::get('workEducation')['education_type_id'][$i] : '' }}"
-                                selected>{{ Session::has('workEducation') ?
-                                                        Session::get('workEducation')['education_type_id'][$i] : '' }}
-                        </option>
-                        @if(isset($education_type_collection))
-                            @if(!$education_type_collection->isEmpty())
-                                @foreach($education_type_collection as $val)
-                                    <option value="{{ $val->id }}">{{
-                                                        $val->type }} </option>
-                                @endforeach
-                            @endif
-                        @endif
-                    </select>
+                    <td>
+                        <div class="mb-3 position-relative" id="start_year">
+                            <select id="startYear" name="start_year[]" class="form-control select select2" data-toggle="select2">
+                                @include('admin.includes.year-options')
+                            </select>
+                        </div>
+                    </td>
 
-                </td>
+                    <td>
+                        <div class="mb-3 position-relative" id="end_year">
+                            <select id="startYear" name="end_year[]" class="form-control select select2" data-toggle="select2">
+                                @include('admin.includes.year-options')
+                            </select>
+                        </div>
+                    </td>
 
-                <td>
-                    <div class="mb-3 position-relative" id="start_year">
-                        <input placeholder="YYYY only e.g 2004" autocomplete="off"
-                               data-provide="datepicker" data-date-container="#start_year"
-                               value="{{ Session::has('workEducation') ? Session::get('workEducation')['start_year'][$i] : '' }}"
-                               class="form-control underline datepicker"
-                               type="text" name="start_year[]">
-                    </div>
-                </td>
+                    <td>
+                        <input autocomplete="off" placeholder="Ignore if not applicable" class="form-control"
+                               value="{{ Session::get('workEducation')['institution_name'][$i] ?? '' }}"
+                               id="institution_name" type="text" name="institution_name[]">
+                    </td>
 
-                <td>
-                    <div class="mb-3 position-relative" id="end_year">
-                        <input placeholder="YYYY only e.g 2004" autocomplete="off"
-                               data-provide="datepicker" data-date-container="#end_year"
-                               value="{{ Session::has('workEducation') ? Session::get('workEducation')['end_year'][$i] : '' }}"
-                               class="form-control underline datepicker"
-                               type="text" name="end_year[]">
-                    </div>
-                </td>
+                    <td>
+                        <input autocomplete="off" placeholder="Ignore if not applicable" class="form-control"
+                               value="{{ Session::get('workEducation')['course_name'][$i] ?? '' }}"
+                               id="course" type="text" name="course_name[]">
+                    </td>
 
-                <td>
-                    <input autocomplete="off" placeholder="Ignore if not applicable" class="form-control"
-                           value="{{ Session::has('workEducation') ? Session::get('workEducation')['institution_name'][$i] : '' }}"
-                           id="institution_name" type="text" name="institution_name[]">
-                </td>
+                    <td>
+                        <input autocomplete="off" placeholder="Ignore if not applicable" class="form-control"
+                               value="{{Session::get('workEducation')['qualification'][$i] ?? '' }}"
+                               id="course" type="text" name="qualification[]">
+                    </td>
 
-                <td>
-                    <input autocomplete="off" placeholder="Ignore if not applicable" class="form-control"
-                           value="{{ Session::has('workEducation') ? Session::get('workEducation')['course_name'][$i] : '' }}"
-                           id="course_name" type="text" name="course_name[]">
-                </td>
-
-                <td>
-                    <select class="form-control" name="education_qual_id[]"
-                            id="education_qual_id">
-                        <option
-                                value="{{ Session::has('workEducation') ? Session::get('workEducation')['education_qual_id'][$i] : '' }}"
-                                selected>{{ Session::has('workEducation') ?
-                                                        Session::get('workEducation')['education_qual_id'][$i] : '' }}
-                        </option>
-                        @if(isset($education_qual_collection))
-                            @if(!$education_qual_collection->isEmpty())
-                                @foreach($education_qual_collection as $val)
-                                    <option value="{{ $val->id }}">{{
-                                                        $val->type }} </option>
-                                @endforeach
-                            @endif
-                        @endif
-                    </select>
-                </td>
-
-                <td>
-                    <select class="form-control" name="education_class_id[]"
-                            id="education_class_id">
-                        <option
-                                value="{{ Session::has('workEducation') ? Session::get('workEducation')['education_class_id'][$i] : '' }}"
-                                selected>{{ Session::has('workEducation') ?
-                                                        Session::get('workEducation')['education_class_id'][$i] : '' }}
-                        </option>
-                        @if(isset($education_class_collection))
-                            @if(!$education_class_collection->isEmpty())
-                                @foreach($education_class_collection as $val)
-                                    <option value="{{ $val->id }}">{{
-                                                        $val->type }} </option>
-                                @endforeach
-                            @endif
-                        @endif
-                    </select>
-                </td>
-
-                <td></td>
-            </tr>
+                    {{--                    <td>--}}
+                    {{--                        <select class="form-control" name="education_class_id[]"--}}
+                    {{--                                id="education_class_id">--}}
+                    {{--                            <option--}}
+                    {{--                                    value="{{ Session::get('workEducation')['education_class_id'][$i] ?? '' }}"--}}
+                    {{--                                    selected>{{ Session::has('workEducation') ?--}}
+                    {{--                                                        Session::get('workEducation')['education_class_id'][$i] ?? '' }}--}}
+                    {{--                            </option>--}}
+                    {{--                            @if(isset($education_class_collection))--}}
+                    {{--                                @if(!$education_class_collection->isEmpty())--}}
+                    {{--                                    @foreach($education_class_collection as $val)--}}
+                    {{--                                        <option value="{{ $val->id }}">{{ $val->type }} </option>--}}
+                    {{--                                    @endforeach--}}
+                    {{--                                @endif--}}
+                    {{--                            @endif--}}
+                    {{--                        </select>--}}
+                    {{--                    </td>--}}
+                </tr>
             @endfor
         @else
             <tr>
-
                 <td>1</td>
                 <td>
-
-                    <select class="form-control" name="education_type_id[]"
-                            id="education_type_id">
-                        <option selected value="">--Select Type--</option>
-                        @if(isset($education_type_collection))
-                            @if(!$education_type_collection->isEmpty())
-                                @foreach($education_type_collection as $val)
-                                    <option value="{{ $val->id }}">{{
-                                                            $val->type }} </option>
-                                @endforeach
-                            @endif
-                        @endif
-                    </select>
-
+                    <input type="text" name="education_type[]" class="form-control" />
                 </td>
 
                 <td>
                     <div class="mb-3 position-relative" id="start_year">
-                        <input placeholder="YYYY only e.g 2004" autocomplete="off"
-                               value="{!! old('start_year') !!}"
-                               class="form-control underline datepicker" id="start_year"
-                               type="text" name="start_year[]">
+                        <div class="mb-3 position-relative" id="start_year">
+                            <select id="startYear" name="start_year[]" class="form-control select select2" data-toggle="select2">
+                                @include('admin.includes.year-options')
+                            </select>
+                        </div>
                     </div>
                 </td>
 
                 <td>
-                    <div class="mb-3 position-relative" id="start_year">
-                        <input placeholder="YYYY only e.g 2004" autocomplete="off"
-                               value="{!! old('end_year') !!}"
-                               class="form-control underline datepicker" id="end_year"
-                               type="text" name="end_year[]">
+                    <div class="mb-3 position-relative">
+                        <select id="startYear" name="end_year[]" class="form-control select select2" data-toggle="select2">
+                            @include('admin.includes.year-options')
+                        </select>
                     </div>
                 </td>
 
@@ -297,14 +243,12 @@
                 </td>
 
                 <td>
-                    <select class="form-control" name="education_qual_id[]"
-                            id="education_qual_id">
+                    <select class="form-control" name="qualification[]" id="qualification">
                         <option selected value="">--Select Type--</option>
                         @if(isset($education_qual_collection))
                             @if(!$education_qual_collection->isEmpty())
                                 @foreach($education_qual_collection as $val)
-                                    <option value="{{ $val->id }}">{{
-                                                            $val->type }} </option>
+                                    <option value="{{ $val->id }}">{{ $val->type }} </option>
                                 @endforeach
                             @endif
                         @endif
@@ -336,11 +280,10 @@
     </div>
 </div>
 
-
 <div class="row" style="margin-top:10px">
     <div class="row" style="margin-top:30px">
         <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">
-            <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>
+            <button type="button" class="btn btn-primary" name="back" value="Back" id="btnBack">Back</button>
         </div>
         <div style="justify-content:flex-end; display: flex;" class="col-lg-6 pull-right">
             <input type="submit" class="btn btn-primary" name="proceed" value="Submit" id="submit">
@@ -350,6 +293,11 @@
 <!-- end row -->
 
 <script>
+
+    $("#btnBack").click(function (e) {
+        $('.nav-tabs a[href="#company"]').tab('show');
+    });
+
     //more work functionality
     $('div.more_work').click(function (e) {
         //look for previous delete button and remove
