@@ -130,6 +130,7 @@ class StaffController extends BaseController
     }
 
     function submitStaffForm(Request $request){
+        //Validate Personal Information
         $validatePersonalInfo = $request->validate([
             'firstName' => 'required',
             'middleName' => 'required',
@@ -152,6 +153,7 @@ class StaffController extends BaseController
             'emergencyAddress' => 'required',
         ]);
 
+        //Validate Company Information
         $validateCompanyInfo = $request->validate([
             'status' => 'required',
             'staffBranch' => 'required',
@@ -159,9 +161,7 @@ class StaffController extends BaseController
             'accountName' => 'required',
             'accountNumber' => 'required',
             'gender' => 'required',
-            'staffUnit' => 'required',
             'staffCode' => 'required',
-            'staffDepartment' => 'required',
             'staffDepartmentRole' => 'required',
             'g_name' => 'required',
             'g_phone'=>'required',
@@ -192,21 +192,15 @@ class StaffController extends BaseController
         ]);
         $request->validate(['imgUrl' => 'required|mimes:jpg,png']);
 
-        $personalInfo = $request->session()->put('personalInfo', $validatePersonalInfo);
-        $companyInfo = $request->session()->put('companyInfo', $validateCompanyInfo);
-        $experience = $request->session()->put('workEducation', $validateExperience);
+        $request->session()->put('personalInfo', $validatePersonalInfo);
+        $request->session()->put('companyInfo', $validateCompanyInfo);
+        $request->session()->put('workEducation', $validateExperience);
 
         $data = $request->session()->all();
-        $response = $this->creatStaff($request,$data);
+        $this->creatStaff($request);
 
-        $response = json_decode($response->getContent());//dd($response->message);
-        $message = $response->message;
-        if($response->status == "200"){
-            alert()->success('Staff Created Successfully', '');
-            return redirect()->back();//->with('message', $response->message);
-        }else{
-            return redirect()->back();
-        }
+        alert()->success('Staff Created Successfully', '');
+        return redirect('viewStaffTable')->with('message', "Staff Created Successfully'");
     }
 
     function generateStaffCode($count=0){
@@ -228,30 +222,30 @@ class StaffController extends BaseController
 
 
 
-    function creatStaff(Request $request,$data){
-        $personalInfo = $data['personalInfo'];
-        $companyInfo = $data['companyInfo'];
-        $workEducation = $data['workEducation'];
+    function creatStaff(Request $request){
+        $personalInfo = $request['personalInfo'];
+        $companyInfo = $request['companyInfo'];
+        $workEducation = $request['workEducation'];
 
-        $firstName = $personalInfo["firstName"];
-        $middleName = $personalInfo["middleName"];
-        $lastName = $personalInfo["lastName"];
-        $residentialAddress = $personalInfo["residentialAddress"];
-        $homeAddress = $personalInfo["homeAddress"];
-        $phone = $personalInfo["phone"];
-        $email = $personalInfo["email"];
-        $state = $personalInfo["state"];
-        $lga = $personalInfo["lga"];
-        $dob = $personalInfo["dob"];
-        $gender = $personalInfo["gender"];
-        $maritalStatus = $personalInfo["maritalStatus"];
-        $nextofkinName = $personalInfo["nextofkinName"];
-        $nextofkinRelationship = $personalInfo["nextofkinRelationship"];
-        $nextofkinPhone = $personalInfo["nextofkinPhone"];
-        $nextofkinAddress = $personalInfo["nextofkinAddress"];
-        $nextofkinContact = $personalInfo["nextofkinContact"];
-        $emmergencyPhone = $personalInfo["emmergencyPhone"];
-        $emergencyAddress = $personalInfo["emergencyAddress"];
+        $firstName = $request["firstName"];
+        $middleName = $request["middleName"];
+        $lastName = $request["lastName"];
+        $residentialAddress = $request["residentialAddress"];
+        $homeAddress = $request["homeAddress"];
+        $phone = $request["phone"];
+        $email = $request["email"];
+        $state = $request["state"];
+        $lga = $request["lga"];
+        $dob = $request["dob"];
+        $gender = $request["gender"];
+        $maritalStatus = $request["maritalStatus"];
+        $nextofkinName = $request["nextofkinName"];
+        $nextofkinRelationship = $request["nextofkinRelationship"];
+        $nextofkinPhone = $request["nextofkinPhone"];
+        $nextofkinAddress = $request["nextofkinAddress"];
+        $nextofkinContact = $request["nextofkinContact"];
+        $emmergencyPhone = $request["emmergencyPhone"];
+        $emergencyAddress = $request["emergencyAddress"];
 
         //Photo
         $fileName = time() . '.' . $request->imgUrl->extension();
@@ -259,52 +253,51 @@ class StaffController extends BaseController
 
 
         //company Infos
-        $staffStatus = $companyInfo["status"];
-        $staffBranch = $companyInfo["staffBranch"];
-        $bank = $companyInfo["bank"];
-        $staffCode = $companyInfo["staffCode"];
-        $accountName = $companyInfo["accountName"];
-        $accountNumber = $companyInfo["accountNumber"];
-        $gender = $companyInfo["gender"];
-        $staffUnit = $companyInfo["staffUnit"];
-        $staffDepartment = $companyInfo["staffDepartment"];
-        $staffDepartmentRole = $companyInfo["staffDepartmentRole"];
-        $resumptionDate = $companyInfo["resumptionDate"];
-        $assumptionDate = $companyInfo["assumptionDate"];
-        $resumptionType = $companyInfo["resumptionType"];
-        $terminationDate = $companyInfo["terminationDate"];
-        $guarantorName = $companyInfo["g_name"];
+        $staffStatus = $request["status"];
+        $staffBranch = $request["staffBranch"];
+        $bank = $request["bank"];
+        $staffCode = $request["staffCode"];
+        $accountName = $request["accountName"];
+        $accountNumber = $request["accountNumber"];
+        $gender = $request["gender"];
+        $staffUnit = $request["staffUnit"];
+        $staffDepartment = $request["staffDepartment"];
+        $staffDepartmentRole = $request["staffDepartmentRole"];
+        $resumptionDate = $request["resumptionDate"];
+        $assumptionDate = $request["assumptionDate"];
+        $resumptionType = $request["resumptionType"];
+        $terminationDate = $request["terminationDate"];
+        $guarantorName = $request["g_name"];
         $roleId = $request->accessLevel;
-        $guarantorPhone = $companyInfo["g_phone"];
-        $guarantorEmail = $companyInfo["g_email"];
-        $guarantorOfficeAddress = $companyInfo["g_office_address"];
-        $guarantorHomeAddress = $companyInfo["g_home_address"];
-        $staffLevel = $companyInfo["staffLevel"];
+        $guarantorPhone = $request["g_phone"];
+        $guarantorEmail = $request["g_email"];
+        $guarantorOfficeAddress = $request["g_office_address"];
+        $guarantorHomeAddress = $request["g_home_address"];
+        $staffLevel = $request["staffLevel"];
 
         //Workand Educational Details
-        $institution_name = $workEducation["institution_name"];
-        $work_start_year = $workEducation["work_start_year"];
-        $work_end_year = $workEducation["work_end_year"];
-        $position_held = $workEducation["position_held"];
-        $job_functions = $workEducation["job_functions"];
-//        $education_type = $workEducation["education_type"];
-        $start_year = $workEducation["start_year"];
-        $end_year = $workEducation["end_year"];
-//        $course_name = $workEducation["course_name"];
-//        $education_qual_id = $workEducation["qualification"];
+        $institution_name = $request["institution_name"];
+        $work_start_year = $request["work_start_year"];
+        $work_end_year = $request["work_end_year"];
+        $position_held = $request["position_held"];
+        $job_functions = $request["job_functions"];
+        $start_year = $request["start_year"];
+        $end_year = $request["end_year"];
+        $course_name = $request["course_name"];
+        $qualification = $request["qualification"];
 
         //explode all options to get their ids
-        $ex= explode("|",$companyInfo['bank']);
+        $ex= explode("|",$request['bank']);
         $bank =$ex[0];
-        $expUnit= explode("|",$companyInfo['staffUnit']);
+        $expUnit= explode("|",$request['staffUnit']);
         $staffUnit = $expUnit[0];
-        $expBranch= explode("|",$companyInfo['staffBranch']);
+        $expBranch= explode("|",$request['staffBranch']);
         $staffBranch = $expBranch[0];
-        $expdept = explode("|",$companyInfo['staffDepartment']);
+        $expdept = explode("|",$request['staffDepartment']);
         $staffDepartment = $expdept[0];
-        $expRespType = explode("|",$companyInfo['resumptionType']);
+        $expRespType = explode("|",$request['resumptionType']);
         $resumptionType = $expRespType[0];
-        $expLevel = explode("|",$companyInfo['staffLevel']);
+        $expLevel = explode("|",$request['staffLevel']);
         $staffLevel = $expLevel[0];
 
 
@@ -338,62 +331,37 @@ class StaffController extends BaseController
         ]);
         if($staff->save()) {
             $staffId = $staff->id;
-        }
-        $staff->roles()->attach($roleId);
+            $staff->roles()->attach($roleId);
 
-        //Process Work Experience
-        $eperience = new Request([
-            "staffId"=> $staffId,"nameOfEstablish"=>$institution_name,"position"=>$position_held,"job_functions"=>$job_functions,"startyear"=>$start_year,"endyear"=>$end_year,
-        ]);
-        $this->workExperience($eperience);
+            //Process Work Experience
+            $this->workExperience($request);
 
-        //Process Education
-        $this->proccessEducation($request, $staff);
+            //Process Education
+            $this->proccessEducation($request, $staff);
 
 
-        //Proccess Bank Accounts
-        $createStaffbankacc = new Request([
-            "staffId"=>$staffId,"bankname"=>$bank,"acc_num"=>$accountNumber,"acc_name"=>$accountName,"acc_type"=>"",
-        ]);
-        $this->createStaffbankacc($createStaffbankacc);
+            //Proccess Bank Accounts
+            $this->createStaffbankacc($request, $staff);
 
-        //Process Emergency Contact
-        //call Create emergencyContact
-        $emergencyContact = new Request([
-            "staffId"=>$staffId,"name"=>"N","phone"=>$emmergencyPhone,"address"=>$emergencyAddress,
-        ]);
-        $this->emergencyContact($emergencyContact);
+            //Process Emergency Contact
+            //call Create emergencyContact
+            $this->emergencyContact($request, $staff);
 
 
-        //creat guarantors
-        $guarantors = new Request([
-            "staffId"=>$staffId,"name"=>$guarantorName,"phone"=>$guarantorPhone,"email"=>$guarantorEmail,"officeAddress" =>$guarantorOfficeAddress,"homeAddress"=>$guarantorHomeAddress
-        ]);
-        $this->guarantors($request, $guarantors);
+            //create guarantors
+            $this->guarantors($request, $staff);
 
 
-        //nextofkins
-        $nextofkins = new Request([
-            "staffId"=>$staffId,"name"=>$nextofkinName,"relationship"=>$nextofkinRelationship,"phone"=>$nextofkinPhone,"address"=>$nextofkinAddress,
-        ]);
+            //nextofkins
+            $this->nextofkins($request, $staff);
 
-        if($this->nextofkins($nextofkins)){
-            return response()->json([
-                "status"=>"200",
-                "message"=>"Employee has been created Successfully",
-            ]);
-
-        }else{
-            return response()->json([
-                "status"=>"300",
-                "message"=>"Staff's other documents(next of kin) could not be created",
-            ]);
         }
     }
 
 
     function workExperience($request) {
-        $len = sizeof($request->position);
+//        dd($request->all());
+        $len = sizeof($request->position_held);
         $result = false;
         for($i = 0; $i<$len;$i++){
             Log::info("insideLoop ".$i);
@@ -446,18 +414,18 @@ class StaffController extends BaseController
     }
 
 
-    function createStaffbankacc($data){
-        //dd($data);
+    function createStaffbankacc($data, $staff){
+        //dd($data->all());
         // dd($data->acc_num);
         // $len = $len = sizeof($data);
         $result = false;
         //dd($data);
         $createStaffbankacc = new StaffBankAcc([
-            "userId"=>$data->staffId,
-            "bankname"=>$data->bankname,
-            "acc_num"=>$data->acc_num,
-            "acc_name"=>$data->acc_name,
-            "acc_type"=>"savin",
+            "userId"=>$staff->id,
+            "bankname"=>$data->bank,
+            "acc_num"=>$data->accountNumber,
+            "acc_name"=>$data->accountName,
+            "acc_type"=>"SAVINGS",
         ]);
         if($createStaffbankacc->save()){
             $result =  true;
@@ -468,13 +436,13 @@ class StaffController extends BaseController
     }
 
 
-    function emergencyContact($data){
-        //dd($data);
+    function emergencyContact($data, $staff){
+//        dd($data->all());
         $emergencyContact = new EmergencyContact([
-            "userId"=>$data->staffId,
-            "name"=>$data->name,
-            "phone"=>$data->phone,
-            "address"=>$data->address,
+            "userId"=>$staff->id,
+            "name"=>$data->emergencyName,
+            "phone"=>$data->emmergencyPhone,
+            "address"=>$data->emergencyAddress,
         ]);
         if($emergencyContact->save()){
             return true;
@@ -483,7 +451,8 @@ class StaffController extends BaseController
         }
     }
 
-    function guarantors($request, $data){
+    function guarantors($request, $staff){
+        //dd($request->all());
         $len = count($request->g_photo);
         $result = false;
 
@@ -492,13 +461,13 @@ class StaffController extends BaseController
             $photoPath = $request->g_photo[$i]->move('uploads', $fileName);
 
             $guarantors = new Guarantor([
-                "userId"=>$data->staffId,
+                "userId"=>$staff->id,
                 "photo"=>$photoPath,
-                "name"=>$data->name[$i],
-                "phone"=>$data->phone[$i],
-                "email"=>$data->email[$i],
-                "officeAddress" =>$data->officeAddress[$i],
-                "homeAddress"=>$data->homeAddress[$i]
+                "name"=>$request->g_name[$i],
+                "phone"=>$request->g_phone[$i],
+                "email"=>$request->g_email[$i],
+                "officeAddress" =>$request->g_office_address[$i],
+                "homeAddress"=>$request->g_home_address[$i]
             ]);
             if($guarantors->save()){
                 $result = true;
@@ -509,8 +478,8 @@ class StaffController extends BaseController
         return $result;
     }
 
-    function nextofkins($data){
-        // dd($data);
+    function nextofkins($data, $staff){
+        //dd($data->all());
         // $len =  sizeof($data->relationship);
         $result = false;
 
@@ -524,11 +493,11 @@ class StaffController extends BaseController
         //     "address"=>$data->address[$i],
         // ]);
         $nextofkins = new NextOfKin([
-            "userId"=>$data->staffId,
-            "name"=>$data->name,
-            "relationship"=>$data->relationship,
-            "phone"=>$data->phone,
-            "address"=>$data->address,
+            "userId"=>$staff->id,
+            "name"=>$data->nextofkinName,
+            "relationship"=>$data->nextofkinRelationship,
+            "phone"=>$data->nextofkinPhone,
+            "address"=>$data->nextofkinAddress,
         ]);
         if($nextofkins->save()){
             $result =  true;

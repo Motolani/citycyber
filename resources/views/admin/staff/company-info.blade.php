@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="companyInfoForm">
 
     <?php
     $selectedBank = null;

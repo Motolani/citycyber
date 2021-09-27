@@ -192,14 +192,14 @@ Route::post('updateAndDeleteStaffRole', 'ViewControllers\MainViewController@upda
 
 
 
-//StaffOffence Crud
+//Offence Crud
 Route::get('/createOffence', 'ViewControllers\MainViewController@createOffence')->name('createOffence');
 Route::post('/createOffence', 'ViewControllers\MainViewController@createOffence')->name('createOffence');
 Route::get('/viewOffence', 'ViewControllers\MainViewController@viewOffence')->name('viewOffence');
 Route::post('updateAndDeleteOffence', 'ViewControllers\MainViewController@updateAndDeleteOffence');
 
 
-//staffallowance crud
+//Allowance crud
 Route::post('createallowance', 'AllowanceController@create')->name('createallowance');
 Route::get('/allallowances', 'AllowanceController@index')->name('allallowances');
 Route::get('/allowance', 'AllowanceController@allowance')->name('allowance');
@@ -207,7 +207,7 @@ Route::get('/deleteallowance/{id}', 'AllowanceController@destroy');
 Route::get('/showallowance/{id}', 'AllowanceController@show');
 Route::post('updateallowance/{id}', 'AllowanceController@update');
 
-//staff bonus crud
+//bonus crud
 Route::get('/allbonuses', 'BonusController@index');
 Route::post('createbonus', 'BonusController@create');
 Route::get('/newbonus', 'BonusController@bonuspage');

@@ -1,3 +1,4 @@
+<div id="personalInfoForm">
     <div id="container" class="row form-group" style="margin-top: 20px">
         <div class="col-md-4">
             <div id="staff-container">
@@ -209,13 +210,14 @@
             </div>
         </div>
         <!-- end col -->
+    </div>
 
-        <div class="row mt-3">
-            <div class="pull-right">
-                <button name="proceed" type="button" value="proceed" class="btn btn-primary" style="float: right;" id="proceedPersonal">Proceed</button>
-            </div>
+    <div class="row mt-3">
+        <div class="pull-right">
+            <button name="proceed" type="button" value="proceed" class="btn btn-primary" style="float: right;" id="proceedPersonal">Proceed</button>
         </div>
     </div>
+</div>
 
 
 <script>
@@ -281,7 +283,6 @@
                 $('.nav-tabs a[href="#company"]').tab('show');
             }
         });
-
     });
 
 

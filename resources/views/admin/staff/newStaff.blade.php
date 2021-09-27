@@ -47,7 +47,6 @@
     </script>
 
     <div class="row">
-
         <div class="col-12" id="h_div" style="align-content:right, float:right">
             <div class="card">
                 <div class="card-body">
@@ -86,6 +85,7 @@
                     </ul> <!-- end nav-->
 
                     <form method="POST" novalidate="novalidate" action="{{route('submitStaffForm')}}" id="newStaffForm" enctype="multipart/form-data">
+                        @csrf
                         <div class="tab-content">
 
                             <div class="tab-pane active" id="personal">
