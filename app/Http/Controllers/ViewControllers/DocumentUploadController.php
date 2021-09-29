@@ -72,12 +72,13 @@ class DocumentUploadController extends Controller
                  // Filename to store
                 $fileNameToStore = $filename.'_'.time().'.'.$extension;
                 // Upload Image
-                $path = $request->file($docName)->storeAs('storage/documents',$fileNameToStore);
+                $path = $request->$docName->move('uploads/documents',$fileNameToStore);
 
                 $docData = [
                     "userId" => $request->staffid,
                     "doc" => $document->name,
-                    "docpath" => $path.$filename
+                    "docId" => $document->id,
+                    "docpath" => $path
                 ];
 
                 $docs = DocumentStorage::insert($docData);

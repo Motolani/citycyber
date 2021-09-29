@@ -522,6 +522,7 @@ class StaffController extends BaseController
 
         $requiredDocuments = "";
         $required_doc = [];
+        $docsUploaded = [];
 
         //Get required documents
         $level = Level::where('id', $staff->level)->first();
@@ -540,14 +541,19 @@ class StaffController extends BaseController
             {
                 $uploadedDocsIds[] = $doc->docId;
             }
-            $docsNotUploaded = Document_table::whereIn('id', $required_doc)->whereNotIn('id', $uploadedDocsIds)->get();
 
-        }else{
-            $docsNotUploaded = $required_doc;
+            $docsNotUploaded = Document_table::whereIn('id', $required_doc)
+                ->whereNotIn('id', $uploadedDocsIds)
+                ->get();
+
+            $docsUploaded = DocumentStorage::where('userId', $request->user_id)->get();
+        }
+        else {
+            $docsNotUploaded = Document_table::whereIn('id', $required_doc)->get();
         }
 
         $nextOfKin = NextOfKin::where('userId',$user_id)->first();//dd('here');
-        return view('admin.staff.staffProfile', compact(['staff','workExperience','staffBankAcc','emmergencyContact','guarantor','nextOfKin','requiredDocuments', 'docsNotUploaded']));
+        return view('admin.staff.staffProfile', compact(['staff','workExperience','staffBankAcc','emmergencyContact','guarantor','nextOfKin','requiredDocuments', 'docsUploaded', 'docsNotUploaded']));
     }
 
 }

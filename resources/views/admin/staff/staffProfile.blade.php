@@ -8,9 +8,9 @@
         <div class="alert alert-danger mt-3">
             This staff has not uploaded the following required documents.
             <ol>
-            @foreach($docsNotUploaded as $docs)
-                <li>{{$docs->name}}</li>
-            @endforeach
+                @foreach($docsNotUploaded as $docs)
+                    <li>{{$docs->name}}</li>
+                @endforeach
             </ol>
         </div>
     @endif
@@ -381,7 +381,6 @@
                         </div> <!-- end tab-pane -->
 
                         <div class="tab-pane" id="nextOfKinInfo">
-
                             <h5 class="text-uppercase"><i class="mdi mdi-briefcase me-1"></i>
                                 Next Of Kin </h5>
                             <!-- end timeline -->
@@ -390,7 +389,6 @@
                                 <table class="table table-borderless table-nowrap mb-0">
                                     <thead class="table-light">
                                     <tr>
-
                                         <th>Name </th>
                                         <th>{{isset($nextOfKin->name)?$nextOfKin->name:'Nill'}}</th>
                                     </tr>
@@ -401,7 +399,6 @@
                                         <td>{{isset($nextOfKin->relationship)?$nextOfKin->relationship:'Nill'}}</td>
                                     </tr>
                                     <tr>
-
                                         <td>Address</td>
                                         <td>{{isset($nextOfKin->address)?$nextOfKin->address:'Nill'}}</td>
                                     </tr>
@@ -484,9 +481,9 @@
                                 <input type="hidden" name="staffid" value="{{$staff->id}}" />
                                 <input type="hidden" name="levelid" value="{{$staff->level}}" />
 
-                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Staff Documents</h5>
-                                <div class="row">
-                                    @if(count($docsNotUploaded) > 0)
+                                @if(count($docsNotUploaded) > 0)
+                                    <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Missing Documents</h5>
+                                    <div class="row">
                                         @foreach($docsNotUploaded as $document)
                                             <div class="col-md-6">
                                                 <div class="mb-3">
@@ -495,17 +492,32 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                    @else
-                                        <span>Staff has uploaded all documents</span>
-                                    @endif
-                                </div>
 
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-success mt-2">
-                                        <i class="mdi mdi-content-save"></i> Upload
-                                    </button>
-                                </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-success mt-2">
+                                                <i class="mdi mdi-content-save"></i> Upload
+                                            </button>
+                                        </div>
+                                    </div>
                             </form>
+
+                            @else
+                                <span>Staff has uploaded all documents</span>
+                            @endif
+
+                            <h5 class=" text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Uploaded Documents</h5>
+                            <div class="row">
+                                @foreach($docsUploaded as $document)
+                                    <div class="col-md-12">
+                                        <strong>
+                                            <li>
+                                                <a href="{{url($document->docpath)}}" target="_blank" > {{$document->doc}} </a>
+                                            </li>
+                                        </strong>
+                                    </div>
+                                @endforeach
+                            </div>
+
                         </div> <!-- end tab-pane -->
 
                     </div>
@@ -554,14 +566,3 @@
     </script>
 
 @endsection
-
-
-
-
-
-
-
-
-
-
-
