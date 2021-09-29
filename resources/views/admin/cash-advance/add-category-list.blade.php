@@ -69,8 +69,9 @@
                                         <tr>
                                             <td>{{$category->name}}</td>
                                             <td>
-                                                <a href="/shop-wallet/fund-wallet/{{$category->id}}" class="btn btn-danger btn-sm">
-                                                    <span class="uil-multiply"></span>Delete</a>
+                                                <a href="{{route('cash-advance.doDeleteCategory',$category->id)}}" class="btn btn-danger btn-sm">
+                                                    <span class="uil-multiply"></span>Delete
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

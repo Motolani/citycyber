@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\CashAdvanceCategory;
+use App\CashAdvanceRequest;
 use App\DeductionOpration;
 use App\PettyCashRequest;
 use Illuminate\Http\Request;
@@ -42,17 +43,17 @@ class CashAdvanceController extends BaseController
     {
         $request->validate([
             'amount' => 'required|max:255',
+            'category' => 'required',
         ]);
-        $pettyCash = new PettyCashRequest();
-        $ticketID = $pettyCash->generateTicketID();
-        $pettyCash->ticket_id = $ticketID;
-        $pettyCash->amount = $request->amount;
-        $pettyCash->staff_id = Auth::user()->id;
-        $pettyCash->description = $request->description;
-        $pettyCash->save();
+        $cashAdvance = new CashAdvanceRequest();
+        $cashAdvance->amount = $request->amount;
+        $cashAdvance->staff_id = Auth::user()->id;
+        $cashAdvance->category_id = $request->category;
+        $cashAdvance->description = $request->description;
+        $cashAdvance->save();
 
-        alert()->success('Petty Cash has been requested successfully.', 'Successful');
-        return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
+        alert()->success('Cash Advance request sent successfully.', 'Successful');
+        return redirect()->back()->with('message', 'Cash Advance has been requested successfully');
     }
 
     public function submitExpense(Request $request)
@@ -83,36 +84,22 @@ class CashAdvanceController extends BaseController
             ->orWhere('status', 'cancelled')
             ->with('staff')
             ->get();
-        return view('admin.pettycash.pending-list', compact('items'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $department = Department::find($id);
-        $department->title = $request->title;
-        $saved = $department->save();
-        if($saved) {
-            alert()->success("Department have been successfully updated", 'Success');
-            return redirect()->back()->with('message', 'Department updated successfully');
-        }
-        else {
-            alert()->success("Error updating document", 'Error');
-            return redirect()->back()->with('message', 'Error updating department');
-        }
-        //return Department::find($id)->fill($requst->all())->save();
+        return view('admin.cash-advance.pending-list', compact('items'));
     }
 
 
     public function viewCreate(Request $request)
     {
-        return view('admin.pettycash.create');
+        $categories = CashAdvanceCategory::latest()
+            ->get();
+        return view('admin.cash-advance.create', compact('categories'));
     }
 
     public function viewSubmitExpense(Request $request, $id)
     {
         $data = PettyCashRequest::where('id',$id)->first();
         if(isset($data)){
-            return view('admin.pettycash.submit-expense', compact('data'));
+            return view('admin.cash-advance.submit-expense', compact('data'));
         }
         alert()->error("The requested data was not found", 'Success');
         return redirect()->back()->with('error', 'The requested data was not found');
@@ -186,7 +173,7 @@ class CashAdvanceController extends BaseController
     }
 
     public function viewCategories(){
-        $categories = CashAdvanceCategory::all();
+        $categories = CashAdvanceCategory::latest()->get();
         return view('admin.cash-advance.add-category-list', compact('categories'));
     }
 
@@ -199,6 +186,13 @@ class CashAdvanceController extends BaseController
         $category->save();
 
         alert()->success("The Category have been successfully added", 'Success');
+        return redirect()->back();
+    }
+
+    public function doDeleteCategory(Request $request){
+        CashAdvanceCategory::where('id', $request->id)->delete();
+
+        alert()->success("The Category have been successfully deleted", 'Success');
         return redirect()->back();
     }
 }

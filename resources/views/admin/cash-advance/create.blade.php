@@ -1,5 +1,5 @@
 
-                @extends('admin.layout')
+@extends('admin.layout')
 @section('title')
     Dashboard
 @endsection
@@ -33,17 +33,17 @@
                         Here you can request Cash Advance
                     </h4>
 
-{{--                    <ul class="nav nav-tabs nav-bordered mb-3">--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="#typeahead-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">--}}
-{{--                                Create Office--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    </ul> <!-- end nav-->--}}
+                    {{--                    <ul class="nav nav-tabs nav-bordered mb-3">--}}
+                    {{--                        <li class="nav-item">--}}
+                    {{--                            <a href="#typeahead-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">--}}
+                    {{--                                Create Office--}}
+                    {{--                            </a>--}}
+                    {{--                        </li>--}}
+                    {{--                    </ul> <!-- end nav-->--}}
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('createCashAdvance')}}">
+                            <form method = "POST" action = "{{route('cash-advance.create')}}">
                                 @csrf
 
                                 <div class="row">
@@ -54,7 +54,19 @@
                                         </div>
                                     </div> <!-- end col -->
 
-                                    <div class="col-lg-12 mt-3 mt-lg-0">
+                                    <div class="col-lg-12">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-control select2" name="category" data-toggle="select2" required>
+                                            <option>Select Category</option>
+                                            @if(isset($categories))
+                                                @foreach($categories as $category)
+                                                    <option value="{{$category->id}}" >{{$category->name}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div> <!-- end col -->
+
+                                    <div class="col-lg-12 mt-3 mt-lg-4">
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
                                             <textarea required name= "description" class="form-control" placeholder="Description">
@@ -63,7 +75,7 @@
                                     </div> <!-- end col -->
 
                                     <div class="col-lg-12 mt-3 mt-lg-0">
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="submit" class="btn btn-success">Submit</button>
                                     </div>
                                 </div>
                                 <!-- end row -->

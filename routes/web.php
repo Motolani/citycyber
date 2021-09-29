@@ -328,9 +328,11 @@ Route::prefix('cash-advance')->group(function () {
         Route::get('/', 'CashAdvanceController@viewCategories')->name('cash-advance.viewCategories');
         Route::post('/add', 'CashAdvanceController@doAddCategory')->name('cash-advance.doAddCategory');
         Route::get('/add', 'CashAdvanceController@viewAddCategory')->name('cash-advance.viewAddCategory');
+        Route::get('/delete/{id}/', 'CashAdvanceController@doDeleteCategory')->name('cash-advance.doDeleteCategory');
     });
 
 
+    Route::post('/create', 'CashAdvanceController@create')->name('cash-advance.create');
     Route::get('/deny/{id}', 'CashAdvanceController@deny')->name('cash-advance.deny');
     Route::get('/create', 'CashAdvanceController@viewCreate')->name('cash-advance.viewCreate');
     Route::get('/approve/{id}', 'CashAdvanceController@approve')->name('cash-advance.approve');
@@ -338,7 +340,6 @@ Route::prefix('cash-advance')->group(function () {
     Route::get('/my-requests', 'CashAdvanceController@myRequests')->name("cash-advance.myRequests");
     Route::post('/submit-expense', 'CashAdvanceController@submitExpense')->name("cash-advance.submitExpense");
     Route::post('/bulk-action', 'CashAdvanceController@bulkAction')->name('cash-advance.bulkActionPettyCash');
-    Route::post('/create', 'CashAdvanceController@create')->name("createPettyCash")->name('cash-advance.deny');
     Route::get('/submit-expense/{id}', 'CashAdvanceController@viewSubmitExpense')->name("cash-advance.viewSubmitExpense");
 });
 
