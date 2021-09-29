@@ -323,6 +323,14 @@ Route::prefix('pettycash')->group(function () {
 
 //Cash Advance Routes
 Route::prefix('cash-advance')->group(function () {
+
+    Route::prefix('categories')->group(function () {
+        Route::get('/', 'CashAdvanceController@viewCategories')->name('cash-advance.viewCategories');
+        Route::post('/add', 'CashAdvanceController@doAddCategory')->name('cash-advance.doAddCategory');
+        Route::get('/add', 'CashAdvanceController@viewAddCategory')->name('cash-advance.viewAddCategory');
+    });
+
+
     Route::get('/deny/{id}', 'CashAdvanceController@deny')->name('cash-advance.deny');
     Route::get('/create', 'CashAdvanceController@viewCreate')->name('cash-advance.viewCreate');
     Route::get('/approve/{id}', 'CashAdvanceController@approve')->name('cash-advance.approve');

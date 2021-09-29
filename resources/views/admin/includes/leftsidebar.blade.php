@@ -102,6 +102,9 @@
                                 <span class="badge bg-warning float-end">{{$pendingCashAdvanceCount ?? 0}}</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('cash-advance.viewCategories')}}">Categories</a>
+                        </li>
                     </ul>
                 </div>
             </li>

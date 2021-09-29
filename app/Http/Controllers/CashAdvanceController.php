@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\CashAdvanceCategory;
 use App\DeductionOpration;
 use App\PettyCashRequest;
 use Illuminate\Http\Request;
@@ -182,6 +183,23 @@ class CashAdvanceController extends BaseController
         $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
         alert()->success("The User have been $status", 'Success');
         return redirect()->back()->with('success', 'The User has been ' . $status);
+    }
+
+    public function viewCategories(){
+        $categories = CashAdvanceCategory::all();
+        return view('admin.cash-advance.add-category-list', compact('categories'));
+    }
+
+    public function doAddCategory(Request $request){
+        $request->validate([
+            'name' => 'required|max:255|min:3',
+        ]);
+        $category = new CashAdvanceCategory();
+        $category->name = $request->name;
+        $category->save();
+
+        alert()->success("The Category have been successfully added", 'Success');
+        return redirect()->back();
     }
 }
 
