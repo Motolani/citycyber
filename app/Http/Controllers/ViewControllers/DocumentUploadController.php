@@ -62,33 +62,30 @@ class DocumentUploadController extends Controller
             if($request->hasFile($docName)){
 
                 // Get filename with the extension
-                $filenameWithExt = $request->file($document)->getClientOriginalName();
+                $filenameWithExt = $request->file($docName)->getClientOriginalName();
                 //Get just filename
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
 
                 // Get just ext
-                $extension = $request->file($document)->getClientOriginalExtension();
+                $extension = $request->file($docName)->getClientOriginalExtension();
 
                  // Filename to store
                 $fileNameToStore = $filename.'_'.time().'.'.$extension;
                 // Upload Image
-                $path = $request->file($document)->storeAs('storage/documents',$fileNameToStore);
-
-                //$user->avatar = $fileNameToStore ;
-
-                //$user->save(); 
+                $path = $request->file($docName)->storeAs('storage/documents',$fileNameToStore);
 
                 $docData = [
                     "userId" => $request->staffid,
-                    "doc" => $document,
+                    "doc" => $document->name,
                     "docpath" => $path.$filename
                 ];
 
                 $docs = DocumentStorage::insert($docData);
             }
         }
-        return redirect('/viewStaffProfile');
-        //return back()->withInput();
+
+        alert()->success('Staff Uploaded Successfully', 'Successful');
+        return redirect()->back();
     }
 }
 

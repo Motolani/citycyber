@@ -6,7 +6,7 @@
 
     @if(count($docsNotUploaded))
         <div class="alert alert-danger mt-3">
-            This staff has not uploaded the following documents.
+            This staff has not uploaded the following required documents.
             <ol>
             @foreach($docsNotUploaded as $docs)
                 <li>{{$docs->name}}</li>

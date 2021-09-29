@@ -511,6 +511,7 @@ class StaffController extends BaseController
     public function viewStaffProfile(Request $request){
         $user_id = $request->user_id;
         $staff = User::find($user_id);
+
         $workExperience = WorkExperience::where('userId',$user_id)->first();
 
         $staffBankAcc = StaffBankAcc::where('userId',$user_id)->first();
@@ -542,12 +543,7 @@ class StaffController extends BaseController
             $docsNotUploaded = Document_table::whereIn('id', $required_doc)->whereNotIn('id', $uploadedDocsIds)->get();
 
         }else{
-            return response()->json([
-                'status'=>'300',
-                'message'=>'Documents retreived Successfully',
-                'data' =>$required_doc,
-
-            ]);
+            $docsNotUploaded = $required_doc;
         }
 
         $nextOfKin = NextOfKin::where('userId',$user_id)->first();//dd('here');
