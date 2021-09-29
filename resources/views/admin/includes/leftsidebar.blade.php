@@ -83,6 +83,30 @@
             </li>
 
             <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarCashAdvance" aria-expanded="false" aria-controls="sidebarCashAdvance" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Cash Advance</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarCashAdvance">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('cash-advance.viewCreate')}}">Request Cash Advance</a>
+                        </li>
+                        <li>
+                            <a href="{{route('cash-advance.myRequests')}}">My Cash Advance Requests</a>
+                        </li>
+                        <li>
+                            {{-- Only Admins and Super Admins should see this--}}
+                            <a href="{{route('cash-advance.viewPending')}}">Pending Cash Advance
+                                <span class="badge bg-warning float-end">{{$pendingCashAdvanceCount ?? 0}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span> Staff </span>

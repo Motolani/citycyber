@@ -100,7 +100,7 @@ Route::post('/createstaffConpanyInfo', 'ViewControllers\MainViewController@creat
 Route::post('/createWorkAndEduction', 'ViewControllers\MainViewController@createWorkAndEduction')->name('createWorkAndEduction');
 Route::post('/submitStaffForm', 'StaffController@submitStaffForm')->name('submitStaffForm');
 
-Route::get('viewStaffProfile', 'ViewControllers\MainViewController@viewStaffProfile')->name('viewStaffProfile');
+Route::get('viewStaffProfile', 'StaffController@viewStaffProfile')->name('viewStaffProfile');
 
 Route::get('/viewStaffTable', 'ViewControllers\MainViewController@viewStaffTable')->name('viewStaffTable');
 //createWorkAndEduction
@@ -321,11 +321,27 @@ Route::prefix('pettycash')->group(function () {
 });
 
 
+//Cash Advance Routes
+Route::prefix('cash-advance')->group(function () {
+    Route::get('/deny/{id}', 'CashAdvanceController@deny')->name('cash-advance.deny');
+    Route::get('/create', 'CashAdvanceController@viewCreate')->name('cash-advance.viewCreate');
+    Route::get('/approve/{id}', 'CashAdvanceController@approve')->name('cash-advance.approve');
+    Route::get('/pending', 'CashAdvanceController@viewPending')->name("cash-advance.viewPending");
+    Route::get('/my-requests', 'CashAdvanceController@myRequests')->name("cash-advance.myRequests");
+    Route::post('/submit-expense', 'CashAdvanceController@submitExpense')->name("cash-advance.submitExpense");
+    Route::post('/bulk-action', 'CashAdvanceController@bulkAction')->name('cash-advance.bulkActionPettyCash');
+    Route::post('/create', 'CashAdvanceController@create')->name("createPettyCash")->name('cash-advance.deny');
+    Route::get('/submit-expense/{id}', 'CashAdvanceController@viewSubmitExpense')->name("cash-advance.viewSubmitExpense");
+});
+
+
+
 //Office Routes
 Route::prefix('office')->group(function () {
     Route::get('/{officeid}/photos/add', 'PhotoController@viewAddPhotos')->name('viewAddPhotos');
     Route::post('/{officeid}/photos/add', 'PhotoController@doAddPhotos')->name('doAddPhotos');
 });
+
 
 
 //Address Routes

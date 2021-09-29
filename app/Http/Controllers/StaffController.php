@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Bank;
 use App\Department;
+use App\Document;
+use App\Document_table;
+use App\DocumentStorage;
 use App\Education;
 use App\EmergencyContact;
 use App\Guarantor;
@@ -219,8 +222,6 @@ class StaffController extends BaseController
 
         return $code;
     }
-
-
 
     function creatStaff(Request $request){
         $personalInfo = $request['personalInfo'];
@@ -506,4 +507,51 @@ class StaffController extends BaseController
         }
         return $result;
     }
+
+    public function viewStaffProfile(Request $request){
+        $user_id = $request->user_id;
+        $staff = User::find($user_id);
+        $workExperience = WorkExperience::where('userId',$user_id)->first();
+
+        $staffBankAcc = StaffBankAcc::where('userId',$user_id)->first();
+
+        $emmergencyContact = EmergencyContact::where('userId',$user_id)->first();
+
+        $guarantor = Guarantor::where('userId',$user_id)->first();
+
+        $requiredDocuments = "";
+        $required_doc = [];
+
+        //Get required documents
+        $level = Level::where('id', $staff->level)->first();
+        $strr = explode(",",$level->required_doc_ids);
+
+        $count = sizeof($strr);
+        for($i = 0; $i<$count;$i++){
+            array_push($required_doc, $strr[$i]);
+        }
+
+        $check = DocumentStorage::where("userId",$staff->id)->exists();
+        if($check){
+            $uploadedDocsIds = [];
+            $user_docs = DocumentStorage::where("userId",$staff->id)->get();
+            foreach ($user_docs as $doc)
+            {
+                $uploadedDocsIds[] = $doc->docId;
+            }
+            $docsNotUploaded = Document_table::whereIn('id', $required_doc)->whereNotIn('id', $uploadedDocsIds)->get();
+
+        }else{
+            return response()->json([
+                'status'=>'300',
+                'message'=>'Documents retreived Successfully',
+                'data' =>$required_doc,
+
+            ]);
+        }
+
+        $nextOfKin = NextOfKin::where('userId',$user_id)->first();//dd('here');
+        return view('admin.staff.staffProfile', compact(['staff','workExperience','staffBankAcc','emmergencyContact','guarantor','nextOfKin','requiredDocuments', 'docsNotUploaded']));
+    }
+
 }

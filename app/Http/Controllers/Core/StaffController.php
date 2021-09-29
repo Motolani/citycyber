@@ -38,67 +38,6 @@ class StaffController extends Controller
     }
 
 
-    function getRequiredDocument($request){
-   /* 
-        $this->validate($request, [
-            'staff_id' => 'required',
-            'level_id' => 'required'
-        ]);
-     */   
-       //dd($request); 
-        $required_doc = [];
-
-        //$level = \App\Level::where('id',$request['level_id'])->first();
-
-	$level = \App\Level::where('id', $request['level_id'])->first();
-	//dd($level);
-        if($level == null){
-		return response()->json([
-               	 'status'=>'404',
-               	 'message'=>'Documents not found!'
-            	]);
-	}
-
-	$strr = explode(",",$level->required_doc_ids);
-        //dd($strr);
-	$count = sizeof($strr);
-        for($i = 0; $i<$count;$i++){
-            array_push($required_doc, $strr[$i]);
-        }
-       //dd($required_doc);
-	$check = \App\DocumentStorage::where("userId",$request['staff_id'])->exists();
-	if($check){ 
-        $user_docs = \App\DocumentStorage::where("userId",$request['staff_id'])->whereNotIn('docId', $required_doc);
-
-        if($user_docs->count() > 0){
-            $documents =  $user_docs->get();
-            return response()->json([
-                'status'=>'300',
-                'message'=>'Documents retreived Successfully',
-                'data' =>$documents,
-                
-            ]); 
-             
-        }else{
-            return response()->json([
-                'status'=>'200',
-                'message'=>'User has all the required documents',
-                'data' =>"",
-                
-            ]); 
-        }
-
-	}else{
-	   return response()->json([
-                'status'=>'300',
-                'message'=>'Documents retreived Successfully',
-                'data' =>$required_doc,
-                
-            ]); 
-	}
-    }
-
-
 
     public function CreateStaff($data){
         $staff = new Staff();

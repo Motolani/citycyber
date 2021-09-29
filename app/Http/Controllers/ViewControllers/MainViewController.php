@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ViewControllers;
 use App\Countries;
+use App\DocumentStorage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Core\Offices;
 use App\LeaveRequest;
@@ -61,36 +62,6 @@ class MainViewController extends BaseController
 
     }
 
-    public function viewStaffProfile(Request $request){
-        $user_id = $request->user_id;
-        $staff = \App\User::find($user_id);
-        $workExperience = \App\WorkExperience::where('userId',$user_id)->first();
-        //dd($staff);
-        $staffBankAcc = \App\StaffBankAcc::where('userId',$user_id)->first();
-
-        $emmergencyContact = \App\EmergencyContact::where('userId',$user_id)->first();
-
-        $guarantor = \App\Guarantor::where('userId',$user_id)->first();
-
-        $requiredData = [
-            "staff_id" => $user_id,
-            "level_id" => $staff->level
-        ];
-
-        $staffController = new StaffController();
-        $requiredDocuments = $staffController->getRequiredDocument($requiredData);
-
-        $requiredDocuments = $requiredDocuments->original;
-//dd($requiredDocuments);
-        /*	$requiredDocuments = [
-                "status" => "300",
-                "message" => "Under going test",
-                "data" => ["CAT", "FISH", "SNAIL"]
-            ];
-        */
-        $nextOfKin = \App\NextOfKin::where('userId',$user_id)->first();//dd('here');
-        return view('admin.staff.staffProfile', compact(['staff','workExperience','staffBankAcc','emmergencyContact','guarantor','nextOfKin','requiredDocuments']));
-    }
 
     public function createStaffOne(Request $request){
 

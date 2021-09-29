@@ -37,7 +37,7 @@ class DocumentUploadController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function displayDocument($id, $levelid)
-    {        
+    {
         // return response()->json([
         //     "response" => $response
         // ]);
@@ -45,36 +45,37 @@ class DocumentUploadController extends Controller
 
     public function uploadDocument(Request $request)
     {
-//dd($request);
+        //dd($request->all());
+
         $this->validate($request, [
             'requireddocuments' => 'required',
             'staffid' => 'required',
             'levelid' => 'required'
         ]);
 
-        //$user = User::where("id", $request->staffid)->first();
-//dd($user);
+
         $requireddocuments = json_decode($request->requireddocuments);
-//dd($requireddocuments);
+
         foreach ($requireddocuments as $document) {
-//dd($document);
-            if($request->hasFile($document)){
-	    //if($request->hasFile('CAT')){
+            $docName = "doc" . $document->id;
+
+            if($request->hasFile($docName)){
+
                 // Get filename with the extension
                 $filenameWithExt = $request->file($document)->getClientOriginalName();
                 //Get just filename
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-//dd( $filename );
+
                 // Get just ext
                 $extension = $request->file($document)->getClientOriginalExtension();
-//dd($extension);
-                // Filename to store
+
+                 // Filename to store
                 $fileNameToStore = $filename.'_'.time().'.'.$extension;
                 // Upload Image
                 $path = $request->file($document)->storeAs('storage/documents',$fileNameToStore);
-    
+
                 //$user->avatar = $fileNameToStore ;
-    
+
                 //$user->save(); 
 
                 $docData = [
@@ -84,7 +85,7 @@ class DocumentUploadController extends Controller
                 ];
 
                 $docs = DocumentStorage::insert($docData);
-            }   
+            }
         }
         return redirect('/viewStaffProfile');
         //return back()->withInput();
