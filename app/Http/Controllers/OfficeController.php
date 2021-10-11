@@ -38,7 +38,7 @@ class OfficeController extends BaseController
 
     public function officeInfo(Request $request){
 
-        $office = \App\Office::where('id',$request->id)
+        $office = Office::where('id',$request->id)
             ->withCount("staffs")
             ->first();
 
@@ -63,13 +63,24 @@ class OfficeController extends BaseController
     }
 
     public function updateOffice(Request $request){
-        $updateOffice = \App\Office::where('id',$request->id)->update(["name"=>$request->name,"emailAddress"=>$request->emailAddress,"phone"=>$request->phone,"location"=>$request->address]);
+        $updateOffice = Office::where('id',$request->id)->update(["name"=>$request->name,"emailAddress"=>$request->emailAddress,"phone"=>$request->phone,"location"=>$request->address]);
         if($updateOffice){
             alert()->success("Office info Updated Successfully", 'Success');
             return redirect()->back()->with("message","Office info Updated Successfully");
         }else{
             alert()->error("Office info could not be updated", 'Success');
             return redirect()->back()->with("message","Office info could not be updated.");
+        }
+    }
+
+    public function createStore(Request $request, $officeId){
+        $updateOffice = Office::where('id',$officeId)->update(["has_store"=>true]);
+        if($updateOffice){
+            alert()->success("Office Store have been created Successfully", 'Success');
+            return redirect()->back()->with("message","Office Store have been created Successfully");
+        }else{
+            alert()->error("Office Store could not be created", 'Error');
+            return redirect()->back()->with("error","Office Store could not be created");
         }
     }
 

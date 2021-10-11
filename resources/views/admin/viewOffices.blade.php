@@ -29,7 +29,7 @@
                         Below are the lists of Offices availabe within City Cyber. Offices can also be edited
                     </p>
 
-                     <!-- end nav-->
+                    <!-- end nav-->
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100 data-table">
@@ -60,7 +60,11 @@
                                                     <input type="hidden" name="description" value="{{$office->name}}">
                                                     <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span> View </button>
                                                 </form>
-                                                <a href="{{route('viewAddPhotos', ['officeid'=>$office->id])}}" value = "edit" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Upload Photos</a>
+                                                <a href="{{route('viewAddPhotos', ['officeid'=>$office->id])}}" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Upload Photos</a>
+
+                                                @if(!$office->has_store)
+                                                    <a href="{{route('office.createStore', ['id'=>$office->id])}}" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Create Store</a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -63,16 +63,7 @@ Route::post('/approveDisapproveStock', 'Inventories@approveDisapproveStock')->na
 //stockModule Route End
 
 //assignProduct
-
-
 Route::get('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
-
-/*Route::get('/viewOffices', function () {
-    return view('admin.viewOffices');
-});*/
-//viewOffices
-//createOffice
-//getLevel
 Route::get('/viewOffices', 'OfficeController@getAllOffice')->name('viewOffices');
 Route::post('/createOffice', 'OfficeController@createOfficeRequest')->name('createOffice');
 Route::get('/getLevel', 'ViewControllers\MainViewController@getLevel')->name('getLevel');
@@ -88,6 +79,15 @@ Route::get('/staffstatus', function(){
 return view('admin.staff.data.viewStatus');
 })->name('staffstatus');
 */
+
+
+//Office Routes
+Route::prefix('office')->group(function () {
+    Route::get('/{officeid}/photos/add', 'PhotoController@viewAddPhotos')->name('viewAddPhotos');
+    Route::post('/{officeid}/photos/add', 'PhotoController@doAddPhotos')->name('doAddPhotos');
+    Route::get('/create-store/{officeid}', 'OfficeController@createStore')->name('office.createStore');
+});
+
 
 Route::get('/officeInfo', 'OfficeController@officeInfo')->name('officeInfo');
 Route::post('/updateOffice', 'OfficeController@updateOffice')->name('updateOffice');
@@ -356,15 +356,6 @@ Route::prefix('cash-advance')->group(function () {
     Route::post('/bulk-action', 'CashAdvanceController@bulkAction')->name('cash-advance.bulkActionPettyCash');
     Route::get('/submit-expense/{id}', 'CashAdvanceController@viewSubmitExpense')->name("cash-advance.viewSubmitExpense");
 });
-
-
-
-//Office Routes
-Route::prefix('office')->group(function () {
-    Route::get('/{officeid}/photos/add', 'PhotoController@viewAddPhotos')->name('viewAddPhotos');
-    Route::post('/{officeid}/photos/add', 'PhotoController@doAddPhotos')->name('doAddPhotos');
-});
-
 
 
 //Address Routes
