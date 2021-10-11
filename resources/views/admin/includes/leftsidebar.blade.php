@@ -455,6 +455,10 @@
                             <a href="{{url('viewStock')}}">View Stock</a>
                         </li>
 
+ <li>
+                            <a href="{{route('stock-category.index')}}">Stock Categories</a>
+                        </li>
+
                         <li>
                             <a href="{{url('assignProductToOffice')}}">Assign Stock to Office</a>
                         </li>

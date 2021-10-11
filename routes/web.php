@@ -45,6 +45,13 @@ Route::prefix('stock')->group(function () {
     Route::post('/new-stock-regular', 'Inventories@createNewStockRegular')->name('stock.newStockRegular');
 });
 
+Route::prefix('stock-categories')->group(function () {
+    Route::get('/', 'StockCategoriesController@index')->name('stock-category.index');
+    Route::post('/create', 'StockCategoriesController@create')->name('stock-category.create');
+    Route::get('/delete/{id}', 'StockCategoriesController@delete')->name('stock-category.delete');
+});
+
+
 Route::get('/createStockView', 'Inventories@CreateinventoryView')->name('createStockView');
 Route::get('/createStock', 'Inventories@createStock')->name('createStock');
 Route::get('/viewStock', 'Inventories@viewStock')->name('viewStock');

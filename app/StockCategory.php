@@ -3,7 +3,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory_Category extends Model
+class StockCategory extends Model
 {
         protected $table = "inventory_categories";
 

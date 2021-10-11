@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Inventory_Category;
+use App\StockCategory;
 use App\Inventory_Store;
 use App\Office;
 use App\Transfer;
@@ -35,7 +35,7 @@ class Inventories extends BaseController
     public function CreateinventoryView()
     {
         // $categories = Department::all();
-        $categories = Inventory_Category::all();
+        $categories = StockCategory::all();
         return view('admin.inventory.inventory', compact('categories'));
     }
 
