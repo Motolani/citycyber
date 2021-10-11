@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use App\StockCategory;
 use App\Inventory_Store;
 use App\Office;
-use App\Transfer;
+use App\OfficeStock;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Department;
@@ -113,9 +114,6 @@ class Inventories extends BaseController
         else{
             return redirect()->back()->with('error', 'Stock is not created successfully');
         }
-
-
-
     }
 
 
@@ -144,7 +142,13 @@ class Inventories extends BaseController
 
     public function assignProductToOffice(Request $request)
     {
-        //dd($request);
+        $request->validate([
+            'payment_period' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        $dueDate = Carbon::now()->addWeek($request->payment_period);
+
         $expProduct = explode("|",$request->product_id);
         $expOffice = explode("|",$request->office_id);
         $productName = $expProduct[1];
@@ -165,7 +169,7 @@ class Inventories extends BaseController
                 $updated = Inventory_Store::where('id',$data->id)->update(["status"=>"processng"]);
                 if($updated){
                     $counter+=1;
-                    $transfer = new Transfer([
+                    $transfer = new OfficeStock([
                         // "brand_name"=>$request->name,
                         "category_id"=>$productId,
                         "category"=>$productName,
@@ -174,6 +178,8 @@ class Inventories extends BaseController
                         "description"=>$request->comment,
                         "office_name"=>$request->officeName,
                         "inventory_id"=>$data->id,
+                        "due_date"=>$dueDate,
+                        "payment_period"=>$request->payment_period,
                         // "depreciation_rate"=>,
                         // "depreciation_period"=>"",
                         // "ticket_id"=>"",
@@ -195,7 +201,7 @@ class Inventories extends BaseController
     public function viewTransafer(Request $request)
     {
         $user_id = Auth::user()->id;
-        $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+        $transfers = OfficeStock::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
             ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
             ->get();
 
@@ -210,9 +216,9 @@ class Inventories extends BaseController
         if($request->action == "approve"){
             // dd($request);
             $user_id = Auth::user()->id;
-            $tran = Transfer::where('id',$request->action_id)->update(["status"=>"Approved","comment"=>$request->comment,"receiver_id"=>$user_id]);
+            $tran = OfficeStock::where('id',$request->action_id)->update(["status"=>"Approved","comment"=>$request->comment,"receiver_id"=>$user_id]);
             $user_id = Auth::user()->id;
-            $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+            $transfers = OfficeStock::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
                 ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
                 ->get();
             // dd($tran);
@@ -229,10 +235,10 @@ class Inventories extends BaseController
 
         else if($request->action == "disapprove"){
             $user_id = Auth::user()->id;
-            $transfers = Transfer::where('id',$request->action_id)->update(["status"=>"Disapproved","comment"=>$request->comment,"receiver_id"=>$user_id]);
+            $transfers = OfficeStock::where('id',$request->action_id)->update(["status"=>"Disapproved","comment"=>$request->comment,"receiver_id"=>$user_id]);
             if($transfers){
                 $user_id = Auth::user()->id;
-                $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+                $transfers = OfficeStock::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
                     ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
                     ->get();
                 $message = "Stock has been Approved in Successfully";
@@ -244,7 +250,7 @@ class Inventories extends BaseController
 
         }
         $user_id = Auth::user()->id;
-        $transfers = Transfer::where(1);
+        $transfers = OfficeStock::where(1);
 
 
         return view('admin.inventory.transfer',compact(['transfers']));
