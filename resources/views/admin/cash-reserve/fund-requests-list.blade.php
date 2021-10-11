@@ -83,7 +83,7 @@
     <!-- end row-->
 
 @endsection
-<!-- The Modal -->
+
 @include('admin.includes.reject-modal')
 
 @section('script')

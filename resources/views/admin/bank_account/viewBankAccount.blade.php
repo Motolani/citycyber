@@ -122,7 +122,7 @@
 
 
                             <div class="mb-3">
-                                <label for="example-email" class="form-label">Account Number</label>
+                                <label for="example-email" class="form-label required">Account Number</label>
                                 <input type="text" id="account_number" name="account_number" class="form-control" placeholder="Account Number"required>
                             </div>
 

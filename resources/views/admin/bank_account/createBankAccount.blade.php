@@ -61,13 +61,13 @@ Dashboard
 
 
                                     <div class="mb-3">
-                                        <label for="example-email" class="form-label">Account Holder Name</label>
+                                        <label for="example-email" class="form-label required">Account Holder Name</label>
                                         <input type="text" id="account_name" name="account_name" class="form-control" placeholder="Account Holder's name" required>
                                     </div>
 
 
                                     <div class="mb-3">
-                                        <label for="example-email" class="form-label">Account Number</label>
+                                        <label for="example-email" class="form-label required">Account Number</label>
                                         <input type="text" id="account_number" name="account_number" class="form-control" placeholder="Account Number"required>
                                     </div>
 

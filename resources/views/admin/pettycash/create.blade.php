@@ -49,14 +49,14 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
-                                            <label class="form-label">Amount</label>
+                                            <label class="form-label required">Amount</label>
                                             <input type="text" name = "amount" class="form-control" data-provide="typeahead" id="the-basics" placeholder="₦20000" required>
                                         </div>
                                     </div> <!-- end col -->
 
                                     <div class="col-lg-12 mt-3 mt-lg-0">
                                         <div class="mb-3">
-                                            <label class="form-label">Description</label>
+                                            <label class="form-label required">Description</label>
                                             <textarea required name= "description" class="form-control" placeholder="Description">
                                             </textarea>
                                         </div>

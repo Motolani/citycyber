@@ -9,7 +9,7 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
 
-                        <li class="breadcrumb-item active" style="display:none" id="headerShow">View/Edit Office</li>
+                        <li class="breadcrumb-item active" style="display:none" id="headerShow">View/Edit Petty Cash</li>
                     </ol>
                 </div>
                 <h4 class="page-title">Your Petty Cash Requests</h4>
@@ -22,8 +22,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-
                     <p class="text-muted font-14">
                         <!-- Below are the lists of Offices availabe within City Cyber. Offices can also be edited -->
                     </p>
@@ -53,7 +51,6 @@
                                 </tr>
                                 </thead>
 
-
                                 <form action="/petty-cash/bul-action" method="POST" id="form">
                                     {{csrf_field()}}
                                     <input type="hidden" name="action" value="" id="bulkActionField" />
@@ -67,8 +64,10 @@
                                                 <td>{{$item->status}}</td>
                                                 <td>{{$item->created_at}}</td>
                                                 <td>
-                                                    @if($item->status == 'approved')
+                                                    @if($item->status == 'approved' && $item->upload_path == null )
                                                         <a href="/pettycash/submit-expense/{{$item->id}}" class="btn btn-success btn-sm"><span class="uil-envelope-add"></span> Submit Expense</a>
+                                                    @elseif($item->status == 'approved')
+                                                        <a href="/retire/{{$item->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
                                                     @else
                                                         <a href="/retire/{{$item->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
                                                     @endif
@@ -93,16 +92,11 @@
                                 </form>
                             </table>
                         </div> <!-- end preview-->
-
                     </div> <!-- end tab-content-->
-
                 </div> <!-- end card body-->
             </div> <!-- end card -->
         </div><!-- end col-->
     </div>
-    <!-- end row-->
-
-
 @endsection
 
 

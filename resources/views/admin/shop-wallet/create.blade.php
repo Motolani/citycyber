@@ -37,7 +37,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
-                                            <label class="form-label">Wallet Code</label>
+                                            <label class="form-label required">Wallet Code</label>
                                             <input type="text" name= "wallet_code" class="form-control" placeholder="LAG5039" required>
                                             <input type="hidden" name= "id" class="form-control" value="{{$office->id}}">
                                         </div>

@@ -27,3 +27,17 @@ img.img-thumbnail{
   height: 80%;
   width : 100%;
 }
+
+img.img-thumbnail.img-table{
+  object-fit: cover;
+  overflow: hidden;
+  height: 45%;
+  width : 40%;
+}
+
+label.form-label.required:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+}

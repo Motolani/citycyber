@@ -54,6 +54,18 @@ class PettyCashController extends BaseController
         return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
     }
 
+
+    public function viewSubmitExpense(Request $request, $id)
+    {
+        $data = PettyCashRequest::where('id',$id)->first();
+        if(isset($data)){
+            return view('admin.pettycash.submit-expense', compact('data'));
+        }
+        alert()->error("The requested data was not found", 'Success');
+        return redirect()->back()->with('error', 'The requested data was not found');
+    }
+
+
     public function submitExpense(Request $request)
     {
         $request->validate([
@@ -62,18 +74,17 @@ class PettyCashController extends BaseController
         ]);
 
         $fileName = time().'.'.$request->file->extension();
-        $path = $request->file->move(storage_path('uploads'), $fileName);
-        //dd($path);
-
+        $path = $request->file->move('uploads', $fileName);
 
         $ticketID = $request->ticketID;
         $pettyCash = PettyCashRequest::where('ticket_id', $ticketID)->first();
         $pettyCash->balance = $request->balance;
         $pettyCash->upload_path = $path;
+
         $pettyCash->save();
 
         alert()->success('Petty Cash has been requested successfully.', 'Successful');
-        return redirect()->back()->with('message', 'Petty Cash has been requested successfully');
+        return redirect(route('myRequests'))->with('message', 'Petty Cash has been requested successfully');
     }
 
     public function viewPending(Request $request)
@@ -107,14 +118,15 @@ class PettyCashController extends BaseController
         return view('admin.pettycash.create');
     }
 
-    public function viewSubmitExpense(Request $request, $id)
+    public function viewSubmittedReceipts(Request $request)
     {
-        $data = PettyCashRequest::where('id',$id)->first();
-        if(isset($data)){
-            return view('admin.pettycash.submit-expense', compact('data'));
+        $items = PettyCashRequest::whereNotNull('upload_path')->get();
+
+        if(isset($items)){
+            return view('admin.pettycash.submitted-receipts-list', compact('items'));
         }
         alert()->error("The requested data was not found", 'Success');
-        return redirect()->back()->with('error', 'The requested data was not found');
+        return redirect('viewPendingPettyCash')->with('error', 'The requested data was not found');
     }
 
     public function destroy(Request $request, $id)
@@ -143,6 +155,45 @@ class PettyCashController extends BaseController
         alert()->success("Successfully Approved", 'Success');
         return redirect()->back()->with('success', 'Successfully Approved');
     }
+
+    public function acceptReceipt(Request $request, $id)
+    {
+        $petty = PettyCashRequest::where('id', $id)->first();
+
+        //TODO: Check if this is a super admin and update status codes accordingly
+        //Check if the incident is valid
+        if (isset($petty)) {
+            //We assume this is Super Admin for Now
+            $petty->status = 'receipt-accepted';
+            $petty->save();
+        }
+        alert()->success("Successfully Approved", 'Success');
+        return redirect()->back()->with('success', 'Successfully Approved');
+    }
+
+
+
+    public function rejectReceipt(Request $request, $id)
+    {
+        $petty = PettyCashRequest::where('id', $id)->first();
+
+        //TODO: Check if this is a super admin and update status codes accordingly
+        //Check if the incident is valid
+        if (isset($petty)) {
+            //We assume this is Super Admin for Now
+            $petty->status = 'receipt-rejected';
+            $petty->remark = $request->reason;
+            $petty->save();
+
+            alert()->success("Successfully Rejected", 'Success');
+            return redirect()->back()->with('success', 'Successfully Rejected');
+        }
+        $message = "Petty Cash Not Found";
+        alert()->error($message, 'Error');
+        return redirect()->back()->with('error', $message);
+
+    }
+
 
 
     public function deny(Request $request)

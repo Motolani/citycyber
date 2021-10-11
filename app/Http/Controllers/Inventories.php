@@ -1,6 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Inventory_Category;
+use App\Inventory_Store;
+use App\Office;
+use App\Transfer;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Department;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +21,8 @@ class Inventories extends BaseController
      */
     public function __construct()
     {
-                //Add this line to call Parent Constructor from BaseController
-                parent::__construct();
+        //Add this line to call Parent Constructor from BaseController
+        parent::__construct();
 
         $this->middleware('auth');
     }
@@ -25,12 +30,12 @@ class Inventories extends BaseController
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
     public function CreateinventoryView()
     {
         // $categories = Department::all();
-        $categories = \App\Inventory_Category::all();
+        $categories = Inventory_Category::all();
         return view('admin.inventory.inventory', compact('categories'));
     }
 
@@ -46,7 +51,7 @@ class Inventories extends BaseController
             'stock_price' => 'required|max:255',
             'stock_description' => 'required|max:255',
             'stock_depreciation_rate' => 'required|max:255',
-            
+
         ]);
         //  dd($request);
 
@@ -57,9 +62,9 @@ class Inventories extends BaseController
             Log::info("insideLoop ".$i);
             //dd($request->stock_category);
             $exp = explode("|",$request->stock_category[$i]);
-            
-            try{ 
-                $createStock = new \App\Inventory_Store([
+
+            try{
+                $createStock = new Inventory_Store([
                     "name"=>$request->stock_name[$i],
                     "category"=>$exp[1],
                     "category_id"=>$exp[0],
@@ -78,13 +83,13 @@ class Inventories extends BaseController
                 }
             }
             catch(Exception $ex){
-        //	dd($ex);
+                //	dd($ex);
             }
         }
 
         // dd($count);
         if($count== $len){
-        return redirect()->back()->with('message', 'Stock is created successfully');
+            return redirect()->back()->with('message', 'Stock is created successfully');
         }
         else if($count>0){
             return redirect()->back()->with('error', 'Not all the Stocks were added Successfully');
@@ -93,27 +98,46 @@ class Inventories extends BaseController
             return redirect()->back()->with('error', 'Stock is not created successfully');
         }
 
-        
-        
-    }
 
+
+    }
 
 
     public function viewStock(Request $request)
     {
         $user_id = Auth::user()->id;
-        $stocks = \App\Inventory_Store::all();
+        $stocks = Inventory_Store::all();
 
         return view('admin.inventory.viewStock',compact(['stocks']));
     }
-    
+
+
+
+
+    public function createNewStockRegular(Request $request)
+    {
+        $user_id = Auth::user()->id;
+
+        $createStock = new Inventory_Store([
+            "name"=> $request->name,
+            "price"=> $request->price,
+            "description"=>$request->description,
+        ]);
+        $createStock->save();
+
+        alert()->success("Successfully Created Stock", 'Success');
+        return redirect()->back();
+
+    }
+
+
     public function assignProductToOfficeView(Request $request)
     {
-        $products = \App\Inventory_Store::where('status','pending')->get();
+        $products = Inventory_Store::where('status','pending')->get();
         $branch_id = Auth::user()->branchId;
         // dd($branch_id);
-        $offs = \App\Office::where('id',$branch_id)->first();
-        $offices = \App\Office::where('id',$offs->parentOfficeId)->get();
+        $offs = Office::where('id',$branch_id)->first();
+        $offices = Office::where('id',$offs->parentOfficeId)->get();
 
         return view('admin.inventory.assignProductToOffice',compact(['products','offices']));
     }
@@ -122,7 +146,7 @@ class Inventories extends BaseController
 
     public function assignProductToOffice(Request $request)
     {
-         //dd($request);
+        //dd($request);
         $expProduct = explode("|",$request->product_id);
         $expOffice = explode("|",$request->office_id);
         $productName = $expProduct[1];
@@ -130,8 +154,8 @@ class Inventories extends BaseController
         $officeName = $expOffice[1];
         $officeId = $expOffice[0];
         // dd($productId."".$productId);
-        
-        $check = \App\Inventory_Store::where("category",$productName)->where('status','pending');
+
+        $check = Inventory_Store::where("category",$productName)->where('status','pending');
         if($check->count() > $request->quantity){
             $inventory = $check->limit($request->quantity)->get();
             $user_id = Auth::user()->id;
@@ -140,42 +164,42 @@ class Inventories extends BaseController
             $counter = 0;
             foreach($inventory as $data){
                 // dd($data);
-                $updated = \App\Inventory_Store::where('id',$data->id)->update(["status"=>"processng"]);
+                $updated = Inventory_Store::where('id',$data->id)->update(["status"=>"processng"]);
                 if($updated){
                     $counter+=1;
-                $transfer = new \App\Transfer([
-                    // "brand_name"=>$request->name,
-                    "category_id"=>$productId,
-                    "category"=>$productName,
-                    "sender_id"=>$user_id,
-                    "to_office_id"=>$officeId,
-                    "description"=>$request->comment,
-                    "office_name"=>$request->officeName,
-                    "inventory_id"=>$data->id,
-                    // "depreciation_rate"=>,
-                    // "depreciation_period"=>"",
-                    // "ticket_id"=>"",
-                    "status"=>"processing",
-                ]);
+                    $transfer = new Transfer([
+                        // "brand_name"=>$request->name,
+                        "category_id"=>$productId,
+                        "category"=>$productName,
+                        "sender_id"=>$user_id,
+                        "to_office_id"=>$officeId,
+                        "description"=>$request->comment,
+                        "office_name"=>$request->officeName,
+                        "inventory_id"=>$data->id,
+                        // "depreciation_rate"=>,
+                        // "depreciation_period"=>"",
+                        // "ticket_id"=>"",
+                        "status"=>"processing",
+                    ]);
 
-                $transfer->save();
+                    $transfer->save();
                 }
             }
             // dd($counter);
             return redirect()->back()->with("message","Product Successfully Assigned");
         }else{
             return redirect()->back()->with("message","there are only ".$check->count()." of the selected products available");
-        }   
-        
+        }
+
     }
 
 
     public function viewTransafer(Request $request)
     {
         $user_id = Auth::user()->id;
-        $transfers = \App\Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
-                     ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
-                     ->get();
+        $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+            ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
+            ->get();
 
         return view('admin.inventory.transfer',compact(['transfers']));
     }
@@ -184,19 +208,19 @@ class Inventories extends BaseController
     public function approveDisapproveStock(Request $request)
     {
 
-        
+
         if($request->action == "approve"){
             // dd($request);
             $user_id = Auth::user()->id;
-            $tran = \App\Transfer::where('id',$request->action_id)->update(["status"=>"Approved","comment"=>$request->comment,"receiver_id"=>$user_id]);
+            $tran = Transfer::where('id',$request->action_id)->update(["status"=>"Approved","comment"=>$request->comment,"receiver_id"=>$user_id]);
             $user_id = Auth::user()->id;
-                $transfers = \App\Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
-                    ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
-                    ->get();
-                    // dd($tran);
+            $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+                ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
+                ->get();
+            // dd($tran);
             if($tran){
-                
-                     $message = "Stock has been Approved in Successfully";
+
+                $message = "Stock has been Approved in Successfully";
                 return view('admin.inventory.transfer',compact(['transfers','message']))->with("message",$message);
                 //return redirect()->back()->with("message","Stock Approved Successfully");
             }else{
@@ -205,13 +229,13 @@ class Inventories extends BaseController
             }
         }else if($request->action == "disapprove"){
             $user_id = Auth::user()->id;
-            $transfers = \App\Transfer::where('id',$request->action_id)->update(["status"=>"Disapproved","comment"=>$request->comment,"receiver_id"=>$user_id]);
+            $transfers = Transfer::where('id',$request->action_id)->update(["status"=>"Disapproved","comment"=>$request->comment,"receiver_id"=>$user_id]);
             if($transfers){
                 $user_id = Auth::user()->id;
-                $transfers = \App\Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+                $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
                     ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
                     ->get();
-                     $message = "Stock has been Approved in Successfully";
+                $message = "Stock has been Approved in Successfully";
                 return view('admin.inventory.transfer',compact(['transfers','message']))->with("message",$message);
                 //return redirect()->back()->with("message","Stock Approved Successfully");
             }
@@ -220,20 +244,20 @@ class Inventories extends BaseController
 
         }
         $user_id = Auth::user()->id;
-        $transfers = \App\Transfer::where(1);
-                     
+        $transfers = Transfer::where(1);
+
 
         return view('admin.inventory.transfer',compact(['transfers']));
     }
 
 
-    
+
 
 
 
     public function destroy(Request $request, $id)
     {
-	$deleted = Department::find($id)->delete();
+        $deleted = Department::find($id)->delete();
         return redirect()->back()->with('message', $deleted ? 'Deleted successfully!.' : 'Error deleting department!.');
 //        return Department::find($id)->delete();
     }

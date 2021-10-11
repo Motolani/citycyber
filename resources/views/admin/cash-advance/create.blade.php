@@ -49,7 +49,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
-                                            <label class="form-label">Amount</label>
+                                            <label class="form-label required">Amount</label>
                                             <input type="text" name = "amount" class="form-control" data-provide="typeahead" id="the-basics" placeholder="₦20000" required>
                                         </div>
                                     </div> <!-- end col -->

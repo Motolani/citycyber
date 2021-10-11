@@ -23,7 +23,6 @@
             <div class="card">
                 <div class="card-body">
 
-
                     <p class="text-muted font-14">
                         Below are the lists of Offices available within City Cyber. Offices can also be edited
                     </p>
@@ -98,8 +97,7 @@
                             </table>
 
                             <button class="btn btn-primary btn-sm" id="bulkAccept"><span class="uil-check"></span>Accept Selected</button>
-                            <button class="btn btn-danger btn-sm" id="bulkDeny"><span class="uil-multiply"></span>Deny Selected</a>
-
+                            <button class="btn btn-danger btn-sm" id="bulkDeny"><span class="uil-multiply"></span>Deny Selected</button>
 
                         </div> <!-- end preview-->
 

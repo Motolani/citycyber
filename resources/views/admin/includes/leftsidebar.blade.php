@@ -73,6 +73,9 @@
                             <a href="/pettycash/my-requests">My Petty Cash Requests</a>
                         </li>
                         <li>
+                            <a href="{{route('pettycash.viewSubmittedReceipts')}}">Submitted Receipts</a>
+                        </li>
+                        <li>
                             {{-- Only Admins and Super Admins should see this--}}
                             <a href="{{route('viewPendingPettyCash')}}">Pending Petty Cash
                                 <span class="badge bg-warning float-end">{{$pendingPettyCashCount ?? 0}}</span>

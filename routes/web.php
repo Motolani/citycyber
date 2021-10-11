@@ -33,12 +33,18 @@ Route::get('/viewAttendance', 'ViewControllers\MainOperation@manageAttendance')-
 
 
 Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
+
 Route::get('/createStock', function () {
     return view('admin.staff.inventory.inventory');
 });
 
 
 //stockModule Route Start
+//crud for staff Unit starts
+Route::prefix('stock')->group(function () {
+    Route::post('/new-stock-regular', 'Inventories@createNewStockRegular')->name('stock.newStockRegular');
+});
+
 Route::get('/createStockView', 'Inventories@CreateinventoryView')->name('createStockView');
 Route::get('/createStock', 'Inventories@createStock')->name('createStock');
 Route::get('/viewStock', 'Inventories@viewStock')->name('viewStock');
@@ -148,7 +154,6 @@ Route::post('deleteLevel', 'ViewControllers\MainViewController@deleteLevel');
 
 
 //crud for staff Unit starts
-
 Route::prefix('unit')->group(function () {
     Route::get('/createUnit', 'UnitController@createUnit')->name('createUnit');
     Route::post('/createUnit', 'UnitController@createUnit')->name('createUnit');
@@ -317,13 +322,15 @@ Route::prefix('pettycash')->group(function () {
     Route::get('/pending', 'PettyCashController@viewPending')->name("viewPendingPettyCash");
     Route::post('/bulk-action', 'Pett@byCashControllerulkAction')->name('bulkActionPettyCash');
     Route::post('/submit-expense', 'PettyCashController@submitExpense')->name("submitExpense");
+    Route::get('/accept-receipt/{id}', 'PettyCashController@acceptReceipt')->name("pettycash.acceptReceipt");
+    Route::post('/reject-receipt/{id}', 'PettyCashController@rejectReceipt')->name("pettycash.rejectReceipt");
     Route::get('/submit-expense/{id}', 'PettyCashController@viewSubmitExpense')->name("viewSubmitExpense");
+    Route::get('/submitted-receipts', 'PettyCashController@viewSubmittedReceipts')->name("pettycash.viewSubmittedReceipts");
 });
 
 
 //Cash Advance Routes
 Route::prefix('cash-advance')->group(function () {
-
     Route::prefix('categories')->group(function () {
         Route::get('/', 'CashAdvanceController@viewCategories')->name('cash-advance.viewCategories');
         Route::post('/add', 'CashAdvanceController@doAddCategory')->name('cash-advance.doAddCategory');
@@ -404,6 +411,7 @@ Route::prefix('cashier')->group(function () {
     Route::get('/fund/{cashierid}', 'CashierWalletController@viewFundCashier')->name('cashier.viewFundCashier');
     Route::post('/fund', 'CashierWalletController@fundCashier')->name('cashier.fund')->middleware('validate-amount');
 });
+
 
 //Cash Reserve Wallet Routes
 Route::prefix('cash-reserve')->group(function () {

@@ -64,7 +64,7 @@ class CashAdvanceController extends BaseController
         ]);
 
         $fileName = time().'.'.$request->file->extension();
-        $path = $request->file->move(storage_path('uploads'), $fileName);
+        $path = $request->file->move('uploads', $fileName);
         //dd($path);
 
 
@@ -97,7 +97,7 @@ class CashAdvanceController extends BaseController
 
     public function viewSubmitExpense(Request $request, $id)
     {
-        $data = PettyCashRequest::where('id',$id)->first();
+        $data = CashAdvanceRequest::where('id',$id)->first();
         if(isset($data)){
             return view('admin.cash-advance.submit-expense', compact('data'));
         }
