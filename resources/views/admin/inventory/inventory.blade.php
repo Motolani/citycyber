@@ -95,9 +95,8 @@
                                         <tr>
                                             <th>S/N</th>
                                             <th>Name</th>
-                                            <th>Stock Category</th>
-                                            <th>Stock Type</th>
                                             <th>Price</th>
+                                            <th>Quantity</th>
                                             <th>Description</th>
                                             <th>Rate</th>
                                             <th>Period</th>
@@ -107,34 +106,9 @@
 
                                         <tr>
                                             <td>1</td>
-
                                             <td>
                                                 <input placeholder="Enter Stock name" autocomplete="off" class="form-control underline" id="stock_name" type="text" name="stock_name[]" required>
                                             </td>
-
-                                            <td>
-                                                <select id="state" class="form-control select2" id="stock_category" name="stock_category[]" data-toggle="select2" required>
-
-                                                    @if(isset($categories))
-                                                        @foreach($categories as $data)
-                                                            <option value="{{$data->id}}|{{$data->name}}">{{$data->name}}</option>
-                                                        @endforeach
-                                                    @endif
-
-
-                                                </select>
-                                            </td>
-
-
-                                            <td>
-                                                <select id="state" class="form-control select2" id="stock_type" name="stock_type[]" data-toggle="select2" required>
-
-                                                    <option>Consumable</option>
-                                                    <option>Perishable</option>
-
-                                                </select>
-                                            </td>
-
 
                                             <td>
                                                 <input autocomplete="off" placeholder="Enter Stock price" class="form-control underline" id="stock_price" type="number"
@@ -142,13 +116,17 @@
                                             </td>
 
                                             <td>
+                                                <input placeholder="1" class="form-control" type="number" name="quantity[]" required>
+                                            </td>
+
+
+                                            <td>
                                                 <input autocomplete="off" placeholder="Enter Stock Description" class="form-control underline" id="stock_description" type="text"
                                                        name="stock_description[]">
                                             </td>
 
                                             <td>
-                                                <input autocomplete="off" class="form-control underline" placeholder="Enter Depreciation Rate" id="stock_depreciation_rate" type="number"
-                                                       name="stock_depreciation_rate[]">
+                                                <input autocomplete="off" class="form-control underline" placeholder="Enter Depreciation Rate" id="stock_depreciation_rate" type="number" name="stock_depreciation_rate[]">
                                             </td>
 
                                             <td>
@@ -166,10 +144,10 @@
                                     <br/>
 
                                     <div class="row" style="margin-top:30px">
-                                        <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">
-                                            <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>
-                                        </div>
-                                        <div style="justify-content:flex-end; display: flex;" class="col-lg-6 pull-right">
+{{--                                        <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">--}}
+{{--                                            <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>--}}
+{{--                                        </div>--}}
+                                        <div class="col-lg-6">
                                             <button class="btn btn-primary" name="proceed" value="Proceed" id="submit">Create</button>
                                         </div>
                                     </div>

@@ -23,10 +23,12 @@ class StockCategoriesController extends BaseController
     {
         $request->validate([
             'name' => 'required|max:255',
+            'price' => 'required|numeric|min:1',
             'description' => 'required',
         ]);
         $item = new StockCategory();
         $item->name = $request->name;
+        $item->price = $request->price;
         $item->description = $request->description;
         $item->save();
 

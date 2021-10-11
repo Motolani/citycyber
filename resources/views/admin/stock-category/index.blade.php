@@ -33,6 +33,11 @@
                                 </div>
 
                                 <div class="mb-3 mt-4">
+                                    <label class="form-label">Price</label>
+                                    <input type="text" name="price" class="form-control" placeholder="100" required>
+                                </div>
+
+                                <div class="mb-3 mt-4">
                                     <label class="form-label">Description</label>
                                     <input type="text" name="description" class="form-control" placeholder="Model No. 2210" required>
                                 </div>
@@ -64,6 +69,7 @@
                                 <thead>
                                 <tr>
                                     <th>Category</th>
+                                    <th>Price</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -73,6 +79,7 @@
                                     @foreach($items as $item)
                                         <tr>
                                             <td>{{$item->name}}</td>
+                                            <td>{{$item->price}}</td>
                                             <td>
                                                 <a href="{{route('stock-category.delete',$item->id)}}" class="btn btn-danger btn-sm">
                                                     <span class="uil-multiply"></span>Delete

@@ -46,8 +46,6 @@ class Inventories extends BaseController
     {
         $request->validate([
             'stock_name' => 'required|max:255',
-            'stock_category' => 'required|max:255',
-            'stock_type' => 'required|max:255',
             'stock_price' => 'required|max:255',
             'stock_description' => 'required|max:255',
             'stock_depreciation_rate' => 'required|max:255',
@@ -59,15 +57,9 @@ class Inventories extends BaseController
         $len = sizeof($request->stock_name);
         $count = 0;
         for($i = 0; $i<$len;$i++){
-            Log::info("insideLoop ".$i);
-            //dd($request->stock_category);
-            $exp = explode("|",$request->stock_category[$i]);
-
             try{
                 $createStock = new Inventory_Store([
                     "name"=>$request->stock_name[$i],
-                    "category"=>$exp[1],
-                    "category_id"=>$exp[0],
                     "price"=>$request->stock_price[$i],
                     "description"=>$request->stock_description[$i],
                     "description_rate"=>$request->stock_depreciation_rate[$i],
