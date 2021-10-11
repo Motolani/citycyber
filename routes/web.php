@@ -34,10 +34,6 @@ Route::get('/viewAttendance', 'ViewControllers\MainOperation@manageAttendance')-
 
 Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
 
-Route::get('/createStock', function () {
-    return view('admin.staff.inventory.inventory');
-});
-
 
 //stockModule Route Start
 //crud for staff Unit starts

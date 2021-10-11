@@ -70,6 +70,18 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label">Office</label>
+                                    <select class="form-control select2" name="office_id" data-toggle="select2" data-toggle="select2">
+                                        <option>Select Office</option>
+                                        @if(isset($stores))
+                                            @foreach($stores as  $store)
+                                                <option value="{{$store->id}}">{{$store->name}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
                                     <label class="form-label">Price</label>
                                     <input name="price" type="text" class="form-control">
                                 </div>
@@ -95,6 +107,7 @@
                                         <tr>
                                             <th>S/N</th>
                                             <th>Name</th>
+                                            <th>Office</th>
                                             <th>Price</th>
                                             <th>Quantity</th>
                                             <th>Description</th>
@@ -108,6 +121,17 @@
                                             <td>1</td>
                                             <td>
                                                 <input placeholder="Enter Stock name" autocomplete="off" class="form-control underline" id="stock_name" type="text" name="stock_name[]" required>
+                                            </td>
+
+                                            <td>
+                                                <select class="form-control select2" name="office_id" data-toggle="select2" data-toggle="select2">
+                                                    <option>Select Office</option>
+                                                    @if(isset($stores))
+                                                        @foreach($stores as  $store)
+                                                            <option value="{{$store->id}}">{{$store->name}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
                                             </td>
 
                                             <td>
@@ -144,9 +168,9 @@
                                     <br/>
 
                                     <div class="row" style="margin-top:30px">
-{{--                                        <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">--}}
-{{--                                            <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>--}}
-{{--                                        </div>--}}
+                                        {{--                                        <div style="justify-content:flex-start; display: flex" class="col-lg-6 pull-left">--}}
+                                        {{--                                            <button class="btn btn-primary" name="back" value="Back" id="submit">Back</button>--}}
+                                        {{--                                        </div>--}}
                                         <div class="col-lg-6">
                                             <button class="btn btn-primary" name="proceed" value="Proceed" id="submit">Create</button>
                                         </div>
