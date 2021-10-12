@@ -6,6 +6,7 @@ use App\Department;
 use App\IncidenceOpration;
 use App\Office;
 use App\OfficeStock;
+use App\Reason;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
@@ -60,9 +61,15 @@ class OfficeController extends BaseController
             ->whereDate('due_date', '<=', $dateThreshold)
             ->get();
 
-
         $stockCount = OfficeStock::where('to_office_id', $request->id)
             ->count();
+
+
+        //Get total of this Office Debts
+        $debts = OfficeStock::where('to_office_id', $request->id)
+            ->where('balance', '>', 0)
+            ->sum('balance');
+
 
         //Loop through Office Staff
         foreach ($office->staffs as $staff){
@@ -71,7 +78,14 @@ class OfficeController extends BaseController
             }
         }
 
-        return view('admin.offices.officeInfo',compact('office', 'stocks', 'staffAbsent', 'staffsOnLeave', 'departments', 'stockCount'));
+        return view('admin.offices.officeInfo',compact(
+            'office',
+            'stocks',
+            'balance',
+            'staffAbsent',
+            'staffsOnLeave',
+            'departments',
+            'stockCount'));
     }
 
     public function updateOffice(Request $request){
@@ -147,7 +161,8 @@ class OfficeController extends BaseController
     public function viewStocks(Request $request, $officeId){
         $office = Office::where('id', $officeId)->first();
         $items = OfficeStock::where('to_office_id', $officeId)->get();
-        return view('admin.offices.stock-list', compact('items', 'office'));
+        $reasons = Reason::all();
+        return view('admin.offices.stock-list', compact('items', 'office', 'reasons'));
     }
 
 
@@ -167,6 +182,7 @@ class OfficeController extends BaseController
         $stock = OfficeStock::where('id', $officeStockId)->first();
 
         $stock->status = "rejected";
+        $stock->reason_id = $request->reason_id;
         $stock->save();
 
         alert()->success("Successfully rejected Stock", 'Stock Rejected');

@@ -46,3 +46,6 @@ label.form-label.required:after {
   max-height: 500px;
   overflow-y: scroll;
 }
+.select2-container--open{
+  z-index: 1100;
+}

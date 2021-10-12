@@ -125,11 +125,22 @@
                     <h2 class="m-b-20">
                         <a href="{{route('office.viewStocks', $office->id)}}">{{$stockCount}}</a>
                     </h2>
-                    <!-- <span class="badge bg-danger"> -29% </span> <span class="text-muted">From previous period</span> -->
-                </div> <!-- end card-body-->
-            </div> <!--end card-->
-        </div><!-- end col -->
+                </div>
+            </div>
+        </div>
 
+
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
+                    <i class="dripicons-jewel float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Debts</h6>
+                    <h2 class="m-b-20">
+                        {{$debts}}
+                    </h2>
+                </div>
+            </div>
+        </div>
 
     </div>
 

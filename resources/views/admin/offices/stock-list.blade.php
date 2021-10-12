@@ -53,11 +53,18 @@
                                             <td>{{$item->item->name ?? ""}}</td>
                                             <td>{{$item->item->category ?? ""}}</td>
                                             <td>{{$item->item->description ?? ""}}</td>
-                                            <td>{{$item->status ?? ""}}</td>
+                                            <td>
+                                                    {{$item->status ?? ""}}
+                                                @if($item->status == 'rejected')
+                                                    <br />
+                                                    <strong>Reason:</strong>
+                                                    {{$item->reason->name}}
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if($item->status == "processing")
                                                     <a href="{{route('office.acceptStock',$item->id)}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
-                                                    <a href="{{route('office.rejectStock',$item->id)}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
+                                                    <a href="{{route('office.rejectStock',$item->id)}}" class="btn btn-danger btn-sm rejectButton" data-toggle="modal" data-target="#rejectModal"><span class="uil-multiply"></span></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -74,8 +81,41 @@
             </div> <!-- end card -->
         </div><!-- end col-->
     </div>
-    <!-- end row-->
 
+
+    <div class="modal" id="rejectModal" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Why do you want to reject this</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <form method="POST" action="" aria-hidden="true" id="rejectForm">
+                    @csrf
+                    <div class="modal-body">
+                        <label>Reason</label>
+                        <select class="form-control select2 mt-1" name="reason_id" data-toggle="select2" required>
+                            <option>Select Reason</option>
+                            @if(isset($reasons))
+                                @foreach($reasons as $reason)
+                                    <option value="{{$reason->id}}" >{{$reason->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -83,67 +123,10 @@
 @section('script')
     <script>
         $(function() {
-            $(document).ready(function() {
-                let aa = $('#h_div');
-                console.log("h_div logger ----", aa);
-                aa.hide();
-                $("#hide").click(function() {
-                    $("div").hide();
-                });
-
-                $("#getParents").click(function() {
-                    let header = $('headerShow');
-                    let level_id = $(this).val();
-                    //let levelInput = `<input value="${levels}" type = "hidden" id = "level"> </input>`;
-                    ///.$("#addons").append(levelInput);
-                    console.log("level_id", level_id);
-                    getParent(level_id);
-
-
-
-                    //$("#kdd").html(total);
-                    //$("div").show();
-                });
+            $(".rejectButton").click(function (e){
+                e.preventDefault();
+                $("#rejectForm").attr("action", e.target.href);
             });
-
-            function getParent(level_id) {
-                let url = "{{url('api/loadType')}}";
-                console.log('mymessage' + url);
-                $.ajax({
-                    url: url,
-                    type: 'post',
-                    data: {
-                        level: level_id
-                    },
-
-                    success: function(data) {
-                        //$('#addons option:not(:first)').remove();
-                        loadParent(data);
-
-                        console.log("response", data);
-                    },
-                    error: function(xhr, err) {
-                        var responseTitle = $(xhr.responseText).filter('title').get(0);
-                        alert($(responseTitle).text() + "\n" + formatErrorMessage(xhr, err));
-                    }
-
-                });
-
-            }
-
-            function loadParent(data) {
-                console.log('thisadata', data);
-                $.each(data.product, function(key, product) {
-                    let option = `<option value="${product.code}|${product.price}|${product.name}"> ${product.name}/  ${product.month} Month -N ${product.price} </option>`;
-                    $("#addons").append(option);
-                });
-
-                //Change the text of the default "loading" option.
-                $('#addons-select').removeClass('d-none').addClass('d-block')
-                $('#addon-loader').removeClass('d-block').addClass('d-none');
-                $('#submit').removeClass('d-none').addClass('d-block');
-            }
-
         });
     </script>
 

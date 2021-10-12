@@ -147,6 +147,7 @@ class Inventories extends BaseController
             'quantity' => 'required',
         ]);
 
+        //Calculate Due date
         $dueDate = Carbon::now()->addWeek($request->payment_period);
 
         $expProduct = explode("|",$request->product_id);
@@ -155,17 +156,17 @@ class Inventories extends BaseController
         $productId = $expProduct[0];
         $officeName = $expOffice[1];
         $officeId = $expOffice[0];
-        // dd($productId."".$productId);
 
         $check = Inventory_Store::where("category",$productName)->where('status','pending');
-        if($check->count() > $request->quantity){
+        if($check->count() >= $request->quantity){
             $inventory = $check->limit($request->quantity)->get();
             $user_id = Auth::user()->id;
             // dd($user_id);
 
             $counter = 0;
             foreach($inventory as $data){
-                // dd($data);
+
+
                 $updated = Inventory_Store::where('id',$data->id)->update(["status"=>"processing"]);
                 if($updated){
                     $counter+=1;
@@ -179,6 +180,7 @@ class Inventories extends BaseController
                         "office_name"=>$request->officeName,
                         "inventory_id"=>$data->id,
                         "due_date"=>$dueDate,
+                        "balance"=>$check->price,
                         "payment_period"=>$request->payment_period,
                         // "depreciation_rate"=>,
                         // "depreciation_period"=>"",
@@ -189,7 +191,6 @@ class Inventories extends BaseController
                     $transfer->save();
                 }
             }
-            // dd($counter);
             return redirect()->back()->with("message","Product Successfully Assigned");
         }else{
             return redirect()->back()->with("message","there are only ".$check->count()." of the selected products available");

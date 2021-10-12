@@ -21,5 +21,9 @@ class OfficeStock extends Model
         public function item(){
             return $this->belongsTo('App\Inventory_Store', 'inventory_id', 'id');
         }
+
+        public function reason(){
+            return $this->belongsTo('App\Reason', 'reason_id', 'id');
+        }
 }
 

@@ -89,7 +89,7 @@ return view('admin.staff.data.viewStatus');
 Route::prefix('office')->group(function () {
     Route::get('/{officeid}/stocks', 'OfficeController@viewStocks')->name('office.viewStocks');
     Route::get('/stock/accept/{id}', 'OfficeController@acceptStock')->name('office.acceptStock');
-    Route::get('/stock/reject/{id}', 'OfficeController@rejectStock')->name('office.rejectStock');
+    Route::post('/stock/reject/{id}', 'OfficeController@rejectStock')->name('office.rejectStock');
 
     Route::get('/{officeid}/photos/add', 'PhotoController@viewAddPhotos')->name('viewAddPhotos');
     Route::post('/{officeid}/photos/add', 'PhotoController@doAddPhotos')->name('doAddPhotos');
