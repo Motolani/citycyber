@@ -35,6 +35,14 @@ Route::get('/viewAttendance', 'ViewControllers\MainOperation@manageAttendance')-
 Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
 
 
+Route::prefix('reason')->group(function () {
+    Route::get('/', 'ReasonController@index')->name('reason.index');
+    Route::get('/delete/{id}', 'ReasonController@delete')->name('reason.delete');
+    Route::post('/create', 'ReasonController@createNewReason')->name('reason.createNewReason');
+});
+
+
+
 //stockModule Route Start
 //crud for staff Unit starts
 Route::prefix('stock')->group(function () {
@@ -79,6 +87,10 @@ return view('admin.staff.data.viewStatus');
 
 //Office Routes
 Route::prefix('office')->group(function () {
+    Route::get('/{officeid}/stocks', 'OfficeController@viewStocks')->name('office.viewStocks');
+    Route::get('/stock/accept/{id}', 'OfficeController@acceptStock')->name('office.acceptStock');
+    Route::get('/stock/reject/{id}', 'OfficeController@rejectStock')->name('office.rejectStock');
+
     Route::get('/{officeid}/photos/add', 'PhotoController@viewAddPhotos')->name('viewAddPhotos');
     Route::post('/{officeid}/photos/add', 'PhotoController@doAddPhotos')->name('doAddPhotos');
     Route::get('/create-store/{officeid}', 'OfficeController@createStore')->name('office.createStore');

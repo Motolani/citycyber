@@ -41,3 +41,8 @@ label.form-label.required:after {
   position: absolute;
   margin-left: 5px;
 }
+
+.max-height{
+  max-height: 500px;
+  overflow-y: scroll;
+}

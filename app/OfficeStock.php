@@ -17,5 +17,9 @@ class OfficeStock extends Model
             'due_date',
             'comment'
                 ];
+
+        public function item(){
+            return $this->belongsTo('App\Inventory_Store', 'inventory_id', 'id');
+        }
 }
 

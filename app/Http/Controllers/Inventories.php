@@ -166,7 +166,7 @@ class Inventories extends BaseController
             $counter = 0;
             foreach($inventory as $data){
                 // dd($data);
-                $updated = Inventory_Store::where('id',$data->id)->update(["status"=>"processng"]);
+                $updated = Inventory_Store::where('id',$data->id)->update(["status"=>"processing"]);
                 if($updated){
                     $counter+=1;
                     $transfer = new OfficeStock([

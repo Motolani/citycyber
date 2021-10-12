@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\IncidenceOpration;
 use App\Office;
+use App\OfficeStock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 
@@ -52,6 +54,16 @@ class OfficeController extends BaseController
             //->where('office_id', $office->id)
             ->get();
 
+        //Stocks soon to be due
+        $dateThreshold = Carbon::today()->addWeek(2);
+        $stocks = OfficeStock::where('to_office_id', $request->id)
+            ->whereDate('due_date', '<=', $dateThreshold)
+            ->get();
+
+
+        $stockCount = OfficeStock::where('to_office_id', $request->id)
+            ->count();
+
         //Loop through Office Staff
         foreach ($office->staffs as $staff){
             if($staff->isOnLeave()){
@@ -59,7 +71,7 @@ class OfficeController extends BaseController
             }
         }
 
-        return view('admin.offices.officeInfo',compact('office', 'staffAbsent', 'staffsOnLeave', 'departments'));
+        return view('admin.offices.officeInfo',compact('office', 'stocks', 'staffAbsent', 'staffsOnLeave', 'departments', 'stockCount'));
     }
 
     public function updateOffice(Request $request){
@@ -84,8 +96,6 @@ class OfficeController extends BaseController
         }
     }
 
-
-
     public function createOfficeRequest(Request $request){
 
         //dd($request);
@@ -102,8 +112,6 @@ class OfficeController extends BaseController
         $type=$request->officeType;
         $level =$request->officeLevel;
         $parentOfficeId =$request->officeLevel;
-
-
 
         $office = new Office();
         $office->name = $name;
@@ -134,6 +142,37 @@ class OfficeController extends BaseController
 //            return redirect()->back()->with("status",$createStatus );
 //        }
     }
+
+
+    public function viewStocks(Request $request, $officeId){
+        $office = Office::where('id', $officeId)->first();
+        $items = OfficeStock::where('to_office_id', $officeId)->get();
+        return view('admin.offices.stock-list', compact('items', 'office'));
+    }
+
+
+    public function acceptStock(Request $request, $officeStockId){
+        $stock = OfficeStock::where('id', $officeStockId)->first();
+        //Update due date
+        $dueDate = Carbon::now()->addWeek($stock->payment_period);
+        $stock->status = "approved";
+        $stock->due_date = $dueDate;
+        $stock->save();
+
+        alert()->success("Successfully accepted Stock", 'Stock Accepted');
+        return redirect()->back()->with("message","Successfully accepted Stock");
+    }
+
+    public function rejectStock(Request $request, $officeStockId){
+        $stock = OfficeStock::where('id', $officeStockId)->first();
+
+        $stock->status = "rejected";
+        $stock->save();
+
+        alert()->success("Successfully rejected Stock", 'Stock Rejected');
+        return redirect()->back()->with("message","Successfully accepted Stock");
+    }
+
 
 
 

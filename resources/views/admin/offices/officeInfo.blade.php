@@ -117,11 +117,24 @@
             </div> <!--end card-->
         </div><!-- end col -->
 
+        <div class="col-sm-3">
+            <div class="card tilebox-one">
+                <div class="card-body">
+                    <i class="dripicons-jewel float-end text-muted"></i>
+                    <h6 class="text-muted text-uppercase mt-0">Stock</h6>
+                    <h2 class="m-b-20">
+                        <a href="{{route('office.viewStocks', $office->id)}}">{{$stockCount}}</a>
+                    </h2>
+                    <!-- <span class="badge bg-danger"> -29% </span> <span class="text-muted">From previous period</span> -->
+                </div> <!-- end card-body-->
+            </div> <!--end card-->
+        </div><!-- end col -->
+
 
     </div>
 
     <div class="row">
-        <div class="col-xl-4">
+        <div class="col-xl-4 max-height">
             <!-- End Toll free number box-->
             <div class="card">
                 <div class="card-body">
@@ -168,7 +181,6 @@
                         <div class="tab-content">
 
                             <div class="tab-pane active" id="aboutme">
-
                                 <h5 class="text-uppercase"><i class="mdi mdi-briefcase me-1"></i>
                                     Additional Info</h5>
                                 <!-- end timeline -->
@@ -225,18 +237,40 @@
                                         @include('admin.includes.photo-gallery')
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- end col -->
 
+        @if(count($stocks) > 0)
+            <div class="col-xl-4">
+                <!-- End Toll free number box-->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mb-3">Stocks Due for Payment</h4>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Due on</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($stocks as $stock)
+                                <tr>
+                                    <td> {{$stock->item->name}} </td>
+                                    <td> {{$stock->due_date}} </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
-    <!-- end row -->
-
 
     <div class="tab-content">
         <div class="tab-pane show active" id="modal-position-preview">
