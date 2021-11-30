@@ -1,4 +1,3 @@
-
 @extends('admin.layout')
 @section('title')
     Dashboard
@@ -141,7 +140,10 @@
 
                                     <div class="col-lg-4">
                                             <label class="form-label">Country</label>
+                                            {{-- <input name = "country" required type="text" class="form-control" data-provide="typeahead" id="remote" placeholder="Enter Country"> --}}
+                                           
                                             <select name="country" class="form-control select2 country" data-toggle="select2">
+                                           
                                                 @foreach($countries as $country)
                                                     <option value="{{$country->id}}" {{$country->id == 160 ? 'selected' : ''}}>{{$country->name}}</option>
                                                 @endforeach
@@ -151,16 +153,29 @@
 
                                     <div class="col-lg-4">
                                         <label class="form-label">State</label>
-                                        <select name="state" class="form-control select2 state" data-toggle="select2">
+                                        <select id="state" class="form-control select select2" name="state" data-toggle="select" required>
+                                            <option value="{{Session::get('personalInfo')['state'] ?? '' }}">
+                                                {{Session::has('personalInfo')?Session::get('personalInfo')['state']:'Select State'}}
+                                            </option>
                                         </select>
+                                        {{-- <select name="state" class="form-control select2 state" data-toggle="select2">
+                                        </select> --}}
                                     </div>
                                     <!-- end col -->
 
                                     <div class="col-lg-4">
                                         <div class="mb-0">
-                                            <label class="form-label">City</label>
-                                            <select name="city" class="form-control select2 city" data-toggle="select2">
+                                            <p class="mb-1 fw-bold">
+                                                Select City
+                                            </p>
+                                
+                                            <select id="lgas" class="form-control select select2" name="lga" data-toggle="select2">
+                                                <option value="{{ Session::has('personalInfo')?Session::get('personalInfo')['lga']:'' }}" required>
+                                                    {{Session::has('personalInfo')?Session::get('personalInfo')['lga']:'Select Lga'}}
+                                                </option>
                                             </select>
+                                            {{-- <select name="city" class="form-control select2 city" data-toggle="select2">
+                                            </select> --}}
                                         </div>
                                     </div> <!-- end col -->
 
@@ -206,6 +221,78 @@
                 $("#hide").click(function(){
                     $("div").hide();
                 });
+// ajax function to load a state
+            let url = "{{url('api/get-states')}}";
+            console.log('mymessage' + url);
+            $.ajax({
+                url: url,
+                type: 'get',
+                data: { level: '1' },
+
+                success: function (data) {
+
+                    console.log('thisadata', data);
+                    $.each(data, function (key, states) {
+                        console.log("CountryState", states);
+                        let option = `<option value="${states.name}"> ${states.name}</option>`;
+                        $("#state").append(option);
+                    });
+
+                    console.log("response", data);
+                },
+                error: function (xhr, err) {
+                    var responseTitle = $(xhr.responseText).filter('title').get(0);
+                    alert($(responseTitle).text() + "\n" + formatErrorMessage(xhr, err));
+                }
+
+            });
+// end of state javascript
+// ajax function for city
+$('#state').change(function () {
+                let selectedState = $(this).val();
+                console.log("thisIsMySelectedState", selectedState)
+
+                if (selectedState !== '') {
+
+                    let url = "{{url('api/get-lga')}}";
+                    console.log('mymessage' + url);
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        data: { state: selectedState },
+
+                        success: function (data) {
+                            // $('#addons option:not(:first)').remove();
+                            console.log('thisadata', data);
+                            $.each(data, function (key, lga) {
+                                console.log("CountryState", lga);
+                                let option = `<option value="${lga}"> ${lga}</option>`;
+                                $("#lgas").append(option);
+                            });
+
+
+                        },
+                        error: function (xhr, err) {
+                            var responseTitle = $(xhr.responseText).filter('title').get(0);
+                            alert($(responseTitle).text() + "\n" + formatErrorMessage(xhr, err));
+                        }
+
+                    });
+                }
+                else {
+                    $('#addon-loader').removeClass('d-block').addClass('d-none');
+                    $('#addons option:not(:first)').remove();
+
+                    $('#addons-select').removeClass('d-block').addClass('d-none')
+                    $('#submit').removeClass('d-block').addClass('d-none');
+                }
+
+            });
+
+
+
+
+// end of function for city
 
                 $(".country").change(function () {
                     var countryId = $(".country").val();
@@ -320,7 +407,8 @@
                     let message = $('#erroMessage');
                     let ms = data.message;
                     console.log('myMessageResponseisHere',data)
-                    $("#msg").append(ms);
+                    $("#msg").append(ms)
+;
                     message.show();
                 }
                 //Change the text of the default "loading" option.
@@ -333,10 +421,3 @@
     </script>
 
 @endsection
-
-
-
-
-
-
-

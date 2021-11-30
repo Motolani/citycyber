@@ -10,6 +10,7 @@ use App\Office;
 use App\ShopWalletHistory;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends BaseController
 {
@@ -34,14 +35,16 @@ class HomeController extends BaseController
         $totalStaff = User::where('id', '>', 0)->count();
         $totalOffice = Office::where('id', '>', 0)->count();
         $bankAccountsCount = Bank_Account::where('id', '>', 0)->count();
-        $staffPresent = Attendance::whereDay('created_at', now()->day)->get();
+        $staffPresent = Attendance::whereDay('created_at', now()->day)->pluck('id');
+        $staffAbsent = User::whereNotIn('id', $staffPresent)->join("offices","offices.id","users.office_id")
+                        ->select("users.*", "offices.name as officename")->get();
         $birthdaysToday = User::whereMonth('DOB', now()->month)->take(10)->get();
         $shopWalletTransactions = ShopWalletHistory::whereDay('created_at', now()->day)->count();
         $cashierWalletTransactions = CashierWalletHistory::whereDay('created_at', now()->day)->count();
         $cashReserveWalletTransactions = CashReserveHistory::whereDay('created_at', now()->day)->count();
         $totalTransactions = $shopWalletTransactions + $cashierWalletTransactions + $cashReserveWalletTransactions;
 
-        return view('admin.home', compact('birthdaysToday', 'totalOffice', 'totalStaff', 'staffPresent', 'totalTransactions', 'bankAccountsCount'));
+        return view('admin.home', compact('birthdaysToday', 'totalOffice', 'totalStaff', 'staffAbsent', 'totalTransactions', 'bankAccountsCount'));
     }
 
 }

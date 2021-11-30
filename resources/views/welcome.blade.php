@@ -31,7 +31,21 @@
                                     <!-- <span><h2 style = "color:white">CityCyber</h1></span> -->
                                 </a>
                             </div>
-
+                            <div>
+                                @if (session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                    
+                                @if ($errors->any())    
+                                    @foreach ($errors->all() as $error)
+                                        <div class="alert alert-danger">
+                                            {{ $error }}
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
                             <div class="card-body p-4">
                                 
                                 <div class="text-center w-75 m-auto">

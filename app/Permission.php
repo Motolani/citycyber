@@ -1,12 +1,10 @@
 <?php namespace App;
 
-use Esensi\Model\Contracts\ValidatingModelInterface;
-use Esensi\Model\Traits\ValidatingModelTrait;
-use Zizaco\Entrust\EntrustPermission;
+use Esensi\Model\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class Permission extends EntrustPermission implements ValidatingModelInterface
+class Permission extends EloquentModel
 {
-  use ValidatingModelTrait;
 
   protected $throwValidationExceptions = true;
 

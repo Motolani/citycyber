@@ -81,10 +81,11 @@ class OfficeController extends BaseController
         return view('admin.offices.officeInfo',compact(
             'office',
             'stocks',
-            'balance',
+            /* 'balance', */
             'staffAbsent',
             'staffsOnLeave',
             'departments',
+            'debts',
             'stockCount'));
     }
 

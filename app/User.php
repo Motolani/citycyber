@@ -4,23 +4,21 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable, EntrustUserTrait;
-
+    use Notifiable, HasRoles;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    /*    protected $fillable = [
-            'name', 'email', 'password','firstname','middlename','lastname','phone','DOB',
-        ];*/
+   
     protected $fillable = [
         'firstname','staff_number', 'middlename', 'lastname','homeAddress','residentialAddress','phone','email','password','dob','state','status','level',
         'resumptionType','imgUrl','branchId','unit','department','departmentrole','position','resumptionDate','assumptionDate',

@@ -161,8 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Zizaco\Entrust\EntrustServiceProvider::class,
-        Acoustep\EntrustGui\EntrustGuiServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -227,8 +227,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-        'entrust-gui.admin' => \Acoustep\EntrustGui\Http\Middleware\AdminAuth::class,
+        /* 'entrust-gui.admin' => \Acoustep\EntrustGui\Http\Middleware\AdminAuth::class, */
     ],
 
 ];

@@ -40,7 +40,7 @@
                                     <th>Location</th>
                                     <th>State</th>
                                     <th>Type</th>
-                                    <th>Edit</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 

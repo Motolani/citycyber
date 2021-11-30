@@ -361,84 +361,84 @@ class StaffController extends BaseController
 
 
     function workExperience($request) {
-//        dd($request->all());
-        $len = sizeof($request->position_held);
-        $result = false;
-        for($i = 0; $i<$len;$i++){
-            Log::info("insideLoop ".$i);
-            try{
-                $workExperience = new WorkExperience([
-                    "userId"=>$request->staffId,
-                    "nameOfEstablish"=>$request->nameOfEstablish[$i],
-                    "position"=>$request->position[$i],
-                    "jobFunction"=>$request->job_functions[$i],
-                    "startyear"=>$request->start_year[$i],
-                    "endyear"=>$request->end_year[$i],
+        //        dd($request->all());
+                $len = sizeof($request->position_held);
+                $result = false;
+                for($i = 0; $i<$len;$i++){
+                    Log::info("insideLoop ".$i);
+                    try{
+                        $workExperience = new WorkExperience([
+                            "userId"=>$request->staffId,
+                            "nameOfEstablish"=>$request->nameOfEstablish[$i],
+                            "position"=>$request->position[$i],
+                            "jobFunction"=>$request->job_functions[$i],
+                            "startyear"=>$request->start_year[$i],
+                            "endyear"=>$request->end_year[$i],
+                        ]);
+                        if($workExperience->save()){
+                            $result =  true;
+                        }else{
+                            $result = false;
+                        }
+                    }
+                    catch(\Exception $ex){
+                        //dd($ex);
+                    }
+                }
+                return $result;
+            }
+
+            function proccessEducation(Request $request, $staff) {
+                $len = sizeof($request->institution_name);
+                $result = true;
+
+                for($i = 0; $i<$len;$i++){
+
+                    try {
+                        //Upload the Photo
+                        $fileName = time() . '.' . $request->document_photo[$i]->extension();
+                        $photoPath = $request->document_photo[$i]->move('uploads', $fileName);
+                        $education = new Education();
+                        $education->userId = $staff->id;
+                        $education->document_path = $photoPath;
+                        $education->endyear = $request->end_year[$i];
+                        $education->course = $request->course_name[$i];
+                        $education->startyear = $request->start_year[$i];
+                        $education->qualification = $request->qualification[$i];
+                        $education->educationType = $request->education_type[$i];
+                        $education->name_of_institution = $request->institution_name[$i];
+                        $education->save();
+                    } catch (\Exception $e) {
+                    }
+                }
+                return $result;
+            }
+
+
+            function createStaffbankacc($data, $staff){
+                //dd($data->all());
+                // dd($data->acc_num);
+                // $len = $len = sizeof($data);
+                $result = false;
+                //dd($data);
+                $createStaffbankacc = new StaffBankAcc([
+                    "userId"=>$staff->id,
+                    "bankname"=>$data->bank,
+                    "acc_num"=>$data->accountNumber,
+                    "acc_name"=>$data->accountName,
+                    "acc_type"=>"SAVINGS",
                 ]);
-                if($workExperience->save()){
+                if($createStaffbankacc->save()){
                     $result =  true;
                 }else{
-                    $result = false;
+                    $result =  false;
                 }
+                return $result;
             }
-            catch(\Exception $ex){
-                //dd($ex);
-            }
-        }
-        return $result;
-    }
-
-    function proccessEducation(Request $request, $staff) {
-        $len = sizeof($request->institution_name);
-        $result = true;
-
-        for($i = 0; $i<$len;$i++){
-
-            try {
-                //Upload the Photo
-                $fileName = time() . '.' . $request->document_photo[$i]->extension();
-                $photoPath = $request->document_photo[$i]->move('uploads', $fileName);
-                $education = new Education();
-                $education->userId = $staff->id;
-                $education->document_path = $photoPath;
-                $education->endyear = $request->end_year[$i];
-                $education->course = $request->course_name[$i];
-                $education->startyear = $request->start_year[$i];
-                $education->qualification = $request->qualification[$i];
-                $education->educationType = $request->education_type[$i];
-                $education->name_of_institution = $request->institution_name[$i];
-                $education->save();
-            } catch (\Exception $e) {
-            }
-        }
-        return $result;
-    }
 
 
-    function createStaffbankacc($data, $staff){
-        //dd($data->all());
-        // dd($data->acc_num);
-        // $len = $len = sizeof($data);
-        $result = false;
-        //dd($data);
-        $createStaffbankacc = new StaffBankAcc([
-            "userId"=>$staff->id,
-            "bankname"=>$data->bank,
-            "acc_num"=>$data->accountNumber,
-            "acc_name"=>$data->accountName,
-            "acc_type"=>"SAVINGS",
-        ]);
-        if($createStaffbankacc->save()){
-            $result =  true;
-        }else{
-            $result =  false;
-        }
-        return $result;
-    }
-
-
-    function emergencyContact($data, $staff){
-//        dd($data->all());
+            function emergencyContact($data, $staff){
+        //        dd($data->all());
         $emergencyContact = new EmergencyContact([
             "userId"=>$staff->id,
             "name"=>$data->emergencyName,
@@ -508,9 +508,11 @@ class StaffController extends BaseController
         return $result;
     }
 
-    public function viewStaffProfile(Request $request){
+    public function viewStaffProfile(Request $request)
+    {
         $user_id = $request->user_id;
         $staff = User::find($user_id);
+        //dd($staff->id);
 
         $workExperience = WorkExperience::where('userId',$user_id)->first();
 
@@ -526,7 +528,9 @@ class StaffController extends BaseController
 
         //Get required documents
         $level = Level::where('id', $staff->level)->first();
-        $strr = explode(",",$level->required_doc_ids);
+        //dd($level);
+        $strr = explode(",",$level['required_doc_ids']);
+        // dd($strr);
 
         $count = sizeof($strr);
         for($i = 0; $i<$count;$i++){

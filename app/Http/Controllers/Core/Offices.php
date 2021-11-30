@@ -64,19 +64,19 @@ class Offices extends Controller
                 break;              
         }
 
-	if(sizeof($offices) > 0){ 
-		return response()->json([
-		"status" => "200",
-		"data" => $offices,
-		"message" => "Offices Retrieved Successfully"
-		]);
-	}
+        if(sizeof($offices) > 0){ 
+            return response()->json([
+            "status" => "200",
+            "data" => $offices,
+            "message" => "Offices Retrieved Successfully"
+            ]);
+        }
 
-        return response()->json([
-        "status" => "300",
-        "data" => [],
-        "message" => "No parent for the selected level."
-	]);
+            return response()->json([
+            "status" => "300",
+            "data" => [],
+            "message" => "No parent for the selected level."
+        ]);
     }
 
     public function availableBranchesForSwitch($id){

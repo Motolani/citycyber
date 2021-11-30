@@ -14,6 +14,8 @@
 
 use App\Http\Controllers\RoleController;
 use App\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -402,7 +404,7 @@ Route::prefix('shop-wallet')->group(function () {
 
 //Cashier Wallet Routes
 Route::prefix('cashier')->group(function () {
-    Route::get('/{id}', 'CashierWalletController@dashboard')->name('cashier.dashboard');
+    Route::get('/dashboard', 'CashierWalletController@dashboard')->name('cashier.dashboard');
     Route::get('/add', 'CashierWalletController@viewAdd')->name('cashier.viewAdd');
     Route::post('/add', 'CashierWalletController@createWallet')->name('cashier.create');
     Route::get('/accept/{id}', 'CashierWalletController@acceptFunds')->name('cashier.acceptFunds');
@@ -527,6 +529,43 @@ Route::get('createwinview', 'WinController@createWinForm');
 Route::get('createWinFormData', 'WinController@createWinFormData')->name('createWinFormData');
 Route::get('viewWin', 'WinController@viewWin');
 Route::get('updateanddeletewin', 'WinController@updateAndDeleteWin');
+
+
+//crud for Property mgt - Rent
+Route::get('createRent', 'RentController@createRentForm')->name('createRent');
+Route::post('storeCreateRent', 'RentController@createRent')->name("storeCreateRent");
+Route::get('viewRentPayment', 'RentController@viewRentPayment')->name('viewRentPayment');
+Route::get('/editRent/{id}', 'RentController@editRentForm')->name('editRent');
+Route::put('/updateRent/{id}', 'RentController@updateRent')->name('updateRent');
+Route::delete('deleteRent/{id}', 'RentController@deleteRent')->name('deleteRent');
+
+
+Route::get('createBill', 'RentController@createBillForm')->name('createBill');
+Route::post('storecreateBill', 'RentController@createBill')->name("storecreateBill");
+Route::get('viewBill', 'RentController@viewBill')->name('viewBill');
+Route::get('/editBill/{id}', 'RentController@editBillForm')->name('editBill');
+Route::put('/updateBill/{id}', 'RentController@updateBill')->name('updateBill');
+Route::delete('deleteBill/{id}', 'RentController@deleteBill')->name('deleteBill');
+
+
+/* Route::get('createEnv', 'RentController@createEnvForm')->name('createEnv');
+Route::post('storecreateEnv', 'RentController@createEnv')->name("storecreateEnv");
+Route::get('viewEnv', 'RentController@viewEnv')->name('viewEnv');
+Route::get('/editEnv/{id}', 'RentController@editEnvForm')->name('editEnv');
+Route::put('/updateEnv/{id}', 'RentController@updateEnv')->name('updateEnv');
+Route::delete('deleteEnv/{id}', 'RentController@deleteEnv')->name('deleteEnv'); */
+
+
+/* real estate crud starts here */
+
+Route::get('viewrealestate', 'RealestateController@index')->name('viewrealestate');
+Route::get('createrealestate', 'RealestateController@create')->name('createrealestate');
+Route::post('storerealestate', 'RealestateController@store')->name('storerealestate');
+Route::get('editrealestate/{id}', 'RealestateController@edit')->name('editrealestate');
+Route::put('updaterealestate/{id}', 'RealestateController@update')->name('updaterealestate');
+Route::delete('deleterealestate/{id}', 'RealestateController@destroy')->name('deleterealestate');
+
+/* real estate crud ends here */
 
 
 //crud for BankAcountFormData

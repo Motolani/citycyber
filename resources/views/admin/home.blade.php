@@ -46,7 +46,7 @@
                                 <div class="card-body text-center">
                                     <i class="dripicons-graph-line text-muted" style="font-size: 24px;"></i>
                                     <h3><span>{{$bankAccountsCount}}</span></h3>
-                                    <p class="text-muted font-15 mb-0">Accounts</p>
+                                    <p class="text-muted font-15 mb-0">Bank Accounts</p>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
             <div class="col-7">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mb-4">Staff Present Today</h4>
+                        <h4 class="header-title mb-4">Staff Absent Today</h4>
 
                         <div dir="ltr">
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
@@ -67,22 +67,20 @@
                                 <tr>
                                     <th>Staff Name</th>
                                     <th>Level</th>
-                                    <th>Branch</th>
-                                    <th>Phone</th>
-                                    <th>Date Created</th>
+                                    <th>Office</th>
                                     <th>View More</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @if(isset($staffPresent))
-                                    @foreach($staffPresent as $user)
+                                @if(isset($staffAbsent))
+                                    @foreach($staffAbsent as $user)
                                         <tr>
-                                            <td>{{$user->firstname.' '.$user->firstname}}</td>
+                                            <td>{{$user->firstname.' '.$user->lastname}}</td>
                                             <td>{{$user->level}}</td>
-                                            <td>{{$user->office->name}}</td>
-                                            <td>{{$user->phone}}</td>
-                                            <td>{{$user->created_at}}</td>
+                                            <td>
+                                                {{$user->officename}}
+                                            </td>
                                             <td>
                                                 <form method="get" action="{{url('viewStaffProfile')}}">
                                                     @csrf

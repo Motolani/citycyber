@@ -25,7 +25,7 @@
 
         <!--- Sidemenu -->
         <ul class="side-nav">
-
+            @hasanyrole('GodEye|HQ-fficer')
             <li class="side-nav-title side-nav-item">Navigation</li>
 
             <li class="side-nav-item">
@@ -66,9 +66,9 @@
                 </a>
                 <div class="collapse" id="sidebarSixteenthssLevel">
                     <ul class="side-nav-second-level">
-                        <li>
+                        {{-- <li>
                             <a href="/pettycash/create">Request Petty Cash</a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="/pettycash/my-requests">My Petty Cash Requests</a>
                         </li>
@@ -93,9 +93,9 @@
                 </a>
                 <div class="collapse" id="sidebarCashAdvance">
                     <ul class="side-nav-second-level">
-                        <li>
+                        {{-- <li>
                             <a href="{{route('cash-advance.viewCreate')}}">Request Cash Advance</a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{route('cash-advance.myRequests')}}">My Cash Advance Requests</a>
                         </li>
@@ -129,12 +129,17 @@
                         <li>
                             <a href="{{url('viewCreateAdvance')}}">Advance</a>
                         </li>
-
                         <li>
+                            <a href="{{route('cash-advance.viewCreate')}}">Request Cash Advance</a>
+                        </li>
+                        {{-- <li>
                             <a href="{{url('viewCreateAllowance')}}">Allowance</a>
                         </li>
                         <li>
                             <a href="{{url('viewLeaveRequest')}}">Request Leave/off</a>
+                        </li> --}}
+                        <li>
+                            <a href="/pettycash/create">Request Petty Cash</a>
                         </li>
                         {{--
                         <li>
@@ -373,24 +378,6 @@
                             </div>
                         </li>
 
-
-{{--                        <li class="side-nav-item">--}}
-{{--                            <a data-bs-toggle="collapse" href="#sidebarTwelvethLevel" aria-expanded="false" aria-controls="sidebarNinethLevel">--}}
-{{--                                <span> Role Module</span>--}}
-{{--                                <span class="menu-arrow"></span>--}}
-{{--                            </a>--}}
-{{--                            <div class="collapse" id="sidebarTwelvethLevel">--}}
-{{--                                <ul class="side-nav-third-level">--}}
-{{--                                    <li>--}}
-{{--                                        <a href="{{url('createStaffRole')}}">Create Role</a>--}}
-{{--                                    </li>--}}
-{{--                                    <li>--}}
-{{--                                        <a href="{{url('viewStaffRole')}}">Manage Role</a>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-
                         <li class="side-nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarThirteenthLevel" aria-expanded="false" aria-controls="sidebarNinethLevel">
                                 <span> Offence Module </span>
@@ -434,8 +421,9 @@
                     </ul>
                 </div>
             </li>
+            @endhasanyrole
 
-
+            @hasanyrole('GodEye|HQ-fficer|Area-officer|Branch-officer')
             <li class="side-nav-title side-nav-item">Inventories</li>
 
             <li class="side-nav-item">
@@ -455,7 +443,7 @@
                             <a href="{{url('viewStock')}}">View Stock</a>
                         </li>
 
- <li>
+                        <li>
                             <a href="{{route('stock-category.index')}}">Stock Categories</a>
                         </li>
 
@@ -479,26 +467,28 @@
 
                 <div class="collapse" id="navRoles">
                     <ul class="side-nav-third-level">
-                        <li>
-                            <a href="{{route('entrust-gui::roles.index')}}">View Roles</a>
+                        {{-- <li>
+                            <a href="{{route('viewStaffRole ')}}">View Roles</a>
                         </li>
 
                         <li>
-                            <a href="{{route('entrust-gui::roles.create')}}">Create Roles</a>
+                            <a href="{{route('createStaffRole')}}">Create Roles</a>
+                        </li> --}}
+
+                        {{-- <li>
+                            <a href="{{route('laravelroles::permissions.index')}}">View Permissions</a>
                         </li>
 
                         <li>
-                            <a href="{{route('entrust-gui::permissions.index')}}">View Permissions</a>
+                            <a href="{{route('laravelroles::permissions.create')}}">Create Permissions</a>
                         </li>
-
-                        <li>
-                            <a href="{{route('entrust-gui::permissions.create')}}">Create Permissions</a>
-                        </li>
-
+                        --}}
                     </ul>
                 </div>
             </li>
+            @endhasanyrole
 
+            @hasanyrole('GodEye|HQ-fficer|Area-Manager|Area-officer')
             <li class="side-nav-title side-nav-item side-nav-title">Menu for Area Managers</li>
             <li class="side-nav-item">
                 <a href="{{route('shop-wallet.viewAll')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -544,8 +534,11 @@
                     <span>Slip Requests</span>
                 </a>
             </li>
+            @endhasanyrole
+
 
             {{--            Menu For Branch Managers--}}
+            @hasanyrole('GodEye|HQ-fficer|Area-Manager|Area-officer')
             <li class="side-nav-title side-nav-item">Menu for Branch Managers</li>
             <li class="side-nav-item">
                 <a href="{{route('cash.dashboard')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -571,8 +564,10 @@
                     <span>Request Funds</span>
                 </a>
             </li>
+            @endhasanyrole
 
             {{--            Menu For Cashiers--}}
+            @hasanyrole('Cashier')
             <li class="side-nav-title side-nav-item">Menu for Cashier</li>
             <li class="side-nav-item">
                 <a href="{{route('cashier.dashboard', Auth::user()->id)}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -583,7 +578,7 @@
             <li class="side-nav-item">
                 <a href="{{route('cashier.viewRequestFunds')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
-                    <span>Request Funds</span>
+                    <span>Fund</span>
                 </a>
             </li>
             <li class="side-nav-item">
@@ -598,8 +593,9 @@
                     <span>Slip Requests</span>
                 </a>
             </li>
+            @endhasanyrole
 
-
+            @hasanyrole('GodEye|HQ-fficer|Branch-officer')
             <li class="side-nav-title side-nav-item mt-1">Attendance</li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
@@ -615,9 +611,88 @@
                     </ul>
                 </div>
             </li>
+            @endhasanyrole
 
 
+            <li class="side-nav-title side-nav-item">Property Management</li>
 
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#rent" aria-expanded="false" aria-controls="rent" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Rent / Lease</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="rent">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createRent')}}">Create Rent / Lease</a>
+                        </li>
+                        <li>
+                            <a href="{{route('viewRentPayment')}}">Rent/Lease Payment History</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#bills" aria-expanded="false" aria-controls="bills" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Bills</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="bills">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('createBill')}}">Create Bills</a>
+                        </li>
+                        <li>
+                            <a href="{{route('viewBill')}}">Bills Payment History</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#realestate" aria-expanded="false" aria-controls="realestate" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span>Real Estate</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="realestate">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('createrealestate')}}">Create Real Estate</a>
+                        </li>
+                        <li>
+                            <a href="{{url('viewrealestate')}}">Real Estate History</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            {{-- <li class="side-nav-item">
+                <a href="{{url('createRent')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Create Rent / Lease</span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{{url('createSecurity')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Create Security</span>
+                </a>
+            </li>
+            
+            <li class="side-nav-item">
+                <a href="{{url('createEnv')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Create Environmental </span>
+                </a>
+            </li> --}}
+
+
+            @hasanyrole('GodEye|HQ-fficer|Branch-officer|Branch-Manager|Area-Officer|Area-Manager|Cashier')
             <li class="side-nav-title side-nav-item">Others </li>
 
             <li class="side-nav-item">
@@ -714,24 +789,6 @@
                 </div>
             </li>
 
-{{--            <li class="side-nav-item">--}}
-{{--                <a data-bs-toggle="collapse" href="#sidebarPages5" aria-expanded="false" aria-controls="sidebarPages5" class="side-nav-link">--}}
-{{--                    <i class="uil-copy-alt"></i>--}}
-{{--                    <span> Payments </span>--}}
-{{--                    <span class="menu-arrow"></span>--}}
-{{--                </a>--}}
-{{--                <div class="collapse" id="sidebarPages5">--}}
-{{--                    <ul class="side-nav-second-level">--}}
-{{--                        <li>--}}
-{{--                            <a href="{{url('createpaymentview')}}">Create Payment</a>--}}
-{{--                        </li>--}}
-{{--                        <li>--}}
-{{--                            <a href="{{url('viewPayment')}}">View/Edit Payments</a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            </li>--}}
-
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarPages7" aria-expanded="false" aria-controls="sidebarPages7" class="side-nav-link">
                     <i class="uil-copy-alt"></i>
@@ -749,6 +806,8 @@
                     </ul>
                 </div>
             </li>
+            @endhasanyrole
+
             <div class="clearfix"></div>
         </ul>
 

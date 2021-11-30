@@ -286,16 +286,13 @@ class CashierWalletController extends BaseController
         return view('admin.home');
     }
 
-    public function dashboard(Request $request, $cashierId)
+    public function dashboard(Request $request)
     {
+        $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
         //If No ID was passed, fetch the currently logged in user
-        if(!isset($cashierId)){
-            $cashierWallet = CashierWallet::where('id', Auth::user()->id)->first();
-        }
-        else {
-            $cashierWallet = CashierWallet::where('id', $cashierId)->first();
-        }
-        $history = CashierWalletHistory::where('staff_id', $cashierWallet->staff->id)->get();
+       
+        //dd($cashierWallet);
+        $history = CashierWalletHistory::where('staff_id', $cashierWallet->staff_id)->get();
         return view('admin.cashier-wallet.dashboard', compact('cashierWallet', 'history'));
     }
 

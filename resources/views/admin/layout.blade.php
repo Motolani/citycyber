@@ -1,8 +1,3 @@
-{{--<pre><?php--}}
-{{--print_r(Session::all());--}}
-{{--?>--}}
-{{--    </pre>--}}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
