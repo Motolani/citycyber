@@ -1,4 +1,3 @@
-
 @extends('admin.layout')
 @section('title')
     Dashboard
@@ -36,6 +35,7 @@
                                 <thead>
                                 <tr>
                                     <th>View More</th>
+                                    <th>View Payslip</th>
                                     <th>Date Created</th>
                                     <th>Staff Name</th>
                                     <th>Level</th>
@@ -58,8 +58,15 @@
                                                     <button class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
                                                 </form>
                                             </td>
+                                            <td>
+                                                <form method="get" action="{{route('createstaff')}}">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                    <button class="btn btn-primary btn-sm mt-1"><span class="uil-postcard"></span></button>
+                                                </form>
+                                            </td>
                                             <td>{{$user->created_at}}</td>
-                                            <td>{{$user->firstname.' '.$user->firstname}}</td>
+                                            <td>{{$user->firstname.' '.$user->lastname}}</td>
                                             <td>{{$user->level}}</td>
                                             <td>{{$user->office->name ?? "No Office"}}</td>
                                             <td>{{$user->status}}</td>

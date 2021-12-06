@@ -12,6 +12,7 @@
 |
 */
 
+use App\Http\Controllers\ProfitLossController;
 use App\Http\Controllers\RoleController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -237,9 +238,9 @@ Route::get('/deletebonus/{id}', 'BonusController@destroy');
 Route::get('/showbonus/{id}', 'BonusController@show');
 Route::post('updatebonus/{id}', 'BonusController@update');
 
-Route::get('/alldeduction', 'DeductionController@index');
+Route::get('/alldeduction', 'DeductionController@index')->name('staff.deduction.view');
 Route::post('creatededuction', 'DeductionController@create');
-Route::get('/newdeduction', 'DeductionController@deductionpage');
+Route::get('/newdeduction', 'DeductionController@deductionpage')->name('new.staff.deduction');
 Route::get('/deletededuction/{id}', 'DeductionController@destroy');
 Route::get('/showdeduction/{id}', 'DeductionController@show');
 Route::post('updatededuction/{id}', 'DeductionController@update');
@@ -317,9 +318,20 @@ Route::prefix('suspension')->group(function () {
     Route::post('/bulk-action', 'SuspensionController@bulkAction');
 });
 
+//Balance Sheet
+Route::prefix('balance-sheet')->group(function () {
+    Route::get('/view', 'BalanceSheetController@viewBalanceSheet')->name('view.balanceSheet');
+    Route::get('/details/advances', 'BalanceSheetController@viewBalanceSheetDetail')->name('view.balanceSheet.detail.advance');
+    Route::get('/detail/wins', 'BalanceSheetController@viewBalanceSheetDetailWins')->name('view.balanceSheet.detail.win');
+    Route::get('/detail/bonuses', 'BalanceSheetController@viewBalanceSheetDetailBonuses')->name('view.balanceSheet.detail.bonus');
+    Route::get('/detail/deductions', 'BalanceSheetController@viewBalanceSheetDetailDeductions')->name('view.balanceSheet.detail.deduction');
+});
+
 
 //Pending Loss/Damage Routes
 Route::prefix('loss-damage')->group(function () {
+    Route::get('/staff/view', 'LossDamageController@staffViewDamages')->name('staff.damages');
+    Route::post('/create-damages', 'LossDamageController@createStaffDamages')->name('create.staff.damages');
     Route::get('/pending', 'LossDamageController@viewPendingIncidence');
     Route::get('/approve/{id}', 'LossDamageController@approve');
     Route::get('/deny/{id}', 'LossDamageController@deny');
@@ -450,20 +462,18 @@ Route::get('/viewCreateSuspension', 'SuspensionController@viewCreateSuspension')
 Route::post('/viewCreateSuspension', 'SuspensionController@viewCreateSuspension');
 
 
-Route::get('/viewCreateAdvance', 'ViewControllers\MainOperation@viewCreateAdvance');
-Route::post('/viewCreateAdvance', 'ViewControllers\MainOperation@viewCreateAdvance');
+Route::get('/viewCreateAdvance', 'ViewControllers\MainOperation@viewCreateAdvance')->name('viewCreateAdvanceGet');
+Route::post('/viewCreateAdvance', 'ViewControllers\MainOperation@viewCreateAdvance')->name('viewCreateAdvancePost');
 
-
-
-Route::get('/viewCreateAllowance', 'ViewControllers\MainOperation@viewCreateAllowance');
-Route::post('/viewCreateAllowance', 'ViewControllers\MainOperation@viewCreateAllowance');
+Route::get('/viewCreateAllowance', 'ViewControllers\MainOperation@viewCreateAllowance')->name('viewCreateAllowanceGet');
+Route::post('/viewCreateAllowance', 'ViewControllers\MainOperation@viewCreateAllowance')->name('viewCreateAllowancePost');
 
 
 Route::get('/viewCreateDeduction', 'ViewControllers\MainOperation@viewCreateDeduction');
 Route::post('/viewCreateDeduction', 'ViewControllers\MainOperation@viewCreateDeduction');
 
 
-Route::get('/viewCreateLoan', 'ViewControllers\MainOperation@viewCreateLoan');
+Route::get('/viewCreateLoan', 'ViewControllers\MainOperation@viewCreateLoan')->name('view.staff.loan');
 Route::post('/viewCreateLoan', 'ViewControllers\MainOperation@viewCreateLoan');
 
 Route::get('/allLeaveType', 'ViewControllers\MainViewController@viewLeave');
@@ -483,8 +493,9 @@ Route::post('/updateDeleteLeaveCategory', 'ViewControllers\MainViewController@up
 
 
 //Route::post('createLeaveCategory', 'ViewControllers\MainViewController@updateDeleteLeaveCategory');
-Route::get('viewLeaveRequest', 'ViewControllers\MainOperation@viewLeaveRequest');
-Route::get('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave');
+Route::get('viewLeaveRequest', 'ViewControllers\MainOperation@viewLeaveRequest')->name('viewLeaveRequest');
+Route::get('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave')->name('returnCreateLeaveGet');
+Route::post('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave')->name('returnCreateLeavePost');
 
 
 
@@ -567,6 +578,22 @@ Route::delete('deleterealestate/{id}', 'RealestateController@destroy')->name('de
 
 /* real estate crud ends here */
 
+/* profit and loss starts here */
+Route::get('viewprofitandloss', 'ProfitLossController@profitAndLoss')->name('viewprofitandloss');
+
+/* profit and loss ends here */
+
+
+/* payslip starts here */
+
+Route::get('createstaff','PayslipController@createstaffpayslip')->name('createstaff');
+Route::post('staffdetails','PayslipController@savestaffData')->name('staffdetails');
+Route::get('staff_payslip','PayslipController@viewpayslip')->name('staff_payslip');
+Route::get('generatepayroll','PayslipController@viewpayroll')->name('generatepayroll');
+Route::get('deletepayslip','PayslipController@staffpayslip')->name('deletepayslip');
+
+/* payslip ends here */
+
 
 //crud for BankAcountFormData
 Route::get('createbankaccountview', 'BankController@createBankAccountForm');
@@ -580,3 +607,46 @@ Route::get('updateanddeletebankaccount', 'BankController@updateAndDeleteBankAcco
 Route::group(['middleware' => ['auth']], function() {
 //    Route::resource('roles', RoleController::class);
 });
+
+
+//Cashier sport wallets reports crud
+Route::get('daily-cashier-wallet-balance-index','DailyCashierBalancingController@dailyCashierBalancingIndex');
+Route::get('/create-daily-cashier-wallet-balance','DailyCashierBalancingController@createDailyCashierBalancing');
+Route::post('/store-daily-cashier-wallet-balance','DailyCashierBalancingController@storeDailyCashierBalancing');
+Route::get('/view-daily-cashier-wallet-balance','DailyCashierBalancingController@showDailyCashierBalancing');
+Route::get('/delete-daily-cashier-wallet-balance','DailyCashierBalancingController@deleteDailyCashierBalancing');
+
+//cable type crud
+Route::get('cable-type-index','CableTypeController@cableTypeIndex');
+Route::get('/create-cable-type','CableTypeController@createcableTypePlan');
+Route::post('/store-cable-type','CableTypeController@storecableTypePlan');
+Route::get('/edit-cable-type/{id}','CableTypeController@editcableTypePlan');
+Route::post('/update-cable-type','CableTypeController@updatecableTypePlan')->name('updatetype');
+Route::get('/delete-cable-type/{id}','CableTypeController@deletecableTypePlan')->name('deletetype');
+
+
+
+//cable plan and amount crud
+Route::get('cable-plan-index','CablePlanController@cablePlanIndex');
+Route::get('/create-cable-plan','CablePlanController@createCablePlan');
+Route::post('/store-cable-plan','CablePlanController@storeCablePlan');
+Route::get('/edit-cable-plan/{id}','CablePlanController@editCablePlan');
+Route::post('/update-cable-plan','CablePlanController@updateCablePlan')->name('updateplan');
+Route::get('/delete-cable-plan/{id}','CablePlanController@deleteCablePlan')->name('deleteplan');
+
+//cable tv route i.e cable providers ctud
+Route::get('cable-index','CableProvidersController@index');
+Route::get('/create-cable-providers','CableProvidersController@createCableProviders');
+Route::post('/store-cable-providers','CableProvidersController@storeCableProviders');
+Route::get('/edit-cable-providers/{id}','CableProvidersController@editCableProviders');
+Route::post('/update-cable-providers','CableProvidersController@updateCableProviders')->name('updatecable');
+Route::get('/delete-cable-providers/{id}','CableProvidersController@deleteCableProviders')->name('deletecable');
+
+
+//subscription  route crud
+Route::get('subscription-cable-index','CableSubscriptionController@subscriptionIndex');
+Route::get('/create-cable-subscription','CableSubscriptionController@createCableSupscription');
+Route::post('/store-cable-subscription','CableSubscriptionController@storeCableSubscription');
+Route::get('/edit-cable-subscription/{id}','CableSubscriptionController@editCableSubscription');
+Route::post('/update-cable-subscription','CableSubscriptionController@updateCableSubscription')->name('updatesubscription');
+Route::get('/delete-cable-subscription/{id}','CableSubscriptionController@deleteCableSubscription')->name('deletesubscription');

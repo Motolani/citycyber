@@ -18,6 +18,7 @@ use App\Status;
 use App\ResumptionType;
 use App\Level;
 use App\Http\Controllers\BaseController;
+use App\User;
 //use Auth;
 use Illuminate\Support\Facades\Auth;
 class MainOperation extends BaseController
@@ -78,19 +79,52 @@ class MainOperation extends BaseController
                 }
             }
         }
-
     }
 
 
     public function viewLeaveRequest(Request $request){
-
+        $user_id = $request->user_id;
+        $user = User::findOrFail($user_id);
         $leaveData = \App\LeaveRequest::join('offcategories','offcategories.id','leaverequests.leavecategory_id')
             ->join('offtypes','offtypes.id', 'leaverequests.leavetype_id')
             ->join('users','users.id','leaverequests.staff_id')
             ->select('leaverequests.*','leaverequests.dates as day','users.firstname','offcategories.category','offtypes.type')
 
-            ->where('leaverequests.staff_id',Auth::user()->id)->get();
-        return view('admin.staff.operations.leaveRequest',compact('leaveData'));
+            ->where('leaverequests.staff_id',$user_id)->get();
+
+
+
+            $leavetype = \App\OffType::all();
+            $leavecategory = \App\OffCategory::all();
+            $user_id = $request->user_id;
+            $user = User::findOrFail($user_id);
+    
+    
+            if(isset($request->submit)){
+                //dd("herere") ;
+    
+                $dates = $request->dates;
+                $exp = explode(",",$dates);
+                $count = sizeof($exp);
+                for($i = 0; $i<$count;$i++){
+    
+                    $offences = new \App\LeaveRequest([
+                        "staff_id"=>$user_id,
+                        "leavecategory_id"=>$request->leavecategory_id,
+                        "leavetype_id"=>$request->leavetype_id,
+                        "comment"=>$request->comment,
+                        "dates"=>$exp[$i],
+                    ]);
+                    $offences->save();
+    
+                }
+    
+                alert()->success("Request have been submitted", 'Success');
+                return redirect()->back()->with("message",'Request has been submitted');
+            }
+        return view('admin.staff.operations.leaveRequest',compact('leaveData', 'leavetype', 'leavecategory', 'user', 'user_id'));
+
+        
     }
 
 
@@ -101,6 +135,8 @@ class MainOperation extends BaseController
         $leavetype = \App\OffType::all();
         $leavecategory = \App\OffCategory::all();
         $user_id = $request->user_id;
+        $user = User::findOrFail($user_id);
+
 
         if(isset($request->submit)){
             //dd("herere") ;
@@ -111,7 +147,7 @@ class MainOperation extends BaseController
             for($i = 0; $i<$count;$i++){
 
                 $offences = new \App\LeaveRequest([
-                    "staff_id"=>Auth::user()->id,
+                    "staff_id"=>$user_id,
                     "leavecategory_id"=>$request->leavecategory_id,
                     "leavetype_id"=>$request->leavetype_id,
                     "comment"=>$request->comment,
@@ -124,7 +160,9 @@ class MainOperation extends BaseController
             alert()->success("Request have been submitted", 'Success');
             return redirect()->back()->with("message",'Request has been submitted');
         }
-        return view('admin.staff.operations.requestLeave',compact(['leavetype','leavecategory','user_id']));
+        return view('admin.staff.operations.requestLeave',compact(['leavetype','leavecategory','user_id', 'user']));
+        // return view('admin.staff.operations.leaveRequest',compact(['leavetype','leavecategory','user_id', 'user']));
+
     }
 
 
@@ -239,23 +277,24 @@ class MainOperation extends BaseController
 
 
     public function viewCreateAdvance(Request $request){
-        $user_id = Auth::user()->id;//dd($request);
-        $users = \App\User::where('id',Auth::user()->id)->first();
+        // $user_id = Auth::user()->id;//dd($request);
+        $user_id = $request->user_id;//dd($request);
+        $users = \App\User::where('id',$user_id)->first();
         $advances = \App\AdvanceOpration::join('offices','offices.id','advanceoperations.branch_id')
             ->join('users','users.id','advanceoperations.staff_id')
-            ->where('advanceoperations.staff_id',Auth::user()->id)
+            ->where('advanceoperations.staff_id',$user_id)
             ->select('users.*','offices.name as officename','advanceoperations.amount','advanceoperations.comment','advanceoperations.created_at','advanceoperations.startDate','advanceoperations.endDate','advanceoperations.status as datastatus')
             ->get();
         //dd($request);
         if(isset($request->submit) && $request->submit == 'createAdvance'){
             $message = "created";
 
-            //dd($request);
+            // dd($request);
             $advance = new \App\AdvanceOpration([
                 "branch_id"=>$users->branchId,
                 "startDate"=>$request->startDate,
                 "endDate"=>$request->endDate,
-                "staff_id"=>Auth::user()->id,
+                "staff_id"=>$user_id,
                 "comment"=>$request->comment,
                 "issuer_id"=>Auth::user()->id,
                 "amount"=>$request->amount,
@@ -264,38 +303,39 @@ class MainOperation extends BaseController
             $advance->save();
             $advances = \App\AdvanceOpration::join('offices','offices.id','advanceoperations.branch_id')
                 ->join('users','users.id','advanceoperations.staff_id')
-                ->where('advanceoperations.staff_id',Auth::user()->id)
+                ->where('advanceoperations.staff_id',$user_id)
                 ->select('users.*','offices.name as officename','advanceoperations.comment','advanceoperations.startDate','advanceoperations.endDate','advanceoperations.status')
                 ->get();
             return redirect()->back()->with("message",'Advance Created Successfully');
 
-        }//dd($advances);
-        return view('admin.staff.operations.viewAdvance',compact(['user_id','advances']));
+        }
+        // dd($advances);
+        return view('admin.staff.operations.viewAdvance',compact(['user_id','advances','users']));
 
     }
 
 
     public function viewCreateAllowance(Request $request){
-        //$user_id = $request->user_id;//dd($request);
-        $users = \App\User::where('id',Auth::user()->id)->first();
-        $user_id = Auth::user()->id;
+        $user_id = $request->user_id;//dd($request);
+        $users = \App\User::where('id',$user_id)->first();
         $allowanceList = \App\Allowance::all();
         $allowances = \App\AllowanceOpration::join('offices','offices.id','allowanceoprations.branch_id')
             ->join('users','users.id','allowanceoprations.staff_id')
-            ->where('allowanceoprations.staff_id',Auth::user()->id)
-            ->select('users.*','offices.name as officename','allowanceoprations.created_at','allowanceoprations.comment','allowanceoprations.status')
+            ->where('allowanceoprations.staff_id',$user_id)
+            ->select('users.*','offices.name as officename', 'allowanceoprations.amount', 'allowanceoprations.created_at','allowanceoprations.comment','allowanceoprations.status')
             ->get();
         //dd($allowances);
         if(isset($request->submit) && $request->submit == 'createAllowance'){
             $message = "created";
 
-            //dd($request);
+            // dd($request->amount);
 
 
             $allowance = new \App\AllowanceOpration([
+                "amount" => $request->amount,
                 "branch_id"=>$users->branchId,
                 "allowance_id"=>$request->allowance_id,
-                "staff_id"=>Auth::user()->id,
+                "staff_id"=>$user_id,
                 "comment"=>$request->comment,
                 "issuer_id"=>Auth::user()->id,
 
@@ -303,13 +343,13 @@ class MainOperation extends BaseController
             $allowance->save();
             $allowances = \App\AllowanceOpration::join('offices','offices.id','allowanceoprations.branch_id')
                 ->join('users','users.id','allowanceoprations.staff_id')
-                ->where('allowanceoprations.staff_id',Auth::user()->id)
-                ->select('users.*','offices.name as officename','allowanceoprations.comment','allowanceoprations.status')
+                ->where('allowanceoprations.staff_id',$user_id)
+                ->select('users.*','offices.name as officename', 'allowanceoprations.comment','allowanceoprations.status')
                 ->get();
             return redirect()->back()->with("message",'Allowance Created Successfully');
-
         }
-        return view('admin.staff.operations.viewAllowance',compact(['user_id','allowances','allowanceList']));
+        // dd($allowances);
+        return view('admin.staff.operations.viewAllowance',compact(['user_id','allowances','allowanceList','users']));
 
     }
 
@@ -355,11 +395,11 @@ class MainOperation extends BaseController
 
 
     public function viewCreateLoan(Request $request){
-        //$user_id = $request->user_id;//dd($request);
-        $users = \App\User::where('id',Auth::user()->id)->first();
+        $user_id = $request->user_id;//dd($request);
+        $users = \App\User::where('id',$user_id)->first();
         $loans = \App\LoanOpration::join('offices','offices.id','loanoprations.branch_id')
             ->join('users','users.id','loanoprations.staff_id')
-            ->where('loanoprations.staff_id',Auth::user()->id)
+            ->where('loanoprations.staff_id',$user_id)
             ->select('users.*','offices.name as officename','loanoprations.comment','loanoprations.status')
             ->get();
         $repaymentTypes = \App\RepaymentType::all();
@@ -381,13 +421,13 @@ class MainOperation extends BaseController
             $loan->save();
             $loans = \App\LoanOpration::join('offices','offices.id','loanoprations.branch_id')
                 ->join('users','users.id','loanoprations.staff_id')
-                ->where('loanoprations.staff_id',Auth::user()->id)
+                ->where('loanoprations.staff_id',$user_id)
                 ->select('users.*','offices.name as officename','loanoprations.comment','loanoprations.status')
                 ->get();
             return redirect()->back()->with("message",'Dedction Created Successfully');
 
         }
-        return view('admin.staff.operations.viewLoan',compact(['user_id','repaymentTypes','loanTypes','loans']));
+        return view('admin.staff.operations.viewLoan',compact(['user_id', 'users', 'repaymentTypes','loanTypes','loans']));
 
     }
 
@@ -435,9 +475,3 @@ class MainOperation extends BaseController
     }
 
 }
-
-
-
-
-
-

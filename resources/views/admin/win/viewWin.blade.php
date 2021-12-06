@@ -47,6 +47,7 @@
                                         <th>Customer Type</th>
                                         <th>Win Type</th>
                                         <th>Amount</th>
+                                        <th>status</th>
                                         <th>Ticket Id</th>
                                         <th>Delete</th>
 
@@ -63,14 +64,19 @@
                                                 <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$data->customer_name}}',
                                                 '{{$data->customer_id}}', '{{$data->amount}}', '{{$data->win_id}}','{{$data->customer_type}}',
                                                 '{{$data->gender}}','{{$data->id}}','{{$data->win_type}}','{{$data->ticket_id}}')" 
-                                                 class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
-                                                
-
+                                                class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
                                             </td>
                                             <td>{{$data->customer_name}}</td>
                                             <td>{{$data->customer_type}}</td>
                                             <td>{{$data->win_type}}</td>
                                             <td>{{$data->amount}}</td>
+                                            <td>
+                                                @if($data->status == 0)
+                                                    <button type="button" class="btn btn-warning">Unclaimed</button>
+                                                @else
+                                                    <button type="button" class="btn btn-success">Claimed</button>
+                                                @endif 
+                                            </td>
                                             <td>{{$data->ticket_id}}</td>
 
 

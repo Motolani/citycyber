@@ -551,7 +551,7 @@
                     </div>
                     <div class="card-body">
                         <center>
-                            <form method="get" action="{{ route('viewCreateAdvanceGet')}}">
+                            <form method="get" action="{{-- {{ route('viewCreateAdvanceGet')}} --}}">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
 
@@ -610,7 +610,7 @@
                     </div>
                     <div class="card-body">
                         <center>
-                            <form method="get" action="{{ route('viewCreateAllowanceGet')}}">
+                            <form method="get" action="{{-- {{ route('viewCreateAllowanceGet')}} --}}">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
 
@@ -627,7 +627,7 @@
                     </div>
                     <div class="card-body">
                         <center>
-                            <form method="get" action="{{route('staff.deduction.view')}}">
+                            <form method="get" action="{{-- {{route('staff.deduction.view')}} --}}">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
 
@@ -648,7 +648,7 @@
                     </div>
                     <div class="card-body">
                         <center>
-                            <form method="get" action="{{ route('view.staff.loan')}}">
+                            <form method="get" action="{{-- {{ route('view.staff.loan')}} --}}">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
 
@@ -683,7 +683,7 @@
                     </div>
                     <div class="card-body">
                         <center>
-                            <form method="get" action="{{ route('staff.damages')}}">
+                            <form method="get" action="{{-- {{ route('staff.damages')}} --}}">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
 
@@ -703,7 +703,7 @@
                     </div>
                     <div class="card-body">
                         <center>
-                            <form method="get" action="{{route('viewLeaveRequest')}}">
+                            <form method="get" action="{{-- {{route('viewLeaveRequest')}} --}}">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
 
