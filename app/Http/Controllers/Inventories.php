@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Department;
+use App\Transfer;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -202,10 +203,10 @@ class Inventories extends BaseController
     public function viewTransafer(Request $request)
     {
         $user_id = Auth::user()->id;
-        $transfers = OfficeStock::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
+        $transfers = Transfer::join('users','users.id','transfers.sender_id')->join('offices','offices.id','transfers.to_office_id')
             ->select("users.firstname as sender_name","offices.name as officeName","transfers.*")
             ->get();
-
+        //dd($transfers);
         return view('admin.inventory.transfer',compact(['transfers']));
     }
 

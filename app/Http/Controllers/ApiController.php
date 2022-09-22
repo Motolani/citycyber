@@ -39,5 +39,16 @@ class ApiController extends BaseController
            ]);
 
 		//return User::where("branchId", $id)->get();
-        }
+	}
+
+
+
+	public function getStaff($branch_id)
+	{
+		$staff = \App\User::where('branchId',$branch_id)->get();
+		return response()->json([
+			"data"=>$staff,
+			"status"=>"200",
+		]);
+	}
 }

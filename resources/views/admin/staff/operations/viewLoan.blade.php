@@ -77,7 +77,10 @@ Dashboard
                                 </tr>
                             </thead>
 
+			    @php
 
+				//var_dump($loans);die();
+			    @endphp
                             <tbody>
                                 @if(isset($loans))
                                 @foreach($loans as $data)
@@ -89,13 +92,27 @@ Dashboard
                                         <a onclick="return confirm('Are you sure you want to delete {{$stat->allowance}}?, this action is not be reversable!.')"
                                             class="btn btn-danger btn-sm" href="{{url('/deletebonus/' . $stat->id)}}">
                                             <i class="uil-trash"></i>
-                                        </a>
-                                    </td>--}}
-				                    <td>{{$data->date}}</td>
+					</a>
+					
+				    </td>--}}
+					
+				    <td>{{$data->created_at}}</td>
                                     <td>{{$data->firstname}} {{$data->lastname}}</td>
-                                    <td>{{$data->officename}}</td>
-                                    <td>{{isset($data->loanType)?$data->loanType:'null'}}</td>
-                                    <td>{{isset($data->repaymentType)?$data->repaymentType:'null'}}</td>
+				    <td>{{$data->officename}}</td>
+				    <td>
+					@php
+						 $loanTyp = \App\LoanType::where('id', $data->loanTypeId)->first();
+						 echo $loanTyp->loanName;
+					@endphp
+				   </td>
+                                   <!-- <td>{{isset($data->loanName)?$data->loanName:'null'}}</td>-->
+				   <!-- <td>{{isset($data->repaymentId)?$data->repaymentId:'null'}}</td>-->
+				    <td>
+                                        @php
+                                                 $remir = \App\RepaymentType::where('id', $data->repaymentId)->first();
+                                                 echo $remir->repaymentName;
+                                        @endphp
+                                   </td>
                                     <td>{{$data->status == '1'?'Approved':'Pending'}}</td>
                                     <td>₦ {{isset($data->amount)?$data->amount:'0.00'}}</td>
                                     {{--<td>{{$stat->created_at}}</td>--}}
@@ -161,7 +178,7 @@ Dashboard
 
                                         <div class="mb-3">
                                             <label for="example-email" class="form-label">Comment</label>
-                                            <input type="text" id="example-email" name="comment" class="form-control" placeholder="Enter Comment" value="" required>
+                                            <input type="text" id="example-email" name="comment" class="form-control" placeholder="Enter Comment" value="">
                                         </div>
 
 

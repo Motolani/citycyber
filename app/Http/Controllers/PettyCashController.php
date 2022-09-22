@@ -6,6 +6,8 @@ use App\PettyCashRequest;
 use Illuminate\Http\Request;
 use App\Department;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\PettyCashCategory;
 
 class PettyCashController extends BaseController
 {
@@ -115,7 +117,33 @@ class PettyCashController extends BaseController
 
     public function viewCreate(Request $request)
     {
-        return view('admin.pettycash.create');
+	$branches = \App\Office::whereIn('level', [6,7,8])->get(); //dd($branches);
+        $categories = PettyCashCategory::latest()->get();
+        return view('admin.pettycash.create',compact('branches','categories'));
+    }
+
+    public function viewCategories(){
+        $categories = PettyCashCategory::latest()->get();
+        return view('admin.pettycash.add-category-list', compact('categories'));
+    }
+
+    public function doAddCategory(Request $request){
+        $request->validate([
+            'name' => 'required|max:255|min:3',
+        ]);
+        $category = new PettyCashCategory();
+        $category->name = $request->name;
+        $category->save();
+
+        alert()->success("The Category have been successfully added", 'Success');
+        return redirect()->back();
+    }
+
+    public function doDeleteCategory(Request $request){
+        PettyCashCategory::where('id', $request->id)->delete();
+
+        alert()->success("The Category have been successfully deleted", 'Success');
+        return redirect()->back();
     }
 
     public function viewSubmittedReceipts(Request $request)
@@ -143,7 +171,7 @@ class PettyCashController extends BaseController
     public function approve(Request $request)
     {
         $incident = PettyCashRequest::where('id', $request->id)->first();
-
+	dd($incident);
 
         //TODO: Check if this is a super admin and update status codes accordingly
         //Check if the incident is valid
@@ -234,5 +262,63 @@ class PettyCashController extends BaseController
         alert()->success("The User have been $status", 'Success');
         return redirect()->back()->with('success', 'The User has been ' . $status);
     }
-}
+      public function doDeleteRequest(Request $request){
+        PettyCashRequest::where('id', $request->id)->delete();
 
+        alert()->success("The petty cash re request have been successfully deleted", 'Success');
+        return redirect()->back();
+      }
+
+
+    	
+    	public function retireForm()
+    {
+        $branches = \App\Office::whereIn('level', [6, 7, 8,])->get();
+        $pettycash = \App\PettyCashRequest::where('retire','0')->get(); //dd($pettycash);
+       // $pettycash = DB::table('petty_cash_requests')->where('status', 'approved')->get();
+        return view('admin.pettycash.retirepettycash', compact(['branches', 'pettycash']));
+    }
+
+    public function storeRetireForm(Request $request)
+    {
+        $request->validate([
+            'request_id' => 'required',
+            'amount' => 'required',
+            'description' => 'required',
+        ]);
+
+        DB::table('petty_cash_expenses')->insert([
+            'request_id' => $request->request_id,
+            'staff_id' => Auth::user()->id,
+            'amount' => $request->amount,
+            'description' => $request->description,
+        ]);
+
+        alert()->success('Success.', 'Successful');
+        return redirect()->back()->with('message', 'successful');
+    }
+
+
+    public function viewRetiredPettyCash()
+    {
+        $retires = DB::table('petty_cash_expenses')
+                    ->join('petty_cash_requests', 'petty_cash_requests.id', 'petty_cash_expenses.request_id')
+                    ->select('petty_cash_expenses.*', 'petty_cash_requests.description as pettycash')->get();  //dd($retires);
+        return view('admin.pettycash.viewretiredpettycash', compact(['retires']));
+    }
+	
+
+    public function retirePettyCash($id)
+    {
+        $getPettycash = PettyCashRequest::find($id);
+        $getexp = DB::table('petty_cash_expenses')->where('request_id', $getPettycash->id)
+                    ->sum('amount');
+                    //dd($getexp);
+        if($getPettycash->amount > $getexp){
+            $bal = $getPettycash->amount - $getexp;
+            PettyCashRequest::where('id',$id)->update(['retire' => 1, 'balance' => $bal]);
+            return redirect()->back();
+        }
+    }
+
+}

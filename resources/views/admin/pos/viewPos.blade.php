@@ -31,7 +31,8 @@
                             		<li>{{$message}}</li>
                     		</ul>
                 	</div>
-            	@endifclass="table data-table table-striped
+		@endif
+		<div class="table data-table table-striped">
                     <p class="text-muted font-14">
                         Below are the lists of Pos Created 
                     </p>

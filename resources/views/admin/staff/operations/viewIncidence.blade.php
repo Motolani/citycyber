@@ -41,17 +41,6 @@ Dashboard
     		</div>
 		@endif
 
-
-                <!-- <form method="get" action="{{url('newbonus')}}">
-                    {{--@csrf
-                        <input type="hidden" name="user_id" value="">
-                        <input type="hidden" name="description" value="">--}}
-                        <button name = "submit" class="btn btn-primary"><span class="uil-plus"></span>Raise incidence</button>
-                </form> -->
-                <button value="edit" style = "color:white" id = "createIncidence" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal1"><span style="color: #fff"
-                                                class="uil-plus"></span>Raise Incidence</button>
-
                 <p style="margin-top: 10px" class="text-muted font-14">
                     Below are the incidences Raised
                 </p>
@@ -70,12 +59,21 @@ Dashboard
                         <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Staff Name</th>
-                                    <th>Branch</th>
-                                    <th>Offence</th>
+                                    <th>Raised By</th>
+                                    <th>Offense</th>
+                                    <th>Amount</th>
+                                    <th>Issuer Commented</th>
+                                    <th>Date Issued</th>
+                                    <th>Offender</th>
+                                    <th>Offender Branch</th>
+                                    <th>Hub</th>
+                                    <th>Area</th>
+                                    <th>Region</th>
+                                    <th>Department</th>
                                     <th>Status</th>
-                                    <th>amount</th>
+                                    <th>Action by</th>
+                                    <th>Action comment</th>
+                                    <th>Action date</th>
                                    {{-- <th>Issuer Name</th>--}}
                                     
                                 </tr>
@@ -86,21 +84,23 @@ Dashboard
                                 @if(isset($offenceRaised))
                                 @foreach($offenceRaised as $data)
                                 <tr>
-                                   {{-- <td>
-                                      
-                                        <button value="edit" class="btn bg-info btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal1"><span style="color: #fff" class="uil-pen"></span></button>
-                                        <a onclick="return confirm('Are you sure you want to delete {{$stat->allowance}}?, this action is not be reversable!.')"
-                                            class="btn btn-danger btn-sm" href="{{url('/deletebonus/' . $stat->id)}}">
-                                            <i class="uil-trash"></i>
-                                        </a>
-                                    </td>--}}
-				    <td>{{$data->date}}</td>
+				                    <td>
+                                        {{$data->issuer}}
+                                    </td>
+                                    <td>{{$data->offencename}}</td>
+                                    <td>{{$data->amount}}</td>
+                                    <td>{{$data->comment}}</td>
+                                    <td>{{date('d-m-Y', strtotime($data->date))}}</td>
                                     <td>{{$data->firstname}} {{$data->lastname}}</td>
-                                    <td>{{$data->officename}}</td>
-				    <td>{{$data->offencename}}</td>
-				    <td>{{$data->status == '1'?'Approved':'Pending'}}</td>
-                                    <td>₦ {{$data->amount}}</td>
+                                    <td>{{$data->branch}}</td>
+                                    <td>{{$data->hub}}</td>
+                                    <td>{{$data->area}}</td>
+                                    <td>{{$data->region}}</td>
+                                    <td>{{$data->department}}</td>
+                                    <td>{{$data->offenceStatus }}</td>
+                                    <td>{{$data->actionBy }}</td>
+                                    <td>{{$data->actionComment }}</td>
+                                    <td>{{$data->actionDate }}</td>
                                     {{--<td>{{$stat->created_at}}</td>--}}
                                 </tr>
                                 @endforeach
@@ -110,61 +110,6 @@ Dashboard
                     </div> <!-- end preview-->
 
                 </div> <!-- end tab-content-->
-                
-                <div class="tab-content">
-                    <div class="tab-pane show active" id="modal-position-preview">
-                        <div id="edit-modal1" class="modal fade" tabindex="-1"
-                            role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-top">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="topModalLabel">Create Incidence
-                                        </h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-
-                                    <form class="ps-3 pe-3"
-                                        action="{{url('viewCreateIncidence')}}"
-                                        method="POST">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <input type="hidden" id="user_id" name="user_id" class="form-control" value="{{$user_id}}" >
-                                            <label for="example-email" class="form-label">Staff Offence</label>
-                                            <select id="offe" class="form-control" name="offence_id" data-toggle="select" required>
-                                                
-                                                <option value="">Select Offence</option>
-                                                @if(isset($offences))
-                                                @foreach($offences as $offence)
-                                                <option value="{{$offence->id}}">{{$offence->name}}</option>
-                                                
-                                                @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                        
-
-                                        <div class="mb-3">
-                                            <label for="example-email" class="form-label">Comment</label>
-                                            <input type="text" id="example-email" name="comment" class="form-control" placeholder="Enter Comment" value="" required>
-                                        </div>
-
-                                        
-
-                                        <!-- <div class="mb-3">
-                                            <label for="example-password"
-                                                class="form-label">Amount</label>
-                                            <input type="text" id="example-amount" name="amount" class="form-control" value="" placeholder="Enter amount" required>
-                                        </div> -->
-
-                                        <button type="submit" name="submit" value = "createOffence"
-                                            class="btn btn-primary mt-2 mb-2 ">Create Incidence
-                                        </button>
-                                    </form>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-                    </div>
-                </div>
 
             </div> <!-- end card body-->
         </div> <!-- end card -->
@@ -250,4 +195,5 @@ Dashboard
 </script>
 
 @endsection
+
 

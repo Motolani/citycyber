@@ -7,7 +7,10 @@ use App\DeductionOpration;
 use App\PettyCashRequest;
 use Illuminate\Http\Request;
 use App\Department;
+use App\IncidenceOpration;
+use App\Office;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class CashAdvanceController extends BaseController
 {
@@ -35,20 +38,34 @@ class CashAdvanceController extends BaseController
 
     public function myRequests()
     {
-        $items = PettyCashRequest::where('staff_id', Auth::user()->id)->get();
-        return view('admin.pettycash.my-requests-list', compact('items'));
+        $items =CashAdvanceRequest::where('staff_id', Auth::user()->id)->get();
+        return view('admin.cash-advance.my-requests-list', compact('items'));
     }
 
     public function create(Request $request)
     {
         $request->validate([
-            'amount' => 'required|max:255',
+            'staff_id' => 'required',
             'category' => 'required',
         ]);
+        
+        $category = CashAdvanceCategory::find($request->category);
+        
+        $staff_id = $request->staff_id;
+        $staffRow = User::where("id", $staff_id)->first();
+        $name = $staffRow->firstname . " " . $staffRow->middlename . " " . $staffRow->lastname;
         $cashAdvance = new CashAdvanceRequest();
-        $cashAdvance->amount = $request->amount;
-        $cashAdvance->staff_id = Auth::user()->id;
+        
+        $office = Office::find($staffRow->office_id);
+        // $cashAdvance->amount = $request->amount;
+        $cashAdvance->staff_id = $staff_id;
+        $cashAdvance->issuer_id = Auth::id();
+        $cashAdvance->staff_name = $name;
+        $cashAdvance->office_id = $staffRow->office_id;
+        $cashAdvance->office_branch = $office->name . " - " . $office->location;
         $cashAdvance->category_id = $request->category;
+        $cashAdvance->category_name = $category->name;
+        $cashAdvance->amount = $category->cost;
         $cashAdvance->description = $request->description;
         $cashAdvance->save();
 
@@ -69,7 +86,7 @@ class CashAdvanceController extends BaseController
 
 
         $ticketID = $request->ticketID;
-        $pettyCash = PettyCashRequest::where('ticket_id', $ticketID)->first();
+        $pettyCash = CashAdvanceRequest::where('ticket_id', $ticketID)->first();
         $pettyCash->balance = $request->balance;
         $pettyCash->upload_path = $path;
         $pettyCash->save();
@@ -80,19 +97,72 @@ class CashAdvanceController extends BaseController
 
     public function viewPending(Request $request)
     {
-        $items = PettyCashRequest::where('status', 'pending')
-            ->orWhere('status', 'cancelled')
-            ->with('staff')
+    
+        $items = CashAdvanceRequest::join('offices','offices.id','cash_advance_requests.office_id')
+            ->join('users as staff', 'staff.id', 'cash_advance_requests.staff_id')
+            ->join('cash_advance_categories','cash_advance_categories.id','cash_advance_requests.category_id')
+            ->select('cash_advance_requests.*', 'offices.name as officename', 'offices.location as officelocation', 'staff.*', 'cash_advance_categories.name as categoryname', 'cash_advance_categories.cost as categorycost')
+            ->where('cash_advance_requests.status', 'pending')
+            ->orWhere('cash_advance_requests.status', 'cancelled')
             ->get();
+            
+            // dd($items);
+        // $items = CashAdvanceRequest::where('status', 'pending')
+        //     ->orWhere('status', 'cancelled')
+        //     ->with('staff')
+        //     ->get();
         return view('admin.cash-advance.pending-list', compact('items'));
     }
 
+    public function retireForm($id)
+    {
+        $data = CashAdvanceRequest::find($id);
+	$branches = \App\Office::all();        
+        // dd($data);
+        return view('admin.cash-advance.retire-cashadvance',compact(['branches', 'data']));
+    }
+    
+    public function retirementStore(Request $request)
+    {
+        # code...
+        // dd($request);
+        $request->validate([
+            'description' => 'required',
+            'file' => 'max:2048',
+        ]);
+        
+        // dd($request->file);
+        
+        // $fileName = "fileName".time().'.'.request()->fileToUpload->getClientOriginalExtension();
+        // $path = $request->file->move('uploads', $fileName);
+
+	if($request->file('file')->getClientOriginalName()){	
+        	$fileName = time().'_'.$request->file('file')->getClientOriginalName();
+	}
+
+        $path = $request->file('file')->storeAs('uploads', $fileName, 'public');
+        
+        $description = $request->description;
+        
+        $cashAdvance = CashAdvanceRequest::where('id', $request->cash_advance_id)
+            ->update([
+                "upload_path" => '/storage/' . $path,
+                "status" => "retired",
+                "retired_description" => $description,
+                "remark" => "approved",
+            ]);
+        
+        alert()->success('Success.', 'Successful');
+        return redirect('my-requests')->with('message', 'successful');
+    }
 
     public function viewCreate(Request $request)
     {
+
+	$branches = \App\Office::all();	    
         $categories = CashAdvanceCategory::latest()
             ->get();
-        return view('admin.cash-advance.create', compact('categories'));
+        return view('admin.cash-advance.create', compact('branches', 'categories'));
     }
 
     public function viewSubmitExpense(Request $request, $id)
@@ -118,11 +188,11 @@ class CashAdvanceController extends BaseController
 
     public function approve(Request $request)
     {
-        $incident = PettyCashRequest::where('id', $request->id)->first();
+        $incident = CashAdvanceRequest::where('id', $request->id)->first();
 
 
         //TODO: Check if this is a super admin and update status codes accordingly
-        //Check if the incident is valid
+        //Check if the incident isvalid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
             $incident->status = 'approved';
@@ -135,7 +205,7 @@ class CashAdvanceController extends BaseController
 
     public function deny(Request $request)
     {
-        $incident = PettyCashRequest::where('id', $request->id)
+        $incident = CashAdvanceRequest::where('id', $request->id)
             ->first();
 
         //TODO: Check if this is a super admin and update status codes accordingly
@@ -193,6 +263,12 @@ class CashAdvanceController extends BaseController
         CashAdvanceCategory::where('id', $request->id)->delete();
 
         alert()->success("The Category have been successfully deleted", 'Success');
+        return redirect()->back();
+    }
+     public function doDeleteRequest(Request $request){
+        CashAdvanceRequest::where('id', $request->id)->delete();
+
+        alert()->success("The Cash request have been successfully deleted", 'Success');
         return redirect()->back();
     }
 }

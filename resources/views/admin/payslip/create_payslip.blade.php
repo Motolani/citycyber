@@ -27,16 +27,6 @@
                                 data-bs-target="#create-modal"><span style="color: #fff"
                                     class="uil-plus"></span>Create Payslip </button> 
                     
-                    <!-- @if($totalStaff === $totalPaySlip)
-                        <a href="#" class="btn bg-primary btn-sm" style = "color:white"><span style="color: #fff"
-                                    class="uil-plus"></span>Generate Payroll </a> 
-                        @else
-                        <button type="button" class="btn bg-secondary btn-sm" style = "color:white" disabled><span style="color: #fff"
-                                    class="uil-plus" ></span>Generate Payroll </button> 
-                    @endif -->
-{{-- 
-                    <a href="{{route('generatepayroll')}}" class="btn bg-primary btn-sm" style = "color:white"><span style="color: #fff"
-                                    class="uil-plus"></span>Generate Payroll </a>  --}}
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="modal-position-preview">
@@ -57,12 +47,13 @@
                                                 <input type="hidden" id="user_id" name="user_id" class="form-control" value="{{isset($user_id)?$user_id:NULL}}" >
                                                 <div class="mb-3">
                                                     <label class="form-label">basic salary</label>
-                                                    <input name="basic_salary" type="number" class="form-control" placeholder="Enter basic_salary" requiredSS>
+                                                    <input name="basic_salary" type="number" class="form-control" value="{{isset($staffSalary)}}">
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label class="form-label">advance</label>
                                                     <select class="js-example-basic-multiple" name="advances[]" multiple="multiple">
+                                                        <option value="0">select Advances</option>
                                                         @if($advances)
                                                             @foreach($advances as $advance)
                                                                 <option>{{$advance->amount}}</option>
@@ -74,27 +65,30 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Bonus</label>
                                                     <select class="js-example-basic-multiple" name="bonuses[]" multiple="multiple">
-                                                    @if($bonuses)
-                                                        @foreach($bonuses as $bonus)
-                                                            <option>{{$bonus->bonuses->amount}}</option>
-                                                        @endforeach
-                                                    @endif
+                                                        <option value="0">select Bonuses</option>
+                                                        @if($bonuses)
+                                                            @foreach($bonuses as $bonus)
+                                                                <option>{{$bonus->bonuses->amount}}</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                 </div>
 
                                                 <div class="mb-3">
                                                     <label class="form-label select-label">offence</label>
                                                     <select class="js-example-basic-multiple" name="offences[]" multiple="multiple">
-                                                    @if($offences)
-                                                        @foreach($offences as $offence)
-                                                            <option>{{$offence->offences->amount}}</option>
-                                                        @endforeach
-                                                    @endif
+                                                        <option value="0">select Offences</option>
+                                                        @if($offences)
+                                                            @foreach($offences as $offence)
+                                                                <option>{{$offence->offences->amount}}</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
 
                                                 <div class="mb-3">
                                                     <label class="form-label select-label">Deduction</label>
                                                     <select class="js-example-basic-multiple" name="deductions[]" multiple="multiple">
+                                                        <option value="0">select Deduction</option>
                                                     @if($deductions)
                                                         @foreach($deductions as $deduction)
                                                             <option>{{$deduction->deductions->amount}}</option>
@@ -106,7 +100,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Allowance</label>
                                                     <select name="allowance" class="form-control">
-                                                        <option >select allowance</option>
+                                                        <option value="0">select allowance</option>
                                                         @if($allowances)
                                                             @foreach($allowances as $allowance)
                                                                 <option>{{$allowance->allowances->amount}}</option>
@@ -129,7 +123,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Loan</label>
                                                     <select name="loan" class="form-control">
-                                                        <option>select loan</option>
+                                                        <option value="0">select loan</option>
                                                         @if($loans)
                                                             @foreach($loans as $loan)
                                                                 <option >{{$loan->loans->amount}}</option>
@@ -138,10 +132,10 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="mb-3">
+                                                {{-- <div class="mb-3">
                                                     <label class="form-label">Net Salary</label>
                                                     <input type="number" placeholder="Enter net_salary" name="net_salary" class="form-control" required>    
-                                                </div>
+                                                </div> --}}
 
                                                 
 
@@ -201,11 +195,7 @@
                                     {{-- <th>Action</th> --}}
                                 </tr>
                                 </thead>
-
-                                <form action="/loss-damage/bulk-action" method="POST" id="form">
-                                    {{csrf_field()}}
-                                    <input type="hidden" name="action" value="" id="bulkActionField" />
-                                    <tbody>
+                                <tbody>
                                     @if(isset($payslips))
                                         @foreach($payslips as $payslip)
                                             <tr>
@@ -222,27 +212,18 @@
                                                 <td>{{$payslip->tax}}</td>
                                                 <td>{{$payslip->loan}}</td>
                                                 <td>{{$payslip->net_salary}}</td>
-                                                {{-- <td>
-                                                    @if($damages->status == 'pending')
-                                                        <a href="/loss-damage/approve/{{$damages->id}}" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
-                                                        <a href="/loss-damage/deny/{{$damages->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
-                                                    @endif
-                                                </td> --}}
-                                                 <td>
-
-                                                <!-- <form action="{{route('deletepayslip'), $payslip->id}} "method="post">
+                                                <td>
+                                                    <form action="{{route('deletePayslip', $payslip->id)}} "method="POSt">
                                                         @csrf
                                                         @method('delete')
                                                         <input type="hidden" name="id" value="{{$payslip->id}}">
-                                                        <button type="delete" value="delete">delete</button>
-                                                </form> -->
-
+                                                        <button type="delete" class="btn btn-danger">X</button>
+                                                    </form>
                                                 </td> 
                                             </tr>
                                         @endforeach
                                     @endif
-                                    </tbody>
-                                </form>
+                                </tbody>
                             </table>
 
                             {{-- <button class="btn btn-primary btn-sm" id="bulkAccept"><span class="uil-check"></span>Accept Selected</button>

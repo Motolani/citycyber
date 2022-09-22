@@ -38,6 +38,30 @@ Route::get('/viewAttendance', 'ViewControllers\MainOperation@manageAttendance')-
 Route::post('/homeTest', 'HomeController@homeTest')->name('homeTest');
 
 
+
+/* create incidence */
+Route::get('/createincidence', 'IncidenceController@viewCreateIncidence')->name('incidence.create');
+Route::post('/storeincidence', 'IncidenceController@storeIncidence')->name('incidence.store');
+Route::get('/incidence', 'IncidenceController@viewIncidence')->name('incidence.index');
+
+/* salary advance */
+Route::get('/createadvance', 'ViewControllers\MainOperation@viewCreateAdvance')->name('advance.create');
+Route::post('/storeadvance', 'ViewControllers\MainOperation@storeAdvance')->name('advance.store');
+Route::get('/advance', 'ViewControllers\MainOperation@viewSalaryAdvances')->name('advance.index');
+
+/* bonus */
+Route::get('/createbonus', 'BonusController@viewCreateBonus')->name('bonus.create');
+Route::post('/storebonus', 'BonusController@storeBonus')->name('bonus.store');
+Route::get('/bonus', 'BonusController@viewBonusAdvances')->name('bonus.index');
+
+
+/* allowance */
+Route::get('/createallowance', 'ViewControllers\MainOperation@viewCreateAllowance')->name('allowance.create');
+Route::post('/storeallowance', 'ViewControllers\MainOperation@storeAllowance')->name('allowance.store');
+Route::get('/allowances', 'ViewControllers\MainOperation@viewAllowance')->name('allowance.index');
+
+
+
 Route::prefix('reason')->group(function () {
     Route::get('/', 'ReasonController@index')->name('reason.index');
     Route::get('/delete/{id}', 'ReasonController@delete')->name('reason.delete');
@@ -58,6 +82,15 @@ Route::prefix('stock-categories')->group(function () {
     Route::get('/delete/{id}', 'StockCategoriesController@delete')->name('stock-category.delete');
 });
 
+// New route for loan
+Route::get('/viewCreateStaffLoanList', 'ViewControllers\MainOperation@viewCreateStaffLoanList')->name('view.staff.createloanlist');
+Route::get('/viewCreateStaffLoan', 'ViewControllers\MainOperation@viewCreateStaffLoan')->name('view.staff.createloan');
+Route::post('postCreateStaffLoan', 'ViewControllers\MainOperation@postCreateStaffLoans');
+
+// New route for Deductions
+Route::get('/createstaffdeduction', 'DeductionController@createstaffdeductionpage')->name('create.staff.deduction');
+Route::post('createstaffdeduction', 'DeductionController@createStaffDeduction');
+Route::get('/allstaffdeduction', 'DeductionController@viewstaffdeduction')->name('createstaff.deduction.view');
 
 Route::get('/createStockView', 'Inventories@CreateinventoryView')->name('createStockView');
 Route::get('/createStock', 'Inventories@createStock')->name('createStock');
@@ -72,12 +105,56 @@ Route::post('/approveDisapproveStock', 'Inventories@approveDisapproveStock')->na
 //assignProduct
 Route::get('/createOffice', 'ViewControllers\MainViewController@createOfficeRequest')->name('createOffice');
 Route::get('/viewOffices', 'OfficeController@getAllOffice')->name('viewOffices');
+Route::get('/viewRegions', 'OfficeController@getRegion')->name('viewRegions');
+Route::get('/viewAreas', 'OfficeController@getArea')->name('viewAreas');
+Route::get('/viewHubOne', 'OfficeController@getHubOne')->name('viewHubOne');
+Route::get('/viewHubTwo', 'OfficeController@getHubTwo')->name('viewHubtwo');
+//Route::get('/viewBranches', 'OfficeController@getBranches')->name('viewBranches');
+Route::get('/createOfficeForm','OfficeController@getOffice');
 Route::post('/createOffice', 'OfficeController@createOfficeRequest')->name('createOffice');
 Route::get('/getLevel', 'ViewControllers\MainViewController@getLevel')->name('getLevel');
+// OFFICE INDEX
+Route::get('/viewBranches', 'OfficeController@index')->name('viewBranches');
 
 
 
+Route::get('/view-branch','BranchController@BranchIndex')->name('BranchIndex');
+Route::get('/create-branch','BranchController@createBranch');
+Route::post('/store-branch','BranchController@storeBranch')->name('storeBranch');
+Route::get('/edit-branch/{id}','BranchController@editBranch')->name('editBranch');
+Route::post('/update-branch/{id}','BranchController@updateBranch')->name('updateBrnch');
+Route::post('/delete-branch','BranchController@deleteBranch')->name('deleteBranch');
 
+Route::get('/viewStructural-standard-requirement','StructuralStandardRequirementController@StructuralStandardIndex')->name('structuralRequirements');
+Route::get('/createStructural-standard-requirement','StructuralStandardRequirementController@createStructuralstandard');
+Route::post('/store-Structuralstandard','StructuralStandardRequirementController@storeStructuralstandard')->name('storeStructuralstandard');
+Route::get('/edit-structuralstandard/{id}','StructuralStandardRequirementController@editStructuralstandard')->name('editStructuralstandard');
+Route::post('/update-structuralstandard','StructuralStandardRequirementController@updateStructuralstandard')->name('updateStructuralstandard');
+Route::post('/delete-structuralstandard','StructuralStandardRequirementController@deleteStructuralstandard')->name('deleteStructuralstandard');
+	
+
+Route::get('/view-asset','AssetController@AssetIndex')->name('AssetIndex');
+Route::get('/create-asset','AssetController@createAsset');
+Route::post('/store-asset','AssetController@storeAsset')->name('storeAsset');
+Route::get('/edit-asset/{id}','AssetController@editAsset')->name('editAsset');
+Route::post('/update-asset/{id}','AssetController@updateAsset')->name('updateAsset');
+Route::post('/delete-asset','AssetController@deleteAsset')->name('deleteAsset');
+
+
+Route::get('/view-gameservice','GameServiceController@gameServiceIndex')->name('gameServiceIndex');
+Route::get('/create-gameservice','GameServiceController@createGameservice');
+Route::post('/store-gameservice','GameServiceController@storeGameservice')->name('storeGameservice');
+Route::get('/edit-gameservive/{id}','GameServiceController@editGameservice')->name('editGameservice');
+Route::post('/update-gameservice/{id}','GameServiceController@updateGameservice')->name('updateGameservice');
+Route::post('/delete-gameservice','GameServiceController@deleteGameservice')->name('deleteGameservice');
+
+Route::get('/view-sundayleave','SundayLeaveController@sundayLeave')->name('sundayLeave');
+Route::get('/create-sundayleave','SundayLeaveController@createSundayleave')->name('createSundayleave');
+Route::post('/store-sundayleave','SundayLeaveController@storeSundayleave')->name('storeSundayleave');
+Route::get('/edit-sundayleave/{id}','SundayLeaveController@editSundayleave')->name('editSundayleave');
+Route::post('/update-sundayleave/{id}','SundayLeaveController@updateSundayleave')->name('updateSundayleave');
+Route::post('/delete-sundayleave','SundayLeaveController@deleteSundayleave')->name('deleteSundayleave');
+Route::post('/submit','SundayLeaveController@sumbitSundayleave')->name('sumbitSundayleave');
 /*Route::get('officeInfo', function () {
     return view('admin.offices.officeInfo');
 });
@@ -127,6 +204,8 @@ Route::post('/submitStaffForm', 'StaffController@submitStaffForm')->name('submit
 Route::get('viewStaffProfile', 'StaffController@viewStaffProfile')->name('viewStaffProfile');
 
 Route::get('/viewStaffTable', 'ViewControllers\MainViewController@viewStaffTable')->name('viewStaffTable');
+// filter view table
+Route::get('/filterViewTable','ViewControllers\MainViewController@applyFilters')->name('filterStaffTable');
 //createWorkAndEduction
 //PostRouteEndsFOrStaffCreate
 
@@ -316,16 +395,19 @@ Route::prefix('suspension')->group(function () {
     Route::get('/approve/{id}', 'SuspensionController@approve');
     Route::get('/deny/{id}', 'SuspensionController@deny');
     Route::post('/bulk-action', 'SuspensionController@bulkAction');
+    Route::get('/create', 'SuspensionController@viewCreateSuspension');
+    Route::post('/create', 'SuspensionController@storeSuspension');
+    Route::get('/view', 'SuspensionController@viewSuspensions');
 });
 
 //Balance Sheet
-Route::prefix('balance-sheet')->group(function () {
+/* Route::prefix('balance-sheet')->group(function () {
     Route::get('/view', 'BalanceSheetController@viewBalanceSheet')->name('view.balanceSheet');
     Route::get('/details/advances', 'BalanceSheetController@viewBalanceSheetDetail')->name('view.balanceSheet.detail.advance');
     Route::get('/detail/wins', 'BalanceSheetController@viewBalanceSheetDetailWins')->name('view.balanceSheet.detail.win');
     Route::get('/detail/bonuses', 'BalanceSheetController@viewBalanceSheetDetailBonuses')->name('view.balanceSheet.detail.bonus');
     Route::get('/detail/deductions', 'BalanceSheetController@viewBalanceSheetDetailDeductions')->name('view.balanceSheet.detail.deduction');
-});
+}); */
 
 
 //Pending Loss/Damage Routes
@@ -338,6 +420,13 @@ Route::prefix('loss-damage')->group(function () {
     Route::post('/bulk-action', 'LossDamageController@bulkAction');
 });
 
+Route::prefix('otherLoan')->group(function () {
+    Route::get('/create', 'LossDamageController@viewOtherLoans');
+    Route::post('/create', 'LossDamageController@storeOtherLoan');
+    Route::get('/view', 'LossDamageController@viewlossdamage');
+
+});
+
 Route::get('/viewCreateBonus', 'BonusController@viewCreateBonus');
 Route::post('/viewCreateBonus', 'BonusController@viewCreateBonus');
 
@@ -345,16 +434,27 @@ Route::post('/viewCreateBonus', 'BonusController@viewCreateBonus');
 Route::prefix('pettycash')->group(function () {
     Route::get('/deny/{id}', 'PettyCashController@deny');
     Route::get('/create', 'PettyCashController@viewCreate');
+    Route::get('/categories', 'PettyCashController@viewCategories')->name('pettycash.viewCategories'); //new routes
+    Route::post('/categories/add', 'PettyCashController@doAddCategory')->name('pettycash.doAddCategory'); //new routes
+    Route::get('/categories/delete/{id}/', 'PettyCashController@doDeleteCategory')->name('pettycash.doDeleteCategory'); // new routes
     Route::get('/approve/{id}', 'PettyCashController@approve');
     Route::post('/create', 'PettyCashController@create')->name("createPettyCash");
     Route::get('/my-requests', 'PettyCashController@myRequests')->name("myRequests");
     Route::get('/pending', 'PettyCashController@viewPending')->name("viewPendingPettyCash");
-    Route::post('/bulk-action', 'Pett@byCashControllerulkAction')->name('bulkActionPettyCash');
+    Route::post('/bulk-action', 'PettyCashController@bulkAction')->name('bulkActionPettyCash');
     Route::post('/submit-expense', 'PettyCashController@submitExpense')->name("submitExpense");
     Route::get('/accept-receipt/{id}', 'PettyCashController@acceptReceipt')->name("pettycash.acceptReceipt");
     Route::post('/reject-receipt/{id}', 'PettyCashController@rejectReceipt')->name("pettycash.rejectReceipt");
     Route::get('/submit-expense/{id}', 'PettyCashController@viewSubmitExpense')->name("viewSubmitExpense");
     Route::get('/submitted-receipts', 'PettyCashController@viewSubmittedReceipts')->name("pettycash.viewSubmittedReceipts");
+    Route::get('/delete-petty-cash/{id}','PettyCashController@doDeleteRequest')->name("pettycash.doDeleteRequest");
+
+    /* retirement stage */
+    Route::get('/retire/create', 'PettyCashController@retireForm')->name('createRetire');
+    Route::post('/store', 'PettyCashController@storeRetireForm')->name('storeRetire');
+    Route::get('/retire/view', 'PettyCashController@viewRetiredPettyCash')->name('viewRetired');
+
+    Route::get('retire-petty-cash/{id}', 'PettyCashController@retirePettyCash')->name('retirePettyCash');
 });
 
 
@@ -364,9 +464,11 @@ Route::prefix('cash-advance')->group(function () {
         Route::get('/', 'CashAdvanceController@viewCategories')->name('cash-advance.viewCategories');
         Route::post('/add', 'CashAdvanceController@doAddCategory')->name('cash-advance.doAddCategory');
         Route::get('/add', 'CashAdvanceController@viewAddCategory')->name('cash-advance.viewAddCategory');
-        Route::get('/delete/{id}/', 'CashAdvanceController@doDeleteCategory')->name('cash-advance.doDeleteCategory');
+	Route::get('/delete/{id}/', 'CashAdvanceController@doDeleteCategory')->name('cash-advance.doDeleteCategory');
+	 Route::get('/delete-cash-request/{id}/', 'CashAdvanceController@doDeleteRequest')->name('cash-advance.doDeleteRequest');
     });
-
+Route::get('/retire-cash-request/{id}/', 'CashAdvanceController@retireForm')->name('cash-advance.retire');
+        Route::post('/store', 'CashAdvanceController@retirementStore')->name('cash-advance-retire.store');
 
     Route::post('/create', 'CashAdvanceController@create')->name('cash-advance.create');
     Route::get('/deny/{id}', 'CashAdvanceController@deny')->name('cash-advance.deny');
@@ -396,13 +498,15 @@ Route::prefix('photo')->group(function () {
 
 //Shop Wallet Routes
 Route::prefix('shop-wallet')->group(function () {
-    Route::get('/{id}/cashiers', 'CashierWalletController@viewCashiers');
+    /* Route::get('/{id}/cashiers', 'CashierWalletController@viewCashiers'); */
     Route::post('/fund/{id}', 'ShopWalletController@fundWallet')->name('shop.fund')->middleware('validate-amount');
     Route::get('/fund/{shopid}', 'ShopWalletController@viewFund')->name('shop.viewFund');
     Route::get('/view/{id}', 'ShopWalletController@dashboard')->name('shop-wallet.dashboard');
+    Route::get('/createwallet', 'ShopWalletController@viewCreateWallet')->name('shop-wallet.viewCreateWallet');
+    Route::post('/createwallet/{id}', 'ShopWalletController@createWallet')->name('createWallet');
     Route::get('/view-all', 'ShopWalletController@viewAll')->name('shop-wallet.viewAll');
     Route::get('/cash-reserves', 'ShopWalletController@viewAllCashReserves')->name('shop-wallet.viewAllCashReserves');
-    Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
+    Route::get('/cashiers/{officeId}', 'CashierWalletController@viewCashiers')->name('shop-wallet.cashiers');
     Route::get('/request-funds', 'ShopWalletController@showRequestFunds')->name('shop-wallet.showRequestFunds');
     Route::post('/request-funds', 'ShopWalletController@requestFunds')->name('shop-wallet.requestFunds')->middleware('validate-amount');
     Route::get('/fund-requests', 'ShopWalletController@viewFundRequests')->name('shop-wallet.viewFundRequests');
@@ -448,7 +552,7 @@ Route::prefix('cash-reserve')->group(function () {
     Route::get('/fund/{id}', 'CashReserveController@viewFundCashReserve')->name('cash.viewFundCashReserve');
     Route::get('/callback/{id}', 'CashReserveController@callbackFunds')->name('cash.callbackFunds');
     Route::get('/slip-requests', 'CashReserveController@showSlipRequests')->name('cash.slipRequests');
-    Route::get('/cashiers', 'CashierWalletController@viewCashiers')->name('cash.viewCashiers');
+    Route::get('/cashiers/{id}', 'CashierWalletController@viewCashiers')->name('cash.viewCashiers');
     Route::get('/accept-cashier-request/{id}', 'CashReserveController@acceptCashierRequest')->name('cash.acceptCashierRequest');
     Route::post('/reject-cashier-request/{id}', 'CashReserveController@rejectCashierRequest')->name('cash.rejectCashierRequest');
 });
@@ -496,6 +600,15 @@ Route::post('/updateDeleteLeaveCategory', 'ViewControllers\MainViewController@up
 Route::get('viewLeaveRequest', 'ViewControllers\MainOperation@viewLeaveRequest')->name('viewLeaveRequest');
 Route::get('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave')->name('returnCreateLeaveGet');
 Route::post('requestLeave', 'ViewControllers\MainOperation@returnCreateLeave')->name('returnCreateLeavePost');
+
+
+Route::get('/sendMail', 'SendEmailController@sendMail')->name('sendMail');
+
+//Notifications Logic
+Route::get('createNotification', 'NotificationController@createNotificationForm');
+Route::post('createNotification', 'NotificationController@createNotification')->name("createNotification");
+Route::get('readNotif/{id}', 'NotificationController@readNotif');
+Route::get('inbox', 'NotificationController@inbox')->name("inbox");
 
 
 
@@ -580,6 +693,7 @@ Route::delete('deleterealestate/{id}', 'RealestateController@destroy')->name('de
 
 /* profit and loss starts here */
 Route::get('viewprofitandloss', 'ProfitLossController@profitAndLoss')->name('viewprofitandloss');
+Route::post('/viewprofitandloss', 'ProfitLossController@viewProfitLoss')->name('profitLossAccount');
 
 /* profit and loss ends here */
 
@@ -589,11 +703,56 @@ Route::get('viewprofitandloss', 'ProfitLossController@profitAndLoss')->name('vie
 Route::get('createstaff','PayslipController@createstaffpayslip')->name('createstaff');
 Route::post('staffdetails','PayslipController@savestaffData')->name('staffdetails');
 Route::get('staff_payslip','PayslipController@viewpayslip')->name('staff_payslip');
+Route::get('viewpayslip','PayslipController@viewallpayslip')->name('viewpayslip');
 Route::get('generatepayroll','PayslipController@viewpayroll')->name('generatepayroll');
-Route::get('deletepayslip','PayslipController@staffpayslip')->name('deletepayslip');
+Route::delete('/deletepayslip/{id}','PayslipController@destroyPayslip')->name('deletePayslip');
+Route::post('/generatepayroll', 'PayslipController@viewQueriedPayroll')->name('queryPayroll');
 
 /* payslip ends here */
 
+
+/* Balance sheet starts here */
+Route::prefix('balance-sheet')->group(function () { 
+    Route::get('/view', 'BalanceSheetController@viewBalanceSheet')->name('view.balanceSheet');
+    Route::post('/view/query', 'BalanceSheetController@viewBalanceSheetQuery')->name('view.balanceSheetPost');
+    Route::get('/view/query/detail/salaryadvances', 'BalanceSheetController@BalanceSheetQueryDetailSalaryAdvances')->name('balanceSheet.detail.salaryAdvances');
+    Route::get('/view/query/detail/wins', 'BalanceSheetController@BalanceSheetQueryDetailWins')->name('balanceSheet.detail.wins');
+    Route::get('/view/query/detail/bonues', 'BalanceSheetController@BalanceSheetQueryDetailBonuses')->name('balanceSheet.detail.bonues');
+    Route::get('/view/query/detail/deductions', 'BalanceSheetController@BalanceSheetQueryDetailDeductions')->name('balanceSheet.detail.deductions');
+    Route::get('/view/query/detail/loans', 'BalanceSheetController@BalanceSheetQueryDetailLoans')->name('balanceSheet.detail.loans');
+    Route::get('/view/query/detail/cashAdvance', 'BalanceSheetController@BalanceSheetQueryDetailCashAdvance')->name('balanceSheet.detail.cashAdvance');
+    Route::get('/view/query/detail/lateness', 'BalanceSheetController@BalanceSheetQueryDetailLateness')->name('balanceSheet.detail.lateness');
+    Route::get('/view/query/detail/lossDamages', 'BalanceSheetController@BalanceSheetQueryDetailLossDamages')->name('balanceSheet.detail.lossDamages');
+    Route::get('/view/query/detail/offences', 'BalanceSheetController@BalanceSheetQueryDetailOffences')->name('balanceSheet.detail.offences');
+    Route::get('/view/query/detail/officeStocks', 'BalanceSheetController@BalanceSheetQueryDetailOfficeStocks')->name('balanceSheet.detail.officeStocks');
+    Route::get('/view/query/detail/pettyCash', 'BalanceSheetController@BalanceSheetQueryDetailPettyCash')->name('balanceSheet.detail.pettyCash');
+    Route::get('/view/query/detail/poolWallet', 'BalanceSheetController@BalanceSheetQueryDetailPoolWallet')->name('balanceSheet.detail.poolWallet');
+    Route::get('/view/query/detail/cashierWallet', 'BalanceSheetController@BalanceSheetQueryDetailCashierWallet')->name('balanceSheet.detail.cashierWallet');
+    Route::get('/view/query/detail/inventoryStore', 'BalanceSheetController@BalanceSheetQueryDetailInventoryStore')->name('balanceSheet.detail.inventoryStore');
+    Route::get('/view/query/detail/shopWallet', 'BalanceSheetController@BalanceSheetQueryDetailShopWallet')->name('balanceSheet.detail.shopWallet');
+    Route::get('/view/query/detail/cashReserveWallet', 'BalanceSheetController@BalanceSheetQueryDetailCashReserveWallet')->name('balanceSheet.detail.cashReserveWallet');
+
+
+
+    Route::get('/detail/cashierWallet', 'BalanceSheetController@viewBalanceSheetDetailCashierWallet')->name('view.balanceSheet.detail.cashierWallet');
+    Route::get('/detail/cashReserveWallet', 'BalanceSheetController@viewBalanceSheetDetailCashReserveWallet')->name('view.balanceSheet.detail.cashReserveWallet');
+    Route::get('/detail/shopWallet', 'BalanceSheetController@viewBalanceSheetDetailShopWallet')->name('view.balanceSheet.detail.shopWallet');
+    Route::get('/detail/inventoryStore', 'BalanceSheetController@viewBalanceSheetDetailInventoryStore')->name('view.balanceSheet.detail.inventoryStore');
+    Route::get('/details/advances', 'BalanceSheetController@viewBalanceSheetDetailSalaryAdvances')->name('view.balanceSheet.detail.advance');
+    Route::get('/detail/wins', 'BalanceSheetController@viewBalanceSheetDetailWins')->name('view.balanceSheet.detail.win');
+    Route::get('/detail/bonuses', 'BalanceSheetController@viewBalanceSheetDetailBonuses')->name('view.balanceSheet.detail.bonus');
+    Route::get('/detail/deductions', 'BalanceSheetController@viewBalanceSheetDetailDeductions')->name('view.balanceSheet.detail.deduction');
+    Route::get('/detail/loans', 'BalanceSheetController@viewBalanceSheetDetailLoans')->name('view.balanceSheet.detail.loan');
+    Route::get('/detail/cashAdvances', 'BalanceSheetController@viewBalanceSheetDetailCashAdvance')->name('view.balanceSheet.detail.cashAdvance');
+    Route::get('/detail/lateness', 'BalanceSheetController@viewBalanceSheetDetailLateness')->name('view.balanceSheet.detail.lateness');
+    Route::get('/detail/lossDamages', 'BalanceSheetController@viewBalanceSheetDetailLossDamages')->name('view.balanceSheet.detail.lossDamages');
+    Route::get('/detail/offences', 'BalanceSheetController@viewBalanceSheetDetailOffences')->name('view.balanceSheet.detail.offences');
+    Route::get('/detail/officeStocks', 'BalanceSheetController@viewBalanceSheetDetailOfficeStocks')->name('view.balanceSheet.detail.officeStocks');
+    Route::get('/detail/poolWallet', 'BalanceSheetController@viewBalanceSheetDetailPoolWallet')->name('view.balanceSheet.detail.poolWallet');
+    Route::get('/detail/pettyCash', 'BalanceSheetController@viewBalanceSheetDetailPettyCash')->name('view.balanceSheet.detail.pettyCash');
+});
+
+/* Balance sheet ends here */
 
 //crud for BankAcountFormData
 Route::get('createbankaccountview', 'BankController@createBankAccountForm');
@@ -605,7 +764,7 @@ Route::get('updateanddeletebankaccount', 'BankController@updateAndDeleteBankAcco
 
 //Roles and Permissions
 Route::group(['middleware' => ['auth']], function() {
-//    Route::resource('roles', RoleController::class);
+    Route::resource('roles', 'RoleController');
 });
 
 
@@ -613,8 +772,8 @@ Route::group(['middleware' => ['auth']], function() {
 Route::get('daily-cashier-wallet-balance-index','DailyCashierBalancingController@dailyCashierBalancingIndex');
 Route::get('/create-daily-cashier-wallet-balance','DailyCashierBalancingController@createDailyCashierBalancing');
 Route::post('/store-daily-cashier-wallet-balance','DailyCashierBalancingController@storeDailyCashierBalancing');
-Route::get('/view-daily-cashier-wallet-balance','DailyCashierBalancingController@showDailyCashierBalancing');
-Route::get('/delete-daily-cashier-wallet-balance','DailyCashierBalancingController@deleteDailyCashierBalancing');
+Route::get('/view-daily-cashier-wallet-balance/{id}','DailyCashierBalancingController@showDailyCashierBalancing');
+Route::get('/delete-daily-cashier-wallet-balance/{id}','DailyCashierBalancingController@deleteDailyCashierBalancing');
 
 //cable type crud
 Route::get('cable-type-index','CableTypeController@cableTypeIndex');
@@ -650,3 +809,28 @@ Route::post('/store-cable-subscription','CableSubscriptionController@storeCableS
 Route::get('/edit-cable-subscription/{id}','CableSubscriptionController@editCableSubscription');
 Route::post('/update-cable-subscription','CableSubscriptionController@updateCableSubscription')->name('updatesubscription');
 Route::get('/delete-cable-subscription/{id}','CableSubscriptionController@deleteCableSubscription')->name('deletesubscription');
+
+//daily virtual  overage  route
+Route::get('daily-virtual-overage-index','DailyOverageController@dailyVirtualOverageIndex');
+  Route::get('create-daily-overage','DailyOverageController@createDailyVirtualOverage');
+  Route::post('store-daily-overage','DailyOverageController@storeDailyVirtualOverage');
+// Route::get('view-daily-overage/{id}','DailyOverageController@viewDailyVirtualOverage');
+Route::get('/edit-daily-overage/{id}','DailyOverageController@editDailyVirtualOverage');
+Route::post('/update-daily-overage/{id}','DailyOverageController@updateDailyVirtualOverage')->name('updatevirtualoverage');
+Route::get('/delete-daily-overage/{id}','DailyOverageController@deleteDailyVirtualOverage')->name('deletevirtualoverage');
+
+//game commision route
+Route::get('game-commission-index','GameCommissionController@gameCommissionIndex');
+ Route::get('create-game-commission','GameCommissionController@createGameCommission');
+ Route::post('store-game-commission','GameCommissionController@storeGameCommission');
+Route::get('view-game-commission/{id}','GameCommissionController@viewGameCommission');
+Route::get('/edit-game-commission/{id}','GameCommissionController@editGameCommission');
+Route::post('/update-game-commission/{id}','GameCommissionController@updateGameCommission')->name('updategamecommission');
+Route::get('/delete-game-commission/{id}','GameCommissionController@deleteGameCommission')->name('deletegamecommission');
+//game name
+Route::get('game-name-index','GameNameController@GameNameIndex');
+Route::get('/create-game-name','GameNameController@createGameName');
+Route::post('/store-game-name','GameNameController@storeGameName');
+Route::get('/edit-game-name/{id}','GameNameController@editGameName');
+Route::post('/update-game-name/{id}','GameNameController@updateGameName')->name('updategamename');
+Route::get('/delete-game-name/{id}','GameNameController@deleteGameName')->name('deletegamename');

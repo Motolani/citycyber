@@ -38,8 +38,8 @@
 
                                 <label class="form-label">Office Name</label>
                                 <select class="form-control select2" name = "id" data-toggle="select2" data-toggle="select2" id="level">
-                                    @foreach($offices as $office)
-                                        <option value="{{$office->id}}">{{$office->name}}</option>
+                                    @foreach($cashiers as $cashier)
+                                        <option value="{{$cashier->id}}">{{$cashier->firstname. ' ' .$cashier->lastname}}</option>
                                     @endforeach
                                 </select>
 

@@ -34,7 +34,7 @@
             <li class="side-nav-title side-nav-item">Navigation</li>
 
             <li class="side-nav-item">
-                <a href="/home" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                <a href="{{url('home')}}" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                     <i class="uil-home-alt"></i>
                     <span class="badge bg-success float-end">4</span>
                     <span> Dashboards </span>
@@ -56,10 +56,86 @@
                         <li>
                             <a href="{{url('getLevel')}}">Create Office</a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="{{url('viewOffices')}}">View Office</a>
+			</li> -->
+			<li>
+                            <a href="{{url('viewRegions')}}">View Regions</a>
+			</li>
+			<li>
+                            <a href="{{url('viewAreas')}}">View Areas</a>
+			</li>
+			<li>
+                            <a href="{{url('viewHubOne')}}">View Hub1</a>
+			</li>
+			<li>
+                            <a href="{{url('viewHubTwo')}}">View Hub2</a>
                         </li>
-                    </ul>
+                        <li>
+                            <a href="{{url('viewBranches')}}">View Branches</a>
+			</li>
+			<li>
+                            <a href="{{url('create-branch')}}">Create Branch Classification</a>
+			</li>
+			<li>
+                            <a href="{{url('view-branch')}}">View Branch Classification</a>
+                        </li>
+			 <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#projectEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                                <i class="uil-store"></i>
+                                <span>Manage Structural & Standard Requirement</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="projectEcommerce">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="{{url('createStructural-standard-requirement')}}">Create Structural & Standard Requirement</a>
+                                    </li>
+                                <li>
+                                    <a href="{{url('viewStructural-standard-requirement')}}">View Structural & Standard Requirement</a>
+                                </li>
+                                </ul>
+                            </div>
+			</li>
+			<li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#projectCommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                                <i class="uil-store"></i>
+                                <span>Asset</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="projectCommerce">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="{{url('create-asset')}}">Create </a>
+                                    </li>
+                                <li>
+                                    <a href="{{url('view-asset')}}">View</a>
+                                </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#projectHome" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                                <i class="uil-store"></i>
+                                <span>Game Service</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="projectHome">
+                                <ul class="side-nav-second-level">
+                                    <li>
+                                        <a href="{{url('create-gameservice')}}">Create</a>
+                                    </li>
+                                <li>
+                                    <a href="{{url('view-gameservice')}}">View</a>
+                                </li>
+                                </ul>
+                            </div>
+                        </li>	
+		    </ul>
+			
+			
                 </div>
             </li>
 
@@ -71,11 +147,11 @@
                 </a>
                 <div class="collapse" id="sidebarSixteenthssLevel">
                     <ul class="side-nav-second-level">
-                        {{-- <li>
-                            <a href="/pettycash/create">Request Petty Cash</a>
-                        </li> --}}
                         <li>
-                            <a href="/pettycash/my-requests">My Petty Cash Requests</a>
+                            <a href="{{route('createPettyCash')}}">Request Petty Cash</a>
+                        </li>
+                        <li>
+                            <a href="{{route('myRequests')}}">View Petty Cash Request</a>
                         </li>
                         <li>
                             <a href="{{route('pettycash.viewSubmittedReceipts')}}">Submitted Receipts</a>
@@ -85,6 +161,15 @@
                             <a href="{{route('viewPendingPettyCash')}}">Pending Petty Cash
                                 <span class="badge bg-warning float-end">{{$pendingPettyCashCount ?? 0}}</span>
                             </a>
+			</li>
+			<li>
+                            <a href="{{route('pettycash.viewCategories')}}">Categories</a>
+			</li>
+			<li>
+                            <a href="{{route('createRetire')}}">Raise Petty-Cash Expense</a>
+			</li>
+			<li>
+                            <a href="{{route('viewRetired')}}">View/Retire Expenses</a>
                         </li>
                     </ul>
                 </div>
@@ -98,12 +183,14 @@
                 </a>
                 <div class="collapse" id="sidebarCashAdvance">
                     <ul class="side-nav-second-level">
-                        {{-- <li>
-                            <a href="{{route('cash-advance.viewCreate')}}">Request Cash Advance</a>
-                        </li> --}}
+             
                         <li>
-                            <a href="{{route('cash-advance.myRequests')}}">My Cash Advance Requests</a>
-                        </li>
+                            <a href="{{route('cash-advance.myRequests')}}">View Cash Advance Request</a>
+			</li>
+                          <li>
+                            <a href="{{route('cash-advance.viewCreate')}}">Request Cash Advance</a>
+                        </li> 
+                        
                         <li>
                             {{-- Only Admins and Super Admins should see this--}}
                             <a href="{{route('cash-advance.viewPending')}}">Pending Cash Advance
@@ -130,8 +217,15 @@
                         </li> 
                         <li>
                             <a href="{{url('viewStaffTable')}}">View Staff</a>
+			</li>
+
+			 <li>
+                            <a href="{{url('create-sundayleave')}}">Add Staff to Sunday Permanent Day-Off Staff List</a>
                         </li>
-                    </ul>
+                        <li>
+                            <a href="{{url('view-sundayleave')}}">View Staff to Sunday Permanent Day-Off Staff List</a>
+                        </li> 
+		    </ul>					
                 </div>
             </li>
 
@@ -154,29 +248,29 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/bonus/pending">Pending Bonus
+                            <a href="{{url('/bonus/pending')}}">Pending Bonus
                                 <span class="badge bg-warning float-end">{{isset($pendingBonusCount)?$pendingBonusCount:""}}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="/allowance/pending"> Pending Allowance
+                            <a href="{{url('/allowance/pending')}}"> Pending Allowance
                                 <span class="badge bg-warning float-end">{{isset($pendingAllowanceCount)?$pendingAllowanceCount:""}}</span></a>
                         </li>
 
                         <li>
-                            <a href="/deduction/pending">Pending Deduction
+                            <a href="{{url('/deduction/pending')}}">Pending Deduction
                                 <span class="badge bg-warning float-end">{{isset($pendingDeductionCount)?$pendingDeductionCount:""}}</span></a>
                         </li>
                         <li>
-                            <a href="/loan/pending">Pending Loan
+                            <a href="{{url('/loan/pending')}}">Pending Loan
                                 <span class="badge bg-warning float-end">{{isset($pendingLoanCount)?$pendingLoanCount:""}}</span></a>
                         </li>
                         <li>
-                            <a href="/suspension/pending">Pending Suspension
+                            <a href="{{url('/suspension/pending')}}">Pending Suspension
                                 <span class="badge bg-warning">{{isset($pendingSuspensionCount)?$pendingSuspensionCount:""}}</span></a>
                         </li>
                         <li>
-                            <a href="/loss-damage/pending">Pending Loss/Damage
+                            <a href="{{url('/loss-damage/pending')}}">Pending Loss/Damage
                                 <span class="badge bg-warning float-end">{{isset($pendingLossDamageCount)?$pendingLossDamageCount:""}}</span>
                             </a>
 
@@ -408,7 +502,98 @@
             </li>
             @endhasanyrole
 
-            @hasanyrole('GodEye|HQ-Officer|Area-Officer|Branch-Officer')
+      	 @hasanyrole('GodEye|HQ-Officer|Area-Officer|Branch-Officer')
+        <li class="side-nav-title side-nav-item">Suspension</li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#suspension" aria-expanded="false" aria-controls="incidence" class="side-nav-link">
+                <i class="uil-copy-alt"></i>
+                <span> Suspension </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="suspension">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{url('suspension/create')}}">Raise Suspension</a>
+                    </li>
+
+                    <li>
+                        <a href="{{url('suspension/view')}}">View Suspensions</a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+        @endhasanyrole
+
+	 @hasanyrole('GodEye|HQ-Officer|Area-Officer|Branch-Officer')
+        <li class="side-nav-title side-nav-item">Other Loan (Losses & Damages)</li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#otherLoan" aria-expanded="false" aria-controls="incidence" class="side-nav-link">
+                <i class="uil-copy-alt"></i>
+                <span> Other Loan </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="otherLoan">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="{{url('otherLoan/create')}}">Initiate</a>
+                    </li>
+
+                    <li>
+                        <a href="{{url('otherLoan/view')}}">View</a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+        @endhasanyrole    
+<li class="side-nav-title side-nav-item">Other Deduction</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#deduction" aria-expanded="false" aria-controls="deduction" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Other Deduction </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="deduction">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('create.staff.deduction')}}">Issue Other Deduction</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('createstaff.deduction.view')}}">View Other Deduction</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title side-nav-item">Staff Loan</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#loan" aria-expanded="false" aria-controls="deduction" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Staff Loan </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="loan">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('view.staff.createloan')}}">Create Staff Loan</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('view.staff.createloanlist')}}">View Staff Loan</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>	
+
+	  @hasanyrole('GodEye|HQ-Officer|Area-Officer|Branch-Officer')
             <li class="side-nav-title side-nav-item">Inventories</li>
 
             <li class="side-nav-item">
@@ -444,7 +629,7 @@
                 </div>
             </li>
 
-            <li class="side-nav-item">
+            {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#navRoles" aria-expanded="false" aria-controls="sidebarFourteenthLevel" class="side-nav-link">
                     <span> Roles/Permissons </span>
                     <span class="menu-arrow"></span>
@@ -452,28 +637,121 @@
 
                 <div class="collapse" id="navRoles">
                     <ul class="side-nav-third-level">
-                        {{-- <li>
-                            <a href="{{route('viewStaffRole ')}}">View Roles</a>
+                        <li>
+                            <a href="{{route('roles.create ')}}">View Roles</a>
                         </li>
 
                         <li>
                             <a href="{{route('createStaffRole')}}">Create Roles</a>
-                        </li> --}}
+                        </li> 
 
-                        {{-- <li>
+                        <li>
                             <a href="{{route('laravelroles::permissions.index')}}">View Permissions</a>
                         </li>
 
                         <li>
                             <a href="{{route('laravelroles::permissions.create')}}">Create Permissions</a>
                         </li>
-                        --}}
+                        
+                    </ul>
+                </div>
+            </li> --}}
+	    @endhasanyrole
+
+
+	    @hasanyrole('GodEye|HQ-Officer|Area-Officer|Branch-Officer')
+            <li class="side-nav-title side-nav-item">Incidence</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#incidence" aria-expanded="false" aria-controls="incidence" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Incidence </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="incidence">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('incidence.create')}}">Raise Incidence</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('incidence.index')}}">View Incidence</a>
+                        </li>
+
                     </ul>
                 </div>
             </li>
-            @endhasanyrole
 
-            @hasanyrole('GodEye|HQ-Officer|Area-Manager|Area-Officer')
+            <li class="side-nav-title side-nav-item">Salary Advance</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#salaryadvance" aria-expanded="false" aria-controls="salaryadvance" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Salary Advance </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="salaryadvance">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('advance.create')}}">Request Salary Advance</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('advance.index')}}">View All Request</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-title side-nav-item">Bonus</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#bonus" aria-expanded="false" aria-controls="bonus" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Bonus </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="bonus">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('bonus.create')}}">Issue/Raise Bonus</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('bonus.index')}}">View All Request</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+
+            <li class="side-nav-title side-nav-item">Allowance</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#allowance" aria-expanded="false" aria-controls="allowance" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Allowance </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="allowance">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{route('allowance.create')}}">Request Allowance</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('allowance.index')}}">View Allowance</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+	    @endhasanyrole
+
+
+            @hasanyrole('GodEye|HQ-Officer|Area-Manager|Area-Office|Branch-Officer')
             <li class="side-nav-title side-nav-item side-nav-title">Menu for Area Managers</li>
             <li class="side-nav-item">
                 <a href="{{route('shop-wallet.viewAll')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -488,7 +766,7 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{route('shop-wallet.cashiers')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                <a href="{{url('shop-wallet/cashiers/{officeId}')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span> View Cashiers </span>
                 </a>
@@ -512,6 +790,21 @@
                     <span>Fund Requests</span>
                 </a>
             </li>
+            <li class="side-nav-title side-nav-item side-nav-title">Balance Sheet</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarProjectss" aria-expanded="false" aria-controls="sidebarProjectss" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span> Balance Sheet</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarProjectss">
+                    <ul class="side-nav-second-level">
+                       <li>
+                           <a href="{{route('view.balanceSheet')}}">View Balance Sheet</a>
+                       </li> 
+                    </ul>
+                </div>
+            </li>
 
             <li class="side-nav-item">
                 <a href="{{route('shop-wallet.viewSlipRequests')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -533,7 +826,65 @@
                     </a> 
                 @endif
             </li>
+
+            <li class="side-nav-title side-nav-item mt-1">Profit and loss</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#profit" aria-expanded="false" aria-controls="profit" class="side-nav-link">
+                    <i class="uil-box"></i>
+                    <span> Profit and loss </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="profit">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('viewprofitandloss')}}">Profit and loss</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             @endhasanyrole
+
+	    {{-- game comm start --}}
+            <li class="side-nav-title side-nav-item">Game Commission</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#comimission" aria-expanded="false" aria-controls="comimission" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Game  </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="comimission">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('game-name-index')}}">Create Game  Name</a>
+                        </li>
+                        <li>
+                        <a href="{{url('game-commission-index')}}">Create Game Commission</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            {{-- daily overlage start --}}
+            <li class="side-nav-title side-nav-item">Virtual Overage</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#overage" aria-expanded="false" aria-controls="overage" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span>Daily Overage   </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="overage">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('daily-virtual-overage-index')}}">Daily Overage  </a>
+                        </li>
+                        {{-- <li>
+                        <a href="{{url('game-commission-index')}}">Create Game Commission</a>
+                        </li> --}}
+                    </ul>
+                </div>
+            </li>
+            
 
 
             {{--            Menu For Branch Managers--}}
@@ -546,7 +897,7 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{route('cash.viewCashiers')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                <a href="{{url('cash-reserve/cashiers/{id}')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
                     <i class="uil-briefcase"></i>
                     <span>My Cashiers </span>
                 </a>
@@ -574,12 +925,12 @@
                 <div class="collapse" id="sidebarPages">
                     <ul class="side-nav-second-level">
                         <li>
-                             <a href="{{url('cable-type-index')}}">Cable Type</a>
-                             <a href="{{url('cable-plan-index')}}">Cable  plan</a>
-                             <a href="{{url('cable-index')}}">Cable</a>
+                            <a href="{{url('cable-type-index')}}">Cable Type</a>
+                            <a href="{{url('cable-plan-index')}}">Cable  plan</a>
+                            <a href="{{url('cable-index')}}">Cable</a>
                         </li>
 
-                         <li>
+                        <li>
                             <a href="{{url('subscription-cable-index')}}">Subscription for cable TV</a>
                         </li>
                     </ul>
@@ -588,7 +939,7 @@
             @endhasanyrole
 
             {{--            Menu For Cashiers--}}
-            @hasanyrole('Cashier')
+            @hasanyrole('GodEye|HQ-Officer|Area-Manager|Branch-Officer|Branch-Manager|Cashier')
             <li class="side-nav-title side-nav-item">Menu for Cashier</li>
             <li class="side-nav-item">
                 <a href="{{route('cashier.dashboard', Auth::user()->id)}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
@@ -614,9 +965,31 @@
                     <span>Slip Requests</span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="{{url('daily-cashier-wallet-balance-index')}}" aria-expanded="false" aria-controls="shop-wallet" class="side-nav-link">
+                    <i class="uil-briefcase"></i>
+                    <span>Cashier Daily Balancing</span>
+                </a>
+            </li>
             @endhasanyrole
 
-            @hasanyrole('GodEye|HQ-Officer|Branch-Officer')
+            @hasanyrole('GodEye|HQ-Officer|Branch-Officer|Area-Officer|Area-Manager|Branch-Manager')
+            <li class="side-nav-title side-nav-item mt-1">Email</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#email" aria-expanded="false" aria-controls="email" class="side-nav-link">
+                    <i class="uil-box"></i>
+                    <span> Email </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="email">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('sendMail')}}">Send Email</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             <li class="side-nav-title side-nav-item mt-1">Attendance</li>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarBaseUI" aria-expanded="false" aria-controls="sidebarBaseUI" class="side-nav-link">
@@ -634,7 +1007,30 @@
             </li>
             @endhasanyrole
 
-            @hasanyrole('HQ-Officer|Area-Officer')
+            @hasanyrole('HQ-Officer|Area-Officer|Branch-Manager|Area-Manager')
+            <li class="side-nav-title side-nav-item">Notification </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#notification" aria-expanded="false" aria-controls="notification" class="side-nav-link">
+                    <i class="uil-copy-alt"></i>
+                    <span> Notification </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="notification">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('/createNotification')}}">Create Notification</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{url('/inbox')}}">Inbox</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
             <li class="side-nav-title side-nav-item">Property Management</li>
 
             <li class="side-nav-item">
@@ -687,9 +1083,7 @@
                         <li>
                             <a href="{{url('viewrealestate')}}">Real Estate History</a>
                         </li>
-                        <li>
-                            <a href="{{url('viewprofitandloss')}}">Profit and loss</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </li>
@@ -810,7 +1204,7 @@
                     </ul>
                 </div>
             </li>
-            @endhasanyrole
+            @endhasanyrole 
 
             <div class="clearfix"></div>
         </ul>

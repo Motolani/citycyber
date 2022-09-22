@@ -3,7 +3,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class CashAdvanceRequest extends Model
-{
+{   
+    
+    protected $fillable = [
+       'issuer_id', 'staff_id', 'staff_name', 'office_id', 'office_branch', 'category_id', 'category_name', 'ticket_id', 'description', 'status', 'upload_path', 'amount', 'retired_description', 'remark'
+    ];
 
     public function staff(){
         return $this->belongsTo("App\User", "staff_id", "id");

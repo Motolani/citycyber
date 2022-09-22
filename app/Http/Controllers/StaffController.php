@@ -151,7 +151,7 @@ class StaffController extends BaseController
             'nextofkinRelationship' => 'required',
             'nextofkinPhone' => 'required',
             'nextofkinAddress' => 'required',
-            'nextofkinContact' => 'required',
+          //  'nextofkinContact' => 'required',
             'emmergencyPhone' => 'required',
             'emergencyAddress' => 'required',
         ]);
@@ -173,7 +173,7 @@ class StaffController extends BaseController
             'g_home_address'=>'required',
             'resumptionDate' => 'required',
             'assumptionDate' => 'required',
-            'terminationDate' => 'required',
+           // 'terminationDate' => 'required',
             'staffLevel' => 'required',
             'resumptionType' => 'required',
             'staff_number'=> ''
@@ -193,13 +193,14 @@ class StaffController extends BaseController
             'education_qual_id' => '',
             'education_class_id' => '',
         ]);
-        $request->validate(['imgUrl' => 'required|mimes:jpg,png']);
-
+        $request->validate(['imgUrl' => 'mimes:jpg,png']);
+	
         $request->session()->put('personalInfo', $validatePersonalInfo);
         $request->session()->put('companyInfo', $validateCompanyInfo);
         $request->session()->put('workEducation', $validateExperience);
 
-        $data = $request->session()->all();
+	$data = $request->session()->all();
+	Log::info($data);
         $this->creatStaff($request);
 
         alert()->success('Staff Created Successfully', '');
@@ -249,8 +250,8 @@ class StaffController extends BaseController
         $emergencyAddress = $request["emergencyAddress"];
 
         //Photo
-        $fileName = time() . '.' . $request->imgUrl->extension();
-        $photoPath = $request->imgUrl->move('uploads', $fileName);
+       // $fileName = time() . '.' . $request->imgUrl->extension();
+       // $photoPath = $request->imgUrl->move('uploads', $fileName);
 
 
         //company Infos
@@ -264,9 +265,9 @@ class StaffController extends BaseController
         $staffUnit = $request["staffUnit"];
         $staffDepartment = $request["staffDepartment"];
         $staffDepartmentRole = $request["staffDepartmentRole"];
-        $resumptionDate = $request["resumptionDate"];
-        $assumptionDate = $request["assumptionDate"];
-        $resumptionType = $request["resumptionType"];
+        $resumptionDate = date('Y-m-d H:i:s', strtotime($request["resumptionDate"]));
+        $assumptionDate = date('Y-m-d H:i:s', strtotime($request["assumptionDate"]));
+        $resumptionType = date('Y-m-d H:i:s', strtotime($request["resumptionType"]));
         $terminationDate = $request["terminationDate"];
         $guarantorName = $request["g_name"];
         $roleId = $request->accessLevel;
@@ -316,7 +317,7 @@ class StaffController extends BaseController
             "status"=>"GM",
             "level"=>$staffLevel,
             "resumptionType"=>$resumptionType,
-            "imgUrl"=>$photoPath,
+          //  "imgUrl"=>$photoPath,
             "branchId"=>$staffBranch,
             "unit"=>$staffUnit,
             "department"=>$staffDepartment,
@@ -527,8 +528,8 @@ class StaffController extends BaseController
         $docsUploaded = [];
 
         //Get required documents
-        $level = Level::where('id', $staff->level)->first();
-        //dd($level);
+        $level = Level::where('id',$staff->id)->first();
+      //dd($level);
         $strr = explode(",",$level['required_doc_ids']);
         // dd($strr);
 

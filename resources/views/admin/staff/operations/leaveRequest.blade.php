@@ -34,8 +34,15 @@
                     @endif
 
 
-                    <a name="submit" value="edit" class="btn btn-primary" href="{{url('requestLeave')}}"><span
-                                class="uil-plus"></span> Request Leave</a>
+                    <!--<a name="submit" value="edit" class="btn btn-primary" href="{{url('requestLeave')}}"><span
+				class="uil-plus"></span> Request Leave</a>-->
+			<form method="get" action="{{url('requestLeave')}}">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{isset($staff->id)?$staff->id:''}}">
+
+                                <button class="btn btn-primary btn-sm"><span
+                                class="uil-plus"></span> Request Leave</button>
+                            </form>
 
 
                     <!--  -->

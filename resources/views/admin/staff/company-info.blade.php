@@ -45,15 +45,15 @@
         <label class="form-label font-14">
             Staff Status
         </label>
-        <select class="form-control select2" name="status" data-toggle="select2">
-            <option value="{{Session::has('companyInfo') ? Session::get('companyInfo')['status'] : '' }}" selected>{{ Session::has('companyInfo') ?
-                                            Session::get('companyInfo')['status'] : '' }}</option>
-            <option>Abscondment</option>
-            <option>Death</option>
-            <option>Incapacitation</option>
-            <option>Regular</option>
-            <option>Retirement</option>
-            <option>Resignation</option>
+        <select class="form-control select2" name="status" id="status" data-toggle="select2">
+            {{-- <option value="{{Session::has('companyInfo') ? Session::get('companyInfo')['status'] : '' }}" selected>{{ Session::has('companyInfo') ?
+                                            Session::get('companyInfo')['status'] : '' }}</option> --}}
+            <option value="abscondment">Abscondment</option>
+            <option value="death">Death</option>
+            <option value="incapacitation">Incapacitation</option>
+            <option value="regular">Regular</option>
+            <option value="retirement">Retirement</option>
+            <option value="resignation">Resignation</option>
         </select>
     </div> <!-- end col -->
 
@@ -61,10 +61,10 @@
         <label class="form-label"> Select Staff Branch </label>
         <select id="staffBranch" class="form-control select2" name="staffBranch"
                 data-toggle="select2" required>
-            @if(Session::has('companyInfo'))
+            {{-- @if(Session::has('companyInfo'))
                 <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffBranch'] : '' }}"
                         selected>{{ isset($staffBranch)? $staffBranch: '' }}</option>
-            @endif
+            @endif --}}
 
             @if(isset($offices))
                 @foreach($offices as $office)
@@ -80,12 +80,13 @@
     <!-- Bank Details Start -->
     <div class="col-md-6 mt-3">
         <label for="example-date" class="form-label">Select Bank</label>
-        <select id="bank" class="form-control select2" name="bank" data-toggle="select2" required>
+        <select id="bank" class="form-control select2" name="bank" data-toggle="select2" value="{{ old('bank') }}" required>
 
-            @if(Session::has('companyInfo'))
+            {{-- @if(Session::has('companyInfo'))
                 <option value="{{Session::get('companyInfo')['bank'] ?? 'Access Bank' }}" selected>{{ isset($selectedBank)? $selectedBank: '' }}</option>
-            @endif
+            @endif --}}
             @if(isset($banks))
+            <option value="">Select Bank</option>
                 @foreach($banks as $bank)
                     <option value="{{$bank->id}}|{{$bank->bank_name}}">{{$bank->bank_name}}</option>
                 @endforeach
@@ -97,8 +98,9 @@
 
     <div class="col-md-6 mt-3">
         <label class="form-label">Account Name</label>
+        <span class="text-primary">:This must be the same name with staff name</span>
         <input name="accountName" required type="text" class="form-control"
-               value="{{ Session::get('companyInfo')['accountName'] ?? '' }}" data-provide="accountName" id="accountName">
+               {{-- value="{{ Session::get('companyInfo')['accountName'] ?? '' }}" --}} data-provide="accountName" id="accountName" value="{{ old('accountName') }}">
     </div>
     <!-- end col -->
 
@@ -107,14 +109,30 @@
         <div class="mb-0">
             <label class="form-label">Account Number</label>
             <input name="accountNumber" required type="text" class="form-control"
-                   value="{{Session::get('companyInfo')['accountNumber'] ?? '' }}" data-provide="accountNumber" id="accountNumber">
+                   {{-- value="{{Session::get('companyInfo')['accountNumber'] ?? '' }}" --}} data-provide="accountNumber" id="accountNumber" value="{{ old('accountNumber') }}">
+        </div>
+    </div> <!-- end col -->
+
+    <div class="col-md-6 mt-3">
+        <div class="mb-0">
+            <label class="form-label">Account Type</label>
+            <select id="accountType" class="form-control select select2" {{-- value="{{ Session::has('companyInfo')?Session::get('companyInfo')['accountType]:'' }}" --}} name="accountType"  value="{{ old('accountType')}}"data-toggle="select2" required>
+            <option value=""> ---Select  Account Type---</option>
+                <option value="{{ Session::has('comapnyInfo')?Session::get('companyInfo')['accountType']:'' }}">
+                    
+                    {{-- {{ Session::has('companyInfo')?Session::get('comapanyInfo')['accountType']:'Select accountType' }} --}}
+                </option>
+                <option>Saving</option>
+                <option>Current</option>
+            </select>
         </div>
     </div> <!-- end col -->
     <!-- bankd Details Ends-->
 
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Access Level</label>
-        <select id="accessLevel" class="form-control select2" name="accessLevel" data-toggle="select2" required>
+        <select id="accessLevel" class="form-control select2" name="accessLevel" data-toggle="select2" required value="{{ old('accessLevel') }}"> 
+        <option value=""> Select  Accesss level</option>
             @foreach($roles as $role)
                 <option value="{{ $role->id }}">{{ $role->name }}</option>
             @endforeach
@@ -124,10 +142,10 @@
 
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Department Role</label>
-        <select id="staffDepartmentRole" class="form-control select2" name="staffDepartmentRole" data-toggle="select2" required>
-            <option value=""> Select </option>
-            <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
-                    selected>{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option>
+        <select id="staffDepartmentRole" class="form-control select2" name="staffDepartmentRole" data-toggle="select2" required value="{{ old('staffDepartmentRole') }}">
+            <option value=""> ---Select Departmental Role---</option>
+            {{-- <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}"
+                    selected>{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartmentRole'] : '' }}</option> --}}
             <option>Member </option>
             <option>Department Head</option>
         </select>
@@ -138,14 +156,14 @@
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Department</label>
         <select id="staffDepartment" class="form-control select2" name="staffDepartment"
-                data-toggle="select2" required>
-            <option value=""> Select </option>
+                data-toggle="select2" required value="{{ old('staffDepartment') }}">
+            <option value=""> ---Select---</option>
 
-        @if(Session::has('companyInfo'))
+        {{-- @if(Session::has('companyInfo'))
                 <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffDepartment'] : '' }}" selected>
                     {{ isset($staffDepartment)? $staffDepartment: '' }}
                 </option>
-            @endif
+            @endif --}}
 
             @if(isset($departments))
                 @foreach($departments as $department)
@@ -163,14 +181,15 @@
     <!-- staff unit and department starts -->
     <div class="col-lg-6 mt-3">
         <label for="example-date" class="form-label">Staff Unit</label>
-        <select id="staffUnit" class="form-control select2" name="staffUnit" data-toggle="select2">
-            <option value=""> Select </option>
+        <select id="staffUnit" class="form-control select2" name="staffUnit" data-toggle="select2" value="{{ old('staffUnit') }}">
+        
 
-            @if(Session::has('companyInfo'))
+            {{-- @if(Session::has('companyInfo'))
                 <option
                         value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffUnit'] : '' }}"
-                        selected>{{ isset($staffUnit)? $staffUnit: 'n' }}</option>
-            @endif
+                        selected>{{ isset($staffUnit)? $staffUnit: '' }}
+                    </option>
+            @endif --}}
             @if(isset($units))
                 @foreach($units as $unit)
                     <option value="{{$unit->id}}|{{$unit->title}}">{{$unit->title}}</option>
@@ -208,40 +227,40 @@
                     <td>{{$counter++}}</td>
 
                     <td>
-                        <input type="file" class="form-control underline" type="text" name="g_photo[]" required>
+                        <input type="file" class="form-control underline" type="text" name="g_photo[]" required >
                     </td>
 
                     <td>
                         <input placeholder="First Name  LastName" autocomplete="off"
-                               value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_name'][$i] : '' }}"
+                               {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_name'][$i] : '' }}" --}}
                                class="form-control underline" id="g_name" type="text" name="g_name[]" required>
                     </td>
 
                     <td>
                         <input autocomplete="off"
-                               value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_phone'][$i] : '' }}"
+                               {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_phone'][$i] : '' }}" --}}
                                class="form-control underline" id="g_phone" type="text"
-                               name="g_phone[]" required>
+                               name="g_phone[]" required >
                     </td>
 
                     <td>
                         <input autocomplete="off"
-                               value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_email'][$i] : '' }}"
+                               {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_email'][$i] : '' }}" --}}
                                class="form-control underline" id="g_email" type="text"
                                name="g_email[]" required>
                     </td>
 
                     <td>
                         <input autocomplete="off"
-                               value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_office_address'][$i] : '' }}"
+                               {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_office_address'][$i] : '' }}" --}}
                                class="form-control underline" id="g_office_address" type="text"
-                               name="g_office_address[]" required>
+                               name="g_office_address[]" required value="{{ old('g_office_address[]') }}">
                     </td>
 
                     <td>
-                        <input autocomplete="off" value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_home_address'][$i] : '' }}"
+                        <input autocomplete="off" {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_home_address'][$i] : '' }}" --}}
                                class="form-control underline" id="g_home_address" type="text"
-                               name="g_home_address[]" required>
+                               name="g_home_address[]" required >
                     </td>
 
                     <td>
@@ -257,41 +276,41 @@
                 <td>1</td>
 
                 <td>
-                    <input type="file" class="form-control underline" type="text" name="g_photo[]" required>
+                    <input type="file" class="form-control underline" type="text" name="g_photo[]" required >
                 </td>
 
                 <td>
                     <input placeholder="FirstName  LastName" autocomplete="off"
-                           value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_name'] : '' }}"
-                           class="form-control underline" id="g_name" type="text" name="g_name[]" required>
+                           {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_name'] : '' }}" --}}
+                           class="form-control underline" id="g_name" type="text" name="g_name[]">
                 </td>
 
                 <td>
                     <input autocomplete="off"
-                           value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_phone'] : '' }}"
+                           {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_phone'] : '' }}" --}}
                            class="form-control underline" id="g_phone" type="text"
                            name="g_phone[]" required>
                 </td>
 
                 <td>
                     <input autocomplete="off"
-                           value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_email'] : '' }}"
+                           {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_email'] : '' }}" --}}
                            class="form-control underline" id="g_email" type="text"
                            name="g_email[]" required>
                 </td>
 
                 <td>
                     <input autocomplete="off"
-                           value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_office_address'] : '' }}"
+                           {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_office_address'] : '' }}" --}}
                            class="form-control underline" id="g_office_address" type="text"
                            name="g_office_address[]">
                 </td>
 
                 <td>
                     <input autocomplete="off"
-                           value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_home_address'] : '' }}"
+                           {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['g_home_address'] : '' }}" --}}
                            class="form-control underline" id="g_home_address" type="text"
-                           name="g_home_address[]">
+                           name="g_home_address[]" required>
                 </td>
 
                 <td></td>
@@ -309,8 +328,8 @@
         <div class="mb-3 position-relative" id="datepicker2">
             <label class="form-label">Resumption Date</label>
             <input type="text" name="resumptionDate" placeholder="Enter in format YYYY-MM-DD e.g 1980-12-01"
-                   value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['resumptionDate'] : '' }}"
-                   class="form-control" data-provide="datepicker" id="resumptionDate" data-date-container="#datepicker2">
+                   {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['resumptionDate'] : '' }}" --}}
+                   class="form-control" data-provide="datepicker" id="resumptionDate" data-date-container="#datepicker2" value="{{ old('resumptionDate') }}">
         </div>
     </div> <!-- end col -->
 
@@ -319,27 +338,21 @@
         <div class="mb-3 position-relative" id="datepicker3">
             <label class="form-label">Assumption date</label>
             <input type="text" name="assumptionDate" placeholder="Enter in format YYYY-MM-DD e.g 1980-12-01"
-                   value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['assumptionDate'] : '' }}"
-                   class="form-control" data-provide="datepicker" id="assumptionDate" data-date-container="#datepicker3">
+                   {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['assumptionDate'] : '' }}" --}}
+                   class="form-control" data-provide="datepicker" id="assumptionDate" data-date-container="#datepicker3" value="{{ old('assumptionDate') }}">
         </div>
     </div> <!-- end col -->
 
-    <div class="col-md-4 mt-3">
-        <div class="mb-3 position-relative" id="datepicker4">
-            <label class="form-label">Termination date</label>
-            <input type="text" name="terminationDate" placeholder="Enter in format YYYY-MM-DD e.g 1980-12-01"
-                   value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['terminationDate'] : '' }}"
-                   class="form-control" data-provide="datepicker" id="terminationDate" data-date-container="#datepicker4">
-        </div>
-    </div> <!-- end col -->
+   
 
     <div class="col-lg-6 mt-3">
         <label class="form-label"> Staff Level </label>
         <select id="staffLevel" class="form-control select2" name="staffLevel"
-                data-toggle="select2" required>
+                data-toggle="select2" required value="{{ old('staffLevel') }}">
+                <option value=""> ---Select Staff Level---</option>
             @if(Session::has('companyInfo'))
                 <option
-                        value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffLevel'] : '' }}"
+                        {{-- value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['staffLevel'] : '' }}" --}}
                         selected>{{ isset($staffLevel)? $staffLevel: '' }}</option>
             @endif
 
@@ -360,11 +373,12 @@
             Staff Resumption Type
         </label>
         <select id="resumptionType" class="form-control select2" name="resumptionType"
-                data-toggle="select2" required>
-            @if(Session::has('companyInfo'))
+                data-toggle="select2" required value="{{ old('resumptionType') }}">
+                <option value=""> ---Select Resumption Type---</option>
+            {{-- @if(Session::has('companyInfo'))
                 <option value="{{ Session::has('companyInfo') ? Session::get('companyInfo')['resumptionType'] : '' }}"
                         selected>{{ isset($resumptionType)? $resumptionType: '' }}</option>
-            @endif
+            @endif --}}
 
             @if(isset($resumptionTypes))
                 @foreach($resumptionTypes as $resumptionType)
@@ -413,6 +427,9 @@
                     required: true,
                 },
                 accountNumber: {
+                    required: true,
+                },
+                accountType: {
                     required: true,
                 },
                 staffUnit: {

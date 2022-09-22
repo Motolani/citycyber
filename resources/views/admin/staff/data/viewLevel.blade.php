@@ -41,7 +41,7 @@
                                 <thead>
                                 <tr>
                                     <th>View More</th>
-                                    <th>Date Created</th>
+                                    {{-- <th>Date Created</th> --}}
                                     <th>Level</th>
                                     <th>Salary</th>
                                 </tr>
@@ -59,7 +59,7 @@
                                                     <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
                                                 </form>
                                             </td>
-                                            <td>{{$level->created_at}}</td>
+                                            {{-- <td>{{$level->created_at}}</td> --}}
                                             <td>{{$level->title}}</td>
                                             <td>{{$level->salary}}</td>
 

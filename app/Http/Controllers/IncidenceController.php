@@ -30,7 +30,7 @@ class IncidenceController extends BaseController
     {
         return view('admin.home');
     }
-
+	/*
     public function viewCreateIncidence(Request $request){
         $offences = \App\Offence::all();//dd($offences);
         $user_id = $request->user_id;//dd($request);
@@ -65,6 +65,63 @@ class IncidenceController extends BaseController
          return view('admin.staff.operations.viewIncidence',compact(['offences','offenceRaised','user_id']));	
     
        }
+	*/
+	
+    public function viewIncidence()
+    {
+        $incidents = \App\IncidenceOpration::all();
+        $offenceRaised = \App\IncidenceOpration::join('offices','offices.id','incidenceoprations.branch_id')
+                //->join('departments','departments.id','')
+                ->join('offences','offences.id','incidenceoprations.offence_id')
+                ->join('users','users.id','incidenceoprations.staff_id')
+                //->where('incidenceoprations.staff_id',$user_id)
+                ->select('users.*','offices.name as officename','offences.name as offencename','offences.amount','incidenceoprations.comment','incidenceoprations.created_at as date','incidenceoprations.status as offenceStatus')
+                ->get();
+        return view('admin.staff.operations.viewIncidence', compact('incidents', 'offenceRaised'));
+    }
+
+    public function viewCreateIncidence(){
+        $offences = \App\Offence::all();//dd($offences);
+       // $staffs = \App\User::all(); //dd($staffs);
+	$branches = \App\Office::whereIn('level', [6,7,8])->get();
+        return view('admin.staff.operations.createIncidence',compact(['offences', 'branches']));
+
+    }
+
+
+    public function storeIncidence(Request $request)
+    {
+        $validatedData = $request->validate([
+            'staff_id' => 'required',
+            'offence_id' => 'required',
+            'comment' => 'required',
+        ]);
+        $user = Auth::user()->id;
+        $staff = \App\User::where('id', $request->staff_id)->first();
+
+        $inc = new IncidenceOpration();
+        $inc->branch_id = $staff->branchId;
+        $inc->staff_id = $request->staff_id;
+        $inc->offence_id = $request->offence_id;
+        $inc->comment = $request->comment;
+        $inc->issuer_id = $user;
+
+        $inc->save();
+        alert()->success('Incidence Created Successfully', '');
+        return redirect()->back()->with("message",'Incidence Created Successfully');
+    }
+
+
+    public function getStaff($branch_id)
+    {
+	    dd('hello world');
+
+	    $staff = \App\User::where('branchId',$branch_id)->get();
+        return response()->json($staff);
+    }
+
+
+
 
     public function homeTest(Request $request)
     {
@@ -80,10 +137,12 @@ class IncidenceController extends BaseController
         return view('admin.incidence-list', compact('incidents'));
     }
 
-    public function approve(Request $request)
+    public function approve($id)
     {
-        $incident = IncidenceOpration::where('id', $request->id)
-            ->first();
+	//dd($id);
+        $incident = IncidenceOpration::where('id', $id)
+		->first();
+	//dd($incident);
 
         //Status 0 - Pending
         //Status 1 - Approved from 1st Admin        
@@ -103,9 +162,9 @@ class IncidenceController extends BaseController
     }
 
 
-    public function deny(Request $request)
+    public function deny($id)
     {
-        $incident = IncidenceOpration::where('id', $request->id)
+        $incident = IncidenceOpration::where('id', $id)
             ->first();
 
         //Status 0 - Pending
@@ -119,7 +178,7 @@ class IncidenceController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->status = 'cancelled';;
+            $incident->status = 'cancelled';
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');

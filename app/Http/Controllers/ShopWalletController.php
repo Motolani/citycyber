@@ -15,6 +15,7 @@ use App\Slip;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
+use App\ShopWalletGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -33,9 +34,11 @@ class ShopWalletController extends BaseController
         $this->middleware('auth');
     }
 
-    public function createWallet(Request $request)
+    public function createWallet(Request $request,$id)
     {
         $officeID = $request->id;
+        //dd($id);
+        $office = Office::where('id',$request->id)->withCount("staffs")->first();
         $request->validate([
             'wallet_code' => 'required|max:20',
         ]);
@@ -58,8 +61,15 @@ class ShopWalletController extends BaseController
         $shop_wallet = new ShopWallet();
         $shop_wallet->office_id = $officeID;
         $shop_wallet->wallet_code = $request->wallet_code;
-        try {
+        $shop_wallet->save();
+        if($shop_wallet){
+            Office::where('id',$officeID)->update(["has_shopwallet"=>1]);
+        }
+        
+
+        /* try {
             $shop_wallet->save();
+            Office::where('id',$officeID)->update(["has_shopwallet"=>1]);
         }
         catch (QueryException $e){
             $error_code = $e->errorInfo[1];
@@ -68,8 +78,8 @@ class ShopWalletController extends BaseController
                 alert()->error('The Wallet Code already exist', 'Invalid Wallet Code');
                 return redirect()->back();
             }
-        }
-
+        } */
+        
         alert()->success('Office has been successfully Created.', 'Created');
         return redirect()->back();
     }
@@ -99,14 +109,18 @@ class ShopWalletController extends BaseController
 
     public function viewAll(Request $request)
     {
-        $shopWallets = Auth::user()->offices;
+        $shopWallets = Auth::user()->office_id;
+        $shops = ShopWallet::join('offices', 'offices.id', 'shop_wallets.office_id')
+                    ->select('shop_wallets.*', 'offices.name as office')->get();
 //        dd($shopWallets[0]->shopWallet);
-        return view('admin.shop-wallet.shop-list', compact('shopWallets'));
+        //dd($shops);
+        return view('admin.shop-wallet.shop-list', compact('shopWallets', 'shops'));
     }
 
     public function viewAllCashReserves(Request $request)
     {
         $cashReserves = CashReserveWallet::where('am_id', Auth::user()->id)->get();
+        //dd($cashReserves);
         return view('admin.shop-wallet.cash-reserve-list', compact('cashReserves'));
     }
 
@@ -163,8 +177,9 @@ class ShopWalletController extends BaseController
     {
         $id = $request->id;
         $office = Office::where('id',$id)->first();
+        $shops = ShopWalletGroup::all();
         if(isset($office))
-            return view('admin.shop-wallet.create', compact('office'));
+            return view('admin.shop-wallet.create', compact('office', 'shops'));
 
         else {
             return redirect()->back();

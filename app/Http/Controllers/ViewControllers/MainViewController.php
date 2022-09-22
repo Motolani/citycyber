@@ -1,31 +1,40 @@
 <?php
 
 namespace App\Http\Controllers\ViewControllers;
-use App\Countries;
-use App\DocumentStorage;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Core\Offices;
-use App\LeaveRequest;
-use App\Office;
-use App\User;
-use Illuminate\Http\Request;
-//use ('../Core/Offices.php');
-use App\Http\Controllers\Core\CreateStaffClass;
-use App\Http\Controllers\Core\StaffController;
-
+use users;
+use App\Bank;
+use App\Role;
 use App\Unit;
+use App\User;
+use App\Level;
+use App\Office;
+use App\States;
+//use ('../Core/Offices.php');
+use App\Status;
+use SweetAlert;
+use App\Classes;
+use App\Countries;
+use App\Department;
+use App\LeaveRequest;
 use App\EducationType;
 use App\Qualification;
-use App\Bank;
-use App\Department;
-use App\Classes;
-use App\Status;
 use App\ResumptionType;
-use App\Level;
-use SweetAlert;
-use App\Http\Controllers\BaseController;
-//use Auth;
+use App\DocumentStorage;
+use function Ramsey\Uuid\v1;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Validator;
+//use Auth;
+use App\Http\Controllers\Core\Offices;
+use App\Http\Controllers\BaseController;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use App\Http\Controllers\Core\StaffController;
+use App\Http\Controllers\Core\CreateStaffClass;
+
 class MainViewController extends BaseController
 {
     /**
@@ -45,35 +54,176 @@ class MainViewController extends BaseController
      */
     public function index()
     {
-        return view('admin.home');
+        $role = Role::all();
+        return view('admin.home',compact($role));
     }
+    
+ public function createOfficeRequest(){
 
+        $countries = Countries::all();
+        $states = States::all();
+        $office = Office::all();
+        $getRegion = Office::where('type', 'REGION')->get();
+        $getArea = Office::where('type', 'AREA')->get();
+        $getHubOne = Office::where('type', 'HUB1')->get();
+        $getHubTwo = Office::where('type', 'HUB2')->get();
+        $getBranchArea = Office::where('type', 'like', 'BRANCH(AREA)')->get();
+        $getBranchHubOne = Office::where('type', 'like', 'BRANCH(HUB1)')->get();
+        $getBranchHubTwo = Office::where('type', 'like', 'BRANCH(HUB2)')->get();
+    //dd($getBranchArea);
+     return view('admin.createOffice', compact( 'countries', 'states','office','getRegion','getArea','getHubOne','getHubTwo','getBranchArea','getBranchHubOne','getBranchHubTwo'));
+    }
     public function getLevel(Request $request){
         $getLevel = new Offices();
         $levels = $getLevel->GetAllLevels();
         //dd($levels);
         $countries = Countries::all();
-        return view('admin.createOffice', compact('levels', 'countries'));
+	$states = States::all();
+	$office = Office::all();
+        
+//dd($getBranchArea);
+     return view('admin.createOffice', compact('levels', 'countries', 'states','office'));
     }
-
-    public function viewStaffTable(){
+    //create filter method here
+    
+    public function viewStaffTable(Request $request){
+        
         $staff = \App\User::all();
-        return view('admin.staff.viewStaffTable',compact('staff'));
+        $departments = \App\Department::all();
+        $status = \App\Status::all();
+        $role = \App\Role::all();
+        $levels = \App\Level::all();
+        $banks = \App\Bank::all();
+        $units = \App\Unit::all();
+        $resumptionTypes = \App\ResumptionType::all();
+        $offices = \App\Office::all();
+        
+        return view('admin.staff.viewStaffTable',compact('staff','departments','status','role','levels','banks','units','resumptionTypes','offices'));
 
     }
 
+    // this is the method to filter
+    public  function applyFilters(Request $request){
 
+    //        //method to query the database 
+
+
+            $myStatus = $request->input('status');
+            $myStaffNumber = $request->input('staff_number');
+            $myMaritalStatus = $request->input('maritalstatus');
+            $myResumptionYear = $request->input('resumptionDate');
+            $myDepartment= $request->input('department');
+            $myResumptionType = $request->input('resumptionType');
+            $myGender = $request->input('gender');
+            $myLga = $request->input('lga');
+            $myEmail = $request->input('email');
+            $myFirstName = $request->input('firstname');
+            $myLevel = $request->input('level');
+            $myBranch = $request->input('branchId');
+            $myUnit = $request->input('unit');
+            $myPhone = $request->input('phone');
+            $myLastName = $request->input('lastname');
+            $myState  = $request->input('state');
+            $myRole = $request->input('role_id');
+            $myDob  = $request->input('dob');
+            
+            Log::info($request);
+	    Log::info($myFirstName);
+	    
+ 
+            $staff = DB::table('users')
+                              ->when($myStatus, function ($query, $myStatus) {
+                                    $query->where('status','LIKE', "%{$myStatus}%" );
+                                    
+                                })
+                                ->when($myStaffNumber, function ($query, $myStaffNumber) {
+                                    $query->where('staff_number','LIKE', "%{$myStaffNumber}%" );
+                                    
+                                })
+                             
+                                ->when($myResumptionYear, function ($query, $myResumptionYear) {
+                                    $query->where('resumptionDate','LIKE', "%{$myResumptionYear}%" );
+                                    
+                                })
+                          
+                                ->when($myLga , function ($query,$myLga  ) {
+                                    $query->where('lga','LIKE', "%{$myLga}%" );
+                                    
+                                })
+                                ->when($myEmail , function ($query,$myEmail) {
+                                    $query->where('email','LIKE', "%{$myEmail}%" );
+                                
+                                })
+                                ->when($myFirstName, function ($query, $myFirstName) {
+                                    $query->where('firstname','LIKE', "%{$myFirstName}%" );
+                                })
+                                ->when($myLevel, function ($query,$myLevel) {
+                                    $query->where('level','LIKE', "%{$myLevel}%" );
+                                   
+                                })
+                                ->when($myBranch, function ($query,$myBranch  ) {
+                                    $query->where('branchId','LIKE', "%{$myBranch}%" );
+                                   
+                                })
+                             
+                                ->when($myPhone, function ($query, $myPhone ) {
+                                    $query->where('phone','LIKE', "%{$myPhone}%" );
+                                    
+                                })
+                                ->when($myLastName, function ($query,$myLastName) {
+                                    $query->where('lastname','LIKE', "%{$myLastName}%" );
+                                    
+                                })
+                                ->when($myState, function ($query,$myState) {
+                                    $query->where('state','LIKE', "%{$myState}%" );
+                                    
+                                })
+                                ->when($myRole, function ($query,$myRole) {
+                                    $query->where('role_id','LIKE', "%{$myRole}%" );
+                                  
+                                })
+                               ->when($myDob, function ($query,$myDob) {
+                                    $query->where('dob','LIKE', "%{$myDob}%" );
+                                  
+				})
+			//	->when($myMaritalStatus, function ($query, $myMaritalStatus) {
+                                    //      $query->where('maritalstatus','LIKE', "%{$myMaritalStatus}%" );
+
+                                  //})
+                                // ->when($myDepartment, function ($query, $myDepartment) {
+                               //  $query->where('department','LIKE', "%{$myDepartment}%" );
+
+                                // })
+                                 // ->when($myGender, function ($query, $myGender) {
+                               //  $query->where('gender','LIKE', "%{$myGender}%" );
+
+                                //  })
+                              //    ->when($myUnit, function ($query, $myUnit) {
+                            //      $query->where('unit','LIKE', "%{$myUnit}%" );
+
+                               //   })
+                                    ->get();
+
+            
+                
+           // Log::info($users);       
+         return view('admin.staff.viewStaffTable',compact('staff'));
+    
+    }
+              
+    
     public function createStaffOne(Request $request){
 
         if(isset($request->proceed)){
             $validatedData = $request->validate([
+                'staff_number'=>'required',
+                'resumption_date'=>'required',
                 'firstName' => 'required',
-                'middleName' => 'required',
                 'lastName' => 'required',
                 'residentialAddress' => 'required',
                 'homeAddress' => 'required',
-                'phone' => 'required',
-                'email' => 'required',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11|max:14',
+                'email' => 'required |email|unique:users',
                 'state' => 'required',
                 'lga' => 'required',
                 'dob'=>'required',
@@ -82,14 +232,15 @@ class MainViewController extends BaseController
                 'maritalStatus' => 'required',
                 'nextofkinName' => 'required',
                 'nextofkinRelationship' => 'required',
-                'nextofkinPhone' => 'required',
+                'nextofkinPhone' => 'required|number',
                 'nextofkinAddress' => 'required',
-                'nextofkinContact' => 'required',
-                'emmergencyPhone' => 'required',
-                'emergencyAddress' => 'required',
+                'emmergencyPhone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                
+                
             ]);
-
-            //dd($request);
+	Log::info($request->all());
+	  Log::info($request); 
+	   //dd($request);
             //handle Staff Image
             /*if(isset($request->staff_pic))
             {
@@ -105,7 +256,8 @@ class MainViewController extends BaseController
             else{
              $fileNameToStore='no_pic.jpg';//or whatever
         }dd($fileNameToStore);*/
-            $personalInfo = $request->session()->put('personalInfo', $validatedData);
+	    $personalInfo = $request->session()->put('personalInfo', $validatedData);
+	    Log::info($request->session()->get('personalInfo'));
             $departments = \App\Department::all();
             $banks = \App\Bank::all();
             $units = \App\Unit::all();
@@ -139,7 +291,8 @@ class MainViewController extends BaseController
                 'staffBranch' => 'required',
                 'bank' => 'required',
                 'accountName' => 'required',
-                'accountNumber' => 'required',
+                'accountNumber' => 'required|numeric|min:11|max:11',
+                'accountType'=>'required',
                 'gender' => 'required',
                 'staffUnit' => 'required',
                 'staffDepartment' => 'required',
@@ -154,10 +307,11 @@ class MainViewController extends BaseController
                 'terminationDate' => 'required',
                 'staffLevel' => 'required',
                 'resumptionType' => 'required',
-                'staff_number'=> ''
+                'staff_number'=> 'required'
             ]);
 
-            $companyInfo = $request->session()->put('companyInfo', $validatedData);
+	    $companyInfo = $request->session()->put('companyInfo', $validatedData);
+	    Log::info($request->session());
             $education_qual_collection= \App\Qualification::all();
             $education_type_collection = \App\EducationType::all();
             $education_class_collection = \App\EducationClass::all();
@@ -186,7 +340,7 @@ class MainViewController extends BaseController
         }
 
         if(isset($request->proceed)){
-            //dd($request);
+           // dd($request);
             $validatedData = $request->validate([
                 'establishment_name' => 'required',
                 'work_start_year' => 'required',
@@ -202,8 +356,10 @@ class MainViewController extends BaseController
                 'education_class_id' => 'required',
             ]);
 
-            $companyInfo = $request->session()->put('workEducation', $validatedData);
-            $data = $request->session()->all();//dd($data);
+	    $companyInfo = $request->session()->put('workEducation', $validatedData);
+	    Log::info($request->session());
+	    $data = $request->session()->all();//dd($data);
+	    Log::info($data);
             return view('admin.staff.preview');
             //$createEmp = new CreateStaffClass();
             //$response = $createEmp->creatStaff($request,$data);		
@@ -683,9 +839,9 @@ class MainViewController extends BaseController
 
 
     public function updateAndDeleteOffence(Request $request){
-
+//	dd($request);
         if(isset($request->submit) && $request->submit == "update"){
-            $staffRole = \App\Offence::where("id",$request->id)->update(["name"=>$request->name]);
+            $staffRole = \App\Offence::where("id",$request->id)->update(["name"=>$request->name,"amount"=>$request->amount]);
 
             if($staffRole){
                 $offence = \App\Offence::all();

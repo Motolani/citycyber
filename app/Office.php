@@ -4,7 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Office extends Model
 {
-
+   protected $table = "offices"; 
+    protected $fillable = ['office_code','emailAddress','location','country_id','name',
+                           'state_id','city_id','type','region_acronym','area_acronym',
+                           'bet_code','bet_id','branch_report','land_name','phone','officeType','level',
+                           'land_phone','land_email','care_name','care_phone','care_email','phone_number','lga','parentOfficeId',
+                        ]; 
     public function cashiers(){
         return $this->hasMany('App\CashierWallet', 'office_id', 'id');
     }

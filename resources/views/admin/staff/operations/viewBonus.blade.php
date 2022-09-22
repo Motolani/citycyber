@@ -45,10 +45,10 @@ Dashboard
                         <input type="hidden" name="description" value="">--}}
                         <button style = "color:white" name = "submit" class="btn btn-primary"><span style = "color:white" class="uil-plus">Raise incidence</span></button>
                 </form> -->
-                <button value="edit" id = "createBn" class="btn bg-primary btn-sm" style = "color:white" data-bs-toggle="modal"
+               <!-- <button value="edit" id = "createBn" class="btn bg-primary btn-sm" style = "color:white" data-bs-toggle="modal"
                                             data-bs-target="#edit-modal1"><span style="color: #fff"
                                                 class="uil-plus"></span>Create Bonus</button>
-
+		-->
                 <p style="margin-top: 10px" class="text-muted font-14">
                     Below are the incidences Raised
                 </p>
@@ -108,61 +108,6 @@ Dashboard
                     </div> <!-- end preview-->
 
                 </div> <!-- end tab-content-->
-                
-                <div class="tab-content">
-                    <div class="tab-pane show active" id="modal-position-preview">
-                        <div id="edit-modal1" class="modal fade" tabindex="-1"
-                            role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-top">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="topModalLabel">Create Bonus
-                                        </h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-
-                                    <form class="ps-3 pe-3"
-                                        action="{{url('viewCreateBonus')}}"
-                                        method="POST">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <input type="hidden" id="user_id" name="user_id" class="form-control" value="{{$user_id}}" >
-                                            <label for="example-email" class="form-label">Staff Bonus</label>
-                                            <select id="offe" class="form-control" name="bonus_id" data-toggle="select" required>
-                                                
-                                                <option value="">Select Bonus</option>
-                                                @if(isset($bonuses))
-                                                @foreach($bonuses as $bonus)
-                                                <option value="{{$bonus->id}}">{{$bonus->bonus}}</option>
-        
-                                                @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-                                        
-
-                                        <div class="mb-3">
-                                            <label for="example-email" class="form-label">Comment</label>
-                                            <input type="text" id="example-email" name="comment" class="form-control" placeholder="Enter Comment" value="" required>
-                                        </div>
-
-                                        
-
-                                        <!-- <div class="mb-3">
-                                            <label for="example-password"
-                                                class="form-label">Amount</label>
-                                            <input type="text" id="example-amount" name="amount" class="form-control" value="" placeholder="Enter amount" required>
-                                        </div> -->
-
-                                        <button type="submit" name="submit" value = "createBonus"
-                                            class="btn btn-primary mt-2 mb-2 ">Create Bonus
-                                        </button>
-                                    </form>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-                    </div>
-                </div>
 
             </div> <!-- end card body-->
         </div> <!-- end card -->

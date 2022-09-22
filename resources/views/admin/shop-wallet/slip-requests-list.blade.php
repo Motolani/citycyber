@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">Viewing all FuSlipnd Requests</h4>
+                    <h4 class="header-title">Viewing all Fund Requests</h4>
 
                     <div class="tab-content">
                         @if (\Session::has('success'))

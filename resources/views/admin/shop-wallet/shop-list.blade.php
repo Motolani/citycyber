@@ -40,12 +40,14 @@
                                 </thead>
 
                                 <tbody>
-                                @if(isset($shopWallets))
-                                    @foreach($shopWallets as $item)
+                                @if(isset($shops))
+                                    @foreach($shops as $item)
                                         <tr>
-                                            <td>{{$item->name}}</td>
-                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->wallet_code : "None"}}</td>
-                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->balance : "None"}}</td>
+                                            <td>{{$item->office}}</td>
+                                            <td>{{$item->wallet_code}}</td>
+                                            <td>{{$item->balance}}</td>
+                                            {{-- <td>{{($item->shopWallet != null) ? $item->shopWallet->wallet_code : "None"}}</td>
+                                            <td>{{($item->shopWallet != null) ? $item->shopWallet->balance : "None"}}</td> --}}
                                             <td>
                                                 @if($item->shopWallet != null)
                                                     <a href="/shop-wallet/view/{{$item->id}}" class="btn btn-success btn-sm">
@@ -59,7 +61,7 @@
                                                         <span class="uil-eye"></span> Fund
                                                     </a>
 
-                                                    @else
+                                                @else
                                                     <a href="/office/create-wallet/{{$item->id}}" class="btn btn-success btn-sm">
                                                         <span class="uil-wallet"></span>Create Wallet
                                                     </a>

@@ -15,6 +15,7 @@ use App\Slip;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -63,7 +64,9 @@ class CashierWalletController extends BaseController
     public function viewAdd(Request $request)
     {
         $offices = Office::where('level', '>', 3)->get();
-        return view('admin.cashier-wallet.create', compact("offices"));
+        $cashiers = User::where('role_id', 5)/* ->andWhere('office_id', $offices->office['id']) */->get();
+        //dd($cashiers);
+        return view('admin.cashier-wallet.create', compact("offices", 'cashiers'));
     }
 
     public function viewRequestFunds(Request $request)
@@ -258,9 +261,12 @@ class CashierWalletController extends BaseController
 
     public function viewCashiers(Request $request, $officeID)
     {
+        $officeID = Auth::user()->office_id;
+        
         $cashiers = CashierWallet::where('office_id', $officeID)
             ->latest()
             ->get();
+        //dd($cashiers);
         return view('admin.shop-wallet.cashiers-list', compact('cashiers'));
     }
 

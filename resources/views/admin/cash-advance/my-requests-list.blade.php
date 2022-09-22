@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active" style="display:none" id="headerShow">View/Edit Office</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Your Cash Advance Requests</h4>
+                <h4 class="page-title">Your Cash Advance Requests list</h4>
             </div>
         </div>
     </div>
@@ -40,16 +40,17 @@
                         @if (\Session::has('success'))
                             <div class="alert alert-success">
                                 {!! \Session::get('success') !!}</li>
-                            </div @endif <div class="tab-pane show active" id="buttons-table-preview">
+			    </div>
+                             @endif 
+                           <div class="tab-pane show active" id="buttons-table-preview">
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
-                                    <th>Ticket ID</th>
+                                    <th>Date</th>
                                     <th>Amount</th>
                                     <th>Description</th>
                                     <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
+                                    <th>Action<th>
                                 </tr>
                                 </thead>
 
@@ -61,35 +62,21 @@
                                     @if(isset($items))
                                         @foreach($items as $item)
                                             <tr>
-                                                <td>{{$item->ticket_id}}</td>
+                                                <td>{{date('d-m-Y', strtotime($item->created_at))}}</td>
                                                 <td>{{$item->amount}}</td>
                                                 <td>{{$item->description}}</td>
                                                 <td>{{$item->status}}</td>
-                                                <td>{{$item->created_at}}</td>
                                                 <td>
-                                                    @if($item->status == 'approved')
-                                                        <a href="{{route('cash-advance.submitExpense', $item->id)}}" class="btn btn-success btn-sm">
-                                                            <span class="uil-envelope-add"></span> Submit Expense
-                                                        </a>
+						                            @if($item->status == 'retired')
+                                                        <span> Retired on {{$item->updated_at}}</span>
                                                     @else
-                                                        <a href="{{route('cash-advance.retire', $item->id)}}" class="btn btn-danger btn-sm deny">
-                                                            <span class="uil-multiply"></span>
-                                                        </a>
+						                                <a href="{{route('cash-advance.retire', $item->id)}}" class="btn btn-primary btn-sm deny">
+                                                            {{-- <span class="uil-multiply"></span> --}}
+                                                            Retire
+                                                        </a> 
                                                     @endif
-                                                </td>
-
-                                            <!-- <td>{{--
-                                           <a href="{{url('officeInfo')}}"  rel="tooltip" class="btn btn-info"  data-created="{{$incident->created_at}}">
-                                             <i class="uil-pen"></i>
-                                           </a>--}}
-
-                                                    <form method="get" action="{{url('officeInfo')}}">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$item->id}}">
-                                                    <input type="hidden" name="description" value="{{$item->name}}">
-                                                    <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
-                                            </form>
-                                        </td> -->
+                                                </td> 
+                                                <td></td>
                                             </tr>
                                         @endforeach
                                     @endif

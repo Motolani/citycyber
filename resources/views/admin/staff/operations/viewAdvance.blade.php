@@ -41,13 +41,7 @@ Dashboard
                 </div>
                 @endif
 
-                <button value="edit" style = "color:white" id = "CreateAdvance" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal1"><span style="color: #fff"
-                                                class="uil-plus"></span>Request Salary Advance</button>
-
-                <p style="margin-top: 10px" class="text-muted font-14">
-                    Below are the Salary Advance Raised
-                </p>
+                
 
                 <ul class="nav nav-tabs nav-bordered mb-3">
                     <li class="nav-item">
@@ -63,14 +57,23 @@ Dashboard
                         <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Staff Name</th>
-                                    <th>Branch</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
-                                    <th>amount</th>
-                                   {{-- <th>Issuer Name</th>--}}
+                                    <th>Requested By</th>
+                                    <th>Staff Branch</th>
+                                    <th>Hub</th>
+                                    <th>Area</th>
+                                    <th>Region</th>
+                                    <th>Department</th>
+                                    <th>Date Requested</th>
+                                    <th>Amount</th>
+                                    <th>Start Month</th>
+                                    <th>End Month</th>
+                                    <th>1st Action</th>
+                                    <th>1st Action By</th>
+                                    <th>1st Action Date</th>
+                                    <th>2nd Action</th>
+                                    <th>2nd Action By</th>
+                                    <th>2nd Action Date</th>
+                                    {{-- <th>Issuer Name</th>--}}
                                     
                                 </tr>
                             </thead>
@@ -80,13 +83,22 @@ Dashboard
                                 @if(isset($advances))
                                 @foreach($advances as $data)
                                 <tr>
-				                    <td>{{$data->created_at}}</td>
-                                    <td>{{$data->firstname}} {{$data->lastname}}</td>
+				                    <td>{{$data->issuer}}</td>
                                     <td>{{$data->officename}}</td>
-                                    <td>{{isset($data->startDate)?$data->startDate:'null'}}</td>
-                                    <td>{{isset($data->endDate)?$data->endDate:'null'}}</td>
-                                    <td>{{$data->datastatus == '1'?'Approved':'Pending'}}</td>
-                                    <td>₦ {{isset($data->amount)?$data->amount:0.00}}</td>
+                                    <td>{{$data->hub}}</td>
+                                    <td>{{$data->area}}</td>
+                                    <td>{{$data->region}}</td>
+                                    <td>{{$data->department}}</td>
+                                    <td>{{$data->created_at}}</td>
+                                    <td>₦ {{$data->amount}}</td>
+                                    <td>{{$data->startDate}}</td>
+                                    <td>{{$data->endDate}}</td>
+                                    <td>{{$data->status}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 @endforeach
                                 @endif
@@ -223,6 +235,7 @@ Dashboard
 </script>
 
 @endsection
+
 
 
 

@@ -56,6 +56,54 @@ class BonusController extends BaseController
     }
 
 
+    public function viewBonusAdvances()
+    {
+        $bonusOperation = \App\BonusOpration::join('offices','offices.id','bonusoprations.branch_id')
+			->join('bonus','bonus.id','bonusoprations.bonus_id')
+            ->join('users','users.id','bonusoprations.staff_id')
+            //->where('bonusoprations.staff_id',$user_id)
+            ->select('users.*','offices.name as officename','bonus.bonus','bonus.amount','bonusoprations.comment','bonusoprations.created_at as date','bonusoprations.status as bonusStatus')
+            ->get();
+        return view('admin.staff.operations.viewBonus',compact(['bonusOperation']));
+    }
+
+
+    public function viewCreateBonus()
+    {
+        $branches = \App\Office::whereIn('level', [6,7,8])->get();
+        $bonuses = \App\Bonus::all();
+        return view('admin.staff.operations.createBonus',compact(['branches', 'bonuses']));
+    }
+
+
+    public function storeBonus(Request $request)
+    {
+	    $validatedData = $request->validate([
+		    'staff_id' => 'required',
+            'bonus_id' => 'required',
+            'comment' => 'required',
+       
+        ]);
+        $user = Auth::user()->id;
+        $staff = \App\User::where('id', $request->staff_id)->first();
+
+        $bonuses = new \App\BonusOpration([
+            "branch_id"=>$staff->branchId,
+            "bonus_id"=>$request->bonus_id,
+            "staff_id"=>$staff->id,
+            "comment"=>$request->comment,
+            "issuer_id"=>Auth::user()->id,
+        ]);
+        $bonuses->save();
+
+        alert()->success('Bonus Created Successfully', '');
+		return redirect()->back()->with("message",'Bonus Created Successfully');
+    }
+
+
+
+
+   /*
     public function viewCreateBonus(Request $request){
         $bonuses = \App\Bonus::all();//dd($offences);
         $user_id = $request->user_id;//dd($request);
@@ -90,7 +138,7 @@ class BonusController extends BaseController
         return view('admin.staff.operations.viewBonus',compact(['bonuses','bonusOperation','user_id']));
 
    }
-
+   */
 
     public function store(Request $request)
     {

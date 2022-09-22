@@ -11,9 +11,10 @@ class CableSubscription extends Model
         'branch_office',
         'cable_plan',
         'cable_tv_type',
+        'smart_card',
         'amount',
         'subscription_date',
         'expiring_date',
-        'remark',
+        'remarks',
     ];
 }

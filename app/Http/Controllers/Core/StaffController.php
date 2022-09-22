@@ -29,6 +29,7 @@ use App\Qualification;
 use App\Education;
 use App\NextOfKin;
 use App\EmergencyContact;
+use App\User;
 
 class StaffController extends Controller 
 {

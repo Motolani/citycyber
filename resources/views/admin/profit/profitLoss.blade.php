@@ -23,62 +23,64 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        {{-- <div class="col-12"> --}}
-                            <h4>Search Profit and Loss</h4>
-                        {{-- </div> --}}
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="mb-3">
-                                <label class="form-label">From:</label>
-                                <select name="from" class="form-control">
-                                    <option value="1">January</option>
-                                    <option value="2">Febuary</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="mb-3">
-                                <label class="form-label">To:</label>
-                                <select name="to" class="form-control">
-                                    <option value="1">January</option>
-                                    <option value="2">Febuary</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="mb-3">
-                                <label class="form-label">Year:</label>
-                                <input name="year" type="text" id="year" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="mb-3">
-                                <input name="year" type="text" id="year" class="form-control">
-                            </div>
+                        <div class="col-5">
+                            <h4>Search Profit and Loss Account</h4>
                         </div>
                     </div>
-
+                    <form action="{{route('profitLossAccount')}}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">From:</label>
+                                    <select name="from" class="form-control">
+                                        <option value="01">January</option>
+                                        <option value="02">Febuary</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">To:</label>
+                                    <select name="to" class="form-control">
+                                        <option value="01">January</option>
+                                        <option value="02">Febuary</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Year:</label>
+                                    <input name="year" type="text" id="year" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mt-3">
+                                    <button type="submit" class= "btn btn-primary">submit</button>
+                                </div>
+                            </div>                    
+                        </div>
+                    </form>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="buttons-table-preview">
                             <table class="table table-bordered bordered-info">

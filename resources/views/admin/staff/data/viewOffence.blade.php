@@ -57,7 +57,7 @@
                                         <tr>
 
                                             <td>
-                                                <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$type->name}}','{{$type->amount}}')"  class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
+                                                <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$type->name}}','{{$type->amount}}','{{$type->id}}')"  class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
                                             
                                             </td>
                                             <td>{{$type->name}}</td>
@@ -107,8 +107,9 @@
                                 </div>
 
 
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Offence Name</label>
+				<div class="mb-3">
+				    <input type="hidden" name="id" value="" id="id">
+                                    <label for="username" class="form-label">Offence Amount</label>
                                     <input class="form-control" type="text"  id="amount" name = "amount"  required="" placeholder="Amount">
                                 </div>
                                 
@@ -136,11 +137,11 @@
  <script>
 
 
-    function toggleModal(name,amount){
+    function toggleModal(name,amount,id){
 
           document.getElementById("name").value=name;
           document.getElementById("amount").value=amount;
-
+	  document.getElementById("id").value=id;
     }
 
   

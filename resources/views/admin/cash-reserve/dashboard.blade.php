@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-    <!-- start page title -->
+   	<!-- start page title -->
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
@@ -32,7 +32,12 @@
                         <div class="card-body">
                             <i class="dripicons-jewel float-end text-muted"></i>
                             <h6 class="text-muted text-uppercase mt-0">Balance</h6>
-                            <h2 class="m-b-20">₦<span>{{$cashReserve->balance}}</span></h2>
+                            @if ($cashReserve)
+                                <h2 class="m-b-20">₦<span>{{$cashReserve->balance}}</span></h2>       
+                            @else
+                                <h2 class="m-b-20">₦<span>0.00</span></h2>       
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,8 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <div class="page-title-right">
+		<div class="page-title-right"
+<a href="{{url('/getLevel')}}" class="btn btn-primary mb-2" >Go Back</a>
                     <ol class="breadcrumb m-0">
 
                         <li class="breadcrumb-item active" style = "display:none" id = "headerShow">View/Edit Office</li>
@@ -38,7 +39,7 @@
                                     <th>Date Created</th>
                                     <th>Name</th>
                                     <th>Location</th>
-                                    <th>State</th>
+                                    {{-- <th>State</th> --}}
                                     <th>Type</th>
                                     <th></th>
                                 </tr>
@@ -51,7 +52,7 @@
                                             <td>{{$office->created_at}}</td>
                                             <td>{{$office->name}}</td>
                                             <td>{{$office->location}}</td>
-                                            <td>{{$office->state->name ?? 'none'}}</td>
+                                            {{-- <td>{{$office->state_id ?? 'none'}}</td> --}}
                                             <td>{{$office->type}}</td>
                                             <td>
                                                 <form method="get" action="{{url('officeInfo')}}">
@@ -61,9 +62,13 @@
                                                     <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span> View </button>
                                                 </form>
                                                 <a href="{{route('viewAddPhotos', ['officeid'=>$office->id])}}" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Upload Photos</a>
-
+                                                
                                                 @if(!$office->has_store)
                                                     <a href="{{route('office.createStore', ['id'=>$office->id])}}" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Create Store</a>
+                                                @endif
+
+                                                @if(!$office->has_shopwallet)
+                                                    <a href="{{route('shop-wallet.viewCreateWallet', ['id'=>$office->id])}}" class="btn btn-primary btn-sm mt-1"><span class="uil-wallet"></span> Create Shop Wallet</a>
                                                 @endif
                                             </td>
                                         </tr>

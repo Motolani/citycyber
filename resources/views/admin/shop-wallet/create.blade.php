@@ -31,18 +31,29 @@
 
                     <div class="tab-content">
                         <div class="tab-pane show active" id="typeahead-preview">
-                            <form method = "POST" action = "{{route('createWallet')}}">
+                            <form method = "POST" action = "{{route('createWallet', $office->id)}}">
                                 @csrf
 
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    {{-- <div class="col-lg-12">
                                         <div class="mb-3 mt-4">
                                             <label class="form-label required">Wallet Code</label>
                                             <input type="text" name= "wallet_code" class="form-control" placeholder="LAG5039" required>
                                             <input type="hidden" name= "id" class="form-control" value="{{$office->id}}">
                                         </div>
-                                    </div> <!-- end col -->
-
+                                    </div> --}} <!-- end col -->
+                                    <div class="col-lg-8">
+                                        <label class="form-label">Wallet Code</label>
+                                       
+                                        <select name="wallet_code" class="form-control" data-toggle="select2">
+                                            <option value="">Select Wallet Code </option>
+                                            @foreach($shops as $shop)
+                                                <option value="{{$shop->name}}">{{$shop->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <br><br>
+                                    <br><br>
                                     <div class="col-lg-12 mt-3 mt-lg-0">
                                         <button type="submit" class="btn btn-success">Submit</button>
                                     </div>

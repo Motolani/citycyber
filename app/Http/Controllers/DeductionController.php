@@ -6,6 +6,7 @@ use App\Deduction;
 use App\DeductionOpration;
 use App\Level;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DeductionController extends BaseController
 {
@@ -36,6 +37,22 @@ class DeductionController extends BaseController
         return view("admin.staff.data.staffDeduction");
     }
 
+    public function viewstaffdeduction(){
+        $deductionoperations = \App\DeductionOpration::all(); //dd($branches);
+        return view("admin.staff.data.staffdeductions",compact(['deductionoperations']));
+    }
+
+    public function staffcreatedeductionpage(){
+        $branches = \App\Office::whereIn('level', [6,7,8])->get(); //dd($branches);
+        return view("admin.staff.data.staffDeduction",compact(['branches']));
+    }
+
+    public function createstaffdeductionpage(){ // created new for operationdeduction
+        $branches = \App\Office::whereIn('level', [6,7,8])->get(); //dd($branches);
+        $deductions = \App\Deduction::all(); //dd($deductions);
+        return view("admin.staff.data.createStaffDeduction",compact(['branches', 'deductions']));
+    }
+
     public function create(Request $request)
     {
         $request->validate([
@@ -52,6 +69,31 @@ class DeductionController extends BaseController
         return redirect('/alldeduction')->with('message', 'Deduction updated successfully!.');
             else
         return redirect('/alldeduction')->with('message', 'Deduction not saved!.');
+    }
+
+    public function createStaffDeduction(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+                'deduction_id' => 'required|max:255',
+                'amount' => 'required',
+                'staff_id' => 'required',
+                'branch_id' => 'required'
+        ]);
+
+        $deduction = new DeductionOpration();
+        $deduction->deduction_id = $request->deduction_id;
+        $deduction->staff_id = $request->staff_id;
+        $deduction->branch_id = $request->branch_id;
+        $deduction->issuer_id = Auth::user()->id;
+        $deduction->amount = $request->amount;
+
+        $saved = $deduction->save();
+
+        if($saved)
+        return redirect()->back()->with('success', 'Deduction updated successfully!.');
+            else
+        return redirect()->back()->with('fail', 'Deduction not saved!.');
     }
 
     public function store(Request $request)

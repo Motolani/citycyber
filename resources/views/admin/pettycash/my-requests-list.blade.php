@@ -46,7 +46,8 @@
                                     <th>Amount</th>
                                     <th>Description</th>
                                     <th>Status</th>
-                                    <th>Date</th>
+				    <th>Date</th>
+				    <th>Balance</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -62,14 +63,31 @@
                                                 <td>{{$item->amount}}</td>
                                                 <td>{{$item->description}}</td>
                                                 <td>{{$item->status}}</td>
-                                                <td>{{$item->created_at}}</td>
+						<td>{{$item->created_at}}</td>
+						@if($item->retire == 1)
+						<td>
+                                                    {{$item->balance}}
+                                                </td>
+                                                @else
+                                                <td>
+                                                    {{$item->balance}}
+                                                </td>
+                                                @endif
                                                 <td>
                                                     @if($item->status == 'approved' && $item->upload_path == null )
                                                         <a href="/pettycash/submit-expense/{{$item->id}}" class="btn btn-success btn-sm"><span class="uil-envelope-add"></span> Submit Expense</a>
                                                     @elseif($item->status == 'approved')
                                                         <a href="/retire/{{$item->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
                                                     @else
-                                                        <a href="/retire/{{$item->id}}" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
+                                                    	 <a href="{{route('pettycash.doDeleteRequest',$item->id)}}" class="btn btn-danger btn-sm deny">
+                                                            <span class="uil-multiply"></span>
+                                                        </a>
+							@endif
+
+						   @if($item->retire == 0)
+                                                        <a href="{{route('retirePettyCash', $item->id)}}" class="btn btn-info btn-sm">Retire Pettycash</a>
+                                                    @else
+                                                        <button class="btn btn-info btn-sm">Retired</button>
                                                     @endif
                                                 </td>
 

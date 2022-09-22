@@ -17,6 +17,7 @@ use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -87,8 +88,12 @@ class CashReserveController extends BaseController
     public function viewRequestFunds(Request $request)
     {
         //Get Logged in User Office
-        $cashiers = Auth::user()->office->cashiers;
-        return view('admin.cash-reserve.request-funds', compact('cashiers'));
+        $id = Auth::user()->id;
+        $staffs = User::find($id);
+        $cashiers = Office::where('id', $id)->get();
+        //$cashiers = Auth::user()->office->cashiers;
+        //dd($staffs);
+        return view('admin.cash-reserve.request-funds', compact('cashiers', 'staffs'));
     }
 
 
@@ -100,13 +105,15 @@ class CashReserveController extends BaseController
         ]);
         $amount = $request->amount;
         $cashier = $request->cashier;
-        $destination = $request->destination;
+	$destination = $request->destination;
+	$cashier = Auth::user()->id;
 
-        $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office->id)->first();
+        $cashReserve = CashReserveWallet::where("office_id", Auth::user()->office_id)->first();
+	Log:info("new-error" . $cashReserve);
 
         //Create the Request in Slips Table
         $fundRequest = new Slip();
-        $fundRequest->manager_office_id = Auth::user()->office->id;
+        $fundRequest->manager_office_id = Auth::user()->office_id;
         $fundRequest->manager_id = $cashReserve->areaManager->id;
         $fundRequest->cashier_id = $cashier;
         $fundRequest->amount = $amount;
@@ -172,9 +179,10 @@ class CashReserveController extends BaseController
 
     public function showSlipRequests(Request $request)
     {
-        $slips = Slip::where('manager_id', Auth::user()->id)
+       /* $slips = Slip::where('manager_id', Auth::user()->id)
             ->latest()
-            ->get();
+	    ->get();*/
+	$slips = Slip::join('users', 'user.id', 'slips.cashier_id')->get(['slips.*', 'user.firstname as cashier']);
         return view('admin.cash-reserve.slips-list', compact('slips'));
     }
     public function index()
@@ -184,8 +192,11 @@ class CashReserveController extends BaseController
 
     public function dashboard(Request $request)
     {
-        $cashReserve = CashReserveWallet::where('id', Auth::user()->id)->first();
-        return view('admin.cash-reserve.dashboard', compact('cashReserve'));
+	    
+	     $cashReserve = CashReserveWallet::where('id', Auth::user()->id)->first();
+	return view('admin.cash-reserve.dashboard', compact('cashReserve'));
+	     
+
     }
 
     public function viewAll(Request $request)

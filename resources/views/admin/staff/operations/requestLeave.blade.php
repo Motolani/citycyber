@@ -86,7 +86,7 @@
 
                                     <div class="mb-3">
                                         <label for="example-password" class="form-label">Comment</label>
-                                        <input type="coment" col = "4" id="example-amount" name="comment"class="form-control" placeholder="Enter Comment" required>
+                                        <input type="coment" col = "4" id="example-amount" name="comment"class="form-control" placeholder="Enter Comment">
                                     </div>
 
                                     <button type="submit" name="submit" value = "submit" class="btn btn-primary mt-2 mb-2 ">Make Request

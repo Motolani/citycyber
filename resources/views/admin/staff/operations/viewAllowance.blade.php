@@ -41,9 +41,6 @@ Dashboard
                 </div>
                 @endif
 
-                <button value="edit" style = "color:white" id = "CreateAdvance" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal1"><span style="color: #fff"
-                                                class="uil-plus"></span>Create Staff Allowance</button>
 
                 <p style="margin-top: 10px" class="text-muted font-14">
                     Below are the Allowances request
@@ -92,61 +89,6 @@ Dashboard
 
                 </div> <!-- end tab-content-->
                 
-                <div class="tab-content">
-                    <div class="tab-pane show active" id="modal-position-preview">
-                        <div id="edit-modal1" class="modal fade" tabindex="-1"
-                            role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-top">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="topModalLabel">Raise Salary Advance
-                                        </h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-
-                                    <form class="ps-3 pe-3"
-                                        action="{{url('viewCreateAllowance')}}"
-                                        method="POST">
-                                        @csrf
-
-                                        <div class="mb-3">
-                                           {{-- <input type="hidden" id="user_id" name="user_id" class="form-control" value="{{$user_id}}" >--}}
-                                            <label for="example-email" class="form-label">Staff Allowance</label>
-                                            <select id="offe" class="form-control" name="offence_id" data-toggle="select" required>
-
-                                                <option value="">Select Allowance</option>
-                                                @if(isset($allowanceList))
-                                                @foreach($allowanceList as $allowance)
-                                                <option value="{{$allowance->id}}">{{$allowance->allowance}}</option>
-
-                                                @endforeach
-                                                @endif
-                                            </select>
-                                        </div>
-
-
-                                        <div class="mb-3">
-                                            <label for="example-email" class="form-label">amount</label>
-                                            <input type="number" id="example-email" name="amount" class="form-control" placeholder="Enter amount" value="" required>
-                                        </div>
-
-                                        
-                                        <div class="mb-3">
-                                            <label for="example-email" class="form-label">Comment</label>
-                                            <input type="text" id="example-email" name="comment" class="form-control" placeholder="Enter Comment" value="" required>
-                                        </div>
-                                        
-
-                                        
-                                        <button type="submit" name="submit" value = "createAllowance"
-                                            class="btn btn-primary mt-2 mb-2 ">Create Allowance
-                                        </button>
-                                    </form>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-                    </div>
-                </div>
 
             </div> <!-- end card body-->
         </div> <!-- end card -->

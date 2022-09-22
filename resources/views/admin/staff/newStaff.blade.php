@@ -84,7 +84,8 @@
                         </li>
                     </ul> <!-- end nav-->
 
-                    <form method="POST" novalidate="novalidate" action="{{route('submitStaffForm')}}" id="newStaffForm" enctype="multipart/form-data">
+	          <form method="POST" novalidate="novalidate" action="{{route('submitStaffForm')}}" id="newStaffForm" enctype="multipart/form-data">	
+		<!--<form method="POST" novalidate="novalidate" id="newStaffForm" enctype="multipart/form-data">-->
                         @csrf
                         <div class="tab-content">
 

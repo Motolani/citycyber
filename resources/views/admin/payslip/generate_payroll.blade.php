@@ -1,6 +1,5 @@
 
-   
- 
+
 @extends('admin.layout')
 @section('title')
     Dashboard
@@ -25,18 +24,65 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="text-muted font-14">
-                        <!-- Below are the lists of Offices availabe within City Cyber. Offices can also be edited -->
-                    </p>
-                    
-                    <ul class="nav nav-tabs nav-bordered mb-3">
-                        <!-- <li class="nav-item">
-                                <a href="#buttons-table-preview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                                    Preview
-                                </a>
-                            </li> -->
-
-                    </ul> <!-- end nav-->
+                    <div class="row">
+                        <div class="col-5">
+                            <h4>Search Payroll</h4>
+                        </div>
+                    </div>
+                    <form action="{{route('queryPayroll')}}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">From:</label>
+                                    <select name="from" class="form-control">
+                                        <option value="01">January</option>
+                                        <option value="02">Febuary</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">To:</label>
+                                    <select name="to" class="form-control">
+                                        <option value="01">January</option>
+                                        <option value="02">Febuary</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Year:</label>
+                                    <input name="year" type="text" id="year" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mt-3">
+                                    <button type="submit" class= "btn btn-primary">submit</button>
+                                </div>
+                            </div>                    
+                        </div>
+                    </form> <!-- end nav-->
                     
                         
 
@@ -47,18 +93,8 @@
                                     <!-- <th><input type="checkbox" id="all" /></th> -->
                                     <!-- <th>Issuer</th> -->
                                     <th>Date</th>
-                                    <th>Staff ID </th>
-                                    <th>Basic Salary</th>
-                                    <th>Advance</th>
-                                    <th>Allowance</th>
-                                    <th>Bonus</th>
-                                    <th>Deduction</th>
-                                    <th>Offence	</th>
-                                    <th>Pension</th>
-                                    <th>Tax</th>
-                                    <th>Loan</th>
-                                    <th>Net Salary</th>
-
+                                    <th>Staff</th>
+                                    <th></th>
                                     {{-- <th>Action</th> --}}
                                 </tr>
                                 </thead>
@@ -68,17 +104,8 @@
                                         @foreach($payRolls as $payRoll)
                                             <tr>
                                                 <td>{{$payRoll->created_at}}</td>
-                                                <td>{{$payRoll->staff_id}}</td>
-                                                <td>{{$payRoll->basic_salary}}</td>
-                                                <td>{{$payRoll->advance}}</td>
-                                                <td>{{$payRoll->allowance}}</td>
-                                                <td>{{$payRoll->bonus}}</td>
-                                                <td>{{$payRoll->deduction}}</td>
-                                                <td>{{$payRoll->offence}}</td>
-                                                <td>{{$payRoll->pension}}</td>
-                                                <td>{{$payRoll->tax}}</td>
-                                                <td>{{$payRoll->loan}}</td>
-                                                <td>{{$payRoll->net_salary}}</td>
+                                                <td>{{$payRoll->firstname." ".$payRoll->lastname}}</td>
+                                                <td></td>
                                             </tr>
                                         @endforeach
                                     @endif
