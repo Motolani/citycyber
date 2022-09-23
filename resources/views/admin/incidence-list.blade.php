@@ -40,6 +40,12 @@
                             <div class="alert alert-success">
                                 {!! \Session::get('success') !!}</li>
                             </div @endif <div class="tab-pane show active" id="buttons-table-preview">
+                                <form method="post" action="{{url('incident/deny')}}" style="display: none">
+                                    @csrf
+                                    <input type="text" name="rejectid" id="rejectid">
+                                    <input type="text" name="rejectcomment" id="rejectcomment">
+                                    <button name = "submit" id="rejectbtn" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
+                                </form>
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                 <tr>
@@ -48,6 +54,11 @@
                                     <th>Staff Name</th>
                                     <th>Offence</th>
                                     <th>Comment</th>
+                                    <th>Amount</th>
+                                    <th>Branch</th>
+                                    <th>Hub</th>
+                                    <th>Area</th>
+                                    <th>Region</th>
                                     <th>Raised By</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -56,42 +67,97 @@
 
 
                                 <form action="{{route('bulkPendingIncident')}}" method="POST" id="form">
+                                    @csrf
                                     {{csrf_field()}}
                                     <input type="hidden" name="action" value="" id="bulkActionField" />
+                                    <input type="hidden" name="bulkActionComment" id="bulkActionComment" value="" />
                                     <tbody>
                                     @if(isset($incidents))
                                         @foreach($incidents as $incident)
-                                            <tr>
-                                                <td><input type="checkbox" class="checkable" name="items[]" value="{{$incident->id}}" /></td>
-                                                <td>{{$incident->created_at}}</td>
-                                                <td>{{!isset($incident->staff) ? "" : $incident->staff->firstname}}</td>
-                                                <td>{{$incident->offence}}</td>
-                                                <td>{{$incident->comment}}</td>
-                                                <td>{{$incident->admin->firstname}}</td>
-                                                <td>{{$incident->status}}</td>
-						<td>
-                                                    @if($incident->status == 'pending')
-                                                        <a href={{url('incident/approve', $incident->id)}} class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
-                                                        <a href={{url('incident/deny', $incident->id)}} class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
-                                                    @endif
+                                            {{-- @if($incident->offence_id > 6) --}}
+                                                <tr>
+                                                    <td><input type="checkbox" class="checkable" name="items[]" value="{{$incident->id}}" /></td>
+                                                    <td>{{$incident->created_at}}</td>
+                                                    <td>{{!isset($incident->staff) ? "" : $incident->staff->firstname}}</td>
+                                                    <td>{{$incident->offence}}</td>
+                                                    <td>{{$incident->comment}}</td>
+                                                    <td>{{$incident->amount}}</td>
+                                                    <td>{{$incident->officename}}</td>
+                                                    <td>{{$incident->hubName}}</td>
+                                                    <td>{{$incident->area}}</td>
+                                                    <td>{{$incident->region}}</td>
+                                                    <td>{{$incident->admin->firstname}}</td>
+                                                    <td>{{$incident->status}}</td>
+                                                    <td>
+                                                        @if($incident->status == 'pending')
+                                                            <a href="#" onclick="friedthis1({{$incident->id}})" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>
+                                                            <a href="#" onclick="disapprove({{$incident->id}})" class="btn btn-danger btn-sm deny"><span class="uil-multiply"></span></a>
+                                                        @endif
+                                                        {{-- {{url('incident/approve', $incident->id)}} --}}
+                                                    </td>
 
-                                                </td>
+                                                 {{-- <td 
+                                            <a href="{{url('officeInfo')}}"  rel="tooltip" class="btn btn-info"  data-created="{{$incident->created_at}}">
+                                                <i class="uil-pen"></i>
+                                            </a>
 
-                                            <!-- <td>{{--
-                                           <a href="{{url('officeInfo')}}"  rel="tooltip" class="btn btn-info"  data-created="{{$incident->created_at}}">
-                                             <i class="uil-pen"></i>
-                                           </a>--}}
-
-                                                    <form method="get" action="{{url('officeInfo')}}">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$incident->id}}">
-                                                    <input type="hidden" name="description" value="{{$incident->name}}">
-                                                    <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
-                                            </form>
-                                        </td> --> 
-                                            </tr>
+                                                        <form method="get" action="{{url('officeInfo')}}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{$incident->id}}">
+                                                        <input type="hidden" name="description" value="{{$incident->name}}">
+                                                        <button name = "submit" value = "edit" class="btn btn-primary btn-sm"><span class="uil-eye"></span></button>
+                                                </form>
+                                            </td>  --}}
+                                                </tr>
+                                            {{-- @endif --}}
                                         @endforeach
                                     @endif
+
+                                    
+
+                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                    <script>
+                                        function friedthis1(arg){
+                                            // alert(arg)
+                                            var route = "{{ url('incident/approve') }}/"+arg;
+                                            // alert(route)
+                                            Swal.fire({
+                                                showDenyButton: false,
+                                                showCancelButton: true,
+                                                icon: 'info',
+                                                title: 'Confirm',
+                                                text: 'Are you sure you want to approve this Incidence',
+                                                // footer: '<a href="">Why do I have this issue?</a>'
+                                            }).then((result) => {
+                                                /* Read more about isConfirmed, isDenied below */
+                                                if (result.isConfirmed) {
+                                                    location.href = route
+                                                    // Swal.fire('Saved!', '', 'success')
+                                                } else if (result.isDenied) {
+                                                    Swal.fire('Changes are not saved', '', 'info')
+                                                }
+                                            })
+                                        }
+
+                                        function disapprove(arg){
+                                            // alert(arg)
+                                            var route = "{{ url('incident/approve') }}/"+arg;
+                                            // alert(route)
+                                            Swal.fire({
+                                                showCancelButton: true,
+                                                icon: 'info',
+                                                title: 'Confirm',
+                                                text: 'State reason for disapproval',
+                                                input: 'textarea'
+                                            }).then(function(result) {
+                                                if (result.value) {
+                                                    $("#rejectcomment").val(result.value)
+                                                    $("#rejectid").val(arg)
+                                                    $("#rejectbtn").click()
+                                                }
+                                            })
+                                        }
+                                    </script>
                                     </tbody>
                                 </form>
                             </table>
@@ -108,12 +174,14 @@
         </div><!-- end col-->
     </div>
     <!-- end row-->
+    {{-- @dd($incidents); --}}
 
 
 @endsection
 
 
 @section('script')
+    
     <script>
         $(function() {
             $(document).ready(function() {
@@ -138,6 +206,8 @@
                     //$("div").show();
                 });
             });
+
+            
 
             function getParent(level_id) {
                 let url = "{{url('api/loadType')}}";

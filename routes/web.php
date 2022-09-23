@@ -343,6 +343,7 @@ Route::prefix('incident')->group(function () {
     Route::get('/pending', 'IncidenceController@viewPendingIncidence')->name('viewPendingIncident');
     Route::get('/approve/{id}', 'IncidenceController@approve')->name('approvePendingIncident');
     Route::get('/deny/{id}', 'IncidenceController@deny')->name('denyPendingIncident');
+    Route::post('/deny', 'IncidenceController@deny')->name('denyPendingIncident');
     Route::post('/bulk-action', 'IncidenceController@bulkAction')->name('bulkPendingIncident');
 });
 //end view Incidence

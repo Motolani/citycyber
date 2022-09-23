@@ -130,10 +130,21 @@ class IncidenceController extends BaseController
 
     public function viewPendingIncidence(Request $request)
     {
-        $incidents = IncidenceOpration::where('status', 'pending')
-            ->orWhere('status', 'confirmed')
-            ->with('staff')
-            ->get();
+        $incidents = \App\IncidenceOpration::leftjoin('offices','offices.id','incidenceoprations.branch_id')
+                //->join('departments','departments.id','')
+                ->join('offences','offences.id','incidenceoprations.offence_id')
+                ->join('users','users.id','incidenceoprations.staff_id')
+                ->leftjoin('offices as otherOffice','offices.parentOfficeId','otherOffice.id')
+                //->join('officelevels','officelevels.id','offices.level')
+                //->where('incidenceoprations.staff_id',$user_id)
+                ->select('users.*','offices.name as officename','offices.level as officelevel','offices.region_acronym as region','offices.area_acronym as area','offences.name as offencename','offences.amount','incidenceoprations.comment','incidenceoprations.created_at as date','incidenceoprations.*', 'otherOffice.name as hubName')
+                ->where('incidenceoprations.status','pending')
+                ->get();
+
+     //    $incidents = IncidenceOpration::where('status', 'pending')
+     //        ->with('staff')
+	    // ->get();
+	// dd($incidents);
         return view('admin.incidence-list', compact('incidents'));
     }
 
@@ -162,8 +173,10 @@ class IncidenceController extends BaseController
     }
 
 
-    public function deny($id)
+    public function deny(Request $request)
     {
+        $id = $request->rejectid;
+        $comment = $request->rejectcomment;
         $incident = IncidenceOpration::where('id', $id)
             ->first();
 
@@ -178,6 +191,7 @@ class IncidenceController extends BaseController
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
+            $incident->comment = "$comment";
             $incident->status = 'cancelled';
             $incident->save();
         }
@@ -189,6 +203,7 @@ class IncidenceController extends BaseController
     {
         $items = $request->items;
         $action = $request->action;
+        $comment = $request->bulkActionComment;
 
         //Status 0 - Pending
         //Status 1 - Approved from 1st Admin        
@@ -202,7 +217,7 @@ class IncidenceController extends BaseController
             $status = 'disapproved';
 
         //TODO: Check if this is a super admin and update status codes accordingly
-        $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status]);
+        $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status, 'comment' => "$comment"]);
 
         return redirect()->back()->with('success', 'The User has been ' . $status);
     }
