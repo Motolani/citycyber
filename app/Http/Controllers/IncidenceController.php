@@ -181,12 +181,12 @@ class IncidenceController extends BaseController
     {
         $incidents = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
             //->join('departments','departments.id','')
-            ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+            // ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
             ->join('users', 'users.id', 'incidenceoprations.staff_id')
             ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
             //->join('officelevels','officelevels.id','offices.level')
             //->where('incidenceoprations.staff_id',$user_id)
-            ->select('users.*', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
+            ->select('users.*', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
             ->where('incidenceoprations.status', 'pending')
             ->get();
 
