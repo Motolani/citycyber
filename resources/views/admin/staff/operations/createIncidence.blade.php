@@ -52,18 +52,6 @@
                                                 @endif
                                             </select>
                                         </div>
-                                        {{-- <div class="mb-3">
-                                            <label for="example-email" class="form-label">Branches </label>
-                                            <select id="branch_id" class="form-control" name="branch_id"
-                                                data-toggle="select" required>
-                                                <option value="">Select Branch</option>
-                                                @if (isset($branches))
-                                                    @foreach ($branches as $branch)
-                                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </div> --}}
                                         <div class="mb-3">
                                             <label for="example-email" class="form-label">Branches </label>
                                             <select id="branch_id" class="form-control" name="branch_id"
@@ -91,7 +79,23 @@
                                                         <option value="{{ $offence->id }}">{{ $offence->name }}</option>
                                                     @endforeach
                                                 @endif
+                                                <option value="others" id="show">Others</option>
                                             </select>
+                                        </div>
+
+                                        <div class="row optional my_div " id="" style="display:none;">
+                                            <div class="col-md-12 col-sm-12" >
+                                                <div class="form-row">
+                                                    <div class="col mb-3 ">
+                                                        <label>Amount</label>
+                                                        <input class="form-control" id="" type="number" name="amount" min="0"/>
+                                                    </div>
+                                                    <div class="col mb-3 ">
+                                                        <label> Description</label>
+                                                        <input class=" form-control" id="" type="text" name="description" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
 
@@ -156,6 +160,18 @@
                     }
                 });
 
+            });
+        });
+
+
+        $("select").change(function () {
+            // hide all optional elements
+            $('.optional').css('display','none');
+
+            $("select option:selected").each(function () {
+                if($(this).val() == "others") {
+                    $('.my_div').css('display','block');
+                } 
             });
         });
     </script>
