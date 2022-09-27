@@ -41,10 +41,10 @@
                                     <form action="{{ route('incidence.store') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="example-email" class="form-label">Filter Branches </label>
+                                            <label for="example-email" class="form-label">Filter offices </label>
                                             <select id="filter" class="form-control" name="filter"
                                                 data-toggle="select" required>
-                                                <option value="">Select level to Filter Branches</option>
+                                                <option value="">Select level to Filter Offices</option>
                                                 @if (isset($fils))
                                                     @foreach ($fils as $fil)
                                                         <option value="{{ $fil->id }}">{{ $fil->name }}</option>
@@ -53,10 +53,10 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="example-email" class="form-label">Branches </label>
+                                            <label for="example-email" class="form-label">Offices </label>
                                             <select id="branch_id" class="form-control" name="branch_id"
                                                 data-toggle="select" required>
-                                                <option value="">Select Branch</option>
+                                                <option value="">Select Office</option>
                                                 
                                             </select>
                                         </div>
