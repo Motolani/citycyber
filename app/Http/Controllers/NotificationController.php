@@ -125,7 +125,7 @@ class NotificationController extends BaseController
             
             $thisNotif = Notification::where('senderId', $issuerId)->where('type', $request->table_name)->latest()->first();
             
-            if(isset($p1)){
+            if($p1 != 0){
                 $office = Office::where('id', $p1)->first();
                 
                 $notificationList = new NotificationList();
@@ -134,7 +134,7 @@ class NotificationController extends BaseController
                 $notificationList->save();
             }
             
-            if(isset($p2)){
+            if($p2 != 0){
                 $office = Office::where('id', $p2)->first();
                 
                 $notificationList = new NotificationList();
@@ -143,7 +143,7 @@ class NotificationController extends BaseController
                 $notificationList->save();
             }
             
-            if(isset($p3)){
+            if($p3 != 0){
                 $office = Office::where('id', $p3)->first();
                 
                 $notificationList = new NotificationList();
@@ -152,7 +152,7 @@ class NotificationController extends BaseController
                 $notificationList->save();
             }
             
-            if(isset($p4)){
+            if($p4 != 0){
                 $office = Office::where('id', $p4)->first();
                 
                 $notificationList = new NotificationList();
