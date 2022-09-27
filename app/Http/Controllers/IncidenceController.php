@@ -123,11 +123,11 @@ class IncidenceController extends BaseController
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://localhost:8888/newcitycyber/public/api/newNotification',
+                CURLOPT_URL => 'http://127.0.0.1:8002/api/newNotification',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_TIMEOUT => 10,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",

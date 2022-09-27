@@ -140,7 +140,7 @@
                 let response = (branches.find(item => item.id === id))
                 console.log("find by id", response)
                 console.log("branch_id ", response.level)
-                let url = "http://localhost:8888/newcitycyber/public/api/getStaff/"
+                let url = "http://127.0.0.1:8002/api/getStaff/"
                 $.ajax({
                     type: 'GET',
                     url: url + response.level,
