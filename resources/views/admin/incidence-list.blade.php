@@ -73,12 +73,21 @@
                                     <input type="hidden" name="bulkActionComment" id="bulkActionComment" value="" />
                                     <tbody>
                                     @if(isset($incidents))
+                                        {{-- @dd($incidents) --}}
                                         @foreach($incidents as $incident)
                                             {{-- @if($incident->offence_id > 6) --}}
                                                 <tr>
                                                     <td><input type="checkbox" class="checkable" name="items[]" value="{{$incident->id}}" /></td>
                                                     <td>{{$incident->created_at}}</td>
-                                                    <td>{{!isset($incident->staff) ? "" : $incident->staff->firstname." ".$incident->staff->lastname}}</td>
+                                                    <td>
+                                                        <form method="get" action="{{url('viewStaffProfile')}}" style="display: inline-block !important;">
+                                                            @csrf
+                                                            <input type="hidden" name="user_id" value="{{$incident->staff_id}}">
+                                                            <input type="hidden" name="description" value="{{$incident->staff_id}}">
+                                                            <button class="btn btn-link">{{!isset($incident->staff) ? "" : $incident->staff->firstname." ".$incident->staff->lastname}}</button>
+                                                        </form>
+                                                    
+                                                    </td>
                                                     <td>{{$incident->offence}}</td>
                                                     <td>{{$incident->comment}}</td>
                                                     <td>{{$incident->amount}}</td>
