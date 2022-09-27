@@ -25,9 +25,11 @@ Route::get("allstaff/{id}", "ApiController@getStaffOfficeById");
 //getOffences
 Route::post('getOffences', 'ApiController@getOffences')->name('getOffences');
 
-Route::get('getStaff/{branch_id}', 'ApiController@getStaff')->name('getStaff');
+Route::get('getStaff/{id}', 'ApiController@getStaff')->name('getStaff');
 
 Route::post('loadParent', 'ApiController@loadParent')->name('loadParent');
 
 Route::post('/newNotification', 'NotificationController@newNotification');
 //loadType
+
+Route::post('getAllOffice', 'ApiController@getAllOffice')->name('getAllOffice');

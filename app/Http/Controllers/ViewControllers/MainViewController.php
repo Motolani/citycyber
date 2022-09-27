@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\ViewControllers;
+
 use users;
 use App\Bank;
 use App\Role;
@@ -55,10 +56,11 @@ class MainViewController extends BaseController
     public function index()
     {
         $role = Role::all();
-        return view('admin.home',compact($role));
+        return view('admin.home', compact($role));
     }
-    
- public function createOfficeRequest(){
+
+    public function createOfficeRequest()
+    {
 
         $countries = Countries::all();
         $states = States::all();
@@ -70,24 +72,26 @@ class MainViewController extends BaseController
         $getBranchArea = Office::where('type', 'like', 'BRANCH(AREA)')->get();
         $getBranchHubOne = Office::where('type', 'like', 'BRANCH(HUB1)')->get();
         $getBranchHubTwo = Office::where('type', 'like', 'BRANCH(HUB2)')->get();
-    //dd($getBranchArea);
-     return view('admin.createOffice', compact( 'countries', 'states','office','getRegion','getArea','getHubOne','getHubTwo','getBranchArea','getBranchHubOne','getBranchHubTwo'));
+        //dd($getBranchArea);
+        return view('admin.createOffice', compact('countries', 'states', 'office', 'getRegion', 'getArea', 'getHubOne', 'getHubTwo', 'getBranchArea', 'getBranchHubOne', 'getBranchHubTwo'));
     }
-    public function getLevel(Request $request){
+    public function getLevel(Request $request)
+    {
         $getLevel = new Offices();
-        $levels = $getLevel->GetAllLevels();
+        $levels = $getLevel->GetAllLevels(false);
         //dd($levels);
         $countries = Countries::all();
-	$states = States::all();
-	$office = Office::all();
-        
-//dd($getBranchArea);
-     return view('admin.createOffice', compact('levels', 'countries', 'states','office'));
+        $states = States::all();
+        $office = Office::all();
+
+        //dd($getBranchArea);
+        return view('admin.createOffice', compact('levels', 'countries', 'states', 'office'));
     }
     //create filter method here
-    
-    public function viewStaffTable(Request $request){
-        
+
+    public function viewStaffTable(Request $request)
+    {
+
         $staff = \App\User::all();
         $departments = \App\Department::all();
         $status = \App\Status::all();
@@ -97,127 +101,115 @@ class MainViewController extends BaseController
         $units = \App\Unit::all();
         $resumptionTypes = \App\ResumptionType::all();
         $offices = \App\Office::all();
-        
-        return view('admin.staff.viewStaffTable',compact('staff','departments','status','role','levels','banks','units','resumptionTypes','offices'));
 
+        return view('admin.staff.viewStaffTable', compact('staff', 'departments', 'status', 'role', 'levels', 'banks', 'units', 'resumptionTypes', 'offices'));
     }
 
     // this is the method to filter
-    public  function applyFilters(Request $request){
+    public  function applyFilters(Request $request)
+    {
 
-    //        //method to query the database 
+        //        //method to query the database 
 
 
-            $myStatus = $request->input('status');
-            $myStaffNumber = $request->input('staff_number');
-            $myMaritalStatus = $request->input('maritalstatus');
-            $myResumptionYear = $request->input('resumptionDate');
-            $myDepartment= $request->input('department');
-            $myResumptionType = $request->input('resumptionType');
-            $myGender = $request->input('gender');
-            $myLga = $request->input('lga');
-            $myEmail = $request->input('email');
-            $myFirstName = $request->input('firstname');
-            $myLevel = $request->input('level');
-            $myBranch = $request->input('branchId');
-            $myUnit = $request->input('unit');
-            $myPhone = $request->input('phone');
-            $myLastName = $request->input('lastname');
-            $myState  = $request->input('state');
-            $myRole = $request->input('role_id');
-            $myDob  = $request->input('dob');
-            
-            Log::info($request);
-	    Log::info($myFirstName);
-	    
- 
-            $staff = DB::table('users')
-                              ->when($myStatus, function ($query, $myStatus) {
-                                    $query->where('status','LIKE', "%{$myStatus}%" );
-                                    
-                                })
-                                ->when($myStaffNumber, function ($query, $myStaffNumber) {
-                                    $query->where('staff_number','LIKE', "%{$myStaffNumber}%" );
-                                    
-                                })
-                             
-                                ->when($myResumptionYear, function ($query, $myResumptionYear) {
-                                    $query->where('resumptionDate','LIKE', "%{$myResumptionYear}%" );
-                                    
-                                })
-                          
-                                ->when($myLga , function ($query,$myLga  ) {
-                                    $query->where('lga','LIKE', "%{$myLga}%" );
-                                    
-                                })
-                                ->when($myEmail , function ($query,$myEmail) {
-                                    $query->where('email','LIKE', "%{$myEmail}%" );
-                                
-                                })
-                                ->when($myFirstName, function ($query, $myFirstName) {
-                                    $query->where('firstname','LIKE', "%{$myFirstName}%" );
-                                })
-                                ->when($myLevel, function ($query,$myLevel) {
-                                    $query->where('level','LIKE', "%{$myLevel}%" );
-                                   
-                                })
-                                ->when($myBranch, function ($query,$myBranch  ) {
-                                    $query->where('branchId','LIKE', "%{$myBranch}%" );
-                                   
-                                })
-                             
-                                ->when($myPhone, function ($query, $myPhone ) {
-                                    $query->where('phone','LIKE', "%{$myPhone}%" );
-                                    
-                                })
-                                ->when($myLastName, function ($query,$myLastName) {
-                                    $query->where('lastname','LIKE', "%{$myLastName}%" );
-                                    
-                                })
-                                ->when($myState, function ($query,$myState) {
-                                    $query->where('state','LIKE', "%{$myState}%" );
-                                    
-                                })
-                                ->when($myRole, function ($query,$myRole) {
-                                    $query->where('role_id','LIKE', "%{$myRole}%" );
-                                  
-                                })
-                               ->when($myDob, function ($query,$myDob) {
-                                    $query->where('dob','LIKE', "%{$myDob}%" );
-                                  
-				})
-			//	->when($myMaritalStatus, function ($query, $myMaritalStatus) {
-                                    //      $query->where('maritalstatus','LIKE', "%{$myMaritalStatus}%" );
+        $myStatus = $request->input('status');
+        $myStaffNumber = $request->input('staff_number');
+        $myMaritalStatus = $request->input('maritalstatus');
+        $myResumptionYear = $request->input('resumptionDate');
+        $myDepartment = $request->input('department');
+        $myResumptionType = $request->input('resumptionType');
+        $myGender = $request->input('gender');
+        $myLga = $request->input('lga');
+        $myEmail = $request->input('email');
+        $myFirstName = $request->input('firstname');
+        $myLevel = $request->input('level');
+        $myBranch = $request->input('branchId');
+        $myUnit = $request->input('unit');
+        $myPhone = $request->input('phone');
+        $myLastName = $request->input('lastname');
+        $myState  = $request->input('state');
+        $myRole = $request->input('role_id');
+        $myDob  = $request->input('dob');
 
-                                  //})
-                                // ->when($myDepartment, function ($query, $myDepartment) {
-                               //  $query->where('department','LIKE', "%{$myDepartment}%" );
+        Log::info($request);
+        Log::info($myFirstName);
 
-                                // })
-                                 // ->when($myGender, function ($query, $myGender) {
-                               //  $query->where('gender','LIKE', "%{$myGender}%" );
 
-                                //  })
-                              //    ->when($myUnit, function ($query, $myUnit) {
-                            //      $query->where('unit','LIKE', "%{$myUnit}%" );
+        $staff = DB::table('users')
+            ->when($myStatus, function ($query, $myStatus) {
+                $query->where('status', 'LIKE', "%{$myStatus}%");
+            })
+            ->when($myStaffNumber, function ($query, $myStaffNumber) {
+                $query->where('staff_number', 'LIKE', "%{$myStaffNumber}%");
+            })
 
-                               //   })
-                                    ->get();
+            ->when($myResumptionYear, function ($query, $myResumptionYear) {
+                $query->where('resumptionDate', 'LIKE', "%{$myResumptionYear}%");
+            })
 
-            
-                
-           // Log::info($users);       
-         return view('admin.staff.viewStaffTable',compact('staff'));
-    
+            ->when($myLga, function ($query, $myLga) {
+                $query->where('lga', 'LIKE', "%{$myLga}%");
+            })
+            ->when($myEmail, function ($query, $myEmail) {
+                $query->where('email', 'LIKE', "%{$myEmail}%");
+            })
+            ->when($myFirstName, function ($query, $myFirstName) {
+                $query->where('firstname', 'LIKE', "%{$myFirstName}%");
+            })
+            ->when($myLevel, function ($query, $myLevel) {
+                $query->where('level', 'LIKE', "%{$myLevel}%");
+            })
+            ->when($myBranch, function ($query, $myBranch) {
+                $query->where('branchId', 'LIKE', "%{$myBranch}%");
+            })
+
+            ->when($myPhone, function ($query, $myPhone) {
+                $query->where('phone', 'LIKE', "%{$myPhone}%");
+            })
+            ->when($myLastName, function ($query, $myLastName) {
+                $query->where('lastname', 'LIKE', "%{$myLastName}%");
+            })
+            ->when($myState, function ($query, $myState) {
+                $query->where('state', 'LIKE', "%{$myState}%");
+            })
+            ->when($myRole, function ($query, $myRole) {
+                $query->where('role_id', 'LIKE', "%{$myRole}%");
+            })
+            ->when($myDob, function ($query, $myDob) {
+                $query->where('dob', 'LIKE', "%{$myDob}%");
+            })
+            //	->when($myMaritalStatus, function ($query, $myMaritalStatus) {
+            //      $query->where('maritalstatus','LIKE', "%{$myMaritalStatus}%" );
+
+            //})
+            // ->when($myDepartment, function ($query, $myDepartment) {
+            //  $query->where('department','LIKE', "%{$myDepartment}%" );
+
+            // })
+            // ->when($myGender, function ($query, $myGender) {
+            //  $query->where('gender','LIKE', "%{$myGender}%" );
+
+            //  })
+            //    ->when($myUnit, function ($query, $myUnit) {
+            //      $query->where('unit','LIKE', "%{$myUnit}%" );
+
+            //   })
+            ->get();
+
+
+
+        // Log::info($users);       
+        return view('admin.staff.viewStaffTable', compact('staff'));
     }
-              
-    
-    public function createStaffOne(Request $request){
 
-        if(isset($request->proceed)){
+
+    public function createStaffOne(Request $request)
+    {
+
+        if (isset($request->proceed)) {
             $validatedData = $request->validate([
-                'staff_number'=>'required',
-                'resumption_date'=>'required',
+                'staff_number' => 'required',
+                'resumption_date' => 'required',
                 'firstName' => 'required',
                 'lastName' => 'required',
                 'residentialAddress' => 'required',
@@ -226,8 +218,8 @@ class MainViewController extends BaseController
                 'email' => 'required |email|unique:users',
                 'state' => 'required',
                 'lga' => 'required',
-                'dob'=>'required',
-                'imgUrl' =>'',
+                'dob' => 'required',
+                'imgUrl' => '',
                 'gender' => 'required',
                 'maritalStatus' => 'required',
                 'nextofkinName' => 'required',
@@ -235,12 +227,12 @@ class MainViewController extends BaseController
                 'nextofkinPhone' => 'required|number',
                 'nextofkinAddress' => 'required',
                 'emmergencyPhone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-                
-                
+
+
             ]);
-	Log::info($request->all());
-	  Log::info($request); 
-	   //dd($request);
+            Log::info($request->all());
+            Log::info($request);
+            //dd($request);
             //handle Staff Image
             /*if(isset($request->staff_pic))
             {
@@ -254,78 +246,77 @@ class MainViewController extends BaseController
 
             }
             else{
-             $fileNameToStore='no_pic.jpg';//or whatever
-        }dd($fileNameToStore);*/
-	    $personalInfo = $request->session()->put('personalInfo', $validatedData);
-	    Log::info($request->session()->get('personalInfo'));
+                $fileNameToStore='no_pic.jpg';//or whatever
+            }dd($fileNameToStore);*/
+            $personalInfo = $request->session()->put('personalInfo', $validatedData);
+            Log::info($request->session()->get('personalInfo'));
             $departments = \App\Department::all();
             $banks = \App\Bank::all();
             $units = \App\Unit::all();
             $levels = \App\Level::all();
             $resumptionTypes = \App\ResumptionType::all();
             $offices = \App\Office::all();
-            if($request->session()->has('companyInfo')){
+            if ($request->session()->has('companyInfo')) {
                 $companyInfo = $request->session()->get('companyInfo');
-                $ex= explode("|",$companyInfo['bank']);
-                $selectedBank =$ex[1]; //dd($selectedBank);
-                return view('admin.staff.createCompanyInfo', compact(['personalInfo','offices','selectedBank','resumptionTypes','levels','units','banks','departments']));
+                $ex = explode("|", $companyInfo['bank']);
+                $selectedBank = $ex[1]; //dd($selectedBank);
+                return view('admin.staff.createCompanyInfo', compact(['personalInfo', 'offices', 'selectedBank', 'resumptionTypes', 'levels', 'units', 'banks', 'departments']));
             }
-            return view('admin.staff.createCompanyInfo', compact(['personalInfo','offices','resumptionTypes','levels','units','banks','departments']));
+            return view('admin.staff.createCompanyInfo', compact(['personalInfo', 'offices', 'resumptionTypes', 'levels', 'units', 'banks', 'departments']));
         }
     }
 
-    public function createStaffCompanyInfo(Request $request){
+    public function createStaffCompanyInfo(Request $request)
+    {
         //dd($request);
-        if(isset($request->back) && $request->back == "Back"){
-            if($request->session()->has('personalInfo')){
+        if (isset($request->back) && $request->back == "Back") {
+            if ($request->session()->has('personalInfo')) {
 
                 $personalInfo = $request->session()->get('personalInfo');
 
                 return view('admin.staff.newStaff', compact('personalInfo'));
             }
-        }
-
-        else if(isset($request->proceed) && $request->proceed == "Proceed"){
+        } else if (isset($request->proceed) && $request->proceed == "Proceed") {
             $validatedData = $request->validate([
                 'status' => 'required',
                 'staffBranch' => 'required',
                 'bank' => 'required',
                 'accountName' => 'required',
                 'accountNumber' => 'required|numeric|min:11|max:11',
-                'accountType'=>'required',
+                'accountType' => 'required',
                 'gender' => 'required',
                 'staffUnit' => 'required',
                 'staffDepartment' => 'required',
                 'staffDepartmentRole' => 'required',
                 'g_name' => 'required',
-                'g_phone'=>'required',
-                'g_email'=>'required',
-                'g_office_address'=>'required',
-                'g_home_address'=>'required',
+                'g_phone' => 'required',
+                'g_email' => 'required',
+                'g_office_address' => 'required',
+                'g_home_address' => 'required',
                 'resumptionDate' => 'required',
                 'assumptionDate' => 'required',
                 'terminationDate' => 'required',
                 'staffLevel' => 'required',
                 'resumptionType' => 'required',
-                'staff_number'=> 'required'
+                'staff_number' => 'required'
             ]);
 
-	    $companyInfo = $request->session()->put('companyInfo', $validatedData);
-	    Log::info($request->session());
-            $education_qual_collection= \App\Qualification::all();
+            $companyInfo = $request->session()->put('companyInfo', $validatedData);
+            Log::info($request->session());
+            $education_qual_collection = \App\Qualification::all();
             $education_type_collection = \App\EducationType::all();
             $education_class_collection = \App\EducationClass::all();
             //$department = \App\Department::all();
-            return view('admin.staff.createEduAndWorkExperience',compact(["education_qual_collection","education_type_collection","education_class_collection"]));
-
+            return view('admin.staff.createEduAndWorkExperience', compact(["education_qual_collection", "education_type_collection", "education_class_collection"]));
         }
     }
 
 
-    function createWorkAndEduction(Request $request){
+    function createWorkAndEduction(Request $request)
+    {
 
-        if(isset($request->back)){
-            if($request->session()->has('companyInfo')){
+        if (isset($request->back)) {
+            if ($request->session()->has('companyInfo')) {
 
                 $companyInfo = $request->session()->get('companyInfo');
                 $departments = \App\Department::all();
@@ -334,13 +325,12 @@ class MainViewController extends BaseController
                 $levels = \App\Level::all();
                 $resumptionTypes = \App\ResumptionType::all();
                 $offices = \App\Office::all();
-                return view('admin.staff.createCompanyInfo', compact('companyInfo','offices','resumptionTypes','levels','units','banks','departments'));
-
+                return view('admin.staff.createCompanyInfo', compact('companyInfo', 'offices', 'resumptionTypes', 'levels', 'units', 'banks', 'departments'));
             }
         }
 
-        if(isset($request->proceed)){
-           // dd($request);
+        if (isset($request->proceed)) {
+            // dd($request);
             $validatedData = $request->validate([
                 'establishment_name' => 'required',
                 'work_start_year' => 'required',
@@ -356,10 +346,10 @@ class MainViewController extends BaseController
                 'education_class_id' => 'required',
             ]);
 
-	    $companyInfo = $request->session()->put('workEducation', $validatedData);
-	    Log::info($request->session());
-	    $data = $request->session()->all();//dd($data);
-	    Log::info($data);
+            $companyInfo = $request->session()->put('workEducation', $validatedData);
+            Log::info($request->session());
+            $data = $request->session()->all(); //dd($data);
+            Log::info($data);
             return view('admin.staff.preview');
             //$createEmp = new CreateStaffClass();
             //$response = $createEmp->creatStaff($request,$data);		
@@ -367,36 +357,37 @@ class MainViewController extends BaseController
     }
 
     //crud for Level Starts
-    public function createLevel(Request $request){
+    public function createLevel(Request $request)
+    {
 
-        if(isset($request->submit) && $request->submit == "createLevel"){
+        if (isset($request->submit) && $request->submit == "createLevel") {
             $requiredDoc = "";
             //$count = sizeof($request->selectedDoc);
             //dd($request);
-            if (!isset($request->selectedDoc)){
+            if (!isset($request->selectedDoc)) {
                 alert()->error('Please make a selection.', 'No Selection');
                 return redirect()->back();
             }
-            foreach($request->selectedDoc as $selected){
-                $requiredDoc = $selected.",".$requiredDoc ;
+            foreach ($request->selectedDoc as $selected) {
+                $requiredDoc = $selected . "," . $requiredDoc;
             }
             $requiredD = rtrim($requiredDoc, ",");
-            $check = \App\Level::where("title",$request->name)->exists();
-            if($check){
+            $check = \App\Level::where("title", $request->name)->exists();
+            if ($check) {
                 $documents = \App\Document_table::all();
 
                 alert()->error("Level already Exist", 'Success');
-                return redirect()->back()->with("message","Level Already Exists",compact('documents'));
+                return redirect()->back()->with("message", "Level Already Exists", compact('documents'));
             }
 
             //dd($requiredD);
             $create = new \App\Level([
 
-                "title"=>$request->name,
-                "required_doc_ids"=>$requiredD,
-                "salary"=> $request->salary,
+                "title" => $request->name,
+                "required_doc_ids" => $requiredD,
+                "salary" => $request->salary,
             ]);
-            if($create->save()){
+            if ($create->save()) {
 
                 // return response()->json([
                 //     "status"=> "200",
@@ -405,61 +396,60 @@ class MainViewController extends BaseController
                 $documents = \App\Document_table::all();
 
                 alert()->success("Level Created Successfully", 'Success');
-                return redirect()->back()->with("message","Level Created Successfully",compact('documents'));
+                return redirect()->back()->with("message", "Level Created Successfully", compact('documents'));
             }
-
-
-        }else{
+        } else {
             $documents = \App\Document_table::all();
-            return view('admin.staff.data.createLevel',compact('documents'));
+            return view('admin.staff.data.createLevel', compact('documents'));
         }
     }
 
-    public function viewLeave(Request $request){
+    public function viewLeave(Request $request)
+    {
 
         $offtypes = \App\OffType::all();
 
-        return view('admin.staff.data.viewLeave',compact('offtypes'));
-
+        return view('admin.staff.data.viewLeave', compact('offtypes'));
     }
 
-    public function viewLevel(Request $request){
+    public function viewLevel(Request $request)
+    {
         $levels = \App\Level::all();
-        return view('admin.staff.data.viewLevel',compact('levels'));
+        return view('admin.staff.data.viewLevel', compact('levels'));
     }
 
-    public function updateLevel(Request $request){
+    public function updateLevel(Request $request)
+    {
         //dd($request);
-        $levelDetails = \App\Level::where('id',$request->id)->first();
-        if(isset($request->submit) && $request->submit == "edit"){
+        $levelDetails = \App\Level::where('id', $request->id)->first();
+        if (isset($request->submit) && $request->submit == "edit") {
             //	dd($request->id);
             //$levelDetails = \App\Level::where('id',$request->id)->first();
 
             $required_doc = [];
-            $strr = explode(",",$levelDetails->required_doc_ids);
+            $strr = explode(",", $levelDetails->required_doc_ids);
             //dd($strr);
             $count = sizeof($strr);
-            for($i = 0; $i<$count;$i++){
+            for ($i = 0; $i < $count; $i++) {
                 array_push($required_doc, $strr[$i]);
             }
 
             $allDoc = \App\Document_table::all();
 
             $documents = [];
-            foreach($allDoc as $doc){
-                if(in_array($doc->id,$required_doc)){
-                    $renderDoc = ["id"=>$doc->id, "name"=>$doc->name,"type"=>"checked"];
+            foreach ($allDoc as $doc) {
+                if (in_array($doc->id, $required_doc)) {
+                    $renderDoc = ["id" => $doc->id, "name" => $doc->name, "type" => "checked"];
                     array_push($documents, $renderDoc);
-                }else{
-                    $renderDoc = ["id"=>$doc->id, "name"=>$doc->name,"type"=>"unchecked"];
+                } else {
+                    $renderDoc = ["id" => $doc->id, "name" => $doc->name, "type" => "unchecked"];
                     array_push($documents, $renderDoc);
                 }
             }
             $level_id = $request->id;
             $salary = $levelDetails->salary;
             $name = $levelDetails->title;
-            return view('admin.staff.data.editLevel',compact(['documents','level_id','salary','name']));
-
+            return view('admin.staff.data.editLevel', compact(['documents', 'level_id', 'salary', 'name']));
         }
 
 
@@ -468,237 +458,240 @@ class MainViewController extends BaseController
         $requiredDoc = "";
         $count = sizeof($request->selectedDoc);
         //dd($request->selectedDoc);
-        foreach($request->selectedDoc as $selected){
-            $requiredDoc = $selected.",".$requiredDoc ;
+        foreach ($request->selectedDoc as $selected) {
+            $requiredDoc = $selected . "," . $requiredDoc;
         }
-        $levels = \App\Level::where('id',$request->id)->update(["title"=>$request->name,"salary"=>$request->salary,"required_doc_ids"=>$requiredDoc]);
-        if($levels){
+        $levels = \App\Level::where('id', $request->id)->update(["title" => $request->name, "salary" => $request->salary, "required_doc_ids" => $requiredDoc]);
+        if ($levels) {
             $message = "level Updated Successfully";
             $levels = \App\Level::all();
-            return view('admin.staff.data.viewLevel',compact(['message','levels']));
+            return view('admin.staff.data.viewLevel', compact(['message', 'levels']));
         }
     }
 
-    public function deleteLevel(Request $request){
+    public function deleteLevel(Request $request)
+    {
 
-        $levels = \App\Level::where('id',$request->id)->delete();
-        if($levels){
+        $levels = \App\Level::where('id', $request->id)->delete();
+        if ($levels) {
             $message = "level Deleted Successfully";
-            return view('admin.staff.data.viewLevel',compact('message'));
+            return view('admin.staff.data.viewLevel', compact('message'));
         }
     }
 
-    public function viewLeaveCategory(Request $request){
+    public function viewLeaveCategory(Request $request)
+    {
 
         $offcategories = \App\OffCategory::all();
 
-        return view('admin.staff.data.viewLeaveCategory',compact('offcategories'));
-
+        return view('admin.staff.data.viewLeaveCategory', compact('offcategories'));
     }
 
-    public function updateDeleteLeaveType(Request $request){
+    public function updateDeleteLeaveType(Request $request)
+    {
         //dd($request);
-        if(isset($request->submit) && $request->submit == "update"){
-            $offType = \App\OffType::where("id",$request->id)->update(["type"=>$request->type,"days"=>$request->days]);
+        if (isset($request->submit) && $request->submit == "update") {
+            $offType = \App\OffType::where("id", $request->id)->update(["type" => $request->type, "days" => $request->days]);
             //dd($request);
-            if($offType){
+            if ($offType) {
                 alert()->success("Updated Successfully", 'Success');
-                return redirect()->back()->with("message","Updated Successfully");
-            }else{
+                return redirect()->back()->with("message", "Updated Successfully");
+            } else {
                 alert()->error("An error occurred while updating", 'Success');
-                return redirect()->back()->with("message","An error occurred while updating");
+                return redirect()->back()->with("message", "An error occurred while updating");
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $resumptionTypes = \App\ResumptionType::where("id",$request->id)->delete();
-            if($resumptionTypes){
+            $resumptionTypes = \App\ResumptionType::where("id", $request->id)->delete();
+            if ($resumptionTypes) {
                 alert()->success("Deleted Successfully", 'Success');
-                return redirect()->back()->with("message","Deleted Successfully");
-            }else{
+                return redirect()->back()->with("message", "Deleted Successfully");
+            } else {
                 alert()->success("Could not delete this Level", 'Success');
-                return redirect()->back()->with("message","Could not delete this Level");
+                return redirect()->back()->with("message", "Could not delete this Level");
             }
-        }elseif($request->submit == "save"){
+        } elseif ($request->submit == "save") {
             $offtype = new \App\OffType([
-                "type"=>$request->type,
-                "days"=>$request->days,
+                "type" => $request->type,
+                "days" => $request->days,
             ]);
-            if($offtype->save()){
+            if ($offtype->save()) {
                 $offtypes = \App\OffType::all();
                 alert()->success("Leave Type Successfully Created", 'Success');
-                return redirect()->back()->with("message","Leave Type Successfully Created");
-
+                return redirect()->back()->with("message", "Leave Type Successfully Created");
             }
-
         }
-//	return view('admin.staff.data.createLeave');
+        //	return view('admin.staff.data.createLeave');
     }
 
-    public function createLeaveType(){
+    public function createLeaveType()
+    {
         //dd("here");
         return view('admin.staff.data.createLeaveType');
     }
 
-    public function createLeaveCategory(){
+    public function createLeaveCategory()
+    {
         //dd("here");
         return view('admin.staff.data.createLeaveCategory');
     }
 
-    public function updateDeleteLeaveCategory(Request $request){
+    public function updateDeleteLeaveCategory(Request $request)
+    {
         //dd($request);
-        if(isset($request->submit) && $request->submit == "update"){
-            $data = \App\OffCategory::where("id",$request->id)->update(["category"=>$request->type,"days"=>$request->days]);
+        if (isset($request->submit) && $request->submit == "update") {
+            $data = \App\OffCategory::where("id", $request->id)->update(["category" => $request->type, "days" => $request->days]);
             //dd($request);
-            if($data){
+            if ($data) {
                 alert()->success("Updated Successfully", 'Success');
-                return redirect()->back()->with("message","Updated Successfully");
-            }else{
+                return redirect()->back()->with("message", "Updated Successfully");
+            } else {
                 alert()->error("Could not update", 'Success');
-                return redirect()->back()->with("message","Could not update");
+                return redirect()->back()->with("message", "Could not update");
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $data = \App\OffCategory::where("id",$request->id)->delete();
-            if($data){
+            $data = \App\OffCategory::where("id", $request->id)->delete();
+            if ($data) {
                 alert()->success("Deleted Successfully", 'Success');
-                return redirect()->back()->with("message","Deleted Successfully");
-            }else{
+                return redirect()->back()->with("message", "Deleted Successfully");
+            } else {
                 alert()->success("Could not Delete this category", 'Success');
-                return redirect()->back()->with("message","Could not Delete this Category");
+                return redirect()->back()->with("message", "Could not Delete this Category");
             }
-        }elseif($request->submit == "save"){
+        } elseif ($request->submit == "save") {
             $data = new \App\OffCategory([
-                "category"=>$request->type,
-                "days"=>$request->days,
+                "category" => $request->type,
+                "days" => $request->days,
             ]);
-            if($data->save()){
+            if ($data->save()) {
                 $data = \App\OffCategory::all();
                 alert()->success("Created Successfully", 'Success');
-                return redirect()->back()->with("message","Leave Category Created Successfully");
-
+                return redirect()->back()->with("message", "Leave Category Created Successfully");
             }
-
         }
-
     }
 
 
     //crud for resumption types
 
-    public function createResumption(Request $request){
+    public function createResumption(Request $request)
+    {
         //dd($request);
-        if(isset($request->submit) && $request->submit == "createResumption"){
-            $check = \App\ResumptionType::where('title',$request->title)->exists();
+        if (isset($request->submit) && $request->submit == "createResumption") {
+            $check = \App\ResumptionType::where('title', $request->title)->exists();
 
-            if($check){
+            if ($check) {
 
-                return redirect()->back()->with("message","Resumption already exists");
-
+                return redirect()->back()->with("message", "Resumption already exists");
             }
             $create = new \App\ResumptionType([
 
-                "title"=>$request->title,
-                "starttime"=>$request->starttime,
-                "endtime"=> $request->endtime,
+                "title" => $request->title,
+                "starttime" => $request->starttime,
+                "endtime" => $request->endtime,
             ]);
-            if($create->save()){
+            if ($create->save()) {
 
-                return redirect()->back()->with("message","Resumption Created Successfully");
+                return redirect()->back()->with("message", "Resumption Created Successfully");
             }
-        }else{
+        } else {
 
             return view("admin.staff.data.createResumption");
         }
     }
 
 
-    public function viewResumption(Request $request){
-        $resumptionTypes = \App\ResumptionType::all();//dd($resumptionTypes);
-        return view("admin.staff.data.viewResumption",compact("resumptionTypes"));
+    public function viewResumption(Request $request)
+    {
+        $resumptionTypes = \App\ResumptionType::all(); //dd($resumptionTypes);
+        return view("admin.staff.data.viewResumption", compact("resumptionTypes"));
     }
 
 
-    public function updateAndDeleteResumption(Request $request){
+    public function updateAndDeleteResumption(Request $request)
+    {
 
-        if(isset($request->submit) && $request->submit == "update"){
-            $resumptionTypes = \App\ResumptionType::where("id",$request->id)->update(["title"=>$request->title,"starttime"=>$request->starttime,"endtime"=>$request->endtime]);
+        if (isset($request->submit) && $request->submit == "update") {
+            $resumptionTypes = \App\ResumptionType::where("id", $request->id)->update(["title" => $request->title, "starttime" => $request->starttime, "endtime" => $request->endtime]);
 
-            if($resumptionTypes){
+            if ($resumptionTypes) {
                 $resumptionTypes = \App\ResumptionType::all();
                 $message = "Resumption Updated Successfully";
-                return view("admin.staff.data.viewResumption",compact("resumptionTypes"))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewResumption", compact("resumptionTypes"))->with("message", $message);
+            } else {
                 $message = "Resumption Could not be Updated Successfully";
                 $resumptionTypes = \App\ResumptionType::all();
-                return view("admin.staff.data.viewResumption",compact("resumptionTypes"))->with("message",$message);
+                return view("admin.staff.data.viewResumption", compact("resumptionTypes"))->with("message", $message);
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $resumptionTypes = \App\ResumptionType::where("id",$request->id)->delete();
-            if($resumptionTypes){
+            $resumptionTypes = \App\ResumptionType::where("id", $request->id)->delete();
+            if ($resumptionTypes) {
                 $resumptionTypes = \App\ResumptionType::all();
                 $message = "Resumption Deleted Successfully";
-                return view("admin.staff.data.viewResumption",compact("resumptionTypes"))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewResumption", compact("resumptionTypes"))->with("message", $message);
+            } else {
                 $resumptionTypes = \App\ResumptionType::all();
                 $message = "Resumption Could not be Deleted Successfully";
-                return view("admin.staff.data.viewResumption",compact("resumptionTypes"))->with("message",$message);
+                return view("admin.staff.data.viewResumption", compact("resumptionTypes"))->with("message", $message);
             }
         }
-
     }
 
 
     //crud for Document types
-    public function createDocument(Request $request){
-        if(isset($request->submit) && $request->submit == "createDocument"){
+    public function createDocument(Request $request)
+    {
+        if (isset($request->submit) && $request->submit == "createDocument") {
             $create = new \App\Document_table([
-                "name"=>$request->title,
+                "name" => $request->title,
             ]);
-            if($create->save()){
+            if ($create->save()) {
 
-                return redirect()->back()->with("message","Document Created Successfully");
+                return redirect()->back()->with("message", "Document Created Successfully");
             }
-        }else{
+        } else {
 
             return view("admin.staff.data.createDocument");
         }
     }
 
-    public function viewDocument(Request $request){
+    public function viewDocument(Request $request)
+    {
         $document_table = \App\Document_table::all();
-        return view("admin.staff.data.viewDocument",compact("document_table"));
+        return view("admin.staff.data.viewDocument", compact("document_table"));
     }
 
 
-    public function updateAndDeleteDocument(Request $request){
+    public function updateAndDeleteDocument(Request $request)
+    {
         //dd($request);
-        if(isset($request->submit) && $request->submit == "update"){
-            $document_table = \App\Document_table::where("id",$request->id)->update(["name"=>$request->name]);
+        if (isset($request->submit) && $request->submit == "update") {
+            $document_table = \App\Document_table::where("id", $request->id)->update(["name" => $request->name]);
 
-            if($document_table){
+            if ($document_table) {
                 $document_table = \App\Document_table::all();
                 $message = "Document Updated Successfully";
-                return view("admin.staff.data.viewDocument",compact("document_table"))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewDocument", compact("document_table"))->with("message", $message);
+            } else {
                 $document_table = \App\Document_table::all();
                 $message = "Document Could not be Updated Successfully";
-                return view("admin.staff.data.viewDocument",compact("document_table"))->with("message",$message);
+                return view("admin.staff.data.viewDocument", compact("document_table"))->with("message", $message);
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $document_table = \App\Document_table::where("id",$request->id)->delete();
-            if($document_table){
+            $document_table = \App\Document_table::where("id", $request->id)->delete();
+            if ($document_table) {
                 $document_table = \App\Document_table::all();
                 $message = "Document Deleted Successfully";
-                return view("admin.staff.data.viewDocument",compact("document_table"))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewDocument", compact("document_table"))->with("message", $message);
+            } else {
                 $document_table = \App\Document_table::all();
                 $message = "Document Could not be Deleted Successfully";
-                return view("admin.staff.data.viewDocument",compact("document_table"))->with("message",$message);
+                return view("admin.staff.data.viewDocument", compact("document_table"))->with("message", $message);
             }
         }
-
     }
 
 
@@ -709,51 +702,53 @@ class MainViewController extends BaseController
 
     //crud for Status types
 
-    public function createStatus(Request $request){
-        if(isset($request->submit) && $request->submit == "createStatus"){
+    public function createStatus(Request $request)
+    {
+        if (isset($request->submit) && $request->submit == "createStatus") {
             $create = new \App\Status([
-                "title"=>$request->title,
+                "title" => $request->title,
             ]);
-            if($create->save()){
+            if ($create->save()) {
 
-                return redirect()->back()->with("message","Status Created Successfully");
+                return redirect()->back()->with("message", "Status Created Successfully");
             }
-        }else{
+        } else {
             return view("admin.staff.data.createStatus");
         }
     }
 
 
-    public function viewStatus(Request $request){
+    public function viewStatus(Request $request)
+    {
         $status = \App\Status::all();
-        return view("admin.staff.data.viewStatus",compact("status"));
+        return view("admin.staff.data.viewStatus", compact("status"));
     }
 
 
-    public function updateAndDeleteStatus(Request $request){
+    public function updateAndDeleteStatus(Request $request)
+    {
 
-        if(isset($request->submit) && $request->submit == "update"){
-            $status = \App\Status::where("id",$request->id)->update(["title"=>$request->title]);
+        if (isset($request->submit) && $request->submit == "update") {
+            $status = \App\Status::where("id", $request->id)->update(["title" => $request->title]);
 
-            if($status){
+            if ($status) {
                 $message = "Document Updated Successfully";
-                return view("admin.staff.data.viewStatus")->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewStatus")->with("message", $message);
+            } else {
                 $message = "Resumption Could not be Updated Successfully";
-                return view("admin.staff.data.viewStatus")->with("message",$message);
+                return view("admin.staff.data.viewStatus")->with("message", $message);
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $status = \App\Status::where("id",$request->id)->delete();
-            if($status){
+            $status = \App\Status::where("id", $request->id)->delete();
+            if ($status) {
                 $message = "Document Deleted Successfully";
-                return view("admin.staff.data.viewStatus")->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewStatus")->with("message", $message);
+            } else {
                 $message = "Status Could not be Deleted Successfully";
-                return view("admin.staff.data.viewStatus")->with("message",$message);
+                return view("admin.staff.data.viewStatus")->with("message", $message);
             }
         }
-
     }
 
 
@@ -764,105 +759,114 @@ class MainViewController extends BaseController
 
 
     //crud for Status Role
-    public function createStaffRole(Request $request){
-        if(isset($request->submit) && $request->submit == "createRole"){
+    public function createStaffRole(Request $request)
+    {
+        if (isset($request->submit) && $request->submit == "createRole") {
             $create = new \App\StaffRole([
-                "role"=>$request->role,
+                "role" => $request->role,
             ]);
-            if($create->save()){
+            if ($create->save()) {
 
-                return redirect()->back()->with("message","Role Created Successfully");
+                return redirect()->back()->with("message", "Role Created Successfully");
             }
-        }else{
+        } else {
             return view("admin.staff.data.createRole");
         }
     }
 
 
-    public function viewStaffRole(Request $request){
+    public function viewStaffRole(Request $request)
+    {
         $staffRole = \App\StaffRole::all();
-        return view("admin.staff.data.viewRole",compact("staffRole"));
+        return view("admin.staff.data.viewRole", compact("staffRole"));
     }
 
 
-    public function updateAndDeleteStaffRole(Request $request){
+    public function updateAndDeleteStaffRole(Request $request)
+    {
 
-        if(isset($request->submit) && $request->submit == "update"){
-            $staffRole = \App\StaffRole::where("id",$request->id)->update(["role"=>$request->role]);
-            if($staffRole){
+        if (isset($request->submit) && $request->submit == "update") {
+            $staffRole = \App\StaffRole::where("id", $request->id)->update(["role" => $request->role]);
+            if ($staffRole) {
                 $message = "Staff role Updated Successfully";
                 $staffRole = \App\StaffRole::all();
-                return view("admin.staff.data.viewRole",compact("staffRole"))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewRole", compact("staffRole"))->with("message", $message);
+            } else {
                 $message = "Staff Role Could not be Updated Successfully";
                 $staffRole = \App\StaffRole::all();
-                return view("admin.staff.data.viewRole",compact("staffRole"))->with("message",$message);
+                return view("admin.staff.data.viewRole", compact("staffRole"))->with("message", $message);
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $status = \App\Status::where("id",$request->id)->delete();
-            if($status){
+            $status = \App\Status::where("id", $request->id)->delete();
+            if ($status) {
                 $staffRole = \App\StaffRole::all();
                 $message = "Staff Role Deleted Successfully";
-                return view("admin.staff.data.viewStaffRole",compact("staffRole"))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewStaffRole", compact("staffRole"))->with("message", $message);
+            } else {
                 $staffRole = \App\StaffRole::all();
                 $message = "Status Could not be Deleted Successfully";
-                return view("admin.staff.data.viewRole",compact("staffRole"))->with("message",$message);
+                return view("admin.staff.data.viewRole", compact("staffRole"))->with("message", $message);
             }
         }
-
     }
 
 
     //crud for Offenses types
-    public function createOffence(Request $request){
-        if(isset($request->submit) && $request->submit == "createOffence"){
-            $create = new \App\Offence([
-                "name"=>$request->name,
-                "amount"=>$request->amount
-            ]);
-            if($create->save()){
-
-                return redirect()->back()->with("message","Offence Created Successfully");
+    public function createOffence(Request $request)
+    {
+        
+        if (isset($request->submit) && $request->submit == "createOffence") {
+            //dd($request);
+            $amt = $request->amount; //dd($amt);
+            $create = DB::table('offences')->insert(['name'=> $request->name, 'amount' => $amt]);
+            // $create = new \App\Offence([
+            //     "name" => $request->name,
+            //     "amount" => $amt,
+            // ]);
+            
+            if ($create) {
+                return redirect()->back()->with("message", "Offence Created Successfully");
             }
-        }else{
+        } else {
             return view("admin.staff.data.createOffence");
         }
     }
 
 
-    public function viewOffence(Request $request){
+    public function viewOffence(Request $request)
+    {
         $offence = \App\Offence::all();
-        return view("admin.staff.data.viewOffence",compact("offence"));
+        return view("admin.staff.data.viewOffence", compact("offence"));
     }
 
 
-    public function updateAndDeleteOffence(Request $request){
-//	dd($request);
-        if(isset($request->submit) && $request->submit == "update"){
-            $staffRole = \App\Offence::where("id",$request->id)->update(["name"=>$request->name,"amount"=>$request->amount]);
+    public function updateAndDeleteOffence(Request $request)
+    {
+        //	dd($request);
+        if (isset($request->submit) && $request->submit == "update") {
+            $staffRole = \App\Offence::where("id", $request->id)->update(["name" => $request->name, "amount" => $request->amount]);
 
-            if($staffRole){
+            if ($staffRole) {
                 $offence = \App\Offence::all();
                 $message = "Staff Offence Updated Successfully";
-                return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
+            } else {
                 $message = "Staff Offence Could not be Updated Successfully";
                 $offence = \App\Offence::all();
-                return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
+                return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
             }
-        }else if($request->submit == "delete"){
+        } else if ($request->submit == "delete") {
 
-            $status = \App\Offence::where("id",$request->id)->delete();
-            if($status){
+            $status = \App\Offence::where("id", $request->id)->delete();
+            if ($status) {
                 $message = "Staff offence Deleted Successfully";
                 $offence = \App\Offence::all();
-                return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
-            }else{
+                return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
+            } else {
                 $message = "Offence Could not be Deleted Successfully";
                 $offence = \App\Offence::all();
-                return view("admin.staff.data.viewOffence",compact('offence'))->with("message",$message);
+                return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
             }
         }
     }
