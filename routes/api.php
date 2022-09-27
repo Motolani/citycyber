@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,4 +28,6 @@ Route::post('getOffences', 'ApiController@getOffences')->name('getOffences');
 Route::get('getStaff/{branch_id}', 'ApiController@getStaff')->name('getStaff');
 
 Route::post('loadParent', 'ApiController@loadParent')->name('loadParent');
+
+Route::post('/newNotification', 'NotificationController@newNotification');
 //loadType

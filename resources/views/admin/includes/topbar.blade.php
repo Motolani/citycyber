@@ -37,24 +37,30 @@
                     </h5>
                 </div>
                 @php
-                    $notif = \App\Notification::where('staff_id',null)->orWhere('staff_id',Auth::id())->orderBy('id','desc')->get();
+                    // $notif = \App\Notification::Where('staff_id',Auth::id())->orderBy('id','desc')->get();
+                    $notif = App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                                ->where('notification_lists.status', 0)
+                                ->select('notifications.*', 'notification_lists.notifying_userid')
+                                ->get();
                     // $notif = DB::select( DB::raw("select * from notifications where  = null or where (staff_id='$user_id' or staff_id = null) limit 1") );
                 @endphp
                 <div style="max-height: 230px;" data-simplebar>
                     @if(isset($notif))
-                        @foreach ($notif as $msg)
-                            <!-- item-->
-                            <a href="{{url('readNotif/'.$msg->id)}}" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-primary">
-                                    <i class="mdi mdi-comment-account-outline"></i>
-                                </div>
-                                <p class="notify-details">{{$msg->title}}
-                                    <small class="text-muted">{{$msg->title}}</small>
-                                </p>
-                            </a>
-                        
-                            <!-- item-->
-                        @endforeach
+                        {{-- @if($notif->notifying_userid || $notif->recipient_id) --}}
+                            @foreach ($notif as $msg)
+                                <!-- item-->
+                                <a href="{{url('readNotif/'.$msg->id)}}" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-primary">
+                                        <i class="mdi mdi-comment-account-outline"></i>
+                                    </div>
+                                    <p class="notify-details">{{$msg->title}}
+                                        <small class="text-muted">{{$msg->title}}</small>
+                                    </p>
+                                </a>
+                            
+                                <!-- item-->
+                            @endforeach
+                        {{-- @endif --}}
                     @endif
                        
                 </div>
