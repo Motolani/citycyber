@@ -97,7 +97,14 @@ Dashboard
                                     <td>{{$data->area}}</td>
                                     <td>{{$data->region}}</td>
                                     <td>{{$data->department}}</td>
-                                    <td>{{$data->offenceStatus }}</td>
+                                    <td>
+                                        <span role="alert" 
+                                    @php
+                                        if($data->offenceStatus == "confirmed"){echo "class='alert alert-success'";}
+                                        elseif($data->offenceStatus == "cancelled"){echo "class='alert alert-danger'";}
+                                        else{echo "class='alert alert-primary'";}
+                                    @endphp
+                                    >{{$data->offenceStatus }}</span></td>
                                     <td>{{$data->actionBy }}</td>
                                     <td>{{$data->actionComment }}</td>
                                     <td>{{$data->actionDate }}</td>

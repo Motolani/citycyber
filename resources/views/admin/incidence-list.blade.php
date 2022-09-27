@@ -78,7 +78,7 @@
                                                 <tr>
                                                     <td><input type="checkbox" class="checkable" name="items[]" value="{{$incident->id}}" /></td>
                                                     <td>{{$incident->created_at}}</td>
-                                                    <td>{{!isset($incident->staff) ? "" : $incident->staff->firstname}}</td>
+                                                    <td>{{!isset($incident->staff) ? "" : $incident->staff->firstname." ".$incident->staff->lastname}}</td>
                                                     <td>{{$incident->offence}}</td>
                                                     <td>{{$incident->comment}}</td>
                                                     <td>{{$incident->amount}}</td>
@@ -86,8 +86,8 @@
                                                     <td>{{$incident->hubName}}</td>
                                                     <td>{{$incident->area}}</td>
                                                     <td>{{$incident->region}}</td>
-                                                    <td>{{$incident->admin->firstname}}</td>
-                                                    <td>{{$incident->status}}</td>
+                                                    <td>{{$incident->admin->firstname ." ". $incident->admin->lastname}}</td>
+                                                    <td><span class="{{($incident->status == 'pending') ? "alert alert-primary" : ''}}" role="alert">{{$incident->status}}</span></td>
                                                     <td>
                                                         @if($incident->status == 'pending')
                                                             <a href="#" onclick="friedthis1({{$incident->id}})" class="btn btn-primary btn-sm accept"><span class="uil-check"></span></a>

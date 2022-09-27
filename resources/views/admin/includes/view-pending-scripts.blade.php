@@ -2,10 +2,10 @@
     //When Accept button is clicked
     $(".accept, .deny").click(function(e) {
         e.preventDefault();
-        let res = confirm("Are you sure you want to Perform this action?");
-        if (res) {
-            window.location.href = $(this).attr('href');
-        }
+        // let res = confirm("Are you sure you want to Perform this action?");
+        // if (res) {
+        //     window.location.href = $(this).attr('href');
+        // }
     });
 
     //When the Accept Bulk Button is clicked
