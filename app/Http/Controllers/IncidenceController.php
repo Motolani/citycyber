@@ -6,6 +6,8 @@ use App\IncidenceOpration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 class IncidenceController extends BaseController
 {
     /**
@@ -30,7 +32,7 @@ class IncidenceController extends BaseController
     {
         return view('admin.home');
     }
-	/*
+    /*
     public function viewCreateIncidence(Request $request){
         $offences = \App\Offence::all();//dd($offences);
         $user_id = $request->user_id;//dd($request);
@@ -66,35 +68,35 @@ class IncidenceController extends BaseController
     
        }
 	*/
-	
+
     public function viewIncidence()
     {
         $incidents = \App\IncidenceOpration::all();
-        $offenceRaised = \App\IncidenceOpration::join('offices','offices.id','incidenceoprations.branch_id')
-                //->join('departments','departments.id','')
-                ->join('offences','offences.id','incidenceoprations.offence_id')
-                ->join('users','users.id','incidenceoprations.staff_id')
-                //->where('incidenceoprations.staff_id',$user_id)
-                ->select('users.*','offices.name as officename','offences.name as offencename','offences.amount','incidenceoprations.comment','incidenceoprations.created_at as date','incidenceoprations.status as offenceStatus')
-                ->get();
+        $offenceRaised = \App\IncidenceOpration::join('offices', 'offices.id', 'incidenceoprations.branch_id')
+            //->join('departments','departments.id','')
+            ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+            ->join('users', 'users.id', 'incidenceoprations.staff_id')
+            //->where('incidenceoprations.staff_id',$user_id)
+            ->select('users.*', 'offices.name as officename', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.status as offenceStatus')
+            ->get();
         return view('admin.staff.operations.viewIncidence', compact('incidents', 'offenceRaised'));
     }
 
-    public function viewCreateIncidence(){
-        $id = Auth::user()->id;  
-        $staff = \App\User::find($id); 
-        $off = \App\Office::find($staff->office_id); 
-        $lev = \App\OfficeLevel::where('level', $off->level)->first();  
+    public function viewCreateIncidence()
+    {
+        $id = Auth::user()->id;
+        $staff = \App\User::find($id);
+        $off = \App\Office::find($staff->office_id);
+        $lev = \App\OfficeLevel::where('level', $off->level)->first();
         $levs = explode(",", $lev->children);  //dd($lev);
         $fils = \App\OfficeLevel::whereIn('id', $levs)->get();  //dd($fils);
-        
 
 
-        $offences = \App\Offence::all();//dd($offences);
-       // $staffs = \App\User::all(); //dd($staffs);
-	    $branches = \App\Office::whereIn('level', $levs)->get(); //dd($branches);
-        return view('admin.staff.operations.createIncidence',compact(['offences', 'branches', 'fils']));
 
+        $offences = \App\Offence::all(); //dd($offences);
+        // $staffs = \App\User::all(); //dd($staffs);
+        $branches = \App\Office::whereIn('level', $levs)->get(); //dd($branches);
+        return view('admin.staff.operations.createIncidence', compact(['offences', 'branches', 'fils']));
     }
 
 
@@ -111,21 +113,51 @@ class IncidenceController extends BaseController
         $inc = new IncidenceOpration();
         $inc->branch_id = $staff->branchId;
         $inc->staff_id = $request->staff_id;
-        $inc->offence_id = $request->offence_id;
+        $inc->offence = $request->offence_id;
         $inc->comment = $request->comment;
         $inc->issuer_id = $user;
+        $inc->amount = $request->amount;
+        $inc->description = $request->description;
 
-        $inc->save();
-        alert()->success('Incidence Created Successfully', '');
-        return redirect()->back()->with("message",'Incidence Created Successfully');
+        if ($inc->save()) {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'http://localhost:8888/newcitycyber/public/api/newNotification',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "title=$inc->comment&message=$inc->comment&user_id=$inc->issuer_id&table_name=incidenceoprations&recipient_id=$inc->staff_id",
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            Log::info($response);
+
+            alert()->success('Incidence Created Successfully', '');
+            return redirect()->back()->with("message", 'Incidence Created Successfully');
+        }else{
+            alert()->success('Error creating Incidence', '');
+            return redirect()->back()->with("error", 'Error creating Incidence');
+        }
+
+        
     }
 
 
     public function getStaff($branch_id)
     {
-	    dd('hello world');
+        dd('hello world');
 
-	    $staff = \App\User::where('branchId',$branch_id)->get();
+        $staff = \App\User::where('branchId', $branch_id)->get();
         return response()->json($staff);
     }
 
@@ -139,30 +171,30 @@ class IncidenceController extends BaseController
 
     public function viewPendingIncidence(Request $request)
     {
-        $incidents = \App\IncidenceOpration::leftjoin('offices','offices.id','incidenceoprations.branch_id')
-                //->join('departments','departments.id','')
-                ->join('offences','offences.id','incidenceoprations.offence_id')
-                ->join('users','users.id','incidenceoprations.staff_id')
-                ->leftjoin('offices as otherOffice','offices.parentOfficeId','otherOffice.id')
-                //->join('officelevels','officelevels.id','offices.level')
-                //->where('incidenceoprations.staff_id',$user_id)
-                ->select('users.*','offices.name as officename','offices.level as officelevel','offices.region_acronym as region','offices.area_acronym as area','offences.name as offencename','offences.amount','incidenceoprations.comment','incidenceoprations.created_at as date','incidenceoprations.*', 'otherOffice.name as hubName')
-                ->where('incidenceoprations.status','pending')
-                ->get();
+        $incidents = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
+            //->join('departments','departments.id','')
+            ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+            ->join('users', 'users.id', 'incidenceoprations.staff_id')
+            ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
+            //->join('officelevels','officelevels.id','offices.level')
+            //->where('incidenceoprations.staff_id',$user_id)
+            ->select('users.*', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
+            ->where('incidenceoprations.status', 'pending')
+            ->get();
 
-     //    $incidents = IncidenceOpration::where('status', 'pending')
-     //        ->with('staff')
-	    // ->get();
-	// dd($incidents);
+        //    $incidents = IncidenceOpration::where('status', 'pending')
+        //        ->with('staff')
+        // ->get();
+        // dd($incidents);
         return view('admin.incidence-list', compact('incidents'));
     }
 
     public function approve($id)
     {
-	//dd($id);
+        //dd($id);
         $incident = IncidenceOpration::where('id', $id)
-		->first();
-	//dd($incident);
+            ->first();
+        //dd($incident);
 
         //Status 0 - Pending
         //Status 1 - Approved from 1st Admin        

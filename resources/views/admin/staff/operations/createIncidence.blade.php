@@ -76,7 +76,7 @@
                                                 <option value="">Select Offence</option>
                                                 @if (isset($offences))
                                                     @foreach ($offences as $offence)
-                                                        <option value="{{ $offence->id }}">{{ $offence->name }}</option>
+                                                        <option value="{{ $offence->name }}">{{ $offence->name }}</option>
                                                     @endforeach
                                                 @endif
                                                 <option value="others" id="show">Others</option>
