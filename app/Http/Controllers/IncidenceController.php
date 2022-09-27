@@ -107,18 +107,26 @@ class IncidenceController extends BaseController
             'offence_id' => 'required',
             'comment' => 'required',
         ]);
+        
         $user = Auth::user()->id;
         $staff = \App\User::where('id', $request->staff_id)->first();
 
         $inc = new IncidenceOpration();
         $inc->branch_id = $staff->branchId;
         $inc->staff_id = $request->staff_id;
-        $inc->offence = $request->offence_id;
-        $inc->comment = $request->comment;
-        $inc->issuer_id = $user;
-        $inc->amount = $request->amount;
-        $inc->description = $request->description;
-
+        if($request->offence_id != "others"){
+            $aa = explode("-", $request->offence_id); //dd($aa);
+            $inc->offence = $aa[0];
+            $inc->amount = $aa[1];
+        }else{
+            $inc->offence = $request->offence_id;
+            $inc->comment = $request->comment;
+            $inc->issuer_id = $user;
+            $inc->amount = $request->amount;
+            $inc->description = $request->description;
+        }
+        
+        
         if ($inc->save()) {
             $curl = curl_init();
 
