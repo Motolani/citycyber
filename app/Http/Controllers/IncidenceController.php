@@ -81,10 +81,19 @@ class IncidenceController extends BaseController
     }
 
     public function viewCreateIncidence(){
+        $id = Auth::user()->id;  
+        $staff = \App\User::find($id); 
+        $off = \App\Office::find($staff->office_id); 
+        $lev = \App\OfficeLevel::where('level', $off->level)->first();  
+        $levs = explode(",", $lev->children);  //dd($lev);
+        $fils = \App\OfficeLevel::whereIn('id', $levs)->get();  //dd($fils);
+        
+
+
         $offences = \App\Offence::all();//dd($offences);
        // $staffs = \App\User::all(); //dd($staffs);
-	$branches = \App\Office::whereIn('level', [6,7,8])->get();
-        return view('admin.staff.operations.createIncidence',compact(['offences', 'branches']));
+	    $branches = \App\Office::whereIn('level', $levs)->get(); //dd($branches);
+        return view('admin.staff.operations.createIncidence',compact(['offences', 'branches', 'fils']));
 
     }
 

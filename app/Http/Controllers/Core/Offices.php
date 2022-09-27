@@ -30,8 +30,12 @@ class Offices extends Controller
         return Office::all();
     }
 
-    public function GetAllLevels(){
-        return OfficeLevel::all();
+    public function GetAllLevels($office = true){
+        if($office)
+            return OfficeLevel::all();
+        else{
+            return OfficeLevel::where('id', '!=', 1)->get();
+        }
     }
 
     public function GetAllParents($level){
@@ -39,31 +43,31 @@ class Offices extends Controller
 
         switch ($level) {
             case 1:
-                $offices = Office::where("level", 1)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 1)->get();
                 break;
             case 2:
-                $offices = Office::where("level", 1)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 1)->get();
                 break;
             case 3:
-                $offices = Office::where("level", 2)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 2)->get();
                 break;
             case 4:
-                $offices = Office::where("level", 2)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 2)->get();
                 break;
             case 5:
-                $offices = Office::where("level", 3)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 3)->get();
                 break;  
             case 6:
-                $offices = Office::where("level", 3)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 3)->get();
                 break;  
             case 7:
-                $offices = Office::where("level", 5)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 5)->get();
                 break;
             case 8:
-                $offices = Office::where("level", 4)->get();
+                $offices = Office::leftJoin('officelevels', 'offices.level', 'officelevels.level')->select('offices.*', 'officelevels.name as office_level_name')->where("Offices.level", 4)->get();
                 break;              
         }
-
+        //dd($offices);
         if(sizeof($offices) > 0){ 
             return response()->json([
             "status" => "200",
@@ -154,6 +158,53 @@ class Offices extends Controller
 
         return $offices;
     }
+
+    public function GetAllBranches($level)
+    {
+        $offices = [];
+
+        switch ($level) {
+            case 1:
+                $offices = Office::where('level', $level)->get();
+                break;
+            case 2:
+                $offices = Office::where('level', $level)->get();
+                break;
+            case 3:
+                $offices = Office::where('level', $level)->get();
+                break;
+            case 4:
+                $offices = Office::where('level', $level)->get();
+                break;
+            case 5:
+                $offices = Office::where('level', $level)->get();
+                break;  
+            case 6:
+                $offices = Office::where('level', $level)->get();
+                break;  
+            case 7:
+                $offices = Office::where('level', $level)->get();
+                break;
+            case 8:
+                $offices = Office::where('level', $level)->get();
+                break;              
+        }
+        //dd($offices);
+        if(sizeof($offices) > 0){ 
+            return response()->json([
+            "status" => "200",
+            "data" => $offices,
+            "message" => "Offices Retrieved Successfully"
+            ]);
+        }
+
+            return response()->json([
+            "status" => "300",
+            "data" => [],
+            "message" => "No parent for the selected level."
+        ]);
+    }
+
 }
 
 ?>
