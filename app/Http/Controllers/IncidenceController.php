@@ -79,6 +79,7 @@ class IncidenceController extends BaseController
             //->where('incidenceoprations.staff_id',$user_id)
             ->select('users.*', 'offices.name as officename', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.status as offenceStatus')
             ->get();
+            
         return view('admin.staff.operations.viewIncidence', compact('incidents', 'offenceRaised'));
     }
 
