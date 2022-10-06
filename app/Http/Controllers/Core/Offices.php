@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 use App\Office;
 use App\OfficeLevel;
@@ -202,6 +203,34 @@ class Offices extends Controller
             "status" => "300",
             "data" => [],
             "message" => "No parent for the selected level."
+        ]);
+    }
+
+
+    public function GetAllMyOwnBranches($level, $id)
+    { 
+        
+        $offices = [];
+        
+        //DB::enableQueryLog() ;
+        $offices = Office::where('level', $level)
+        ->whereRaw('( parentOfficeId = ? or p2 = ? or p3 = ? or p4 = ? or id = ? )', [$id,$id,$id,$id,$id])
+        ->get();
+
+        //Log::info(DB::getQueryLog()) ;
+        //dd($offices);
+        if(sizeof($offices) > 0){ 
+            return response()->json([
+                "status" => "200",
+                "data" => $offices,
+                "message" => "Offices Retrieved Successfully"
+            ]);
+        }
+
+        return response()->json([
+            "status" => "300",
+            "data" => [],
+            "message" => "No office Available."
         ]);
     }
 
