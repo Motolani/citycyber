@@ -80,7 +80,7 @@
         function del(arg){
             //alert(arg)
             //var route = "{{ url('incident/approve') }}/"+arg;
-            var route = "{{ url('permissions') }}/"+arg;
+            var route = "{{ url('permissions/delete') }}/"+arg;
             //alert(route)
             Swal.fire({
                 showDenyButton: false,

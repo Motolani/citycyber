@@ -770,6 +770,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', 'RoleController');
     Route::get('roles/delete/{id}', 'RoleController@delete');
     Route::resource('permissions', 'PermissionController');
+    Route::get('permissions/delete/{id}', 'PermissionController@delete');
 });
 
 
