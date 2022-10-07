@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     protected $fillable = [
-        "title","senderId","message","status","type","notifying_name", "recipient_id"
+        "title","senderId","message","status","type","notifying_name", "recipient_id","type_url_path"
     ];
 }

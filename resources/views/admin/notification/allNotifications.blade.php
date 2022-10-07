@@ -3,20 +3,24 @@
 Dashboard
 @endsection
 @section('content')
+
+
+<!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-
-                    <li class="breadcrumb-item active" style="display:none" id="headerShow">Staff Suspension</li>
+                    <li class="breadcrumb-item"><a href="{{url('home')}}">CityCyber</a></li>
+                    <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                    <li class="breadcrumb-item active">Nofification</li>
                 </ol>
             </div>
-            <h4 class="page-title">Staff Suspension</h4>
+            <h4 class="page-title">Create Nofification</h4>
         </div>
     </div>
-</div>
-<!-- end page title -->
+</div>     
+<!-- end page title --> 
 
 <div class="row">
     <div class="col-12">
@@ -46,9 +50,6 @@ Dashboard
                         <input type="hidden" name="description" value="">--}}
                         <button name = "submit" class="btn btn-primary"><span class="uil-plus"></span>Raise incidence</button>
                 </form> -->
-                <button value="edit" id = "createBn" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#edit-modal1"><span style="color: #fff"
-                                                class="uil-plus"></span>Create Suspension</button>
 
                 <p style="margin-top: 10px" class="text-muted font-14">
                     Below are the incidences Raised
@@ -69,23 +70,18 @@ Dashboard
                             <thead>
                                 <tr>
                                     <th>Created Date</th>
-                                    <th>Staff Name</th>
-                                    <th>Branch</th>
-                                    {{--<th>Offence</th>--}}
-                                    <th>Status</th>
-                                   {{-- <th>amount</th>
-                                    <th>Issuer Name</th>--}}
-                                    
+                                    <th>Message</th>
+                                    <th>Type</th>                                    
+                                    <th>Action</th>                                    
                                 </tr>
                             </thead>
 
 
                             <tbody>
-                                @if(isset($suspensions))
-                                @foreach($suspensions as $data)
+                                @if(isset($notifications))
+                                @foreach($notifications as $data)
                                 <tr>
                                     {{--<td>
-                                      
                                         <button value="edit" class="btn bg-info btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#edit-modal1"><span style="color: #fff" class="uil-pen"></span></button>
                                         <a onclick="return confirm('Are you sure you want to delete {{$stat->allowance}}?, this action is not be reversable!.')"
@@ -94,11 +90,9 @@ Dashboard
                                         </a>
                                     </td>--}}
                                     <td>{{$data->created_at}}</td>
-                                    <td>{{$data->firstname}} {{$data->lastname}}</td>
-                                    <td>{{$data->officename}}</td>
-				    <td>{{$data->status ==1?'Approved':'Pending'}}</td>
-                                    {{--<td>₦ {{$data->firstname $data->lastname}}</td>
-                                    <td>{{$data->officename}}</td>--}}
+                                    <td>{{$data->message}}</td>
+                                    <td>{{$data->notifying_name}}</td>
+                                    <td><a href="{{url($data->type_url_path)}}">View</a></td>
                                 </tr>
                                 @endforeach
                                 @endif
@@ -108,7 +102,7 @@ Dashboard
 
                 </div> <!-- end tab-content-->
                 
-                <div class="tab-content">
+                {{-- <div class="tab-content">
                     <div class="tab-pane show active" id="modal-position-preview">
                         <div id="edit-modal1" class="modal fade" tabindex="-1"
                             role="dialog" aria-hidden="true">
@@ -156,7 +150,7 @@ Dashboard
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->
                     </div>
-                </div>
+                </div> --}}
 
             </div> <!-- end card body-->
         </div> <!-- end card -->
@@ -242,4 +236,3 @@ Dashboard
 </script>
 
 @endsection
-

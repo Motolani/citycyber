@@ -610,6 +610,7 @@ Route::get('createNotification', 'NotificationController@createNotificationForm'
 Route::post('createNotification', 'NotificationController@createNotification')->name("createNotification");
 Route::get('readNotif/{id}', 'NotificationController@readNotif');
 Route::get('inbox', 'NotificationController@inbox')->name("inbox");
+Route::get('allNotification', 'NotificationController@allNotification')->name("allNotification");
 
 
 

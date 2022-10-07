@@ -140,9 +140,9 @@ class IncidenceController extends BaseController
         
         if ($inc->save()) {
             $curl = curl_init();
-
+            $url = url('api/newNotification');
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://127.0.0.1:8002/api/newNotification',
+                CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
