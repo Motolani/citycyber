@@ -497,6 +497,23 @@
                                 </ul>
                             </div>
                         </li>
+
+                        <li class="side-nav-item">
+                            <a data-bs-toggle="collapse" href="#rolesandpermission" aria-expanded="false" aria-controls="rolesandpermission">
+                                <span> Roles and Permission Module </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="rolesandpermission">
+                                <ul class="side-nav-third-level">
+                                    <li>
+                                        <a href="{{route('roles.index')}}">Roles</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('permissions.index')}}">Permission</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </li>

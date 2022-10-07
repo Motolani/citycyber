@@ -763,9 +763,14 @@ Route::get('updateanddeletebankaccount', 'BankController@updateAndDeleteBankAcco
 
 //createPosFormData
 
+
+
 //Roles and Permissions
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', 'RoleController');
+    Route::get('roles/delete/{id}', 'RoleController@delete');
+    Route::resource('permissions', 'PermissionController');
+    Route::get('permissions/delete/{id}', 'PermissionController@delete');
 });
 
 
@@ -835,3 +840,9 @@ Route::post('/store-game-name','GameNameController@storeGameName');
 Route::get('/edit-game-name/{id}','GameNameController@editGameName');
 Route::post('/update-game-name/{id}','GameNameController@updateGameName')->name('updategamename');
 Route::get('/delete-game-name/{id}','GameNameController@deleteGameName')->name('deletegamename');
+
+
+
+
+
+

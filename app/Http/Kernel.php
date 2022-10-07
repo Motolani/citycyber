@@ -65,6 +65,9 @@ class Kernel extends HttpKernel
         /* 'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class, */
         'validate-amount' => \App\Http\Middleware\ValidateAmount::class,
        /*  'entrust-gui.admin' => \Acoustep\EntrustGui\Http\Middleware\AdminAuth::class, */
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
 
     ];
 
