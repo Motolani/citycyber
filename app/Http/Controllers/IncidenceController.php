@@ -72,12 +72,23 @@ class IncidenceController extends BaseController
     public function viewIncidence()
     {
         $incidents = \App\IncidenceOpration::all();
-        $offenceRaised = \App\IncidenceOpration::join('offices', 'offices.id', 'incidenceoprations.branch_id')
+        // $offenceRaised = \App\IncidenceOpration::join('offices', 'offices.id', 'incidenceoprations.branch_id')
+        //     //->join('departments','departments.id','')
+        //     ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+        //     ->join('users', 'users.id', 'incidenceoprations.staff_id')
+        //     //->where('incidenceoprations.staff_id',$user_id)
+        //     ->select('users.*', 'offices.name as officename', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.status as offenceStatus')
+        //     ->get();
+        
+        $offenceRaised = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
             //->join('departments','departments.id','')
-            ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+            // ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
             ->join('users', 'users.id', 'incidenceoprations.staff_id')
+            ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
+            //->join('officelevels','officelevels.id','offices.level')
             //->where('incidenceoprations.staff_id',$user_id)
-            ->select('users.*', 'offices.name as officename', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.status as offenceStatus')
+            ->select('users.*', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
+            ->where('incidenceoprations.status', '!=', 'pending')
             ->get();
             
         return view('admin.staff.operations.viewIncidence', compact('incidents', 'offenceRaised'));

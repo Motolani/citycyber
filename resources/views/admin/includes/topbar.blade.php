@@ -42,6 +42,7 @@
                                 ->where('notification_lists.status', 0)
                                 ->select('notifications.*', 'notification_lists.notifying_userid')
                                 ->get();
+                                Log::info($notif);
                     // $notif = DB::select( DB::raw("select * from notifications where  = null or where (staff_id='$user_id' or staff_id = null) limit 1") );
                 @endphp
                 <div style="max-height: 230px;" data-simplebar>
@@ -54,7 +55,7 @@
                                         <i class="mdi mdi-comment-account-outline"></i>
                                     </div>
                                     <p class="notify-details">{{$msg->title}}
-                                        <small class="text-muted">{{$msg->title}}</small>
+                                        <small class="text-muted">{{$msg->type}}</small>
                                     </p>
                                 </a>
                             

@@ -87,7 +87,7 @@ Dashboard
 				                    <td>
                                         {{$data->issuer}}
                                     </td>
-                                    <td>{{$data->offencename}}</td>
+                                    <td>{{$data->offence}}</td>
                                     <td>{{$data->amount}}</td>
                                     <td>{{$data->comment}}</td>
                                     <td>{{date('d-m-Y', strtotime($data->date))}}</td>
