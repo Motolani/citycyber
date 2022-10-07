@@ -129,6 +129,8 @@
 @section('script')
     <script type="text/javascript">
         var branches = {!! $branches !!};
+        staff_stringk = "<option>Select Staff</option>";
+        $('#staff_id').html(staff_stringk)
 
         console.log("branches", branches);
 
@@ -151,8 +153,8 @@
 
                         for (let i = 0; i < staff_array.length; i++) {
                             let name = staff_array[i].firstname + " " + staff_array[i].lastname
-                            staff_string += "<option value='" + staff_array[i].id + "'>" +
-                                name + "</option>"
+                            let level = " - " +  staff_array[i].levelName;
+                            staff_string += "<option value='" + staff_array[i].id + "'>" + name + level + "</option>"
 
                         }
                         $('#staff_id').append(staff_string)
@@ -185,10 +187,14 @@
                     console.log('#filter');
                     let header = $('headerShow');
                     let level = $(this).val();
+                    console.log("before");
+                   var id= {{ $off->id }};
 
                     
                     console.log("level_go", level);
-                    getAllOffice(level);
+                    console.log("level_go");
+                    console.log("iddddddd", id);
+                    getAllOffice(level, id);
 
                 });
             });
@@ -234,14 +240,15 @@
             }
 
 
-            function getAllOffice(level_id) {
-                let url = "{{ url('api/getAllOffice') }}";
+            function getAllOffice(level_id, id) {
+                let url = "{{ url('api/getAllOffice/') }}";
                 console.log('mymessage   ' + url);
                 $.ajax({
                     url: url,
                     type: 'post',
                     data: {
-                        level: level_id
+                        level: level_id,
+                        id: id
                     },
 
                     success: function(response) {
@@ -267,6 +274,10 @@
                 // let data  = JSON.parse(response.data);
                 let data = response;
                 let status = data.status;
+                let optionk =
+                            `<option> Select Office</option>`;
+                $("#branch_id").html(optionk);
+                $("#report").html(optionk);
 
                 console.log("statusBelowCheck", data);
                 if (status == "200") {

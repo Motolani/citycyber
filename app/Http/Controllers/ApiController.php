@@ -29,7 +29,7 @@ class ApiController extends BaseController
 	public function getAllOffice(Request $request)
 	{
 		$offices = new Offices();
-		$getParent = $offices->GetAllBranches($request->level);
+		$getParent = $offices->GetAllMyOwnBranches($request->level, $request->id);
 		$dec = (object)$getParent->original;
 		//dd($dec);
 
@@ -64,7 +64,7 @@ class ApiController extends BaseController
 
 	public function getStaff($branch_id)
 	{
-		$staff = \App\User::where('branchId', $branch_id)->get();
+		$staff = \App\User::leftJoin('levels', 'levels.id', 'users.level')->where('branchId', $branch_id)->select('users.*', 'levels.title as levelName')->get();
 		return response()->json([
 			"data" => $staff,
 			"status" => "200",
