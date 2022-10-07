@@ -125,6 +125,12 @@ class NotificationController extends BaseController
         $notification->message = $request->message;
         $notification->user_id = $issuerId;
         $notification->type = $request->table_name;
+        if($request->table_name == 'incidenceoprations'){
+            $notification->notify_name = 'incidence';
+        }else{
+            $notification->notify_name = $request->table_name;
+            
+        }
         $notification->recipient_id = $request->recipient_id;
         $saveNotif = $notification->save();
 
