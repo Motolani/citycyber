@@ -53,7 +53,7 @@
                         {{-- @if($notif->notifying_userid || $notif->recipient_id) --}}
                             @foreach ($notif as $msg)
                                 <!-- item-->
-                                <a href="{{url('readNotif/'.$msg->id)}}" class="dropdown-item notify-item">
+                                <a href="{{url($msg->type_url_path)}}" class="dropdown-item notify-item">
                                     <div class="notify-icon bg-primary">
                                         <i class="mdi mdi-comment-account-outline"></i>
                                     </div>
@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- All-->
-                <a href="{{url('inbox')}}" class="dropdown-item text-center text-primary notify-item notify-all">
+                <a href="{{url('allNotification')}}" class="dropdown-item text-center text-primary notify-item notify-all">
                     View All
                 </a>
 
