@@ -12,7 +12,8 @@ Dashboard
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{url('home')}}">CityCyber</a></li>
-                    <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                    <li class="breadcrumb-item"><a href="#">Settings</a></li>
+                    <li class="breadcrumb-item"><a href="#">Offences</a></li>
                     <li class="breadcrumb-item active">Create Staff Offence</li>
                 </ol>
             </div>
@@ -48,7 +49,7 @@ Dashboard
 
                                     <div class="mb-3">
                                         <label for="example-email" class="form-label">offences Name</label>
-                                        <input type="text" id="name" name="name" class="form-control" placeholder="Office-name"required>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Offence-name"required>
                                     </div>
 
                                     <div class="mb-3">

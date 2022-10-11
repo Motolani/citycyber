@@ -42,10 +42,9 @@
                             <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th>Edit</th>
                                         <th>Name</th>
                                         <th>Amount</th>
-                                        <th>Delete</th>
+                                        <th>Actions</th>
                                 
                                     </tr>
                                 </thead>
@@ -56,19 +55,17 @@
                                     @foreach($offence as $type)
                                         <tr>
 
-                                            <td>
-                                                <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$type->name}}','{{$type->amount}}','{{$type->id}}')"  class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
-                                            
-                                            </td>
                                             <td>{{$type->name}}</td>
                                             <td>{{$type->amount}}</td>
                                             
                                             <td>
-                                                <form method="post" action="{{url('updateAndDeleteOffence')}}">
+                                                <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$type->name}}','{{$type->amount}}','{{$type->id}}')"  class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
+                                                <a href="#" onclick="del({{$type->id}})" class="btn btn-danger btn-sm"><span class="uil-trash"></span></a>
+                                                {{-- <form method="post" action="{{url('updateAndDeleteOffence')}}">
                                                     @csrf
                                                         <input type="hidden" name="id" value="{{$type->id}}">
                                                         <button name = "submit" value = "delete" class="btn btn-danger btn-sm"><span class="uil-trash"></span></button>
-                                                </form>
+                                                </form> --}}
                                             </td>
 
                                         </tr>
@@ -146,6 +143,33 @@
 
   
  </script>
+
+@endsection
+
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function del(arg){
+            //alert(arg)
+            //var route = "{{ url('incident/approve') }}/"+arg;
+            var route = "{{ url('updateAndDeleteOffence') }}/"+arg;
+            //alert(route)
+            Swal.fire({
+                showDenyButton: false,
+                showCancelButton: true,
+                icon: 'info',
+                title: 'Confirm',
+                text: 'Are you sure you want to delete this role?',
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    location.href = route
+                    // Swal.fire('Saved!', '', 'success')
+                } 
+            })
+        }
+    </script>
+
+    @include('admin.includes.view-pending-scripts');
 
 @endsection
 
