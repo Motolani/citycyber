@@ -60,7 +60,7 @@
                                             
                                             <td>
                                                 <button  data-bs-toggle="modal" data-bs-target="#top-modal" onclick="toggleModal('{{$type->name}}','{{$type->amount}}','{{$type->id}}')"  class="btn btn-primary btn-sm phils" ><span class="uil-eye"></span></button>
-                                                <a href="#" onclick="del({{$type->id}})" class="btn btn-danger btn-sm"><span class="uil-trash"></span></a>
+                                                <a href="#" onclick="delOff({{$type->id}})" class="btn btn-danger btn-sm"><span class="uil-trash"></span></a>
                                                 {{-- <form method="post" action="{{url('updateAndDeleteOffence')}}">
                                                     @csrf
                                                         <input type="hidden" name="id" value="{{$type->id}}">
@@ -131,28 +131,12 @@
 
 
 @section('script')
- <script>
-
-
-    function toggleModal(name,amount,id){
-
-          document.getElementById("name").value=name;
-          document.getElementById("amount").value=amount;
-	  document.getElementById("id").value=id;
-    }
-
-  
- </script>
-
-@endsection
-
-@section('script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function del(arg){
+        function delOff(arg){
             //alert(arg)
             //var route = "{{ url('incident/approve') }}/"+arg;
-            var route = "{{ url('updateAndDeleteOffence') }}/"+arg;
+            var route = "{{ url('deleteOffence') }}/"+arg;
             //alert(route)
             Swal.fire({
                 showDenyButton: false,
