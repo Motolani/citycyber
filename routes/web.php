@@ -298,7 +298,8 @@ Route::post('updateAndDeleteStaffRole', 'ViewControllers\MainViewController@upda
 Route::get('/createOffence', 'ViewControllers\MainViewController@createOffence')->name('createOffence');
 Route::post('/createOffence', 'ViewControllers\MainViewController@createOffence')->name('createOffence');
 Route::get('/viewOffence', 'ViewControllers\MainViewController@viewOffence')->name('viewOffence');
-Route::post('updateAndDeleteOffence', 'ViewControllers\MainViewController@updateAndDeleteOffence');
+Route::post('updateAndDeleteOffence/{id}', 'ViewControllers\MainViewController@updateAndDeleteOffence');
+Route::get('deleteOffence/{id}', 'ViewControllers\MainViewController@deleteOffence');
 
 
 //Allowance crud

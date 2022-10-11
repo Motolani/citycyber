@@ -858,7 +858,7 @@ class MainViewController extends BaseController
             }
         } else if ($request->submit == "delete") {
 
-            $status = \App\Offence::where("id", $request->id)->delete();
+            $status = \App\Offence::where("id", $request->id)->delete(); dd($status);
             if ($status) {
                 $message = "Staff offence Deleted Successfully";
                 $offence = \App\Offence::all();
@@ -868,6 +868,20 @@ class MainViewController extends BaseController
                 $offence = \App\Offence::all();
                 return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
             }
+        }
+    }
+
+    public function deleteOffence($id)
+    {
+        $status = \App\Offence::where("id", $id)->delete(); //dd($status);
+        if ($status) {
+            $message = "Staff offence Deleted Successfully";
+            $offence = \App\Offence::all();
+            return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
+        } else {
+            $message = "Offence Could not be Deleted Successfully";
+            $offence = \App\Offence::all();
+            return view("admin.staff.data.viewOffence", compact('offence'))->with("message", $message);
         }
     }
 }
