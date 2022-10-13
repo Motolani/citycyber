@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class NotificationController extends BaseController
 {
@@ -64,12 +65,20 @@ class NotificationController extends BaseController
     public function readNotif(Request $request, $id)
     {
 
-        $user_id = Auth::id();
-        $count = \App\Notification::where('staff_id', $user_id)->orWhere('staff_id', null)->count('id');
-        $notif = DB::select(DB::raw("select * from notifications where id = '$id' and (staff_id='$user_id' or staff_id is null)"));
-        // select * from notifications where id = 4 and (staff_id=4 or staff_id = null)
-        $total = $count;
-
+        // $user_id = Auth::id();
+        // $count = \App\Notification::where('staff_id', $user_id)->orWhere('staff_id', null)->count('id');
+        // $notif = DB::select(DB::raw("select * from notifications where id = '$id' and (staff_id='$user_id' or staff_id is null)"));
+        // // select * from notifications where id = 4 and (staff_id=4 or staff_id = null)
+        // $total = $count;
+        // dd($id);
+        $new = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                ->where('notification_lists.status', 0)
+                ->where('notifications.recipient_id', Auth::id())
+                ->orWhere('notifications.senderId', Auth::id())
+                ->orWhere('notification_lists.notifying_userid', Auth::id())
+                ->select('notifications.*', 'notification_lists.notifying_userid');
+            $notif = $new->get();
+            $total = $new->count('notifications.id');
 
         return view('admin.notification.readmail', compact(['notif', 'total']));
     }
@@ -78,11 +87,18 @@ class NotificationController extends BaseController
     public function inbox(Request $request)
     {
 
-        $notif = \App\Notification::where('staff_id', Auth::id())->orWhere('staff_id', null);
+        $notif = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+        ->where('notification_lists.status', 0)
+        ->where('notifications.recipient_id', Auth::id())
+        ->orWhere('notifications.senderId', Auth::id())
+        ->orWhere('notification_lists.notifying_userid', Auth::id())
+        ->select('notifications.*', 'notification_lists.notifying_userid');
         $notif = $notif->get();
-        $total = $notif->count('id');
+        $total = $notif->count('notifications.id');
         return view('admin.notification.inbox', compact(['notif', 'total']));
     }
+    
+    
 
     public function newNotification(Request $request)
     {
@@ -107,8 +123,17 @@ class NotificationController extends BaseController
         $notification = new Notification();
         $notification->title = $request->title;
         $notification->message = $request->message;
-        $notification->senderId = $issuerId;
+        $notification->user_id = $issuerId;
         $notification->type = $request->table_name;
+        
+        //update for other forms of notifications
+        if($request->table_name == 'incidenceoprations'){
+            $notification->notify_name = 'incidence';
+            $notification->type_url_path = '/incident/pending';
+        }else{
+            $notification->notify_name = $request->table_name;
+        }
+        
         $notification->recipient_id = $request->recipient_id;
         $saveNotif = $notification->save();
 
@@ -173,5 +198,37 @@ class NotificationController extends BaseController
                 "message" => "successful"
             ]);
         }
+    }
+    
+    public function notify(Request $reques)
+    {
+        # code...
+        View::composer('admin.includes.topbar', function($view)
+        {
+            $new = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                ->where('notification_lists.status', 0)
+                ->where('notifications.recipient_id', Auth::id())
+                ->orWhere('notifications.senderId', Auth::id())
+                ->orWhere('notification_lists.notifying_userid', Auth::id())
+                ->select('notifications.*', 'notification_lists.notifying_userid');
+            $newNotifications = $new->get();
+            $notificationCount = $new->count();
+        
+            $view->with('notification', $newNotifications)
+                ->with('notificationCount', $notificationCount);
+        });
+    }
+    
+    public function allNotification()
+    {
+        # code...
+        $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                    ->where('notification_lists.status', 0)
+                    ->where('notifications.recipient_id', Auth::id())
+                    ->orWhere('notifications.senderId', Auth::id())
+                    ->orWhere('notification_lists.notifying_userid', Auth::id())
+                    ->select('notifications.*', 'notification_lists.notifying_userid');
+                    $notifications = $notif->latest()->get();
+            return view('admin.notification.allNotifications', compact(['notifications']));
     }
 }

@@ -38,10 +38,14 @@
                 </div>
                 @php
                     // $notif = \App\Notification::Where('staff_id',Auth::id())->orderBy('id','desc')->get();
-                    $notif = App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
-                                ->where('notification_lists.status', 0)
-                                ->select('notifications.*', 'notification_lists.notifying_userid')
-                                ->get();
+                    $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                    ->where('notification_lists.status', 0)
+                    ->where('notifications.recipient_id', Auth::id())
+                    ->orWhere('notifications.senderId', Auth::id())
+                    ->orWhere('notification_lists.notifying_userid', Auth::id())
+                    ->select('notifications.*', 'notification_lists.notifying_userid');
+                    $notif = $notif->latest()->get();
+                                Log::info($notif);
                     // $notif = DB::select( DB::raw("select * from notifications where  = null or where (staff_id='$user_id' or staff_id = null) limit 1") );
                 @endphp
                 <div style="max-height: 230px;" data-simplebar>
@@ -49,12 +53,12 @@
                         {{-- @if($notif->notifying_userid || $notif->recipient_id) --}}
                             @foreach ($notif as $msg)
                                 <!-- item-->
-                                <a href="{{url('readNotif/'.$msg->id)}}" class="dropdown-item notify-item">
+                                <a href="{{url($msg->type_url_path)}}" class="dropdown-item notify-item">
                                     <div class="notify-icon bg-primary">
                                         <i class="mdi mdi-comment-account-outline"></i>
                                     </div>
                                     <p class="notify-details">{{$msg->title}}
-                                        <small class="text-muted">{{$msg->title}}</small>
+                                        <small class="text-muted">{{$msg->notifying_name }}</small>
                                     </p>
                                 </a>
                             
@@ -66,7 +70,7 @@
                 </div>
 
                 <!-- All-->
-                <a href="{{url('inbox')}}" class="dropdown-item text-center text-primary notify-item notify-all">
+                <a href="{{url('allNotification')}}" class="dropdown-item text-center text-primary notify-item notify-all">
                     View All
                 </a>
 

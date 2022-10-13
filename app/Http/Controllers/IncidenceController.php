@@ -72,6 +72,7 @@ class IncidenceController extends BaseController
     public function viewIncidence()
     {
         $incidents = \App\IncidenceOpration::all();
+
         $id = Auth::user()->id;
         $all_id = \App\Office::where("id", "=", $id)
             ->orWhere("parentofficeid", "=", $id)
@@ -103,20 +104,9 @@ class IncidenceController extends BaseController
             ->whereIn("incidenceoprations.branch_id", $all_id)
             ->where('incidenceoprations.status', '!=', 'pending')
             ->get();
-        //dd($offe);
-        /* $offenceRaised1 = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
-            //->join('departments','departments.id','')
-            // ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
-            ->leftjoin('users', 'users.id', 'incidenceoprations.staff_id')
-	    ->leftjoin('users as admin', 'admin.id', 'incidenceoprations.issuer_id')
-	    ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
-            //->join('officelevels','officelevels.id','offices.level')
-            //->where('incidenceoprations.staff_id',$user_id)
-            ->select('users.*', 'admin.firstname as adminfirstname', 'admin.lastname as adminlastname', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
-            ->where('incidenceoprations.status', '!=', 'pending')
-	    ->get();   */
 
-        //	dd($offenceRaised);
+
+        
         return view('admin.staff.operations.viewIncidence', compact('incidents', 'offenceRaised'));
     }
 
@@ -166,13 +156,13 @@ class IncidenceController extends BaseController
         
         if ($inc->save()) {
             $curl = curl_init();
-
+            $url = url('api/newNotification');
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://localhost:8888/newcitycyber/public/api/newNotification',
+                CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_TIMEOUT => 10,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
@@ -216,23 +206,7 @@ class IncidenceController extends BaseController
 
     public function viewPendingIncidence(Request $request)
     {
-        /*
-	    $incidents = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
-            //->join('departments','departments.id','')
-            // ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
-            ->join('users', 'users.id', 'incidenceoprations.staff_id')
-	    ->join('users as admin', 'admin.id', 'incidenceoprations.issuer_id')
-	    ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
-            //->join('officelevels','officelevels.id','offices.level')
-            //->where('incidenceoprations.staff_id',$user_id)
-            ->select('users.*', 'admin.firstname as adminfirstname', 'admin.lastname as adminlastname', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
-            ->where('incidenceoprations.status', 'pending')
-	    ->get(); */
 
-        //    $incidents = IncidenceOpration::where('status', 'pending')
-        //        ->with('staff')
-        // ->get();
-        // dd($incidents);
         $id = Auth::user()->id;
         $all_id = \App\Office::where("id", "=", $id)
             ->orWhere("parentofficeid", "=", $id)
