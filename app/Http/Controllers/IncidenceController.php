@@ -72,13 +72,51 @@ class IncidenceController extends BaseController
     public function viewIncidence()
     {
         $incidents = \App\IncidenceOpration::all();
-        $offenceRaised = \App\IncidenceOpration::join('offices', 'offices.id', 'incidenceoprations.branch_id')
-            //->join('departments','departments.id','')
-            ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
-            ->join('users', 'users.id', 'incidenceoprations.staff_id')
-            //->where('incidenceoprations.staff_id',$user_id)
-            ->select('users.*', 'offices.name as officename', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.status as offenceStatus')
+        $id = Auth::user()->id;
+        $all_id = \App\Office::where("id", "=", $id)
+            ->orWhere("parentofficeid", "=", $id)
+            ->orWhere("p2", "=", $id)
+            ->orWhere("p3", "=", $id)
+            ->orWhere("p4", "=", $id)
+            ->pluck("id");
+        //dd($all_id);
+        //
+        $offenceRaised = \App\IncidenceOpration::leftJoin("offices as c1", function ($join) {
+            $join->on("incidenceoprations.branch_id", "=", "c1.id");
+        })
+            ->leftJoin("offices as p1", function ($join) {
+                $join->on("c1.parentofficeid", "=", "p1.id");
+            })
+            ->leftJoin("offices as p2", function ($join) {
+                $join->on("c1.p2", "=", "p2.id");
+            })
+            ->leftJoin("offices as p3", function ($join) {
+                $join->on("c1.p3", "=", "p3.id");
+            })
+            ->leftJoin("offices as p4", function ($join) {
+                $join->on("c1.p4", "=", "p4.id");
+            })
+            ->leftjoin('users', 'users.id', 'incidenceoprations.staff_id')
+            ->leftjoin('users as admin', 'admin.id', 'incidenceoprations.issuer_id')
+            ->leftjoin('users as actionby', 'actionby.id', 'incidenceoprations.action_by')
+            ->select('users.*', 'admin.firstname as adminfirstname', 'actionby.firstname as actionfirstname', 'actionby.lastname as actionlastname', 'admin.lastname as adminlastname', "incidenceoprations.*", "c1.level as c1_level", "c1.name as c1_name", "p1.level as p1_level", "p1.name as p1_name", "p2.level as p2_level", "p2.name as p2_name", "p3.level as p3_level", "p3.name as p3_name", "p4.level as p4_level", "p4.name as p4_name")
+            ->whereIn("incidenceoprations.branch_id", $all_id)
+            ->where('incidenceoprations.status', '!=', 'pending')
             ->get();
+        //dd($offe);
+        /* $offenceRaised1 = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
+            //->join('departments','departments.id','')
+            // ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+            ->leftjoin('users', 'users.id', 'incidenceoprations.staff_id')
+	    ->leftjoin('users as admin', 'admin.id', 'incidenceoprations.issuer_id')
+	    ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
+            //->join('officelevels','officelevels.id','offices.level')
+            //->where('incidenceoprations.staff_id',$user_id)
+            ->select('users.*', 'admin.firstname as adminfirstname', 'admin.lastname as adminlastname', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
+            ->where('incidenceoprations.status', '!=', 'pending')
+	    ->get();   */
+
+        //	dd($offenceRaised);
         return view('admin.staff.operations.viewIncidence', compact('incidents', 'offenceRaised'));
     }
 
@@ -178,21 +216,54 @@ class IncidenceController extends BaseController
 
     public function viewPendingIncidence(Request $request)
     {
-        $incidents = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
+        /*
+	    $incidents = \App\IncidenceOpration::leftjoin('offices', 'offices.id', 'incidenceoprations.branch_id')
             //->join('departments','departments.id','')
-            ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
+            // ->join('offences', 'offences.id', 'incidenceoprations.offence_id')
             ->join('users', 'users.id', 'incidenceoprations.staff_id')
-            ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
+	    ->join('users as admin', 'admin.id', 'incidenceoprations.issuer_id')
+	    ->leftjoin('offices as otherOffice', 'offices.parentOfficeId', 'otherOffice.id')
             //->join('officelevels','officelevels.id','offices.level')
             //->where('incidenceoprations.staff_id',$user_id)
-            ->select('users.*', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'offences.name as offencename', 'offences.amount', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
+            ->select('users.*', 'admin.firstname as adminfirstname', 'admin.lastname as adminlastname', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
             ->where('incidenceoprations.status', 'pending')
-            ->get();
+	    ->get(); */
 
         //    $incidents = IncidenceOpration::where('status', 'pending')
         //        ->with('staff')
         // ->get();
         // dd($incidents);
+        $id = Auth::user()->id;
+        $all_id = \App\Office::where("id", "=", $id)
+            ->orWhere("parentofficeid", "=", $id)
+            ->orWhere("p2", "=", $id)
+            ->orWhere("p3", "=", $id)
+            ->orWhere("p4", "=", $id)
+            ->pluck("id");
+        //dd($all_id);
+
+        $incidents = \App\IncidenceOpration::leftJoin("offices as c1", function ($join) {
+            $join->on("incidenceoprations.branch_id", "=", "c1.id");
+        })
+            ->leftJoin("offices as p1", function ($join) {
+                $join->on("c1.parentofficeid", "=", "p1.id");
+            })
+            ->leftJoin("offices as p2", function ($join) {
+                $join->on("c1.p2", "=", "p2.id");
+            })
+            ->leftJoin("offices as p3", function ($join) {
+                $join->on("c1.p3", "=", "p3.id");
+            })
+            ->leftJoin("offices as p4", function ($join) {
+                $join->on("c1.p4", "=", "p4.id");
+            })
+            ->leftjoin('users', 'users.id', 'incidenceoprations.staff_id')
+            ->leftjoin('users as admin', 'admin.id', 'incidenceoprations.issuer_id')
+            ->select('users.*', 'admin.firstname as adminfirstname', 'admin.lastname as adminlastname', "incidenceoprations.*", "c1.level as c1_level", "c1.name as c1_name", "p1.level as p1_level", "p1.name as p1_name", "p2.level as p2_level", "p2.name as p2_name", "p3.level as p3_level", "p3.name as p3_name", "p4.level as p4_level", "p4.name as p4_name")
+            ->where('incidenceoprations.status', 'pending')
+            ->whereIn("incidenceoprations.branch_id", $all_id)
+            ->get();
+        //dd($incidents);
         return view('admin.incidence-list', compact('incidents'));
     }
 
@@ -210,11 +281,13 @@ class IncidenceController extends BaseController
         //Status 4 - Declined by Super Admin
 
         //TODO: Check if this is a super admin and update status codes accordingly
-
+        $admin_apr = Auth::user()->id;
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
             $incident->status = 'confirmed';
+            $incident->action_by = $admin_apr;
+            $incident->action_date = now();
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Approved');
@@ -235,12 +308,14 @@ class IncidenceController extends BaseController
         //Status 4 - Declined by Super Admin
 
         //TODO: Check if this is a super admin and update status codes accordingly
-
+        $admin_apr = Auth::user()->id;
         //Check if the incident is valid
         if (isset($incident)) {
             //We assume this is Super Admin for Now
-            $incident->comment = "$comment";
+            $incident->action_comment = "$comment";
             $incident->status = 'cancelled';
+            $incident->action_by = $admin_apr;
+            $incident->action_date = now();
             $incident->save();
         }
         return redirect()->back()->with('success', 'Successfully Denied');
@@ -252,6 +327,7 @@ class IncidenceController extends BaseController
         $items = $request->items;
         $action = $request->action;
         $comment = $request->bulkActionComment;
+        $admin_apr = Auth::user()->id;
 
         //Status 0 - Pending
         //Status 1 - Approved from 1st Admin        
@@ -265,7 +341,7 @@ class IncidenceController extends BaseController
             $status = 'disapproved';
 
         //TODO: Check if this is a super admin and update status codes accordingly
-        $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status, 'comment' => "$comment"]);
+        $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status, 'action_by' => $admin_apr, 'action_date' => now(), 'action_comment' => "$comment"]);
 
         return redirect()->back()->with('success', 'The User has been ' . $status);
     }
