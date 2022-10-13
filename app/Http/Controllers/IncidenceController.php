@@ -200,8 +200,6 @@ class IncidenceController extends BaseController
             ->select('users.*', 'offices.name as officename', 'offices.level as officelevel', 'offices.region_acronym as region', 'offices.area_acronym as area', 'incidenceoprations.comment', 'incidenceoprations.created_at as date', 'incidenceoprations.*', 'otherOffice.name as hubName')
             ->where('incidenceoprations.status', 'pending')
             ->get();
-            
-            // dd($incidents);
 
         //    $incidents = IncidenceOpration::where('status', 'pending')
         //        ->with('staff')
