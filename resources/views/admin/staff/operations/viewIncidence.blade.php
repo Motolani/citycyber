@@ -64,13 +64,14 @@ Dashboard
                                     <th>Amount</th>
                                     <th>Issuer Commented</th>
                                     <th>Date Issued</th>
-                                    <th>Offender</th>
+				    <th>Status</th> 
+				    <th>Offender</th>
                                     <th>Offender Branch</th>
                                     <th>Hub</th>
                                     <th>Area</th>
                                     <th>Region</th>
                                     <th>Department</th>
-                                    <th>Status</th>
+                                    
                                     <th>Action by</th>
                                     <th>Action comment</th>
                                     <th>Action date</th>
@@ -81,33 +82,92 @@ Dashboard
 
 
                             <tbody>
-                                @if(isset($offenceRaised))
+				@if(isset($offenceRaised))
+				
                                 @foreach($offenceRaised as $data)
                                 <tr>
 				                    <td>
-                                        {{$data->issuer}}
+                                        {{$data->adminfirstname}} {{$data->adminlastname}}
                                     </td>
                                     <td>{{$data->offence}}</td>
                                     <td>{{$data->amount}}</td>
-                                    <td>{{$data->comment}}</td>
+				    <td>
+					@if($data->comment == '')
+						<mark style="color:orange">no comment</mark>
+					@else
+						{{$data->comment}}
+					@endif
                                     <td>{{date('d-m-Y', strtotime($data->date))}}</td>
-                                    <td>{{$data->firstname}} {{$data->lastname}}</td>
-                                    <td>{{$data->branch}}</td>
-                                    <td>{{$data->hub}}</td>
-                                    <td>{{$data->area}}</td>
-                                    <td>{{$data->region}}</td>
-                                    <td>{{$data->department}}</td>
-                                    <td>
+				    <td>
                                         <span role="alert" 
                                     @php
-                                        if($data->offenceStatus == "confirmed"){echo "class='alert alert-success'";}
-                                        elseif($data->offenceStatus == "cancelled"){echo "class='alert alert-danger'";}
+                                        if($data->status == "confirmed"){echo "class='alert alert-success'";}
+                                        elseif($data->status == "cancelled"){echo "class='alert alert-danger'";}
                                         else{echo "class='alert alert-primary'";}
                                     @endphp
-                                    >{{$data->offenceStatus }}</span></td>
-                                    <td>{{$data->actionBy }}</td>
-                                    <td>{{$data->actionComment }}</td>
-                                    <td>{{$data->actionDate }}</td>
+                                           
+                                    >{{$data->status }}</span></td>
+				    <td>{{$data->firstname}} {{$data->lastname}}</td>
+                                    <td>{{$data->c1_name}}</td>
+				    <td>
+					@if(in_array($data->p1_level, [4,5]) || in_array($data->p2_level, [4,5]) || in_array($data->p3_level, [4,5]) || in_array($data->p4_level, [4,5]))
+						@php
+                                                        if(in_array($data->p1_level, [4,5])){
+                                                                echo $data->p1_name;
+                                                        }elseif(in_array($data->p2_level, [4,5])){
+                                                                echo $data->p2_name;
+                                                        }elseif(in_array($data->p3_level, [4,5])){
+                                                                echo $data->p3_name;
+                                                        }elseif(in_array($data->p4_level, [4,5])){
+                                                                echo $data->p4_name;
+                                                        }
+                                                @endphp
+					@else
+						<mark style="color:orange">no hub</mark>
+					@endif
+					
+				    </td>
+				    <td>
+					@if(($data->p1_level == 3) || ($data->p2_level == 3) || ($data->p3_level == 3) || ($data->p4_level == 3))
+						@php
+							if($data->p1_level == 3){
+								echo $data->p1_name;
+							}elseif($data->p2_level == 3){
+                                                                echo $data->p2_name;
+                                                        }elseif($data->p3_level == 3){
+                                                                echo $data->p3_name;
+                                                        }elseif($data->p4_level == 3){
+                                                                echo $data->p4_name;
+                                                        }
+						@endphp
+                                        @else
+                                                <mark style="color:orange">no area</mark>
+                                        @endif
+
+				    </td>
+				    <td>
+					@if(($data->p1_level == 2) || ($data->p2_level == 2) || ($data->p3_level == 2) || ($data->p4_level == 2))
+                                                @php
+                                                        if($data->p1_level == 2){
+                                                                echo $data->p1_name;
+                                                        }elseif($data->p2_level == 2){
+                                                                echo $data->p2_name;
+                                                        }elseif($data->p3_level == 2){
+                                                                echo $data->p3_name;
+                                                        }elseif($data->p4_level == 2){
+                                                                echo $data->p4_name;
+                                                        }
+                                                @endphp
+                                        @else
+                                                <mark style="color:orange">no region</mark>
+                                        @endif
+				    </td>
+                                    <td>{{$data->department}}</td>
+                                    
+                                        
+                                    <td>{{$data->actionfirstname }} {{$data->actionlastname }}</td>
+                                    <td>{{$data->action_comment }}</td>
+                                    <td>{{$data->action_date }}</td>
                                     {{--<td>{{$stat->created_at}}</td>--}}
                                 </tr>
                                 @endforeach
