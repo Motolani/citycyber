@@ -110,6 +110,7 @@ class NotificationController extends BaseController
             'user_id'  => ['required'],
             'table_name'  => ['required'],
             'recipient_id' => ['required'],
+            'table_id' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -125,8 +126,9 @@ class NotificationController extends BaseController
         $notification->message = $request->message;
         $notification->user_id = $issuerId;
         $notification->type = $request->table_name;
+        // $notification->type_id = $request->table_id;
         
-        //update for other forms of notifications
+        //update notification url_path & notify_name based on the module
         if($request->table_name == 'incidenceoprations'){
             $notification->notify_name = 'incidence';
             $notification->type_url_path = '/incident/pending';
@@ -158,6 +160,7 @@ class NotificationController extends BaseController
                 $notificationList = new NotificationList();
                 $notificationList->notification_id = $thisNotif->id;
                 $notificationList->notifying_userid = $office->managerid;
+                $notificationList->type_id = $request->table_id;
                 $notificationList->save();
             }
 
@@ -167,6 +170,7 @@ class NotificationController extends BaseController
                 $notificationList = new NotificationList();
                 $notificationList->notification_id = $thisNotif->id;
                 $notificationList->notifying_userid = $office->managerid;
+                $notificationList->type_id = $request->table_id;
                 $notificationList->save();
             }
 
@@ -176,6 +180,7 @@ class NotificationController extends BaseController
                 $notificationList = new NotificationList();
                 $notificationList->notification_id = $thisNotif->id;
                 $notificationList->notifying_userid = $office->managerid;
+                $notificationList->type_id = $request->table_id;
                 $notificationList->save();
             }
 
@@ -185,14 +190,16 @@ class NotificationController extends BaseController
                 $notificationList = new NotificationList();
                 $notificationList->notification_id = $thisNotif->id;
                 $notificationList->notifying_userid = $office->managerid;
+                $notificationList->type_id = $request->table_id;
                 $notificationList->save();
             }
 
-            $newNotifications = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
-                ->where('notification_lists.status', 0)
-                ->select('notifications.*', 'notification_lists.notifying_userid')
-                ->get();
+            // $newNotifications = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+            //     ->where('notification_lists.status', 0)
+            //     ->select('notifications.*', 'notification_lists.notifying_userid')
+            //     ->get();
             // return $newNotifications;
+            
             return response()->json([
                 "status" => 200,
                 "message" => "successful"
