@@ -147,6 +147,9 @@ class IncidenceController extends BaseController
             $aa = explode("-", $request->offence_id); //dd($aa);
             $inc->offence = $aa[0];
             $inc->amount = $aa[1];
+            $inc->comment = $request->comment;
+            $inc->issuer_id = $user;
+            $inc->description = $request->description;
         }else{
             $inc->offence = $request->offence_id;
             $inc->comment = $request->comment;
@@ -240,7 +243,7 @@ class IncidenceController extends BaseController
             ->where('incidenceoprations.status', 'pending')
             ->whereIn("incidenceoprations.branch_id", $all_id)
             ->get();
-        //dd($incidents);
+        // dd($incidents);
         return view('admin.incidence-list', compact('incidents'));
     }
 

@@ -99,7 +99,7 @@
                                                         </td>
                                                         <td>{{ $incident->offence }}</td>
                                                         <td>
-                                                            @if ($incident->comment == '')
+                                                            @if (!isset($incident->comment))
                                                                 <mark style="color:orange">no comment</mark>
                                                             @else
                                                                 {{ $incident->comment }}

@@ -229,13 +229,23 @@ class NotificationController extends BaseController
     public function allNotification()
     {
         # code...
-        $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+        // $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+        //             ->where('notification_lists.status', 0)
+        //             ->where('notifications.recipient_id', Auth::id())
+        //             ->orWhere('notifications.senderId', Auth::id())
+        //             ->orWhere('notification_lists.notifying_userid', Auth::id())
+        //             ->select('notifications.*', 'notification_lists.notifying_userid');
+        //             $notifications = $notif->latest()->get();
+                    
+                    $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
                     ->where('notification_lists.status', 0)
                     ->where('notifications.recipient_id', Auth::id())
                     ->orWhere('notifications.senderId', Auth::id())
                     ->orWhere('notification_lists.notifying_userid', Auth::id())
                     ->select('notifications.*', 'notification_lists.notifying_userid');
-                    $notifications = $notif->latest()->get();
+                    $nnotifications = $notif->latest()->get();
+                    
+                    dd($nnotifications);
             return view('admin.notification.allNotifications', compact(['notifications']));
     }
 }
