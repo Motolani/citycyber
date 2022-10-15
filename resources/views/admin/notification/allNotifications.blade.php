@@ -91,7 +91,7 @@ Dashboard
                                     </td>--}}
                                     <td>{{$data->created_at}}</td>
                                     <td>{{$data->message}}</td>
-                                    <td>{{$data->notifying_name}}</td>
+                                    <td>{{$data->notify_name}}</td>
                                     <td><a href="{{url($data->type_url_path)}}">View</a></td>
                                 </tr>
                                 @endforeach

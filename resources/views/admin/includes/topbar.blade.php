@@ -44,7 +44,7 @@
                     ->orWhere('notifications.senderId', Auth::id())
                     ->orWhere('notification_lists.notifying_userid', Auth::id())
                     ->select('notifications.*', 'notification_lists.notifying_userid');
-                    $notif = $notif->latest()->get();
+                    $notif = $notif->latest()->limit(5)->get();
                                 Log::info($notif);
                     // $notif = DB::select( DB::raw("select * from notifications where  = null or where (staff_id='$user_id' or staff_id = null) limit 1") );
                 @endphp
@@ -58,7 +58,7 @@
                                         <i class="mdi mdi-comment-account-outline"></i>
                                     </div>
                                     <p class="notify-details">{{$msg->title}}
-                                        <small class="text-muted">{{$msg->notifying_name }}</small>
+                                        <small class="text-muted">{{$msg->notify_name}}</small>
                                     </p>
                                 </a>
                             

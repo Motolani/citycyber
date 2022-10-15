@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\IncidenceOpration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Core\Offices;
+use App\Notification;
+use App\NotificationList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -145,6 +147,9 @@ class IncidenceController extends BaseController
             $aa = explode("-", $request->offence_id); //dd($aa);
             $inc->offence = $aa[0];
             $inc->amount = $aa[1];
+            $inc->comment = $request->comment;
+            $inc->issuer_id = $user;
+            $inc->description = $request->description;
         }else{
             $inc->offence = $request->offence_id;
             $inc->comment = $request->comment;
@@ -155,6 +160,7 @@ class IncidenceController extends BaseController
         
         
         if ($inc->save()) {
+            
             $curl = curl_init();
             $url = url('api/newNotification');
             curl_setopt_array($curl, array(
@@ -166,7 +172,7 @@ class IncidenceController extends BaseController
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "title=$inc->comment&message=$inc->comment&user_id=$inc->issuer_id&table_name=incidenceoprations&recipient_id=$inc->staff_id",
+                CURLOPT_POSTFIELDS => "title=$request->comment&message=$request->comment&user_id=$user&table_name=incidenceoprations&table_id=$inc->id&recipient_id=$inc->staff_id",
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/x-www-form-urlencoded'
                 ),
@@ -237,7 +243,7 @@ class IncidenceController extends BaseController
             ->where('incidenceoprations.status', 'pending')
             ->whereIn("incidenceoprations.branch_id", $all_id)
             ->get();
-        //dd($incidents);
+        // dd($incidents);
         return view('admin.incidence-list', compact('incidents'));
     }
 
@@ -262,7 +268,12 @@ class IncidenceController extends BaseController
             $incident->status = 'confirmed';
             $incident->action_by = $admin_apr;
             $incident->action_date = now();
-            $incident->save();
+            
+            if($incident->save()){
+                NotificationList::where('type_id', $id)->update([
+                "status" => 1
+                ]);
+            }
         }
         return redirect()->back()->with('success', 'Successfully Approved');
     }
@@ -290,7 +301,12 @@ class IncidenceController extends BaseController
             $incident->status = 'cancelled';
             $incident->action_by = $admin_apr;
             $incident->action_date = now();
-            $incident->save();
+            
+            if($incident->save()){
+                NotificationList::where('type_id', $id)->update([
+                    "status" => 2
+                ]);
+            } 
         }
         return redirect()->back()->with('success', 'Successfully Denied');
     }
@@ -309,11 +325,21 @@ class IncidenceController extends BaseController
         //Status 3 - Approved by Super Admin
         //Status 4 - Declined by Super Admin
 
-        if ($action == "accept")
+        if ($action == "accept"){
             $status = 'approved';
-        else
+            foreach($items as $item){
+                NotificationList::where('type_id', $item)->update([
+                    "status" => 1
+                ]);     
+            }
+        }else{
             $status = 'disapproved';
-
+            foreach($items as $item){
+                NotificationList::where('type_id', $item)->update([
+                    "status" => 2
+                ]);     
+            }
+        }
         //TODO: Check if this is a super admin and update status codes accordingly
         $incident = IncidenceOpration::whereIn('id', $items)->update(['status' => $status, 'action_by' => $admin_apr, 'action_date' => now(), 'action_comment' => "$comment"]);
 
