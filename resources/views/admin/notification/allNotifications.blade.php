@@ -16,7 +16,7 @@ Dashboard
                     <li class="breadcrumb-item active">Nofification</li>
                 </ol>
             </div>
-            <h4 class="page-title">Create Nofification</h4>
+            <h4 class="page-title">Nofifications</h4>
         </div>
     </div>
 </div>     
@@ -69,9 +69,8 @@ Dashboard
                         <table id="datatable-buttons" class="table data-table table-striped dt-responsive nowrap w-100">
                             <thead>
                                 <tr>
-                                    <th>Created Date</th>
-                                    <th>Message</th>
                                     <th>Type</th>                                    
+                                    <th>Count</th>
                                     <th>Action</th>                                    
                                 </tr>
                             </thead>
@@ -89,9 +88,8 @@ Dashboard
                                             <i class="uil-trash"></i>
                                         </a>
                                     </td>--}}
-                                    <td>{{$data->created_at}}</td>
-                                    <td>{{$data->message}}</td>
                                     <td>{{$data->notify_name}}</td>
+                                    <td>{{$data->total}}</td>
                                     <td><a href="{{url($data->type_url_path)}}">View</a></td>
                                 </tr>
                                 @endforeach

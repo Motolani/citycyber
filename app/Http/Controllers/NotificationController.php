@@ -242,10 +242,10 @@ class NotificationController extends BaseController
                     ->where('notifications.recipient_id', Auth::id())
                     ->orWhere('notifications.senderId', Auth::id())
                     ->orWhere('notification_lists.notifying_userid', Auth::id())
-                    ->select('notifications.*', 'notification_lists.notifying_userid');
-                    $nnotifications = $notif->latest()->get();
+                    ->select('notifications.type_url_path','notifications.notify_name', DB::raw('count(*) as total'))->groupBy("notifications.notify_name", "notifications.type_url_path");
+                    $notifications = $notif->get();
                     
-                    dd($nnotifications);
+                    // dd($notifications);
             return view('admin.notification.allNotifications', compact(['notifications']));
     }
 }
