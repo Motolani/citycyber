@@ -11,6 +11,7 @@ use App\ShopWalletHistory;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends BaseController
 {
@@ -43,7 +44,18 @@ class HomeController extends BaseController
         $cashierWalletTransactions = CashierWalletHistory::whereDay('created_at', now()->day)->count();
         $cashReserveWalletTransactions = CashReserveHistory::whereDay('created_at', now()->day)->count();
         $totalTransactions = $shopWalletTransactions + $cashierWalletTransactions + $cashReserveWalletTransactions;
-
+        
+                    // $notify = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                    // ->where('notification_lists.status', 0)
+                    // ->where('notifications.recipient_id', Auth::id())
+                    // ->orWhere('notifications.senderId', Auth::id())
+                    // ->orWhere('notification_lists.notifying_userid', Auth::id())
+                    // ->select('notifications.type_url_path', 'notifications.notify_name', DB::raw('count(*) as total'))->groupBy("notifications.notify_name", "notifications.type_url_path");
+                    
+                    
+                    // $notify = $notify->get();
+                    // dd($notify);
+                    
         return view('admin.home', compact('birthdaysToday', 'totalOffice', 'totalStaff', 'staffAbsent', 'totalTransactions', 'bankAccountsCount'));
     }
 

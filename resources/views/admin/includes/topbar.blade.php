@@ -38,27 +38,31 @@
                 </div>
                 @php
                     // $notif = \App\Notification::Where('staff_id',Auth::id())->orderBy('id','desc')->get();
-                    $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                    $notify = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
                     ->where('notification_lists.status', 0)
                     ->where('notifications.recipient_id', Auth::id())
                     ->orWhere('notifications.senderId', Auth::id())
                     ->orWhere('notification_lists.notifying_userid', Auth::id())
-                    ->select('notifications.*', 'notification_lists.notifying_userid');
-                    $notif = $notif->latest()->limit(5)->get();
-                                Log::info($notif);
+                    ->select('notifications.type_url_path','notifications.notify_name', DB::raw('count(*) as total'))->groupBy("notifications.notify_name", "notifications.type_url_path");
+                    
+                    
+                    // $notify = $notify->get();
+                    $notify = $notify->limit(5)->get();
+        
+                                Log::info($notify);
                     // $notif = DB::select( DB::raw("select * from notifications where  = null or where (staff_id='$user_id' or staff_id = null) limit 1") );
                 @endphp
                 <div style="max-height: 230px;" data-simplebar>
-                    @if(isset($notif))
+                    @if(isset($notify))
                         {{-- @if($notif->notifying_userid || $notif->recipient_id) --}}
-                            @foreach ($notif as $msg)
+                            @foreach ($notify as $msg)
                                 <!-- item-->
                                 <a href="{{url($msg->type_url_path)}}" class="dropdown-item notify-item">
                                     <div class="notify-icon bg-primary">
                                         <i class="mdi mdi-comment-account-outline"></i>
                                     </div>
-                                    <p class="notify-details">{{$msg->title}}
-                                        <small class="text-muted">{{$msg->notify_name}}</small>
+                                    <p class="notify-details">{{$msg->notify_name}}
+                                        <small class="text-muted">{{$msg->total}}</small>
                                     </p>
                                 </a>
                             
