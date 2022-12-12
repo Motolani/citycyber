@@ -46,10 +46,9 @@
                     ->select('notifications.type_url_path','notifications.notify_name', DB::raw('count(*) as total'))->groupBy("notifications.notify_name", "notifications.type_url_path");
                     
                     
-                    // $notify = $notify->get();
                     $notify = $notify->limit(5)->get();
         
-                                Log::info($notify);
+                    Log::info($notify);
                     // $notif = DB::select( DB::raw("select * from notifications where  = null or where (staff_id='$user_id' or staff_id = null) limit 1") );
                 @endphp
                 <div style="max-height: 230px;" data-simplebar>

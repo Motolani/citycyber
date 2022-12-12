@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notification;
 use App\NotificationList;
 use App\Office;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,13 +65,6 @@ class NotificationController extends BaseController
 
     public function readNotif(Request $request, $id)
     {
-
-        // $user_id = Auth::id();
-        // $count = \App\Notification::where('staff_id', $user_id)->orWhere('staff_id', null)->count('id');
-        // $notif = DB::select(DB::raw("select * from notifications where id = '$id' and (staff_id='$user_id' or staff_id is null)"));
-        // // select * from notifications where id = 4 and (staff_id=4 or staff_id = null)
-        // $total = $count;
-        // dd($id);
         $new = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
                 ->where('notification_lists.status', 0)
                 ->where('notifications.recipient_id', Auth::id())
@@ -98,7 +92,81 @@ class NotificationController extends BaseController
         return view('admin.notification.inbox', compact(['notif', 'total']));
     }
     
+    public function dansCheckRole($id){
+        // id of bonus guy
+        // query user details
+        // $staff_ids = \App\BonusOpration::all()->pluck('staff_id');
+
+        $us = \App\User::find($id);
+        $bonus_office = $us->office_id;
+
+        // $user_id = Auth::user()->id;
+        // $res = \App\User::find($user_id);
+        // $of_id = $res->office_id;
+
+        $all_id = \App\Office::where("id", "=", $bonus_office)
+        ->orWhere("parentofficeid", "=", $bonus_office)
+        ->orWhere("p2", "=", $bonus_office)
+        ->orWhere("p3", "=", $bonus_office)
+        ->orWhere("p4", "=", $bonus_office)
+        ->pluck("id");
+        // dd($all_id);
+
+        $staff_ids = \App\User::whereIn('office_id', $all_id)->pluck('id');
+        
+
+        $roles = \App\Role::whereIn('name', ['GodEye', 'HQ-Officer', 'Area-Manager', 'Supervisor'])->pluck('id');
+
+        $modelRoles = DB::table('model_has_roles')->whereIn('role_id', $roles)->pluck('model_id');
+
+        $actual_users = array();
+        // dd($all_id);
+        foreach ($modelRoles as $value) {
+            if(in_array($value, $staff_ids)){
+                $actual_users[] = $value;
+            }
+        }
+        return $actual_users;
+    }
     
+    public function checkrole(){
+        // $office_ids = \App\IncidenceOpration::all();
+        $staff = array();
+        $bonus = \App\BonusOpration::first();
+        $staff = $bonus->staff_id;
+        
+        $officeThings = User::where('id', $staff)->first();
+        $office_id = $officeThings->office_id;
+        
+
+        
+        $id = Auth::user()->id;
+        // dd($staff);
+        
+        $all_id = \App\Office::where("id", "=", $office_id)
+        ->orWhere("parentofficeid", "=", $office_id)
+        ->orWhere("p2", "=", $office_id)
+        ->orWhere("p3", "=", $office_id)
+        ->orWhere("p4", "=", $office_id)
+        ->pluck("id");
+
+        $office_id = User::whereIn('id', $staff)->pluck('office_id');
+        // dd($office_id);
+
+        $roles = Role::whereIn('name', ['GodEye', 'HQ-Officer', 'Area-Manager', 'Supervisor'])->pluck('id');
+
+        $modelRoles = DB::table('model_has_roles')->whereIn('role_id', $roles)->pluck('model_id');
+
+        $actual_users = array();
+        foreach ($modelRoles as $value) {
+            if(in_array($value, $staff)){
+                $actual_users[] = $value;
+            }
+        }
+        
+        dd($actual_users);
+        return $actual_users;
+    }
 
     public function newNotification(Request $request)
     {
@@ -142,63 +210,75 @@ class NotificationController extends BaseController
         if ($saveNotif) {
             $user = User::where('id', $issuerId)->first();
             $officeId = $user->office_id;
+            
+            //test this query
+            $notifyingManagers = User::join('offices', 'users.office_id', 'office.id')
+                ->join('model_has_roles', 'user.id', 'model_has_roles.model_id')
+                ->where('model_has_roles.role_id', 3)
+                ->where('model_has_roles.role_id', 4)
+                ->select('model_has_roles.model_id')
+                ->get();
+                
+                dd($notifyingManagers);
+                
+            
+            $new = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+                ->where('notification_lists.status', 0)
+                ->where('notifications.recipient_id', Auth::id())
+                ->orWhere('notifications.senderId', Auth::id())
+                ->orWhere('notification_lists.notifying_userid', Auth::id())
+                ->select('notifications.*', 'notification_lists.notifying_userid');
+            // $user_office = Office::where('id', $officeId)->first();
+            // $level = $user_office->level;
+            // $p1 = $user_office->parentOfficeId;
+            // $p2 = $user_office->p2;
+            // $p3 = $user_office->p3;
+            // $p4 = $user_office->p4;
 
-            $user_office = Office::where('id', $officeId)->first();
-            $level = $user_office->level;
-            $p1 = $user_office->parentOfficeId;
-            $p2 = $user_office->p2;
-            $p3 = $user_office->p3;
-            $p4 = $user_office->p4;
+            // // $managerId = $user_office->managerid;
 
-            // $managerId = $user_office->managerid;
+            // $thisNotif = Notification::where('senderId', $issuerId)->where('type', $request->table_name)->latest()->first();
 
-            $thisNotif = Notification::where('senderId', $issuerId)->where('type', $request->table_name)->latest()->first();
+            // if ($p1 != 0) {
+            //     $office = Office::where('id', $p1)->first();
 
-            if ($p1 != 0) {
-                $office = Office::where('id', $p1)->first();
+            //     $notificationList = new NotificationList();
+            //     $notificationList->notification_id = $thisNotif->id;
+            //     $notificationList->notifying_userid = $office->managerid;
+            //     $notificationList->type_id = $request->table_id;
+            //     $notificationList->save();
+            // }
 
-                $notificationList = new NotificationList();
-                $notificationList->notification_id = $thisNotif->id;
-                $notificationList->notifying_userid = $office->managerid;
-                $notificationList->type_id = $request->table_id;
-                $notificationList->save();
-            }
+            // if ($p2 != 0) {
+            //     $office = Office::where('id', $p2)->first();
 
-            if ($p2 != 0) {
-                $office = Office::where('id', $p2)->first();
+            //     $notificationList = new NotificationList();
+            //     $notificationList->notification_id = $thisNotif->id;
+            //     $notificationList->notifying_userid = $office->managerid;
+            //     $notificationList->type_id = $request->table_id;
+            //     $notificationList->save();
+            // }
 
-                $notificationList = new NotificationList();
-                $notificationList->notification_id = $thisNotif->id;
-                $notificationList->notifying_userid = $office->managerid;
-                $notificationList->type_id = $request->table_id;
-                $notificationList->save();
-            }
+            // if ($p3 != 0) {
+            //     $office = Office::where('id', $p3)->first();
 
-            if ($p3 != 0) {
-                $office = Office::where('id', $p3)->first();
+            //     $notificationList = new NotificationList();
+            //     $notificationList->notification_id = $thisNotif->id;
+            //     $notificationList->notifying_userid = $office->managerid;
+            //     $notificationList->type_id = $request->table_id;
+            //     $notificationList->save();
+            // }
 
-                $notificationList = new NotificationList();
-                $notificationList->notification_id = $thisNotif->id;
-                $notificationList->notifying_userid = $office->managerid;
-                $notificationList->type_id = $request->table_id;
-                $notificationList->save();
-            }
+            // if ($p4 != 0) {
+            //     $office = Office::where('id', $p4)->first();
 
-            if ($p4 != 0) {
-                $office = Office::where('id', $p4)->first();
+            //     $notificationList = new NotificationList();
+            //     $notificationList->notification_id = $thisNotif->id;
+            //     $notificationList->notifying_userid = $office->managerid;
+            //     $notificationList->type_id = $request->table_id;
+            //     $notificationList->save();
+            // }
 
-                $notificationList = new NotificationList();
-                $notificationList->notification_id = $thisNotif->id;
-                $notificationList->notifying_userid = $office->managerid;
-                $notificationList->type_id = $request->table_id;
-                $notificationList->save();
-            }
-
-            // $newNotifications = Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
-            //     ->where('notification_lists.status', 0)
-            //     ->select('notifications.*', 'notification_lists.notifying_userid')
-            //     ->get();
-            // return $newNotifications;
             
             return response()->json([
                 "status" => 200,
@@ -229,23 +309,15 @@ class NotificationController extends BaseController
     public function allNotification()
     {
         # code...
-        // $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
-        //             ->where('notification_lists.status', 0)
-        //             ->where('notifications.recipient_id', Auth::id())
-        //             ->orWhere('notifications.senderId', Auth::id())
-        //             ->orWhere('notification_lists.notifying_userid', Auth::id())
-        //             ->select('notifications.*', 'notification_lists.notifying_userid');
-        //             $notifications = $notif->latest()->get();
                     
-                    $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
-                    ->where('notification_lists.status', 0)
-                    ->where('notifications.recipient_id', Auth::id())
-                    ->orWhere('notifications.senderId', Auth::id())
-                    ->orWhere('notification_lists.notifying_userid', Auth::id())
-                    ->select('notifications.type_url_path','notifications.notify_name', DB::raw('count(*) as total'))->groupBy("notifications.notify_name", "notifications.type_url_path");
-                    $notifications = $notif->get();
-                    
-                    // dd($notifications);
-            return view('admin.notification.allNotifications', compact(['notifications']));
+        $notif = \App\Notification::join('notification_lists', 'notifications.id', 'notification_lists.notification_id')
+        ->where('notification_lists.status', 0)
+        ->where('notifications.recipient_id', Auth::id())
+        ->orWhere('notifications.senderId', Auth::id())
+        ->orWhere('notification_lists.notifying_userid', Auth::id())
+        ->select('notifications.type_url_path','notifications.notify_name', DB::raw('count(*) as total'))->groupBy("notifications.notify_name", "notifications.type_url_path");
+        $notifications = $notif->get();
+                
+        return view('admin.notification.allNotifications', compact(['notifications']));
     }
 }

@@ -6,6 +6,7 @@ use App\Attendance;
 use App\Bank_Account;
 use App\CashierWalletHistory;
 use App\CashReserveHistory;
+use App\Notification;
 use App\Office;
 use App\ShopWalletHistory;
 use App\User;
@@ -33,6 +34,9 @@ class HomeController extends BaseController
      */
     public function index()
     {
+        $not = new NotificationController();
+        dd($not->checkrole());
+                
         $totalStaff = User::where('id', '>', 0)->count();
         $totalOffice = Office::where('id', '>', 0)->count();
         $bankAccountsCount = Bank_Account::where('id', '>', 0)->count();
